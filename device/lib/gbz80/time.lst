@@ -1,0 +1,1842 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:51 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module time
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _RtcRead
+                             13 	.globl _sprintf
+                             14 	.globl ___day
+                             15 	.globl ___month
+                             16 	.globl _time
+                             17 	.globl _asctime
+                             18 	.globl _ctime
+                             19 	.globl _localtime
+                             20 	.globl _gmtime
+                             21 	.globl _mktime
+                             22 ;--------------------------------------------------------
+                             23 ; ram data
+                             24 ;--------------------------------------------------------
+                             25 	.area _DATA
+   0000                      26 _monthDays:
+   0000                      27 	.ds 12
+   000C                      28 ___month::
+   000C                      29 	.ds 24
+   0024                      30 ___day::
+   0024                      31 	.ds 14
+   0032                      32 _ascTimeBuffer:
+   0032                      33 	.ds 32
+   0052                      34 _lastTime:
+   0052                      35 	.ds 12
+                             36 ;--------------------------------------------------------
+                             37 ; absolute external ram data
+                             38 ;--------------------------------------------------------
+                             39 	.area _DABS (ABS)
+                             40 ;--------------------------------------------------------
+                             41 ; global & static initialisations
+                             42 ;--------------------------------------------------------
+                             43 	.area _HOME
+                             44 	.area _GSINIT
+                             45 	.area _GSFINAL
+                             46 	.area _GSINIT
+                             47 ;../time.c:63: static _CODE char monthDays[]={31,28,31,30,31,30,31,31,30,31,30,31};
+   0000 21r00r00             48 	ld	hl,#_monthDays
+   0003 36 1F                49 	ld	(hl),#0x1F
+   0005 21r01r00             50 	ld	hl,#(_monthDays + 0x0001)
+   0008 36 1C                51 	ld	(hl),#0x1C
+   000A 21r02r00             52 	ld	hl,#(_monthDays + 0x0002)
+   000D 36 1F                53 	ld	(hl),#0x1F
+   000F 21r03r00             54 	ld	hl,#(_monthDays + 0x0003)
+   0012 36 1E                55 	ld	(hl),#0x1E
+   0014 21r04r00             56 	ld	hl,#(_monthDays + 0x0004)
+   0017 36 1F                57 	ld	(hl),#0x1F
+   0019 21r05r00             58 	ld	hl,#(_monthDays + 0x0005)
+   001C 36 1E                59 	ld	(hl),#0x1E
+   001E 21r06r00             60 	ld	hl,#(_monthDays + 0x0006)
+   0021 36 1F                61 	ld	(hl),#0x1F
+   0023 21r07r00             62 	ld	hl,#(_monthDays + 0x0007)
+   0026 36 1F                63 	ld	(hl),#0x1F
+   0028 21r08r00             64 	ld	hl,#(_monthDays + 0x0008)
+   002B 36 1E                65 	ld	(hl),#0x1E
+   002D 21r09r00             66 	ld	hl,#(_monthDays + 0x0009)
+   0030 36 1F                67 	ld	(hl),#0x1F
+   0032 21r0Ar00             68 	ld	hl,#(_monthDays + 0x000a)
+   0035 36 1E                69 	ld	(hl),#0x1E
+   0037 21r0Br00             70 	ld	hl,#(_monthDays + 0x000b)
+   003A 36 1F                71 	ld	(hl),#0x1F
+                             72 ;../time.c:65: _CODE const char * _CODE __month[]={"Jan","Feb","Mar","Apr","May","Jun",
+   003C 21r0Cr00             73 	ld	hl,#___month
+   003F 36rB1                74 	ld	(hl),#<(___str_1)
+   0041 23                   75 	inc	hl
+   0042 36s07                76 	ld	(hl),#>(___str_1)
+   0044 21r0Er00             77 	ld	hl,#(___month + 0x0002)
+   0047 36rB5                78 	ld	(hl),#<(___str_2)
+   0049 23                   79 	inc	hl
+   004A 36s07                80 	ld	(hl),#>(___str_2)
+   004C 21r10r00             81 	ld	hl,#(___month + 0x0004)
+   004F 36rB9                82 	ld	(hl),#<(___str_3)
+   0051 23                   83 	inc	hl
+   0052 36s07                84 	ld	(hl),#>(___str_3)
+   0054 21r12r00             85 	ld	hl,#(___month + 0x0006)
+   0057 36rBD                86 	ld	(hl),#<(___str_4)
+   0059 23                   87 	inc	hl
+   005A 36s07                88 	ld	(hl),#>(___str_4)
+   005C 21r14r00             89 	ld	hl,#(___month + 0x0008)
+   005F 36rC1                90 	ld	(hl),#<(___str_5)
+   0061 23                   91 	inc	hl
+   0062 36s07                92 	ld	(hl),#>(___str_5)
+   0064 21r16r00             93 	ld	hl,#(___month + 0x000a)
+   0067 36rC5                94 	ld	(hl),#<(___str_6)
+   0069 23                   95 	inc	hl
+   006A 36s07                96 	ld	(hl),#>(___str_6)
+   006C 21r18r00             97 	ld	hl,#(___month + 0x000c)
+   006F 36rC9                98 	ld	(hl),#<(___str_7)
+   0071 23                   99 	inc	hl
+   0072 36s07               100 	ld	(hl),#>(___str_7)
+   0074 21r1Ar00            101 	ld	hl,#(___month + 0x000e)
+   0077 36rCD               102 	ld	(hl),#<(___str_8)
+   0079 23                  103 	inc	hl
+   007A 36s07               104 	ld	(hl),#>(___str_8)
+   007C 21r1Cr00            105 	ld	hl,#(___month + 0x0010)
+   007F 36rD1               106 	ld	(hl),#<(___str_9)
+   0081 23                  107 	inc	hl
+   0082 36s07               108 	ld	(hl),#>(___str_9)
+   0084 21r1Er00            109 	ld	hl,#(___month + 0x0012)
+   0087 36rD5               110 	ld	(hl),#<(___str_10)
+   0089 23                  111 	inc	hl
+   008A 36s07               112 	ld	(hl),#>(___str_10)
+   008C 21r20r00            113 	ld	hl,#(___month + 0x0014)
+   008F 36rD9               114 	ld	(hl),#<(___str_11)
+   0091 23                  115 	inc	hl
+   0092 36s07               116 	ld	(hl),#>(___str_11)
+   0094 21r22r00            117 	ld	hl,#(___month + 0x0016)
+   0097 36rDD               118 	ld	(hl),#<(___str_12)
+   0099 23                  119 	inc	hl
+   009A 36s07               120 	ld	(hl),#>(___str_12)
+                            121 ;../time.c:68: _CODE const char * _CODE __day[]={"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+   009C 21r24r00            122 	ld	hl,#___day
+   009F 36rE1               123 	ld	(hl),#<(___str_13)
+   00A1 23                  124 	inc	hl
+   00A2 36s07               125 	ld	(hl),#>(___str_13)
+   00A4 21r26r00            126 	ld	hl,#(___day + 0x0002)
+   00A7 36rE5               127 	ld	(hl),#<(___str_14)
+   00A9 23                  128 	inc	hl
+   00AA 36s07               129 	ld	(hl),#>(___str_14)
+   00AC 21r28r00            130 	ld	hl,#(___day + 0x0004)
+   00AF 36rE9               131 	ld	(hl),#<(___str_15)
+   00B1 23                  132 	inc	hl
+   00B2 36s07               133 	ld	(hl),#>(___str_15)
+   00B4 21r2Ar00            134 	ld	hl,#(___day + 0x0006)
+   00B7 36rED               135 	ld	(hl),#<(___str_16)
+   00B9 23                  136 	inc	hl
+   00BA 36s07               137 	ld	(hl),#>(___str_16)
+   00BC 21r2Cr00            138 	ld	hl,#(___day + 0x0008)
+   00BF 36rF1               139 	ld	(hl),#<(___str_17)
+   00C1 23                  140 	inc	hl
+   00C2 36s07               141 	ld	(hl),#>(___str_17)
+   00C4 21r2Er00            142 	ld	hl,#(___day + 0x000a)
+   00C7 36rF5               143 	ld	(hl),#<(___str_18)
+   00C9 23                  144 	inc	hl
+   00CA 36s07               145 	ld	(hl),#>(___str_18)
+   00CC 21r30r00            146 	ld	hl,#(___day + 0x000c)
+   00CF 36rF9               147 	ld	(hl),#<(___str_19)
+   00D1 23                  148 	inc	hl
+   00D2 36s07               149 	ld	(hl),#>(___str_19)
+                            150 ;--------------------------------------------------------
+                            151 ; Home
+                            152 ;--------------------------------------------------------
+                            153 	.area _HOME
+                            154 	.area _HOME
+                            155 ;--------------------------------------------------------
+                            156 ; code
+                            157 ;--------------------------------------------------------
+                            158 	.area _CODE
+                            159 ;../time.c:42: unsigned char RtcRead(struct tm *timeptr) {
+                            160 ;	---------------------------------
+                            161 ; Function RtcRead
+                            162 ; ---------------------------------
+   0000                     163 _RtcRead::
+                            164 ;../time.c:45: return 0;
+   0000 1E 00               165 	ld	e,#0x00
+   0002 C9                  166 	ret
+                            167 ;../time.c:50: time_t time(time_t *timeptr) {
+                            168 ;	---------------------------------
+                            169 ; Function time
+                            170 ; ---------------------------------
+   0003                     171 _time::
+   0003 E8 F0               172 	add	sp, #-16
+                            173 ;../time.c:52: time_t t=(time_t) -1;
+   0005 F8 00               174 	ldhl	sp,#0
+   0007 36 FF               175 	ld	(hl),#0xFF
+   0009 23                  176 	inc	hl
+   000A 36 FF               177 	ld	(hl),#0xFF
+   000C 23                  178 	inc	hl
+   000D 36 FF               179 	ld	(hl),#0xFF
+   000F 23                  180 	inc	hl
+   0010 36 FF               181 	ld	(hl),#0xFF
+                            182 ;../time.c:54: if (RtcRead(&now)) {
+   0012 F8 04               183 	ldhl	sp,#4
+   0014 5D                  184 	ld	e,l
+   0015 54                  185 	ld	d,h
+   0016 4B                  186 	ld	c, e
+   0017 42                  187 	ld	b, d
+   0018 D5                  188 	push	de
+   0019 C5                  189 	push	bc
+   001A CDr00r00            190 	call	_RtcRead
+   001D E8 02               191 	add	sp, #2
+   001F 7B                  192 	ld	a,e
+   0020 D1                  193 	pop	de
+   0021 B7                  194 	or	a, a
+   0022 28 11               195 	jr	Z,00102$
+                            196 ;../time.c:55: t=mktime(&now);
+   0024 D5                  197 	push	de
+   0025 CDrE2r04            198 	call	_mktime
+   0028 E8 02               199 	add	sp, #2
+   002A 45                  200 	ld	b,l
+   002B 4C                  201 	ld	c,h
+   002C F8 00               202 	ldhl	sp,#0
+   002E 73                  203 	ld	(hl),e
+   002F 23                  204 	inc	hl
+   0030 72                  205 	ld	(hl),d
+   0031 23                  206 	inc	hl
+   0032 70                  207 	ld	(hl),b
+   0033 23                  208 	inc	hl
+   0034 71                  209 	ld	(hl),c
+   0035                     210 00102$:
+                            211 ;../time.c:57: if (timeptr) {
+   0035 F8 13               212 	ldhl	sp,#19
+   0037 3A                  213 	ld	a,(hl-)
+   0038 B6                  214 	or	a,(hl)
+   0039 28 13               215 	jr	Z,00104$
+                            216 ;../time.c:58: *timeptr=t;
+   003B 5E                  217 	ld	e,(hl)
+   003C 23                  218 	inc	hl
+   003D 56                  219 	ld	d,(hl)
+   003E F8 00               220 	ldhl	sp,#0
+   0040 7E                  221 	ld	a,(hl)
+   0041 12                  222 	ld	(de),a
+   0042 13                  223 	inc	de
+   0043 23                  224 	inc	hl
+   0044 7E                  225 	ld	a,(hl)
+   0045 12                  226 	ld	(de),a
+   0046 13                  227 	inc	de
+   0047 23                  228 	inc	hl
+   0048 7E                  229 	ld	a,(hl)
+   0049 12                  230 	ld	(de),a
+   004A 13                  231 	inc	de
+   004B 23                  232 	inc	hl
+   004C 7E                  233 	ld	a,(hl)
+   004D 12                  234 	ld	(de),a
+   004E                     235 00104$:
+                            236 ;../time.c:60: return t;
+   004E D1                  237 	pop	de
+   004F D5                  238 	push	de
+   0050 F8 02               239 	ldhl	sp,#2
+   0052 2A                  240 	ld	a,(hl+)
+   0053 66                  241 	ld	h,(hl)
+   0054 6F                  242 	ld	l,a
+   0055 E8 10               243 	add	sp, #16
+   0057 C9                  244 	ret
+                            245 ;../time.c:73: static void CheckTime(struct tm *timeptr) {
+                            246 ;	---------------------------------
+                            247 ; Function CheckTime
+                            248 ; ---------------------------------
+   0058                     249 _CheckTime:
+   0058 E8 FD               250 	add	sp, #-3
+                            251 ;../time.c:84: if (timeptr->tm_sec>59) timeptr->tm_sec=59;
+   005A F8 05               252 	ldhl	sp,#5
+   005C 2A                  253 	ld	a,(hl+)
+   005D 5E                  254 	ld	e, (hl)
+   005E F8 01               255 	ldhl	sp,#1
+   0060 22                  256 	ld	(hl+),a
+   0061 73                  257 	ld	(hl),e
+   0062 2B                  258 	dec	hl
+   0063 5E                  259 	ld	e,(hl)
+   0064 23                  260 	inc	hl
+   0065 56                  261 	ld	d,(hl)
+   0066 1A                  262 	ld	a,(de)
+   0067 47                  263 	ld	b,a
+   0068 3E 3B               264 	ld	a,#0x3B
+   006A 90                  265 	sub	a, b
+   006B 30 06               266 	jr	NC,00102$
+   006D 2B                  267 	dec	hl
+   006E 2A                  268 	ld	a,(hl+)
+   006F 66                  269 	ld	h,(hl)
+   0070 6F                  270 	ld	l,a
+   0071 36 3B               271 	ld	(hl),#0x3B
+   0073                     272 00102$:
+                            273 ;../time.c:85: if (timeptr->tm_min>59) timeptr->tm_min=59;
+   0073 F8 02               274 	ldhl	sp,#2
+   0075 2B                  275 	dec	hl
+   0076 4E                  276 	ld	c,(hl)
+   0077 23                  277 	inc	hl
+   0078 46                  278 	ld	b,(hl)
+   0079 03                  279 	inc	bc
+   007A 0A                  280 	ld	a,(bc)
+   007B 2B                  281 	dec	hl
+   007C 2B                  282 	dec	hl
+   007D 77                  283 	ld	(hl),a
+   007E 3E 3B               284 	ld	a,#0x3B
+   0080 BE                  285 	cp	a,(hl)
+   0081 30 01               286 	jr	NC,00104$
+   0083 02                  287 	ld	(bc),a
+   0084                     288 00104$:
+                            289 ;../time.c:86: if (timeptr->tm_hour>23) timeptr->tm_hour=23;
+   0084 F8 02               290 	ldhl	sp,#2
+   0086 2B                  291 	dec	hl
+   0087 4E                  292 	ld	c,(hl)
+   0088 23                  293 	inc	hl
+   0089 46                  294 	ld	b,(hl)
+   008A 03                  295 	inc	bc
+   008B 03                  296 	inc	bc
+   008C 0A                  297 	ld	a,(bc)
+   008D 2B                  298 	dec	hl
+   008E 2B                  299 	dec	hl
+   008F 77                  300 	ld	(hl),a
+   0090 3E 17               301 	ld	a,#0x17
+   0092 BE                  302 	cp	a,(hl)
+   0093 30 01               303 	jr	NC,00106$
+   0095 02                  304 	ld	(bc),a
+   0096                     305 00106$:
+                            306 ;../time.c:87: if (timeptr->tm_wday>6) timeptr->tm_wday=6;
+   0096 F8 02               307 	ldhl	sp,#2
+   0098 2B                  308 	dec	hl
+   0099 5E                  309 	ld	e,(hl)
+   009A 23                  310 	inc	hl
+   009B 56                  311 	ld	d,(hl)
+   009C 21 07 00            312 	ld	hl,#0x0007
+   009F 19                  313 	add	hl,de
+   00A0 4D                  314 	ld	c,l
+   00A1 44                  315 	ld	b,h
+   00A2 0A                  316 	ld	a,(bc)
+   00A3 F8 00               317 	ldhl	sp,#0
+   00A5 77                  318 	ld	(hl),a
+   00A6 3E 06               319 	ld	a,#0x06
+   00A8 BE                  320 	cp	a,(hl)
+   00A9 30 01               321 	jr	NC,00108$
+   00AB 02                  322 	ld	(bc),a
+   00AC                     323 00108$:
+                            324 ;../time.c:88: if (timeptr->tm_mday<1) timeptr->tm_mday=1;
+   00AC F8 02               325 	ldhl	sp,#2
+   00AE 2B                  326 	dec	hl
+   00AF 4E                  327 	ld	c,(hl)
+   00B0 23                  328 	inc	hl
+   00B1 46                  329 	ld	b,(hl)
+   00B2 03                  330 	inc	bc
+   00B3 03                  331 	inc	bc
+   00B4 03                  332 	inc	bc
+   00B5 0A                  333 	ld	a,(bc)
+   00B6 2B                  334 	dec	hl
+   00B7 2B                  335 	dec	hl
+   00B8 77                  336 	ld	(hl),a
+   00B9 7E                  337 	ld	a,(hl)
+   00BA D6 01               338 	sub	a, #0x01
+   00BC 30 05               339 	jr	NC,00112$
+   00BE 3E 01               340 	ld	a,#0x01
+   00C0 02                  341 	ld	(bc),a
+   00C1 18 0A               342 	jr	00113$
+   00C3                     343 00112$:
+                            344 ;../time.c:89: else if (timeptr->tm_mday>31) timeptr->tm_mday=31;
+   00C3 3E 1F               345 	ld	a,#0x1F
+   00C5 F8 00               346 	ldhl	sp,#0
+   00C7 96                  347 	sub	a, (hl)
+   00C8 30 03               348 	jr	NC,00113$
+   00CA 3E 1F               349 	ld	a,#0x1F
+   00CC 02                  350 	ld	(bc),a
+   00CD                     351 00113$:
+                            352 ;../time.c:90: if (timeptr->tm_mon>11) timeptr->tm_mon=11;
+   00CD F8 02               353 	ldhl	sp,#2
+   00CF 2B                  354 	dec	hl
+   00D0 5E                  355 	ld	e,(hl)
+   00D1 23                  356 	inc	hl
+   00D2 56                  357 	ld	d,(hl)
+   00D3 21 04 00            358 	ld	hl,#0x0004
+   00D6 19                  359 	add	hl,de
+   00D7 4D                  360 	ld	c,l
+   00D8 44                  361 	ld	b,h
+   00D9 0A                  362 	ld	a,(bc)
+   00DA F8 00               363 	ldhl	sp,#0
+   00DC 77                  364 	ld	(hl),a
+   00DD 3E 0B               365 	ld	a,#0x0B
+   00DF BE                  366 	cp	a,(hl)
+   00E0 30 01               367 	jr	NC,00115$
+   00E2 02                  368 	ld	(bc),a
+   00E3                     369 00115$:
+                            370 ;../time.c:91: if (timeptr->tm_year<0) timeptr->tm_year=0;
+   00E3 F8 02               371 	ldhl	sp,#2
+   00E5 2B                  372 	dec	hl
+   00E6 5E                  373 	ld	e,(hl)
+   00E7 23                  374 	inc	hl
+   00E8 56                  375 	ld	d,(hl)
+   00E9 21 05 00            376 	ld	hl,#0x0005
+   00EC 19                  377 	add	hl,de
+   00ED 7D                  378 	ld	a,l
+   00EE 54                  379 	ld	d,h
+   00EF F8 01               380 	ldhl	sp,#1
+   00F1 22                  381 	ld	(hl+),a
+   00F2 72                  382 	ld	(hl),d
+   00F3 2B                  383 	dec	hl
+   00F4 5E                  384 	ld	e,(hl)
+   00F5 23                  385 	inc	hl
+   00F6 56                  386 	ld	d,(hl)
+   00F7 1A                  387 	ld	a,(de)
+   00F8 47                  388 	ld	b,a
+   00F9 13                  389 	inc	de
+   00FA 1A                  390 	ld	a,(de)
+   00FB 4F                  391 	ld	c,a
+   00FC 3E 00               392 	ld	a,#0x00
+   00FE 5F                  393 	ld	e,a
+   00FF 79                  394 	ld	a,c
+   0100 57                  395 	ld	d,a
+   0101 CB 79               396 	bit	7, c
+   0103 28 09               397 	jr	Z,00118$
+   0105 2B                  398 	dec	hl
+   0106 2A                  399 	ld	a,(hl+)
+   0107 66                  400 	ld	h,(hl)
+   0108 6F                  401 	ld	l,a
+   0109 36 00               402 	ld	(hl),#0x00
+   010B 23                  403 	inc	hl
+   010C 36 00               404 	ld	(hl),#0x00
+   010E                     405 00118$:
+   010E E8 03               406 	add	sp, #3
+   0110 C9                  407 	ret
+                            408 ;../time.c:95: char *asctime(struct tm *timeptr) {
+                            409 ;	---------------------------------
+                            410 ; Function asctime
+                            411 ; ---------------------------------
+   0111                     412 _asctime::
+   0111 E8 F2               413 	add	sp, #-14
+                            414 ;../time.c:96: CheckTime(timeptr);
+   0113 F8 10               415 	ldhl	sp,#16
+   0115 2A                  416 	ld	a,(hl+)
+   0116 66                  417 	ld	h,(hl)
+   0117 6F                  418 	ld	l,a
+   0118 E5                  419 	push	hl
+   0119 CDr58r00            420 	call	_CheckTime
+   011C E8 02               421 	add	sp, #2
+                            422 ;../time.c:100: timeptr->tm_year+1900);
+   011E F8 10               423 	ldhl	sp,#16
+   0120 2A                  424 	ld	a,(hl+)
+   0121 5E                  425 	ld	e, (hl)
+   0122 F8 02               426 	ldhl	sp,#2
+   0124 22                  427 	ld	(hl+),a
+   0125 73                  428 	ld	(hl),e
+   0126 2B                  429 	dec	hl
+   0127 5E                  430 	ld	e,(hl)
+   0128 23                  431 	inc	hl
+   0129 56                  432 	ld	d,(hl)
+   012A 21 05 00            433 	ld	hl,#0x0005
+   012D 19                  434 	add	hl,de
+   012E 45                  435 	ld	b,l
+   012F 4C                  436 	ld	c,h
+   0130 58                  437 	ld	e, b
+   0131 51                  438 	ld	d, c
+   0132 1A                  439 	ld	a,(de)
+   0133 4F                  440 	ld	c,a
+   0134 13                  441 	inc	de
+   0135 1A                  442 	ld	a,(de)
+   0136 47                  443 	ld	b,a
+   0137 21 6C 07            444 	ld	hl,#0x076C
+   013A 09                  445 	add	hl,bc
+   013B 33                  446 	inc	sp
+   013C 33                  447 	inc	sp
+   013D E5                  448 	push	hl
+                            449 ;../time.c:99: timeptr->tm_hour, timeptr->tm_min, timeptr->tm_sec, 
+   013E F8 03               450 	ldhl	sp,#3
+   0140 2B                  451 	dec	hl
+   0141 5E                  452 	ld	e,(hl)
+   0142 23                  453 	inc	hl
+   0143 56                  454 	ld	d,(hl)
+   0144 1A                  455 	ld	a,(de)
+   0145 F8 0C               456 	ldhl	sp,#12
+   0147 22                  457 	ld	(hl+),a
+   0148 36 00               458 	ld	(hl),#0x00
+   014A F8 03               459 	ldhl	sp,#3
+   014C 2B                  460 	dec	hl
+   014D 4E                  461 	ld	c,(hl)
+   014E 23                  462 	inc	hl
+   014F 46                  463 	ld	b,(hl)
+   0150 03                  464 	inc	bc
+   0151 0A                  465 	ld	a,(bc)
+   0152 F8 0A               466 	ldhl	sp,#10
+   0154 22                  467 	ld	(hl+),a
+   0155 36 00               468 	ld	(hl),#0x00
+   0157 F8 03               469 	ldhl	sp,#3
+   0159 2B                  470 	dec	hl
+   015A 4E                  471 	ld	c,(hl)
+   015B 23                  472 	inc	hl
+   015C 46                  473 	ld	b,(hl)
+   015D 03                  474 	inc	bc
+   015E 03                  475 	inc	bc
+   015F 0A                  476 	ld	a,(bc)
+   0160 F8 08               477 	ldhl	sp,#8
+   0162 22                  478 	ld	(hl+),a
+   0163 36 00               479 	ld	(hl),#0x00
+                            480 ;../time.c:98: __day[timeptr->tm_wday], __month[timeptr->tm_mon], timeptr->tm_mday,
+   0165 F8 03               481 	ldhl	sp,#3
+   0167 2B                  482 	dec	hl
+   0168 4E                  483 	ld	c,(hl)
+   0169 23                  484 	inc	hl
+   016A 46                  485 	ld	b,(hl)
+   016B 03                  486 	inc	bc
+   016C 03                  487 	inc	bc
+   016D 03                  488 	inc	bc
+   016E 0A                  489 	ld	a,(bc)
+   016F F8 06               490 	ldhl	sp,#6
+   0171 22                  491 	ld	(hl+),a
+   0172 36 00               492 	ld	(hl),#0x00
+   0174 F8 03               493 	ldhl	sp,#3
+   0176 2B                  494 	dec	hl
+   0177 5E                  495 	ld	e,(hl)
+   0178 23                  496 	inc	hl
+   0179 56                  497 	ld	d,(hl)
+   017A 21 04 00            498 	ld	hl,#0x0004
+   017D 19                  499 	add	hl,de
+   017E 4D                  500 	ld	c,l
+   017F 44                  501 	ld	b,h
+   0180 0A                  502 	ld	a,(bc)
+   0181 4F                  503 	ld	c,a
+   0182 06 00               504 	ld	b,#0x00
+   0184 CB 21               505 	sla	c
+   0186 CB 10               506 	rl	b
+   0188 21r0Cr00            507 	ld	hl,#___month
+   018B 09                  508 	add	hl,bc
+   018C 4D                  509 	ld	c,l
+   018D 44                  510 	ld	b,h
+   018E 59                  511 	ld	e, c
+   018F 50                  512 	ld	d, b
+   0190 1A                  513 	ld	a,(de)
+   0191 F8 04               514 	ldhl	sp,#4
+   0193 22                  515 	ld	(hl+),a
+   0194 13                  516 	inc	de
+   0195 1A                  517 	ld	a,(de)
+   0196 32                  518 	ld	(hl-),a
+   0197 2B                  519 	dec	hl
+   0198 2B                  520 	dec	hl
+   0199 5E                  521 	ld	e,(hl)
+   019A 23                  522 	inc	hl
+   019B 56                  523 	ld	d,(hl)
+   019C 21 07 00            524 	ld	hl,#0x0007
+   019F 19                  525 	add	hl,de
+   01A0 4D                  526 	ld	c,l
+   01A1 44                  527 	ld	b,h
+   01A2 0A                  528 	ld	a,(bc)
+   01A3 4F                  529 	ld	c,a
+   01A4 06 00               530 	ld	b,#0x00
+   01A6 CB 21               531 	sla	c
+   01A8 CB 10               532 	rl	b
+   01AA 21r24r00            533 	ld	hl,#___day
+   01AD 09                  534 	add	hl,bc
+   01AE 4D                  535 	ld	c,l
+   01AF 44                  536 	ld	b,h
+   01B0 59                  537 	ld	e, c
+   01B1 50                  538 	ld	d, b
+   01B2 1A                  539 	ld	a,(de)
+   01B3 4F                  540 	ld	c,a
+   01B4 13                  541 	inc	de
+   01B5 1A                  542 	ld	a,(de)
+   01B6 47                  543 	ld	b,a
+                            544 ;../time.c:97: sprintf (ascTimeBuffer, "%s %s %2d %02d:%02d:%02d %04d\n",
+   01B7 11r32r00            545 	ld	de,#_ascTimeBuffer
+   01BA E1                  546 	pop	hl
+   01BB E5                  547 	push	hl
+   01BC E5                  548 	push	hl
+   01BD F8 0E               549 	ldhl	sp,#14
+   01BF 2A                  550 	ld	a,(hl+)
+   01C0 66                  551 	ld	h,(hl)
+   01C1 6F                  552 	ld	l,a
+   01C2 E5                  553 	push	hl
+   01C3 F8 0E               554 	ldhl	sp,#14
+   01C5 2A                  555 	ld	a,(hl+)
+   01C6 66                  556 	ld	h,(hl)
+   01C7 6F                  557 	ld	l,a
+   01C8 E5                  558 	push	hl
+   01C9 F8 0E               559 	ldhl	sp,#14
+   01CB 2A                  560 	ld	a,(hl+)
+   01CC 66                  561 	ld	h,(hl)
+   01CD 6F                  562 	ld	l,a
+   01CE E5                  563 	push	hl
+   01CF F8 0E               564 	ldhl	sp,#14
+   01D1 2A                  565 	ld	a,(hl+)
+   01D2 66                  566 	ld	h,(hl)
+   01D3 6F                  567 	ld	l,a
+   01D4 E5                  568 	push	hl
+   01D5 F8 0E               569 	ldhl	sp,#14
+   01D7 2A                  570 	ld	a,(hl+)
+   01D8 66                  571 	ld	h,(hl)
+   01D9 6F                  572 	ld	l,a
+   01DA E5                  573 	push	hl
+   01DB C5                  574 	push	bc
+   01DC 21rECr01            575 	ld	hl,#___str_0
+   01DF E5                  576 	push	hl
+   01E0 D5                  577 	push	de
+   01E1 CDr00r00            578 	call	_sprintf
+   01E4 E8 12               579 	add	sp, #18
+                            580 ;../time.c:101: return ascTimeBuffer;
+   01E6 11r32r00            581 	ld	de,#_ascTimeBuffer
+   01E9 E8 0E               582 	add	sp, #14
+   01EB C9                  583 	ret
+   01EC                     584 ___str_0:
+   01EC 25 73 20 25 73 20   585 	.ascii "%s %s %2d %02d:%02d:%02d %04d"
+        25 32 64 20 25 30
+        32 64 3A 25 30 32
+        64 3A 25 30 32 64
+        20 25 30 34 64
+   0209 0A                  586 	.db 0x0A
+   020A 00                  587 	.db 0x00
+                            588 ;../time.c:104: char *ctime(time_t *timep) {
+                            589 ;	---------------------------------
+                            590 ; Function ctime
+                            591 ; ---------------------------------
+   020B                     592 _ctime::
+                            593 ;../time.c:105: return asctime(localtime(timep));
+   020B C1                  594 	pop	bc
+   020C E1                  595 	pop	hl
+   020D E5                  596 	push	hl
+   020E C5                  597 	push	bc
+   020F E5                  598 	push	hl
+   0210 CDr1Cr02            599 	call	_localtime
+   0213 E8 02               600 	add	sp, #2
+   0215 D5                  601 	push	de
+   0216 CDr11r01            602 	call	_asctime
+   0219 E8 02               603 	add	sp, #2
+   021B C9                  604 	ret
+                            605 ;../time.c:121: struct tm *localtime(time_t *timep) {
+                            606 ;	---------------------------------
+                            607 ; Function localtime
+                            608 ; ---------------------------------
+   021C                     609 _localtime::
+                            610 ;../time.c:122: return gmtime(timep);
+   021C C1                  611 	pop	bc
+   021D E1                  612 	pop	hl
+   021E E5                  613 	push	hl
+   021F C5                  614 	push	bc
+   0220 E5                  615 	push	hl
+   0221 CDr27r02            616 	call	_gmtime
+   0224 E8 02               617 	add	sp, #2
+   0226 C9                  618 	ret
+                            619 ;../time.c:125: struct tm *gmtime(time_t *timep) {
+                            620 ;	---------------------------------
+                            621 ; Function gmtime
+                            622 ; ---------------------------------
+   0227                     623 _gmtime::
+   0227 E8 E6               624 	add	sp, #-26
+                            625 ;../time.c:126: unsigned long epoch=*timep;
+   0229 F8 1D               626 	ldhl	sp,#29
+   022B 2B                  627 	dec	hl
+   022C 4E                  628 	ld	c,(hl)
+   022D 23                  629 	inc	hl
+   022E 46                  630 	ld	b,(hl)
+   022F 59                  631 	ld	e, c
+   0230 50                  632 	ld	d, b
+   0231 1A                  633 	ld	a,(de)
+   0232 F8 10               634 	ldhl	sp,#16
+   0234 22                  635 	ld	(hl+),a
+   0235 13                  636 	inc	de
+   0236 1A                  637 	ld	a,(de)
+   0237 22                  638 	ld	(hl+),a
+   0238 13                  639 	inc	de
+   0239 1A                  640 	ld	a,(de)
+   023A 22                  641 	ld	(hl+),a
+   023B 13                  642 	inc	de
+   023C 1A                  643 	ld	a,(de)
+   023D 77                  644 	ld	(hl),a
+                            645 ;../time.c:131: lastTime.tm_sec=epoch%60;
+   023E 21 00 00            646 	ld	hl,#0x0000
+   0241 E5                  647 	push	hl
+   0242 21 3C 00            648 	ld	hl,#0x003C
+   0245 E5                  649 	push	hl
+   0246 F8 16               650 	ldhl	sp,#22
+   0248 2A                  651 	ld	a,(hl+)
+   0249 66                  652 	ld	h,(hl)
+   024A 6F                  653 	ld	l,a
+   024B E5                  654 	push	hl
+   024C F8 16               655 	ldhl	sp,#22
+   024E 2A                  656 	ld	a,(hl+)
+   024F 66                  657 	ld	h,(hl)
+   0250 6F                  658 	ld	l,a
+   0251 E5                  659 	push	hl
+   0252 CDr00r00            660 	call	__modulong
+   0255 E8 08               661 	add	sp, #8
+   0257 45                  662 	ld	b,l
+   0258 4C                  663 	ld	c,h
+   0259 7B                  664 	ld	a,e
+   025A 11r52r00            665 	ld	de,#_lastTime
+   025D 12                  666 	ld	(de),a
+                            667 ;../time.c:132: epoch/=60; // now it is minutes
+   025E 21 00 00            668 	ld	hl,#0x0000
+   0261 E5                  669 	push	hl
+   0262 21 3C 00            670 	ld	hl,#0x003C
+   0265 E5                  671 	push	hl
+   0266 F8 16               672 	ldhl	sp,#22
+   0268 2A                  673 	ld	a,(hl+)
+   0269 66                  674 	ld	h,(hl)
+   026A 6F                  675 	ld	l,a
+   026B E5                  676 	push	hl
+   026C F8 16               677 	ldhl	sp,#22
+   026E 2A                  678 	ld	a,(hl+)
+   026F 66                  679 	ld	h,(hl)
+   0270 6F                  680 	ld	l,a
+   0271 E5                  681 	push	hl
+   0272 CDr00r00            682 	call	__divulong
+   0275 E8 08               683 	add	sp, #8
+   0277 45                  684 	ld	b,l
+   0278 4C                  685 	ld	c,h
+   0279 F8 10               686 	ldhl	sp,#16
+   027B 73                  687 	ld	(hl),e
+   027C 23                  688 	inc	hl
+   027D 72                  689 	ld	(hl),d
+   027E 23                  690 	inc	hl
+   027F 70                  691 	ld	(hl),b
+   0280 23                  692 	inc	hl
+   0281 71                  693 	ld	(hl),c
+                            694 ;../time.c:133: lastTime.tm_min=epoch%60;
+   0282 21 00 00            695 	ld	hl,#0x0000
+   0285 E5                  696 	push	hl
+   0286 21 3C 00            697 	ld	hl,#0x003C
+   0289 E5                  698 	push	hl
+   028A F8 16               699 	ldhl	sp,#22
+   028C 2A                  700 	ld	a,(hl+)
+   028D 66                  701 	ld	h,(hl)
+   028E 6F                  702 	ld	l,a
+   028F E5                  703 	push	hl
+   0290 F8 16               704 	ldhl	sp,#22
+   0292 2A                  705 	ld	a,(hl+)
+   0293 66                  706 	ld	h,(hl)
+   0294 6F                  707 	ld	l,a
+   0295 E5                  708 	push	hl
+   0296 CDr00r00            709 	call	__modulong
+   0299 E8 08               710 	add	sp, #8
+   029B 45                  711 	ld	b,l
+   029C 4C                  712 	ld	c,h
+   029D 7B                  713 	ld	a,e
+   029E 11r53r00            714 	ld	de,#(_lastTime + 0x0001)
+   02A1 12                  715 	ld	(de),a
+                            716 ;../time.c:134: epoch/=60; // now it is hours
+   02A2 21 00 00            717 	ld	hl,#0x0000
+   02A5 E5                  718 	push	hl
+   02A6 21 3C 00            719 	ld	hl,#0x003C
+   02A9 E5                  720 	push	hl
+   02AA F8 16               721 	ldhl	sp,#22
+   02AC 2A                  722 	ld	a,(hl+)
+   02AD 66                  723 	ld	h,(hl)
+   02AE 6F                  724 	ld	l,a
+   02AF E5                  725 	push	hl
+   02B0 F8 16               726 	ldhl	sp,#22
+   02B2 2A                  727 	ld	a,(hl+)
+   02B3 66                  728 	ld	h,(hl)
+   02B4 6F                  729 	ld	l,a
+   02B5 E5                  730 	push	hl
+   02B6 CDr00r00            731 	call	__divulong
+   02B9 E8 08               732 	add	sp, #8
+   02BB 45                  733 	ld	b,l
+   02BC 4C                  734 	ld	c,h
+   02BD F8 00               735 	ldhl	sp,#0
+   02BF 73                  736 	ld	(hl),e
+   02C0 23                  737 	inc	hl
+   02C1 72                  738 	ld	(hl),d
+   02C2 23                  739 	inc	hl
+   02C3 70                  740 	ld	(hl),b
+   02C4 23                  741 	inc	hl
+   02C5 71                  742 	ld	(hl),c
+                            743 ;../time.c:135: lastTime.tm_hour=epoch%24;
+   02C6 21 00 00            744 	ld	hl,#0x0000
+   02C9 E5                  745 	push	hl
+   02CA 21 18 00            746 	ld	hl,#0x0018
+   02CD E5                  747 	push	hl
+   02CE F8 06               748 	ldhl	sp,#6
+   02D0 2A                  749 	ld	a,(hl+)
+   02D1 66                  750 	ld	h,(hl)
+   02D2 6F                  751 	ld	l,a
+   02D3 E5                  752 	push	hl
+   02D4 F8 06               753 	ldhl	sp,#6
+   02D6 2A                  754 	ld	a,(hl+)
+   02D7 66                  755 	ld	h,(hl)
+   02D8 6F                  756 	ld	l,a
+   02D9 E5                  757 	push	hl
+   02DA CDr00r00            758 	call	__modulong
+   02DD E8 08               759 	add	sp, #8
+   02DF 45                  760 	ld	b,l
+   02E0 4C                  761 	ld	c,h
+   02E1 7B                  762 	ld	a,e
+   02E2 11r54r00            763 	ld	de,#(_lastTime + 0x0002)
+   02E5 12                  764 	ld	(de),a
+                            765 ;../time.c:136: epoch/=24; // now it is days
+   02E6 21 00 00            766 	ld	hl,#0x0000
+   02E9 E5                  767 	push	hl
+   02EA 21 18 00            768 	ld	hl,#0x0018
+   02ED E5                  769 	push	hl
+   02EE F8 06               770 	ldhl	sp,#6
+   02F0 2A                  771 	ld	a,(hl+)
+   02F1 66                  772 	ld	h,(hl)
+   02F2 6F                  773 	ld	l,a
+   02F3 E5                  774 	push	hl
+   02F4 F8 06               775 	ldhl	sp,#6
+   02F6 2A                  776 	ld	a,(hl+)
+   02F7 66                  777 	ld	h,(hl)
+   02F8 6F                  778 	ld	l,a
+   02F9 E5                  779 	push	hl
+   02FA CDr00r00            780 	call	__divulong
+   02FD E8 08               781 	add	sp, #8
+   02FF 45                  782 	ld	b,l
+   0300 4C                  783 	ld	c,h
+   0301 F8 10               784 	ldhl	sp,#16
+   0303 73                  785 	ld	(hl),e
+   0304 23                  786 	inc	hl
+   0305 72                  787 	ld	(hl),d
+   0306 23                  788 	inc	hl
+   0307 70                  789 	ld	(hl),b
+   0308 23                  790 	inc	hl
+   0309 71                  791 	ld	(hl),c
+                            792 ;../time.c:137: lastTime.tm_wday=(epoch+4)%7;
+   030A 2B                  793 	dec	hl
+   030B 2B                  794 	dec	hl
+   030C 2B                  795 	dec	hl
+   030D 5E                  796 	ld	e,(hl)
+   030E 23                  797 	inc	hl
+   030F 56                  798 	ld	d,(hl)
+   0310 7B                  799 	ld	a,e
+   0311 C6 04               800 	add	a, #0x04
+   0313 5F                  801 	ld	e,a
+   0314 7A                  802 	ld	a,d
+   0315 CE 00               803 	adc	a, #0x00
+   0317 F5                  804 	push	af
+   0318 F8 17               805 	ldhl	sp,#23
+   031A 32                  806 	ld	(hl-),a
+   031B 73                  807 	ld	(hl),e
+   031C 2B                  808 	dec	hl
+   031D 2B                  809 	dec	hl
+   031E 5E                  810 	ld	e,(hl)
+   031F 23                  811 	inc	hl
+   0320 56                  812 	ld	d,(hl)
+   0321 F1                  813 	pop	af
+   0322 7B                  814 	ld	a,e
+   0323 CE 00               815 	adc	a, #0x00
+   0325 5F                  816 	ld	e,a
+   0326 7A                  817 	ld	a,d
+   0327 CE 00               818 	adc	a, #0x00
+   0329 F8 17               819 	ldhl	sp,#23
+   032B 32                  820 	ld	(hl-),a
+   032C 73                  821 	ld	(hl),e
+   032D 21 00 00            822 	ld	hl,#0x0000
+   0330 E5                  823 	push	hl
+   0331 21 07 00            824 	ld	hl,#0x0007
+   0334 E5                  825 	push	hl
+   0335 F8 1A               826 	ldhl	sp,#26
+   0337 2A                  827 	ld	a,(hl+)
+   0338 66                  828 	ld	h,(hl)
+   0339 6F                  829 	ld	l,a
+   033A E5                  830 	push	hl
+   033B F8 1A               831 	ldhl	sp,#26
+   033D 2A                  832 	ld	a,(hl+)
+   033E 66                  833 	ld	h,(hl)
+   033F 6F                  834 	ld	l,a
+   0340 E5                  835 	push	hl
+   0341 CDr00r00            836 	call	__modulong
+   0344 E8 08               837 	add	sp, #8
+   0346 45                  838 	ld	b,l
+   0347 4C                  839 	ld	c,h
+   0348 7B                  840 	ld	a,e
+   0349 11r59r00            841 	ld	de,#(_lastTime + 0x0007)
+   034C 12                  842 	ld	(de),a
+                            843 ;../time.c:140: days=0;
+   034D AF                  844 	xor	a, a
+   034E F8 14               845 	ldhl	sp,#20
+   0350 22                  846 	ld	(hl+),a
+   0351 22                  847 	ld	(hl+),a
+   0352 22                  848 	ld	(hl+),a
+   0353 77                  849 	ld	(hl),a
+                            850 ;../time.c:141: while((days += (LEAP_YEAR(year) ? 366 : 365)) <= epoch) {
+   0354 01 B2 07            851 	ld	bc,#0x07B2
+   0357                     852 00101$:
+   0357 79                  853 	ld	a,c
+   0358 E6 03               854 	and	a, #0x03
+   035A F8 18               855 	ldhl	sp,#24
+   035C 22                  856 	ld	(hl+),a
+   035D 36 00               857 	ld	(hl),#0x00
+   035F 3A                  858 	ld	a,(hl-)
+   0360 B6                  859 	or	a,(hl)
+   0361 20 05               860 	jr	NZ,00118$
+   0363 11 6E 01            861 	ld	de,#0x016E
+   0366 18 03               862 	jr	00119$
+   0368                     863 00118$:
+   0368 11 6D 01            864 	ld	de,#0x016D
+   036B                     865 00119$:
+   036B F8 0C               866 	ldhl	sp,#12
+   036D 73                  867 	ld	(hl),e
+   036E 23                  868 	inc	hl
+   036F 72                  869 	ld	(hl),d
+   0370 7A                  870 	ld	a,d
+   0371 17                  871 	rla
+   0372 9F                  872 	sbc	a, a
+   0373 23                  873 	inc	hl
+   0374 22                  874 	ld	(hl+),a
+   0375 77                  875 	ld	(hl),a
+   0376 F8 15               876 	ldhl	sp,#21
+   0378 2B                  877 	dec	hl
+   0379 5E                  878 	ld	e,(hl)
+   037A 23                  879 	inc	hl
+   037B 56                  880 	ld	d,(hl)
+   037C 7B                  881 	ld	a,e
+   037D F8 0C               882 	ldhl	sp,#12
+   037F 86                  883 	add	a, (hl)
+   0380 5F                  884 	ld	e,a
+   0381 7A                  885 	ld	a,d
+   0382 23                  886 	inc	hl
+   0383 8E                  887 	adc	a, (hl)
+   0384 F5                  888 	push	af
+   0385 32                  889 	ld	(hl-),a
+   0386 73                  890 	ld	(hl),e
+   0387 F8 19               891 	ldhl	sp,#25
+   0389 2B                  892 	dec	hl
+   038A 5E                  893 	ld	e,(hl)
+   038B 23                  894 	inc	hl
+   038C 56                  895 	ld	d,(hl)
+   038D F8 10               896 	ldhl	sp,#16
+   038F F1                  897 	pop	af
+   0390 7B                  898 	ld	a,e
+   0391 8E                  899 	adc	a, (hl)
+   0392 5F                  900 	ld	e,a
+   0393 7A                  901 	ld	a,d
+   0394 23                  902 	inc	hl
+   0395 8E                  903 	adc	a, (hl)
+   0396 32                  904 	ld	(hl-),a
+   0397 73                  905 	ld	(hl),e
+   0398 2B                  906 	dec	hl
+   0399 2B                  907 	dec	hl
+   039A 54                  908 	ld	d,h
+   039B 5D                  909 	ld	e,l
+   039C F8 14               910 	ldhl	sp,#20
+   039E 1A                  911 	ld	a,(de)
+   039F 22                  912 	ld	(hl+),a
+   03A0 13                  913 	inc	de
+   03A1 1A                  914 	ld	a,(de)
+   03A2 22                  915 	ld	(hl+),a
+   03A3 13                  916 	inc	de
+   03A4 1A                  917 	ld	a,(de)
+   03A5 22                  918 	ld	(hl+),a
+   03A6 13                  919 	inc	de
+   03A7 1A                  920 	ld	a,(de)
+   03A8 77                  921 	ld	(hl),a
+   03A9 F8 10               922 	ldhl	sp,#16
+   03AB 54                  923 	ld	d, h
+   03AC 5D                  924 	ld	e, l
+   03AD F8 0C               925 	ldhl	sp,#12
+   03AF 1A                  926 	ld	a, (de)
+   03B0 96                  927 	sub	a, (hl)
+   03B1 23                  928 	inc	hl
+   03B2 13                  929 	inc	de
+   03B3 1A                  930 	ld	a, (de)
+   03B4 9E                  931 	sbc	a, (hl)
+   03B5 23                  932 	inc	hl
+   03B6 13                  933 	inc	de
+   03B7 1A                  934 	ld	a, (de)
+   03B8 9E                  935 	sbc	a, (hl)
+   03B9 23                  936 	inc	hl
+   03BA 13                  937 	inc	de
+   03BB 1A                  938 	ld	a, (de)
+   03BC 9E                  939 	sbc	a, (hl)
+   03BD 38 04               940 	jr	C,00103$
+                            941 ;../time.c:142: year++;
+   03BF 03                  942 	inc	bc
+   03C0 C3r57r03            943 	jp	00101$
+   03C3                     944 00103$:
+                            945 ;../time.c:144: lastTime.tm_year=year-1900;
+   03C3 79                  946 	ld	a,c
+   03C4 C6 94               947 	add	a,#0x94
+   03C6 4F                  948 	ld	c,a
+   03C7 78                  949 	ld	a,b
+   03C8 CE F8               950 	adc	a,#0xF8
+   03CA 47                  951 	ld	b,a
+   03CB 21r57r00            952 	ld	hl,#(_lastTime + 0x0005)
+   03CE 71                  953 	ld	(hl),c
+   03CF 23                  954 	inc	hl
+   03D0 70                  955 	ld	(hl),b
+                            956 ;../time.c:146: days -= LEAP_YEAR(year) ? 366 : 365;
+   03D1 F8 18               957 	ldhl	sp,#24
+   03D3 2A                  958 	ld	a,(hl+)
+   03D4 5E                  959 	ld	e, (hl)
+   03D5 F8 0C               960 	ldhl	sp,#12
+   03D7 22                  961 	ld	(hl+),a
+   03D8 73                  962 	ld	(hl),e
+   03D9 F8 19               963 	ldhl	sp,#25
+   03DB 3A                  964 	ld	a,(hl-)
+   03DC B6                  965 	or	a,(hl)
+   03DD 20 05               966 	jr	NZ,00120$
+   03DF 11 6E 01            967 	ld	de,#0x016E
+   03E2 18 03               968 	jr	00121$
+   03E4                     969 00120$:
+   03E4 11 6D 01            970 	ld	de,#0x016D
+   03E7                     971 00121$:
+   03E7 F8 08               972 	ldhl	sp,#8
+   03E9 73                  973 	ld	(hl),e
+   03EA 23                  974 	inc	hl
+   03EB 72                  975 	ld	(hl),d
+   03EC 7A                  976 	ld	a,d
+   03ED 17                  977 	rla
+   03EE 9F                  978 	sbc	a, a
+   03EF 23                  979 	inc	hl
+   03F0 22                  980 	ld	(hl+),a
+   03F1 77                  981 	ld	(hl),a
+   03F2 F8 15               982 	ldhl	sp,#21
+   03F4 2B                  983 	dec	hl
+   03F5 5E                  984 	ld	e,(hl)
+   03F6 23                  985 	inc	hl
+   03F7 56                  986 	ld	d,(hl)
+   03F8 7B                  987 	ld	a,e
+   03F9 F8 08               988 	ldhl	sp,#8
+   03FB 96                  989 	sub	a, (hl)
+   03FC 5F                  990 	ld	e,a
+   03FD 7A                  991 	ld	a,d
+   03FE 23                  992 	inc	hl
+   03FF 9E                  993 	sbc	a, (hl)
+   0400 F5                  994 	push	af
+   0401 32                  995 	ld	(hl-),a
+   0402 73                  996 	ld	(hl),e
+   0403 F8 19               997 	ldhl	sp,#25
+   0405 2B                  998 	dec	hl
+   0406 5E                  999 	ld	e,(hl)
+   0407 23                 1000 	inc	hl
+   0408 56                 1001 	ld	d,(hl)
+   0409 F8 0C              1002 	ldhl	sp,#12
+   040B F1                 1003 	pop	af
+   040C 7B                 1004 	ld	a,e
+   040D 9E                 1005 	sbc	a, (hl)
+   040E 5F                 1006 	ld	e,a
+   040F 7A                 1007 	ld	a,d
+   0410 23                 1008 	inc	hl
+   0411 9E                 1009 	sbc	a, (hl)
+   0412 32                 1010 	ld	(hl-),a
+   0413 73                 1011 	ld	(hl),e
+   0414 2B                 1012 	dec	hl
+   0415 2B                 1013 	dec	hl
+   0416 54                 1014 	ld	d,h
+   0417 5D                 1015 	ld	e,l
+   0418 F8 04              1016 	ldhl	sp,#4
+   041A 1A                 1017 	ld	a,(de)
+   041B 22                 1018 	ld	(hl+),a
+   041C 13                 1019 	inc	de
+   041D 1A                 1020 	ld	a,(de)
+   041E 22                 1021 	ld	(hl+),a
+   041F 13                 1022 	inc	de
+   0420 1A                 1023 	ld	a,(de)
+   0421 22                 1024 	ld	(hl+),a
+   0422 13                 1025 	inc	de
+   0423 1A                 1026 	ld	a,(de)
+   0424 77                 1027 	ld	(hl),a
+                           1028 ;../time.c:147: epoch -= days; // now it is days in this year, starting at 0
+   0425 F8 11              1029 	ldhl	sp,#17
+   0427 2B                 1030 	dec	hl
+   0428 5E                 1031 	ld	e,(hl)
+   0429 23                 1032 	inc	hl
+   042A 56                 1033 	ld	d,(hl)
+   042B 7B                 1034 	ld	a,e
+   042C F8 04              1035 	ldhl	sp,#4
+   042E 96                 1036 	sub	a, (hl)
+   042F 5F                 1037 	ld	e,a
+   0430 7A                 1038 	ld	a,d
+   0431 23                 1039 	inc	hl
+   0432 9E                 1040 	sbc	a, (hl)
+   0433 F5                 1041 	push	af
+   0434 F8 0B              1042 	ldhl	sp,#11
+   0436 32                 1043 	ld	(hl-),a
+   0437 73                 1044 	ld	(hl),e
+   0438 F8 15              1045 	ldhl	sp,#21
+   043A 2B                 1046 	dec	hl
+   043B 5E                 1047 	ld	e,(hl)
+   043C 23                 1048 	inc	hl
+   043D 56                 1049 	ld	d,(hl)
+   043E F8 08              1050 	ldhl	sp,#8
+   0440 F1                 1051 	pop	af
+   0441 7B                 1052 	ld	a,e
+   0442 9E                 1053 	sbc	a, (hl)
+   0443 5F                 1054 	ld	e,a
+   0444 7A                 1055 	ld	a,d
+   0445 23                 1056 	inc	hl
+   0446 9E                 1057 	sbc	a, (hl)
+   0447 F8 0B              1058 	ldhl	sp,#11
+   0449 32                 1059 	ld	(hl-),a
+   044A 73                 1060 	ld	(hl),e
+                           1061 ;../time.c:148: lastTime.tm_yday=epoch;
+   044B 2B                 1062 	dec	hl
+   044C 2B                 1063 	dec	hl
+   044D 46                 1064 	ld	b,(hl)
+   044E 23                 1065 	inc	hl
+   044F 4E                 1066 	ld	c,(hl)
+   0450 21r5Ar00           1067 	ld	hl,#(_lastTime + 0x0008)
+   0453 70                 1068 	ld	(hl),b
+   0454 23                 1069 	inc	hl
+   0455 71                 1070 	ld	(hl),c
+                           1071 ;../time.c:153: for (month=0; month<12; month++) {
+   0456 06 00              1072 	ld	b,#0x00
+   0458                    1073 00114$:
+                           1074 ;../time.c:154: if (month==1) { // februari
+   0458 78                 1075 	ld	a,b
+   0459 3D                 1076 	dec	a
+   045A 20 0E              1077 	jr	NZ,00108$
+                           1078 ;../time.c:155: if (LEAP_YEAR(year)) {
+   045C F8 0D              1079 	ldhl	sp,#13
+   045E 3A                 1080 	ld	a,(hl-)
+   045F B6                 1081 	or	a,(hl)
+   0460 20 04              1082 	jr	NZ,00105$
+                           1083 ;../time.c:156: monthLength=29;
+   0462 3E 1D              1084 	ld	a,#0x1D
+   0464 18 16              1085 	jr	00109$
+   0466                    1086 00105$:
+                           1087 ;../time.c:158: monthLength=28;
+   0466 3E 1C              1088 	ld	a,#0x1C
+   0468 18 12              1089 	jr	00109$
+   046A                    1090 00108$:
+                           1091 ;../time.c:161: monthLength = monthDays[month];
+   046A 11r00r00           1092 	ld	de,#_monthDays
+   046D 68                 1093 	ld	l,b
+   046E 26 00              1094 	ld	h,#0x00
+   0470 19                 1095 	add	hl,de
+   0471 7D                 1096 	ld	a,l
+   0472 54                 1097 	ld	d,h
+   0473 F8 18              1098 	ldhl	sp,#24
+   0475 22                 1099 	ld	(hl+),a
+   0476 72                 1100 	ld	(hl),d
+   0477 2B                 1101 	dec	hl
+   0478 5E                 1102 	ld	e,(hl)
+   0479 23                 1103 	inc	hl
+   047A 56                 1104 	ld	d,(hl)
+   047B 1A                 1105 	ld	a,(de)
+   047C                    1106 00109$:
+                           1107 ;../time.c:164: if (epoch>=monthLength) {
+   047C F8 14              1108 	ldhl	sp,#20
+   047E 22                 1109 	ld	(hl+),a
+   047F 36 00              1110 	ld	(hl),#0x00
+   0481 23                 1111 	inc	hl
+   0482 36 00              1112 	ld	(hl),#0x00
+   0484 23                 1113 	inc	hl
+   0485 36 00              1114 	ld	(hl),#0x00
+   0487 F8 08              1115 	ldhl	sp,#8
+   0489 54                 1116 	ld	d, h
+   048A 5D                 1117 	ld	e, l
+   048B F8 14              1118 	ldhl	sp,#20
+   048D 1A                 1119 	ld	a, (de)
+   048E 96                 1120 	sub	a, (hl)
+   048F 23                 1121 	inc	hl
+   0490 13                 1122 	inc	de
+   0491 1A                 1123 	ld	a, (de)
+   0492 9E                 1124 	sbc	a, (hl)
+   0493 23                 1125 	inc	hl
+   0494 13                 1126 	inc	de
+   0495 1A                 1127 	ld	a, (de)
+   0496 9E                 1128 	sbc	a, (hl)
+   0497 23                 1129 	inc	hl
+   0498 13                 1130 	inc	de
+   0499 1A                 1131 	ld	a, (de)
+   049A 9E                 1132 	sbc	a, (hl)
+   049B DArCBr04           1133 	jp	C,00113$
+                           1134 ;../time.c:165: epoch-=monthLength;
+   049E F8 09              1135 	ldhl	sp,#9
+   04A0 2B                 1136 	dec	hl
+   04A1 5E                 1137 	ld	e,(hl)
+   04A2 23                 1138 	inc	hl
+   04A3 56                 1139 	ld	d,(hl)
+   04A4 7B                 1140 	ld	a,e
+   04A5 F8 14              1141 	ldhl	sp,#20
+   04A7 96                 1142 	sub	a, (hl)
+   04A8 5F                 1143 	ld	e,a
+   04A9 7A                 1144 	ld	a,d
+   04AA 23                 1145 	inc	hl
+   04AB 9E                 1146 	sbc	a, (hl)
+   04AC F5                 1147 	push	af
+   04AD F8 0B              1148 	ldhl	sp,#11
+   04AF 32                 1149 	ld	(hl-),a
+   04B0 73                 1150 	ld	(hl),e
+   04B1 F8 0D              1151 	ldhl	sp,#13
+   04B3 2B                 1152 	dec	hl
+   04B4 5E                 1153 	ld	e,(hl)
+   04B5 23                 1154 	inc	hl
+   04B6 56                 1155 	ld	d,(hl)
+   04B7 F8 18              1156 	ldhl	sp,#24
+   04B9 F1                 1157 	pop	af
+   04BA 7B                 1158 	ld	a,e
+   04BB 9E                 1159 	sbc	a, (hl)
+   04BC 5F                 1160 	ld	e,a
+   04BD 7A                 1161 	ld	a,d
+   04BE 23                 1162 	inc	hl
+   04BF 9E                 1163 	sbc	a, (hl)
+   04C0 F8 0B              1164 	ldhl	sp,#11
+   04C2 32                 1165 	ld	(hl-),a
+   04C3 73                 1166 	ld	(hl),e
+                           1167 ;../time.c:153: for (month=0; month<12; month++) {
+   04C4 04                 1168 	inc	b
+   04C5 78                 1169 	ld	a,b
+   04C6 D6 0C              1170 	sub	a, #0x0C
+   04C8 DAr58r04           1171 	jp	C,00114$
+   04CB                    1172 00113$:
+                           1173 ;../time.c:170: lastTime.tm_mon=month;
+   04CB 21r56r00           1174 	ld	hl,#(_lastTime + 0x0004)
+   04CE 70                 1175 	ld	(hl),b
+                           1176 ;../time.c:171: lastTime.tm_mday=epoch+1;
+   04CF 01r55r00           1177 	ld	bc,#_lastTime + 3
+   04D2 F8 08              1178 	ldhl	sp,#8
+   04D4 7E                 1179 	ld	a,(hl)
+   04D5 3C                 1180 	inc	a
+   04D6 02                 1181 	ld	(bc),a
+                           1182 ;../time.c:173: lastTime.tm_isdst=0;
+   04D7 01r5Cr00           1183 	ld	bc,#_lastTime + 10
+   04DA AF                 1184 	xor	a, a
+   04DB 02                 1185 	ld	(bc),a
+                           1186 ;../time.c:175: return &lastTime;
+   04DC 11r52r00           1187 	ld	de,#_lastTime
+   04DF E8 1A              1188 	add	sp, #26
+   04E1 C9                 1189 	ret
+                           1190 ;../time.c:179: time_t mktime(struct tm *timeptr) {
+                           1191 ;	---------------------------------
+                           1192 ; Function mktime
+                           1193 ; ---------------------------------
+   04E2                    1194 _mktime::
+   04E2 E8 EA              1195 	add	sp, #-22
+                           1196 ;../time.c:180: int year=timeptr->tm_year+1900, month=timeptr->tm_mon, i;
+   04E4 F8 18              1197 	ldhl	sp,#24
+   04E6 2A                 1198 	ld	a,(hl+)
+   04E7 5E                 1199 	ld	e, (hl)
+   04E8 F8 10              1200 	ldhl	sp,#16
+   04EA 22                 1201 	ld	(hl+),a
+   04EB 73                 1202 	ld	(hl),e
+   04EC 2B                 1203 	dec	hl
+   04ED 5E                 1204 	ld	e,(hl)
+   04EE 23                 1205 	inc	hl
+   04EF 56                 1206 	ld	d,(hl)
+   04F0 21 05 00           1207 	ld	hl,#0x0005
+   04F3 19                 1208 	add	hl,de
+   04F4 45                 1209 	ld	b,l
+   04F5 4C                 1210 	ld	c,h
+   04F6 58                 1211 	ld	e, b
+   04F7 51                 1212 	ld	d, c
+   04F8 1A                 1213 	ld	a,(de)
+   04F9 4F                 1214 	ld	c,a
+   04FA 13                 1215 	inc	de
+   04FB 1A                 1216 	ld	a,(de)
+   04FC 47                 1217 	ld	b,a
+   04FD 21 6C 07           1218 	ld	hl,#0x076C
+   0500 09                 1219 	add	hl,bc
+   0501 7D                 1220 	ld	a,l
+   0502 54                 1221 	ld	d,h
+   0503 F8 02              1222 	ldhl	sp,#2
+   0505 22                 1223 	ld	(hl+),a
+   0506 72                 1224 	ld	(hl),d
+   0507 F8 11              1225 	ldhl	sp,#17
+   0509 2B                 1226 	dec	hl
+   050A 5E                 1227 	ld	e,(hl)
+   050B 23                 1228 	inc	hl
+   050C 56                 1229 	ld	d,(hl)
+   050D 21 04 00           1230 	ld	hl,#0x0004
+   0510 19                 1231 	add	hl,de
+   0511 4D                 1232 	ld	c,l
+   0512 44                 1233 	ld	b,h
+   0513 0A                 1234 	ld	a,(bc)
+   0514 F8 00              1235 	ldhl	sp,#0
+   0516 22                 1236 	ld	(hl+),a
+   0517 36 00              1237 	ld	(hl),#0x00
+                           1238 ;../time.c:183: CheckTime(timeptr);
+   0519 F8 10              1239 	ldhl	sp,#16
+   051B 2A                 1240 	ld	a,(hl+)
+   051C 66                 1241 	ld	h,(hl)
+   051D 6F                 1242 	ld	l,a
+   051E E5                 1243 	push	hl
+   051F CDr58r00           1244 	call	_CheckTime
+   0522 E8 02              1245 	add	sp, #2
+                           1246 ;../time.c:186: seconds= (year-1970)*(60*60*24L*365);
+   0524 F8 03              1247 	ldhl	sp,#3
+   0526 2B                 1248 	dec	hl
+   0527 5E                 1249 	ld	e,(hl)
+   0528 23                 1250 	inc	hl
+   0529 56                 1251 	ld	d,(hl)
+   052A 21 B2 07           1252 	ld	hl,#0x07B2
+   052D 7B                 1253 	ld	a,e
+   052E 95                 1254 	sub	a,l
+   052F 5F                 1255 	ld	e,a
+   0530 7A                 1256 	ld	a,d
+   0531 9C                 1257 	sbc	a,h
+   0532 47                 1258 	ld	b,a
+   0533 4B                 1259 	ld	c,e
+   0534 78                 1260 	ld	a,b
+   0535 17                 1261 	rla
+   0536 9F                 1262 	sbc	a, a
+   0537 5F                 1263 	ld	e,a
+   0538 57                 1264 	ld	d,a
+   0539 D5                 1265 	push	de
+   053A C5                 1266 	push	bc
+   053B 21 E1 01           1267 	ld	hl,#0x01E1
+   053E E5                 1268 	push	hl
+   053F 21 80 33           1269 	ld	hl,#0x3380
+   0542 E5                 1270 	push	hl
+   0543 CDr00r00           1271 	call	__mullong
+   0546 E8 08              1272 	add	sp, #8
+   0548 45                 1273 	ld	b,l
+   0549 4C                 1274 	ld	c,h
+   054A F8 12              1275 	ldhl	sp,#18
+   054C 73                 1276 	ld	(hl),e
+   054D 23                 1277 	inc	hl
+   054E 72                 1278 	ld	(hl),d
+   054F 23                 1279 	inc	hl
+   0550 70                 1280 	ld	(hl),b
+   0551 23                 1281 	inc	hl
+   0552 71                 1282 	ld	(hl),c
+                           1283 ;../time.c:189: for (i=1970; i<year; i++) {
+   0553 01 B2 07           1284 	ld	bc,#0x07B2
+   0556                    1285 00110$:
+   0556 F8 02              1286 	ldhl	sp,#2
+   0558 79                 1287 	ld	a,c
+   0559 96                 1288 	sub	a, (hl)
+   055A 23                 1289 	inc	hl
+   055B 78                 1290 	ld	a,b
+   055C 9E                 1291 	sbc	a, (hl)
+   055D 78                 1292 	ld	a,b
+   055E 57                 1293 	ld	d, a
+   055F 5E                 1294 	ld	e, (hl)
+   0560 CB 7B              1295 	bit	7, e
+   0562 28 07              1296 	jr	Z,00147$
+   0564 CB 7A              1297 	bit	7, d
+   0566 20 08              1298 	jr	NZ,00148$
+   0568 BF                 1299 	cp	a, a
+   0569 18 05              1300 	jr	00148$
+   056B                    1301 00147$:
+   056B CB 7A              1302 	bit	7, d
+   056D 28 01              1303 	jr	Z,00148$
+   056F 37                 1304 	scf
+   0570                    1305 00148$:
+   0570 D2rA7r05           1306 	jp	NC,00124$
+                           1307 ;../time.c:190: if (LEAP_YEAR(i)) {
+   0573 C5                 1308 	push	bc
+   0574 21 04 00           1309 	ld	hl,#0x0004
+   0577 E5                 1310 	push	hl
+   0578 C5                 1311 	push	bc
+   0579 CDr00r00           1312 	call	__modsint
+   057C E8 04              1313 	add	sp, #4
+   057E C1                 1314 	pop	bc
+   057F 7A                 1315 	ld	a,d
+   0580 B3                 1316 	or	a,e
+   0581 20 20              1317 	jr	NZ,00111$
+                           1318 ;../time.c:191: seconds+= 60*60*24L;
+   0583 F8 13              1319 	ldhl	sp,#19
+   0585 2B                 1320 	dec	hl
+   0586 5E                 1321 	ld	e,(hl)
+   0587 23                 1322 	inc	hl
+   0588 56                 1323 	ld	d,(hl)
+   0589 7B                 1324 	ld	a,e
+   058A C6 80              1325 	add	a, #0x80
+   058C 5F                 1326 	ld	e,a
+   058D 7A                 1327 	ld	a,d
+   058E CE 51              1328 	adc	a, #0x51
+   0590 F5                 1329 	push	af
+   0591 32                 1330 	ld	(hl-),a
+   0592 73                 1331 	ld	(hl),e
+   0593 F8 17              1332 	ldhl	sp,#23
+   0595 2B                 1333 	dec	hl
+   0596 5E                 1334 	ld	e,(hl)
+   0597 23                 1335 	inc	hl
+   0598 56                 1336 	ld	d,(hl)
+   0599 F1                 1337 	pop	af
+   059A 7B                 1338 	ld	a,e
+   059B CE 01              1339 	adc	a, #0x01
+   059D 5F                 1340 	ld	e,a
+   059E 7A                 1341 	ld	a,d
+   059F CE 00              1342 	adc	a, #0x00
+   05A1 32                 1343 	ld	(hl-),a
+   05A2 73                 1344 	ld	(hl),e
+   05A3                    1345 00111$:
+                           1346 ;../time.c:189: for (i=1970; i<year; i++) {
+   05A3 03                 1347 	inc	bc
+   05A4 C3r56r05           1348 	jp	00110$
+   05A7                    1349 00124$:
+                           1350 ;../time.c:196: for (i=0; i<month; i++) {
+   05A7 21 04 00           1351 	ld	hl,#0x0004
+   05AA E5                 1352 	push	hl
+   05AB F8 04              1353 	ldhl	sp,#4
+   05AD 2A                 1354 	ld	a,(hl+)
+   05AE 66                 1355 	ld	h,(hl)
+   05AF 6F                 1356 	ld	l,a
+   05B0 E5                 1357 	push	hl
+   05B1 CDr00r00           1358 	call	__modsint
+   05B4 E8 04              1359 	add	sp, #4
+   05B6 F8 0F              1360 	ldhl	sp,#15
+   05B8 72                 1361 	ld	(hl),d
+   05B9 2B                 1362 	dec	hl
+   05BA 73                 1363 	ld	(hl),e
+   05BB F8 08              1364 	ldhl	sp,#8
+   05BD 36 00              1365 	ld	(hl),#0x00
+   05BF 23                 1366 	inc	hl
+   05C0 36 00              1367 	ld	(hl),#0x00
+   05C2                    1368 00113$:
+   05C2 F8 08              1369 	ldhl	sp,#8
+   05C4 54                 1370 	ld	d, h
+   05C5 5D                 1371 	ld	e, l
+   05C6 F8 00              1372 	ldhl	sp,#0
+   05C8 1A                 1373 	ld	a, (de)
+   05C9 96                 1374 	sub	a, (hl)
+   05CA 23                 1375 	inc	hl
+   05CB 13                 1376 	inc	de
+   05CC 1A                 1377 	ld	a, (de)
+   05CD 9E                 1378 	sbc	a, (hl)
+   05CE 1A                 1379 	ld	a, (de)
+   05CF 57                 1380 	ld	d, a
+   05D0 5E                 1381 	ld	e, (hl)
+   05D1 CB 7B              1382 	bit	7, e
+   05D3 28 07              1383 	jr	Z,00149$
+   05D5 CB 7A              1384 	bit	7, d
+   05D7 20 08              1385 	jr	NZ,00150$
+   05D9 BF                 1386 	cp	a, a
+   05DA 18 05              1387 	jr	00150$
+   05DC                    1388 00149$:
+   05DC CB 7A              1389 	bit	7, d
+   05DE 28 01              1390 	jr	Z,00150$
+   05E0 37                 1391 	scf
+   05E1                    1392 00150$:
+   05E1 D2r77r06           1393 	jp	NC,00108$
+                           1394 ;../time.c:197: if (i==1 && LEAP_YEAR(year)) { 
+   05E4 F8 08              1395 	ldhl	sp,#8
+   05E6 7E                 1396 	ld	a,(hl)
+   05E7 3D                 1397 	dec	a
+   05E8 C2r1Ar06           1398 	jp	NZ,00105$
+   05EB 23                 1399 	inc	hl
+   05EC 7E                 1400 	ld	a,(hl)
+   05ED B7                 1401 	or	a, a
+   05EE C2r1Ar06           1402 	jp	NZ,00105$
+   05F1 F8 0F              1403 	ldhl	sp,#15
+   05F3 3A                 1404 	ld	a,(hl-)
+   05F4 B6                 1405 	or	a,(hl)
+   05F5 20 23              1406 	jr	NZ,00105$
+                           1407 ;../time.c:198: seconds+= 60*60*24L*29;
+   05F7 F8 13              1408 	ldhl	sp,#19
+   05F9 2B                 1409 	dec	hl
+   05FA 5E                 1410 	ld	e,(hl)
+   05FB 23                 1411 	inc	hl
+   05FC 56                 1412 	ld	d,(hl)
+   05FD 7B                 1413 	ld	a,e
+   05FE C6 80              1414 	add	a, #0x80
+   0600 5F                 1415 	ld	e,a
+   0601 7A                 1416 	ld	a,d
+   0602 CE 3B              1417 	adc	a, #0x3B
+   0604 F5                 1418 	push	af
+   0605 32                 1419 	ld	(hl-),a
+   0606 73                 1420 	ld	(hl),e
+   0607 F8 17              1421 	ldhl	sp,#23
+   0609 2B                 1422 	dec	hl
+   060A 5E                 1423 	ld	e,(hl)
+   060B 23                 1424 	inc	hl
+   060C 56                 1425 	ld	d,(hl)
+   060D F1                 1426 	pop	af
+   060E 7B                 1427 	ld	a,e
+   060F CE 26              1428 	adc	a, #0x26
+   0611 5F                 1429 	ld	e,a
+   0612 7A                 1430 	ld	a,d
+   0613 CE 00              1431 	adc	a, #0x00
+   0615 32                 1432 	ld	(hl-),a
+   0616 73                 1433 	ld	(hl),e
+   0617 C3r6Cr06           1434 	jp	00114$
+   061A                    1435 00105$:
+                           1436 ;../time.c:200: seconds+= 60*60*24L*monthDays[i];
+   061A 11r00r00           1437 	ld	de,#_monthDays
+   061D F8 08              1438 	ldhl	sp,#8
+   061F 2A                 1439 	ld	a,(hl+)
+   0620 66                 1440 	ld	h,(hl)
+   0621 6F                 1441 	ld	l,a
+   0622 19                 1442 	add	hl,de
+   0623 4D                 1443 	ld	c,l
+   0624 44                 1444 	ld	b,h
+   0625 0A                 1445 	ld	a,(bc)
+   0626 5F                 1446 	ld	e,a
+   0627 17                 1447 	rla
+   0628 9F                 1448 	sbc	a, a
+   0629 57                 1449 	ld	d,a
+   062A 4F                 1450 	ld	c,a
+   062B 47                 1451 	ld	b,a
+   062C C5                 1452 	push	bc
+   062D D5                 1453 	push	de
+   062E 21 01 00           1454 	ld	hl,#0x0001
+   0631 E5                 1455 	push	hl
+   0632 21 80 51           1456 	ld	hl,#0x5180
+   0635 E5                 1457 	push	hl
+   0636 CDr00r00           1458 	call	__mullong
+   0639 E8 08              1459 	add	sp, #8
+   063B E5                 1460 	push	hl
+   063C F8 0C              1461 	ldhl	sp,#12
+   063E 73                 1462 	ld	(hl),e
+   063F 23                 1463 	inc	hl
+   0640 72                 1464 	ld	(hl),d
+   0641 D1                 1465 	pop	de
+   0642 23                 1466 	inc	hl
+   0643 73                 1467 	ld	(hl),e
+   0644 23                 1468 	inc	hl
+   0645 72                 1469 	ld	(hl),d
+   0646 F8 13              1470 	ldhl	sp,#19
+   0648 2B                 1471 	dec	hl
+   0649 5E                 1472 	ld	e,(hl)
+   064A 23                 1473 	inc	hl
+   064B 56                 1474 	ld	d,(hl)
+   064C 7B                 1475 	ld	a,e
+   064D F8 0A              1476 	ldhl	sp,#10
+   064F 86                 1477 	add	a, (hl)
+   0650 5F                 1478 	ld	e,a
+   0651 7A                 1479 	ld	a,d
+   0652 23                 1480 	inc	hl
+   0653 8E                 1481 	adc	a, (hl)
+   0654 F5                 1482 	push	af
+   0655 F8 15              1483 	ldhl	sp,#21
+   0657 32                 1484 	ld	(hl-),a
+   0658 73                 1485 	ld	(hl),e
+   0659 F8 17              1486 	ldhl	sp,#23
+   065B 2B                 1487 	dec	hl
+   065C 5E                 1488 	ld	e,(hl)
+   065D 23                 1489 	inc	hl
+   065E 56                 1490 	ld	d,(hl)
+   065F F8 0E              1491 	ldhl	sp,#14
+   0661 F1                 1492 	pop	af
+   0662 7B                 1493 	ld	a,e
+   0663 8E                 1494 	adc	a, (hl)
+   0664 5F                 1495 	ld	e,a
+   0665 7A                 1496 	ld	a,d
+   0666 23                 1497 	inc	hl
+   0667 8E                 1498 	adc	a, (hl)
+   0668 F8 15              1499 	ldhl	sp,#21
+   066A 32                 1500 	ld	(hl-),a
+   066B 73                 1501 	ld	(hl),e
+   066C                    1502 00114$:
+                           1503 ;../time.c:196: for (i=0; i<month; i++) {
+   066C F8 08              1504 	ldhl	sp,#8
+   066E 34                 1505 	inc	(hl)
+   066F C2rC2r05           1506 	jp	NZ,00113$
+   0672 23                 1507 	inc	hl
+   0673 34                 1508 	inc	(hl)
+   0674 C3rC2r05           1509 	jp	00113$
+   0677                    1510 00108$:
+                           1511 ;../time.c:204: seconds+= (timeptr->tm_mday-1)*60*60*24L;
+   0677 F8 11              1512 	ldhl	sp,#17
+   0679 2B                 1513 	dec	hl
+   067A 4E                 1514 	ld	c,(hl)
+   067B 23                 1515 	inc	hl
+   067C 46                 1516 	ld	b,(hl)
+   067D 03                 1517 	inc	bc
+   067E 03                 1518 	inc	bc
+   067F 03                 1519 	inc	bc
+   0680 0A                 1520 	ld	a,(bc)
+   0681 4F                 1521 	ld	c,a
+   0682 06 00              1522 	ld	b,#0x00
+   0684 0B                 1523 	dec	bc
+   0685 78                 1524 	ld	a,b
+   0686 17                 1525 	rla
+   0687 9F                 1526 	sbc	a, a
+   0688 5F                 1527 	ld	e,a
+   0689 57                 1528 	ld	d,a
+   068A D5                 1529 	push	de
+   068B C5                 1530 	push	bc
+   068C 21 01 00           1531 	ld	hl,#0x0001
+   068F E5                 1532 	push	hl
+   0690 21 80 51           1533 	ld	hl,#0x5180
+   0693 E5                 1534 	push	hl
+   0694 CDr00r00           1535 	call	__mullong
+   0697 E8 08              1536 	add	sp, #8
+   0699 E5                 1537 	push	hl
+   069A F8 0C              1538 	ldhl	sp,#12
+   069C 73                 1539 	ld	(hl),e
+   069D 23                 1540 	inc	hl
+   069E 72                 1541 	ld	(hl),d
+   069F D1                 1542 	pop	de
+   06A0 23                 1543 	inc	hl
+   06A1 73                 1544 	ld	(hl),e
+   06A2 23                 1545 	inc	hl
+   06A3 72                 1546 	ld	(hl),d
+   06A4 F8 13              1547 	ldhl	sp,#19
+   06A6 2B                 1548 	dec	hl
+   06A7 5E                 1549 	ld	e,(hl)
+   06A8 23                 1550 	inc	hl
+   06A9 56                 1551 	ld	d,(hl)
+   06AA 7B                 1552 	ld	a,e
+   06AB F8 0A              1553 	ldhl	sp,#10
+   06AD 86                 1554 	add	a, (hl)
+   06AE 5F                 1555 	ld	e,a
+   06AF 7A                 1556 	ld	a,d
+   06B0 23                 1557 	inc	hl
+   06B1 8E                 1558 	adc	a, (hl)
+   06B2 F5                 1559 	push	af
+   06B3 32                 1560 	ld	(hl-),a
+   06B4 73                 1561 	ld	(hl),e
+   06B5 F8 17              1562 	ldhl	sp,#23
+   06B7 2B                 1563 	dec	hl
+   06B8 5E                 1564 	ld	e,(hl)
+   06B9 23                 1565 	inc	hl
+   06BA 56                 1566 	ld	d,(hl)
+   06BB F8 0E              1567 	ldhl	sp,#14
+   06BD F1                 1568 	pop	af
+   06BE 7B                 1569 	ld	a,e
+   06BF 8E                 1570 	adc	a, (hl)
+   06C0 5F                 1571 	ld	e,a
+   06C1 7A                 1572 	ld	a,d
+   06C2 23                 1573 	inc	hl
+   06C3 8E                 1574 	adc	a, (hl)
+   06C4 32                 1575 	ld	(hl-),a
+   06C5 73                 1576 	ld	(hl),e
+                           1577 ;../time.c:205: seconds+= timeptr->tm_hour*60*60L;
+   06C6 F8 11              1578 	ldhl	sp,#17
+   06C8 2B                 1579 	dec	hl
+   06C9 4E                 1580 	ld	c,(hl)
+   06CA 23                 1581 	inc	hl
+   06CB 46                 1582 	ld	b,(hl)
+   06CC 03                 1583 	inc	bc
+   06CD 03                 1584 	inc	bc
+   06CE 0A                 1585 	ld	a,(bc)
+   06CF 5F                 1586 	ld	e,a
+   06D0 16 00              1587 	ld	d,#0x00
+   06D2 01 00 00           1588 	ld	bc,#0x0000
+   06D5 C5                 1589 	push	bc
+   06D6 D5                 1590 	push	de
+   06D7 21 00 00           1591 	ld	hl,#0x0000
+   06DA E5                 1592 	push	hl
+   06DB 21 10 0E           1593 	ld	hl,#0x0E10
+   06DE E5                 1594 	push	hl
+   06DF CDr00r00           1595 	call	__mullong
+   06E2 E8 08              1596 	add	sp, #8
+   06E4 E5                 1597 	push	hl
+   06E5 F8 14              1598 	ldhl	sp,#20
+   06E7 73                 1599 	ld	(hl),e
+   06E8 23                 1600 	inc	hl
+   06E9 72                 1601 	ld	(hl),d
+   06EA D1                 1602 	pop	de
+   06EB 23                 1603 	inc	hl
+   06EC 73                 1604 	ld	(hl),e
+   06ED 23                 1605 	inc	hl
+   06EE 72                 1606 	ld	(hl),d
+   06EF F8 0B              1607 	ldhl	sp,#11
+   06F1 2B                 1608 	dec	hl
+   06F2 5E                 1609 	ld	e,(hl)
+   06F3 23                 1610 	inc	hl
+   06F4 56                 1611 	ld	d,(hl)
+   06F5 7B                 1612 	ld	a,e
+   06F6 F8 12              1613 	ldhl	sp,#18
+   06F8 86                 1614 	add	a, (hl)
+   06F9 5F                 1615 	ld	e,a
+   06FA 7A                 1616 	ld	a,d
+   06FB 23                 1617 	inc	hl
+   06FC 8E                 1618 	adc	a, (hl)
+   06FD F5                 1619 	push	af
+   06FE F8 0D              1620 	ldhl	sp,#13
+   0700 32                 1621 	ld	(hl-),a
+   0701 73                 1622 	ld	(hl),e
+   0702 F8 0F              1623 	ldhl	sp,#15
+   0704 2B                 1624 	dec	hl
+   0705 5E                 1625 	ld	e,(hl)
+   0706 23                 1626 	inc	hl
+   0707 56                 1627 	ld	d,(hl)
+   0708 F8 16              1628 	ldhl	sp,#22
+   070A F1                 1629 	pop	af
+   070B 7B                 1630 	ld	a,e
+   070C 8E                 1631 	adc	a, (hl)
+   070D 5F                 1632 	ld	e,a
+   070E 7A                 1633 	ld	a,d
+   070F 23                 1634 	inc	hl
+   0710 8E                 1635 	adc	a, (hl)
+   0711 F8 0D              1636 	ldhl	sp,#13
+   0713 32                 1637 	ld	(hl-),a
+   0714 73                 1638 	ld	(hl),e
+                           1639 ;../time.c:206: seconds+= timeptr->tm_min*60;
+   0715 F8 11              1640 	ldhl	sp,#17
+   0717 2B                 1641 	dec	hl
+   0718 4E                 1642 	ld	c,(hl)
+   0719 23                 1643 	inc	hl
+   071A 46                 1644 	ld	b,(hl)
+   071B 03                 1645 	inc	bc
+   071C 0A                 1646 	ld	a,(bc)
+   071D 4F                 1647 	ld	c,a
+   071E 06 00              1648 	ld	b,#0x00
+   0720 69                 1649 	ld	l, c
+   0721 60                 1650 	ld	h, b
+   0722 29                 1651 	add	hl, hl
+   0723 09                 1652 	add	hl, bc
+   0724 29                 1653 	add	hl, hl
+   0725 09                 1654 	add	hl, bc
+   0726 29                 1655 	add	hl, hl
+   0727 09                 1656 	add	hl, bc
+   0728 29                 1657 	add	hl, hl
+   0729 29                 1658 	add	hl, hl
+   072A 45                 1659 	ld	b,l
+   072B 4C                 1660 	ld	c,h
+   072C F8 12              1661 	ldhl	sp,#18
+   072E 70                 1662 	ld	(hl),b
+   072F 23                 1663 	inc	hl
+   0730 71                 1664 	ld	(hl),c
+   0731 79                 1665 	ld	a,c
+   0732 17                 1666 	rla
+   0733 9F                 1667 	sbc	a, a
+   0734 23                 1668 	inc	hl
+   0735 22                 1669 	ld	(hl+),a
+   0736 77                 1670 	ld	(hl),a
+   0737 F8 0B              1671 	ldhl	sp,#11
+   0739 2B                 1672 	dec	hl
+   073A 5E                 1673 	ld	e,(hl)
+   073B 23                 1674 	inc	hl
+   073C 56                 1675 	ld	d,(hl)
+   073D 7B                 1676 	ld	a,e
+   073E F8 12              1677 	ldhl	sp,#18
+   0740 86                 1678 	add	a, (hl)
+   0741 5F                 1679 	ld	e,a
+   0742 7A                 1680 	ld	a,d
+   0743 23                 1681 	inc	hl
+   0744 8E                 1682 	adc	a, (hl)
+   0745 F5                 1683 	push	af
+   0746 F8 0D              1684 	ldhl	sp,#13
+   0748 32                 1685 	ld	(hl-),a
+   0749 73                 1686 	ld	(hl),e
+   074A F8 0F              1687 	ldhl	sp,#15
+   074C 2B                 1688 	dec	hl
+   074D 5E                 1689 	ld	e,(hl)
+   074E 23                 1690 	inc	hl
+   074F 56                 1691 	ld	d,(hl)
+   0750 F8 16              1692 	ldhl	sp,#22
+   0752 F1                 1693 	pop	af
+   0753 7B                 1694 	ld	a,e
+   0754 8E                 1695 	adc	a, (hl)
+   0755 5F                 1696 	ld	e,a
+   0756 7A                 1697 	ld	a,d
+   0757 23                 1698 	inc	hl
+   0758 8E                 1699 	adc	a, (hl)
+   0759 F8 0D              1700 	ldhl	sp,#13
+   075B 32                 1701 	ld	(hl-),a
+   075C 73                 1702 	ld	(hl),e
+   075D 2B                 1703 	dec	hl
+   075E 2B                 1704 	dec	hl
+   075F 54                 1705 	ld	d,h
+   0760 5D                 1706 	ld	e,l
+   0761 F8 04              1707 	ldhl	sp,#4
+   0763 1A                 1708 	ld	a,(de)
+   0764 22                 1709 	ld	(hl+),a
+   0765 13                 1710 	inc	de
+   0766 1A                 1711 	ld	a,(de)
+   0767 22                 1712 	ld	(hl+),a
+   0768 13                 1713 	inc	de
+   0769 1A                 1714 	ld	a,(de)
+   076A 22                 1715 	ld	(hl+),a
+   076B 13                 1716 	inc	de
+   076C 1A                 1717 	ld	a,(de)
+   076D 77                 1718 	ld	(hl),a
+                           1719 ;../time.c:207: seconds+= timeptr->tm_sec;
+   076E F8 11              1720 	ldhl	sp,#17
+   0770 2B                 1721 	dec	hl
+   0771 5E                 1722 	ld	e,(hl)
+   0772 23                 1723 	inc	hl
+   0773 56                 1724 	ld	d,(hl)
+   0774 1A                 1725 	ld	a,(de)
+   0775 57                 1726 	ld	d,a
+   0776 1E 00              1727 	ld	e,#0x00
+   0778 F8 0A              1728 	ldhl	sp,#10
+   077A 72                 1729 	ld	(hl),d
+   077B 23                 1730 	inc	hl
+   077C 73                 1731 	ld	(hl),e
+   077D 7B                 1732 	ld	a,e
+   077E 17                 1733 	rla
+   077F 9F                 1734 	sbc	a, a
+   0780 23                 1735 	inc	hl
+   0781 22                 1736 	ld	(hl+),a
+   0782 77                 1737 	ld	(hl),a
+   0783 F8 05              1738 	ldhl	sp,#5
+   0785 2B                 1739 	dec	hl
+   0786 5E                 1740 	ld	e,(hl)
+   0787 23                 1741 	inc	hl
+   0788 56                 1742 	ld	d,(hl)
+   0789 7B                 1743 	ld	a,e
+   078A F8 0A              1744 	ldhl	sp,#10
+   078C 86                 1745 	add	a, (hl)
+   078D 5F                 1746 	ld	e,a
+   078E 7A                 1747 	ld	a,d
+   078F 23                 1748 	inc	hl
+   0790 8E                 1749 	adc	a, (hl)
+   0791 F5                 1750 	push	af
+   0792 32                 1751 	ld	(hl-),a
+   0793 73                 1752 	ld	(hl),e
+   0794 F8 09              1753 	ldhl	sp,#9
+   0796 2B                 1754 	dec	hl
+   0797 5E                 1755 	ld	e,(hl)
+   0798 23                 1756 	inc	hl
+   0799 56                 1757 	ld	d,(hl)
+   079A F8 0E              1758 	ldhl	sp,#14
+   079C F1                 1759 	pop	af
+   079D 7B                 1760 	ld	a,e
+   079E 8E                 1761 	adc	a, (hl)
+   079F 5F                 1762 	ld	e,a
+   07A0 7A                 1763 	ld	a,d
+   07A1 23                 1764 	inc	hl
+   07A2 8E                 1765 	adc	a, (hl)
+   07A3 32                 1766 	ld	(hl-),a
+   07A4 73                 1767 	ld	(hl),e
+                           1768 ;../time.c:208: return seconds;
+   07A5 2B                 1769 	dec	hl
+   07A6 2B                 1770 	dec	hl
+   07A7 5E                 1771 	ld	e,(hl)
+   07A8 23                 1772 	inc	hl
+   07A9 56                 1773 	ld	d,(hl)
+   07AA 23                 1774 	inc	hl
+   07AB 2A                 1775 	ld	a,(hl+)
+   07AC 66                 1776 	ld	h,(hl)
+   07AD 6F                 1777 	ld	l,a
+   07AE E8 16              1778 	add	sp, #22
+   07B0 C9                 1779 	ret
+                           1780 	.area _CODE
+   07B1                    1781 ___str_1:
+   07B1 4A 61 6E           1782 	.ascii "Jan"
+   07B4 00                 1783 	.db 0x00
+   07B5                    1784 ___str_2:
+   07B5 46 65 62           1785 	.ascii "Feb"
+   07B8 00                 1786 	.db 0x00
+   07B9                    1787 ___str_3:
+   07B9 4D 61 72           1788 	.ascii "Mar"
+   07BC 00                 1789 	.db 0x00
+   07BD                    1790 ___str_4:
+   07BD 41 70 72           1791 	.ascii "Apr"
+   07C0 00                 1792 	.db 0x00
+   07C1                    1793 ___str_5:
+   07C1 4D 61 79           1794 	.ascii "May"
+   07C4 00                 1795 	.db 0x00
+   07C5                    1796 ___str_6:
+   07C5 4A 75 6E           1797 	.ascii "Jun"
+   07C8 00                 1798 	.db 0x00
+   07C9                    1799 ___str_7:
+   07C9 4A 75 6C           1800 	.ascii "Jul"
+   07CC 00                 1801 	.db 0x00
+   07CD                    1802 ___str_8:
+   07CD 41 75 67           1803 	.ascii "Aug"
+   07D0 00                 1804 	.db 0x00
+   07D1                    1805 ___str_9:
+   07D1 53 65 70           1806 	.ascii "Sep"
+   07D4 00                 1807 	.db 0x00
+   07D5                    1808 ___str_10:
+   07D5 4F 63 74           1809 	.ascii "Oct"
+   07D8 00                 1810 	.db 0x00
+   07D9                    1811 ___str_11:
+   07D9 4E 6F 76           1812 	.ascii "Nov"
+   07DC 00                 1813 	.db 0x00
+   07DD                    1814 ___str_12:
+   07DD 44 65 63           1815 	.ascii "Dec"
+   07E0 00                 1816 	.db 0x00
+   07E1                    1817 ___str_13:
+   07E1 53 75 6E           1818 	.ascii "Sun"
+   07E4 00                 1819 	.db 0x00
+   07E5                    1820 ___str_14:
+   07E5 4D 6F 6E           1821 	.ascii "Mon"
+   07E8 00                 1822 	.db 0x00
+   07E9                    1823 ___str_15:
+   07E9 54 75 65           1824 	.ascii "Tue"
+   07EC 00                 1825 	.db 0x00
+   07ED                    1826 ___str_16:
+   07ED 57 65 64           1827 	.ascii "Wed"
+   07F0 00                 1828 	.db 0x00
+   07F1                    1829 ___str_17:
+   07F1 54 68 75           1830 	.ascii "Thu"
+   07F4 00                 1831 	.db 0x00
+   07F5                    1832 ___str_18:
+   07F5 46 72 69           1833 	.ascii "Fri"
+   07F8 00                 1834 	.db 0x00
+   07F9                    1835 ___str_19:
+   07F9 53 61 74           1836 	.ascii "Sat"
+   07FC 00                 1837 	.db 0x00
+                           1838 	.area _CABS (ABS)

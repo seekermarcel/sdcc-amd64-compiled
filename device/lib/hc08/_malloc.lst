@@ -1,0 +1,381 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:33 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _malloc
+                              7 	.optsdcc -mhc08
+                              8 	
+                              9 	.area HOME    (CODE)
+                             10 	.area GSINIT0 (CODE)
+                             11 	.area GSINIT  (CODE)
+                             12 	.area GSFINAL (CODE)
+                             13 	.area CSEG    (CODE)
+                             14 	.area XINIT   (CODE)
+                             15 	.area CONST   (CODE)
+                             16 	.area DSEG    (PAG)
+                             17 	.area OSEG    (PAG, OVR)
+                             18 	.area XSEG
+                             19 	.area XISEG
+                             20 ;--------------------------------------------------------
+                             21 ; Public variables in this module
+                             22 ;--------------------------------------------------------
+                             23 	.globl __sdcc_first_memheader
+                             24 	.globl _malloc
+                             25 ;--------------------------------------------------------
+                             26 ; ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area DSEG    (PAG)
+   0000                      29 _malloc_sloc0_1_0:
+   0000                      30 	.ds 2
+   0002                      31 _malloc_sloc1_1_0:
+   0002                      32 	.ds 2
+   0004                      33 _malloc_sloc2_1_0:
+   0004                      34 	.ds 2
+                             35 ;--------------------------------------------------------
+                             36 ; overlayable items in ram 
+                             37 ;--------------------------------------------------------
+                             38 	.area	OSEG    (PAG, OVR)
+   0000                      39 _init_dynamic_memory_sloc0_1_0:
+   0000                      40 	.ds 2
+                             41 ;--------------------------------------------------------
+                             42 ; absolute ram data
+                             43 ;--------------------------------------------------------
+                             44 	.area IABS    (ABS)
+                             45 	.area IABS    (ABS)
+                             46 ;--------------------------------------------------------
+                             47 ; absolute external ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area XABS    (ABS)
+                             50 ;--------------------------------------------------------
+                             51 ; external initialized ram data
+                             52 ;--------------------------------------------------------
+                             53 	.area XISEG
+   0000                      54 __sdcc_first_memheader::
+   0000                      55 	.ds 2
+                             56 ;--------------------------------------------------------
+                             57 ; extended address mode data
+                             58 ;--------------------------------------------------------
+                             59 	.area XSEG
+   0000                      60 _init_dynamic_memory_heap_1_6:
+   0000                      61 	.ds 2
+   0002                      62 _malloc_size_1_8:
+   0002                      63 	.ds 2
+   0004                      64 _malloc_current_header_1_9:
+   0004                      65 	.ds 2
+   0006                      66 _malloc_new_header_1_9:
+   0006                      67 	.ds 2
+   0008                      68 _malloc_ret_1_9:
+   0008                      69 	.ds 2
+                             70 ;--------------------------------------------------------
+                             71 ; global & static initialisations
+                             72 ;--------------------------------------------------------
+                             73 	.area HOME    (CODE)
+                             74 	.area GSINIT  (CODE)
+                             75 	.area GSFINAL (CODE)
+                             76 	.area GSINIT  (CODE)
+                             77 ;--------------------------------------------------------
+                             78 ; Home
+                             79 ;--------------------------------------------------------
+                             80 	.area HOME    (CODE)
+                             81 	.area HOME    (CODE)
+                             82 ;--------------------------------------------------------
+                             83 ; code
+                             84 ;--------------------------------------------------------
+                             85 	.area CSEG    (CODE)
+                             86 ;------------------------------------------------------------
+                             87 ;Allocation info for local variables in function 'init_dynamic_memory'
+                             88 ;------------------------------------------------------------
+                             89 ;heap                      Allocated with name '_init_dynamic_memory_heap_1_6'
+                             90 ;size                      Allocated to registers x h 
+                             91 ;sloc0                     Allocated with name '_init_dynamic_memory_sloc0_1_0'
+                             92 ;------------------------------------------------------------
+                             93 ;../_malloc.c:166: static void init_dynamic_memory(void)
+                             94 ;	-----------------------------------------
+                             95 ;	 function init_dynamic_memory
+                             96 ;	-----------------------------------------
+                             97 ;	Register assignment is optimal.
+                             98 ;	Stack space usage: 0 bytes.
+   0000                      99 _init_dynamic_memory:
+                            100 ;../_malloc.c:168: char __xdata * heap = (char __xdata *)_sdcc_heap;
+   0000 A6r00         [ 2]  101 	lda	#__sdcc_heap
+   0002 C7r00r01      [ 4]  102 	sta	(_init_dynamic_memory_heap_1_6 + 1)
+   0005 A6s00         [ 2]  103 	lda	#>__sdcc_heap
+   0007 C7r00r00      [ 4]  104 	sta	_init_dynamic_memory_heap_1_6
+                            105 ;../_malloc.c:169: unsigned int size = _sdcc_heap_size;
+   000A C6r00r00      [ 4]  106 	lda	__sdcc_heap_size
+   000D 87            [ 2]  107 	psha
+   000E 8A            [ 2]  108 	pulh
+   000F CEr00r01      [ 4]  109 	ldx	(__sdcc_heap_size + 1)
+                            110 ;../_malloc.c:171: if ( !heap ) //Reserved memory starts at 0x0000 but that's NULL...
+   0012 C6r00r00      [ 4]  111 	lda	_init_dynamic_memory_heap_1_6
+   0015 CAr00r01      [ 4]  112 	ora	(_init_dynamic_memory_heap_1_6 + 1)
+   0018 26 12         [ 3]  113 	bne	00102$
+                            114 ;../_malloc.c:173: heap++;
+   001A C6r00r01      [ 4]  115 	lda	(_init_dynamic_memory_heap_1_6 + 1)
+   001D 4C            [ 1]  116 	inca
+   001E C7r00r01      [ 4]  117 	sta	(_init_dynamic_memory_heap_1_6 + 1)
+   0021 26 07         [ 3]  118 	bne	00110$
+   0023 C6r00r00      [ 4]  119 	lda	_init_dynamic_memory_heap_1_6
+   0026 4C            [ 1]  120 	inca
+   0027 C7r00r00      [ 4]  121 	sta	_init_dynamic_memory_heap_1_6
+   002A                     122 00110$:
+                            123 ;../_malloc.c:174: size--;
+   002A AF FF         [ 2]  124 	aix	#-1
+   002C                     125 00102$:
+                            126 ;../_malloc.c:176: _sdcc_first_memheader = (MEMHEADER __xdata * ) heap;
+   002C C6r00r01      [ 4]  127 	lda	(_init_dynamic_memory_heap_1_6 + 1)
+   002F B7*01         [ 3]  128 	sta	*(_init_dynamic_memory_sloc0_1_0 + 1)
+   0031 C6r00r00      [ 4]  129 	lda	_init_dynamic_memory_heap_1_6
+   0034 B7*00         [ 3]  130 	sta	*_init_dynamic_memory_sloc0_1_0
+   0036 B6*00         [ 3]  131 	lda	*_init_dynamic_memory_sloc0_1_0
+   0038 C7r00r00      [ 4]  132 	sta	__sdcc_first_memheader
+   003B B6*01         [ 3]  133 	lda	*(_init_dynamic_memory_sloc0_1_0 + 1)
+   003D C7r00r01      [ 4]  134 	sta	(__sdcc_first_memheader + 1)
+                            135 ;../_malloc.c:178: _sdcc_first_memheader->next = (MEMHEADER __xdata * )(heap + size - sizeof(MEMHEADER __xdata *));
+   0040 9F            [ 1]  136 	txa
+   0041 CBr00r01      [ 4]  137 	add	(_init_dynamic_memory_heap_1_6 + 1)
+   0044 97            [ 1]  138 	tax
+   0045 8B            [ 2]  139 	pshh
+   0046 86            [ 2]  140 	pula
+   0047 C9r00r00      [ 4]  141 	adc	_init_dynamic_memory_heap_1_6
+   004A 87            [ 2]  142 	psha
+   004B 8A            [ 2]  143 	pulh
+   004C AF FE         [ 2]  144 	aix	#-2
+   004E 89            [ 2]  145 	pshx
+   004F 8B            [ 2]  146 	pshh
+   0050 9F            [ 1]  147 	txa
+   0051 8B            [ 2]  148 	pshh
+   0052 55*00         [ 4]  149 	ldhx	*_init_dynamic_memory_sloc0_1_0
+   0054 E7 01         [ 3]  150 	sta	1,x
+   0056 86            [ 2]  151 	pula
+   0057 F7            [ 2]  152 	sta	,x
+   0058 8A            [ 2]  153 	pulh
+   0059 88            [ 2]  154 	pulx
+                            155 ;../_malloc.c:179: _sdcc_first_memheader->next->next = (MEMHEADER __xdata * ) NULL; //And mark it as last
+   005A 4F            [ 1]  156 	clra
+   005B F7            [ 2]  157 	sta	,x
+   005C E7 01         [ 3]  158 	sta	1,x
+                            159 ;../_malloc.c:180: _sdcc_first_memheader->len        = 0;    //Empty and ready.
+   005E 55*00         [ 4]  160 	ldhx	*_init_dynamic_memory_sloc0_1_0
+   0060 E7 02         [ 3]  161 	sta	2,x
+   0062 E7 03         [ 3]  162 	sta	3,x
+   0064 81            [ 4]  163 	rts
+                            164 ;------------------------------------------------------------
+                            165 ;Allocation info for local variables in function 'malloc'
+                            166 ;------------------------------------------------------------
+                            167 ;sloc0                     Allocated with name '_malloc_sloc0_1_0'
+                            168 ;sloc1                     Allocated with name '_malloc_sloc1_1_0'
+                            169 ;sloc2                     Allocated with name '_malloc_sloc2_1_0'
+                            170 ;size                      Allocated with name '_malloc_size_1_8'
+                            171 ;current_header            Allocated with name '_malloc_current_header_1_9'
+                            172 ;new_header                Allocated with name '_malloc_new_header_1_9'
+                            173 ;ret                       Allocated with name '_malloc_ret_1_9'
+                            174 ;------------------------------------------------------------
+                            175 ;../_malloc.c:183: void __xdata * malloc (unsigned int size)
+                            176 ;	-----------------------------------------
+                            177 ;	 function malloc
+                            178 ;	-----------------------------------------
+                            179 ;	Register assignment is optimal.
+                            180 ;	Stack space usage: 0 bytes.
+   0065                     181 _malloc:
+   0065 89            [ 2]  182 	pshx
+   0066 97            [ 1]  183 	tax
+   0067 8A            [ 2]  184 	pulh
+                            185 ;../_malloc.c:189: if (size>(0xFFFF-HEADER_SIZE))
+   0068 65 FF FB      [ 3]  186 	cphx	#0xFFFB
+   006B 23 03         [ 3]  187 	bls	00102$
+                            188 ;../_malloc.c:190: return (void __xdata *) NULL; //To prevent overflow in next line
+   006D 4F            [ 1]  189 	clra
+   006E 97            [ 1]  190 	tax
+   006F 81            [ 4]  191 	rts
+   0070                     192 00102$:
+                            193 ;../_malloc.c:191: size += HEADER_SIZE; //We need a memory for header too
+   0070 AF 04         [ 2]  194 	aix	#4
+   0072 8B            [ 2]  195 	pshh
+   0073 86            [ 2]  196 	pula
+   0074 C7r00r02      [ 4]  197 	sta	_malloc_size_1_8
+   0077 CFr00r03      [ 4]  198 	stx	(_malloc_size_1_8 + 1)
+                            199 ;../_malloc.c:193: if (!_sdcc_first_memheader)
+   007A C6r00r00      [ 4]  200 	lda	__sdcc_first_memheader
+   007D CAr00r01      [ 4]  201 	ora	(__sdcc_first_memheader + 1)
+   0080 26 03         [ 3]  202 	bne	00104$
+                            203 ;../_malloc.c:194: init_dynamic_memory();
+   0082 CDr00r00      [ 5]  204 	jsr	_init_dynamic_memory
+   0085                     205 00104$:
+                            206 ;../_malloc.c:196: current_header = _sdcc_first_memheader;
+   0085 C6r00r00      [ 4]  207 	lda	__sdcc_first_memheader
+   0088 C7r00r04      [ 4]  208 	sta	_malloc_current_header_1_9
+   008B C6r00r01      [ 4]  209 	lda	(__sdcc_first_memheader + 1)
+   008E C7r00r05      [ 4]  210 	sta	(_malloc_current_header_1_9 + 1)
+                            211 ;../_malloc.c:199: while (1)
+   0091                     212 00110$:
+                            213 ;../_malloc.c:209: if ((((unsigned int)current_header->next) -
+   0091 C6r00r04      [ 4]  214 	lda	_malloc_current_header_1_9
+   0094 87            [ 2]  215 	psha
+   0095 8A            [ 2]  216 	pulh
+   0096 CEr00r05      [ 4]  217 	ldx	(_malloc_current_header_1_9 + 1)
+   0099 F6            [ 2]  218 	lda	,x
+   009A B7*00         [ 3]  219 	sta	*_malloc_sloc0_1_0
+   009C E6 01         [ 3]  220 	lda	1,x
+   009E B7*01         [ 3]  221 	sta	*(_malloc_sloc0_1_0 + 1)
+   00A0 55*00         [ 4]  222 	ldhx	*_malloc_sloc0_1_0
+                            223 ;../_malloc.c:210: ((unsigned int)current_header) -
+   00A2 C6r00r05      [ 4]  224 	lda	(_malloc_current_header_1_9 + 1)
+   00A5 B7*03         [ 3]  225 	sta	*(_malloc_sloc1_1_0 + 1)
+   00A7 C6r00r04      [ 4]  226 	lda	_malloc_current_header_1_9
+   00AA B7*02         [ 3]  227 	sta	*_malloc_sloc1_1_0
+   00AC 9F            [ 1]  228 	txa
+   00AD B0*03         [ 3]  229 	sub	*(_malloc_sloc1_1_0 + 1)
+   00AF B7*03         [ 3]  230 	sta	*(_malloc_sloc1_1_0 + 1)
+   00B1 8B            [ 2]  231 	pshh
+   00B2 86            [ 2]  232 	pula
+   00B3 B2*02         [ 3]  233 	sbc	*_malloc_sloc1_1_0
+   00B5 B7*02         [ 3]  234 	sta	*_malloc_sloc1_1_0
+                            235 ;../_malloc.c:211: current_header->len) >= size)
+   00B7 C6r00r04      [ 4]  236 	lda	_malloc_current_header_1_9
+   00BA 87            [ 2]  237 	psha
+   00BB 8A            [ 2]  238 	pulh
+   00BC CEr00r05      [ 4]  239 	ldx	(_malloc_current_header_1_9 + 1)
+   00BF E6 02         [ 3]  240 	lda	2,x
+   00C1 B7*04         [ 3]  241 	sta	*_malloc_sloc2_1_0
+   00C3 E6 03         [ 3]  242 	lda	3,x
+   00C5 B7*05         [ 3]  243 	sta	*(_malloc_sloc2_1_0 + 1)
+   00C7 B6*03         [ 3]  244 	lda	*(_malloc_sloc1_1_0 + 1)
+   00C9 B0*05         [ 3]  245 	sub	*(_malloc_sloc2_1_0 + 1)
+   00CB 97            [ 1]  246 	tax
+   00CC B6*02         [ 3]  247 	lda	*_malloc_sloc1_1_0
+   00CE B2*04         [ 3]  248 	sbc	*_malloc_sloc2_1_0
+   00D0 87            [ 2]  249 	psha
+   00D1 8A            [ 2]  250 	pulh
+   00D2 9F            [ 1]  251 	txa
+   00D3 C0r00r03      [ 4]  252 	sub	(_malloc_size_1_8 + 1)
+   00D6 8B            [ 2]  253 	pshh
+   00D7 86            [ 2]  254 	pula
+   00D8 C2r00r02      [ 4]  255 	sbc	_malloc_size_1_8
+   00DB 25 14         [ 3]  256 	bcs	00106$
+                            257 ;../_malloc.c:213: ret = current_header->mem;
+   00DD C6r00r04      [ 4]  258 	lda	_malloc_current_header_1_9
+   00E0 87            [ 2]  259 	psha
+   00E1 8A            [ 2]  260 	pulh
+   00E2 CEr00r05      [ 4]  261 	ldx	(_malloc_current_header_1_9 + 1)
+   00E5 AF 04         [ 2]  262 	aix	#4
+   00E7 CFr00r09      [ 4]  263 	stx	(_malloc_ret_1_9 + 1)
+   00EA 8B            [ 2]  264 	pshh
+   00EB 86            [ 2]  265 	pula
+   00EC C7r00r08      [ 4]  266 	sta	_malloc_ret_1_9
+                            267 ;../_malloc.c:214: break;
+   00EF 20 26         [ 3]  268 	bra	00111$
+   00F1                     269 00106$:
+                            270 ;../_malloc.c:216: current_header = current_header->next;    //else try next
+   00F1 B6*00         [ 3]  271 	lda	*_malloc_sloc0_1_0
+   00F3 C7r00r04      [ 4]  272 	sta	_malloc_current_header_1_9
+   00F6 B6*01         [ 3]  273 	lda	*(_malloc_sloc0_1_0 + 1)
+   00F8 C7r00r05      [ 4]  274 	sta	(_malloc_current_header_1_9 + 1)
+                            275 ;../_malloc.c:209: if ((((unsigned int)current_header->next) -
+   00FB C6r00r04      [ 4]  276 	lda	_malloc_current_header_1_9
+   00FE 87            [ 2]  277 	psha
+   00FF 8A            [ 2]  278 	pulh
+   0100 CEr00r05      [ 4]  279 	ldx	(_malloc_current_header_1_9 + 1)
+   0103 F6            [ 2]  280 	lda	,x
+   0104 B7*00         [ 3]  281 	sta	*_malloc_sloc0_1_0
+   0106 E6 01         [ 3]  282 	lda	1,x
+   0108 B7*01         [ 3]  283 	sta	*(_malloc_sloc0_1_0 + 1)
+                            284 ;../_malloc.c:217: if (!current_header->next)
+   010A B6*01         [ 3]  285 	lda	*(_malloc_sloc0_1_0 + 1)
+   010C BA*00         [ 3]  286 	ora	*_malloc_sloc0_1_0
+   010E 26 81         [ 3]  287 	bne	00110$
+                            288 ;../_malloc.c:219: ret = (void __xdata *) NULL;
+   0110 4F            [ 1]  289 	clra
+   0111 C7r00r08      [ 4]  290 	sta	_malloc_ret_1_9
+   0114 C7r00r09      [ 4]  291 	sta	(_malloc_ret_1_9 + 1)
+                            292 ;../_malloc.c:220: break;
+   0117                     293 00111$:
+                            294 ;../_malloc.c:223: if (ret)
+   0117 C6r00r08      [ 4]  295 	lda	_malloc_ret_1_9
+   011A CAr00r09      [ 4]  296 	ora	(_malloc_ret_1_9 + 1)
+   011D 26 03         [ 3]  297 	bne	00151$
+   011F CCr01rA0      [ 3]  298 	jmp	00116$
+   0122                     299 00151$:
+                            300 ;../_malloc.c:225: if (!current_header->len)
+   0122 C6r00r04      [ 4]  301 	lda	_malloc_current_header_1_9
+   0125 87            [ 2]  302 	psha
+   0126 8A            [ 2]  303 	pulh
+   0127 CEr00r05      [ 4]  304 	ldx	(_malloc_current_header_1_9 + 1)
+   012A E6 02         [ 3]  305 	lda	2,x
+   012C B7*04         [ 3]  306 	sta	*_malloc_sloc2_1_0
+   012E E6 03         [ 3]  307 	lda	3,x
+   0130 B7*05         [ 3]  308 	sta	*(_malloc_sloc2_1_0 + 1)
+   0132 B6*05         [ 3]  309 	lda	*(_malloc_sloc2_1_0 + 1)
+   0134 BA*04         [ 3]  310 	ora	*_malloc_sloc2_1_0
+   0136 26 0C         [ 3]  311 	bne	00113$
+                            312 ;../_malloc.c:227: current_header->len = size; //for first allocation
+   0138 C6r00r02      [ 4]  313 	lda	_malloc_size_1_8
+   013B E7 02         [ 3]  314 	sta	2,x
+   013D C6r00r03      [ 4]  315 	lda	(_malloc_size_1_8 + 1)
+   0140 E7 03         [ 3]  316 	sta	3,x
+   0142 20 5C         [ 3]  317 	bra	00116$
+   0144                     318 00113$:
+                            319 ;../_malloc.c:231: new_header = (MEMHEADER __xdata * )((char __xdata *)current_header + current_header->len);
+   0144 C6r00r04      [ 4]  320 	lda	_malloc_current_header_1_9
+   0147 87            [ 2]  321 	psha
+   0148 8A            [ 2]  322 	pulh
+   0149 CEr00r05      [ 4]  323 	ldx	(_malloc_current_header_1_9 + 1)
+   014C 9F            [ 1]  324 	txa
+   014D BB*05         [ 3]  325 	add	*(_malloc_sloc2_1_0 + 1)
+   014F 87            [ 2]  326 	psha
+   0150 8B            [ 2]  327 	pshh
+   0151 86            [ 2]  328 	pula
+   0152 B9*04         [ 3]  329 	adc	*_malloc_sloc2_1_0
+   0154 97            [ 1]  330 	tax
+   0155 86            [ 2]  331 	pula
+   0156 C7r00r07      [ 4]  332 	sta	(_malloc_new_header_1_9 + 1)
+   0159 CFr00r06      [ 4]  333 	stx	_malloc_new_header_1_9
+                            334 ;../_malloc.c:232: new_header->next = current_header->next; //and plug it into the chain
+   015C C6r00r06      [ 4]  335 	lda	_malloc_new_header_1_9
+   015F 87            [ 2]  336 	psha
+   0160 8A            [ 2]  337 	pulh
+   0161 CEr00r07      [ 4]  338 	ldx	(_malloc_new_header_1_9 + 1)
+   0164 B6*00         [ 3]  339 	lda	*_malloc_sloc0_1_0
+   0166 F7            [ 2]  340 	sta	,x
+   0167 B6*01         [ 3]  341 	lda	*(_malloc_sloc0_1_0 + 1)
+   0169 E7 01         [ 3]  342 	sta	1,x
+                            343 ;../_malloc.c:233: current_header->next  = new_header;
+   016B C6r00r04      [ 4]  344 	lda	_malloc_current_header_1_9
+   016E 87            [ 2]  345 	psha
+   016F 8A            [ 2]  346 	pulh
+   0170 CEr00r05      [ 4]  347 	ldx	(_malloc_current_header_1_9 + 1)
+   0173 C6r00r06      [ 4]  348 	lda	_malloc_new_header_1_9
+   0176 F7            [ 2]  349 	sta	,x
+   0177 C6r00r07      [ 4]  350 	lda	(_malloc_new_header_1_9 + 1)
+   017A E7 01         [ 3]  351 	sta	1,x
+                            352 ;../_malloc.c:234: new_header->len  = size; //mark as used
+   017C C6r00r06      [ 4]  353 	lda	_malloc_new_header_1_9
+   017F 87            [ 2]  354 	psha
+   0180 8A            [ 2]  355 	pulh
+   0181 CEr00r07      [ 4]  356 	ldx	(_malloc_new_header_1_9 + 1)
+   0184 C6r00r02      [ 4]  357 	lda	_malloc_size_1_8
+   0187 E7 02         [ 3]  358 	sta	2,x
+   0189 C6r00r03      [ 4]  359 	lda	(_malloc_size_1_8 + 1)
+   018C E7 03         [ 3]  360 	sta	3,x
+                            361 ;../_malloc.c:235: ret = new_header->mem;
+   018E C6r00r06      [ 4]  362 	lda	_malloc_new_header_1_9
+   0191 87            [ 2]  363 	psha
+   0192 8A            [ 2]  364 	pulh
+   0193 CEr00r07      [ 4]  365 	ldx	(_malloc_new_header_1_9 + 1)
+   0196 AF 04         [ 2]  366 	aix	#4
+   0198 CFr00r09      [ 4]  367 	stx	(_malloc_ret_1_9 + 1)
+   019B 8B            [ 2]  368 	pshh
+   019C 86            [ 2]  369 	pula
+   019D C7r00r08      [ 4]  370 	sta	_malloc_ret_1_9
+   01A0                     371 00116$:
+                            372 ;../_malloc.c:239: return ret;
+   01A0 CEr00r08      [ 4]  373 	ldx	_malloc_ret_1_9
+   01A3 C6r00r09      [ 4]  374 	lda	(_malloc_ret_1_9 + 1)
+   01A6 81            [ 4]  375 	rts
+                            376 	.area CSEG    (CODE)
+                            377 	.area CONST   (CODE)
+                            378 	.area XINIT   (CODE)
+   0000                     379 __xinit___sdcc_first_memheader:
+   0000 00 00               380 	.dw #0x0000
+                            381 	.area CABS    (ABS,CODE)

@@ -1,0 +1,111 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:48 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _memcpy
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _memcpy
+                             13 ;--------------------------------------------------------
+                             14 ; ram data
+                             15 ;--------------------------------------------------------
+                             16 	.area _DATA
+                             17 ;--------------------------------------------------------
+                             18 ; absolute external ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DABS (ABS)
+                             21 ;--------------------------------------------------------
+                             22 ; global & static initialisations
+                             23 ;--------------------------------------------------------
+                             24 	.area _HOME
+                             25 	.area _GSINIT
+                             26 	.area _GSFINAL
+                             27 	.area _GSINIT
+                             28 ;--------------------------------------------------------
+                             29 ; Home
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _HOME
+                             33 ;--------------------------------------------------------
+                             34 ; code
+                             35 ;--------------------------------------------------------
+                             36 	.area _CODE
+                             37 ;../_memcpy.c:36: void * memcpy (void * dst, const void * src, size_t acount)
+                             38 ;	---------------------------------
+                             39 ; Function memcpy
+                             40 ; ---------------------------------
+   0000                      41 _memcpy::
+   0000 E8 F8                42 	add	sp, #-8
+                             43 ;../_memcpy.c:38: void * ret = dst;
+   0002 F8 0A                44 	ldhl	sp,#10
+   0004 2A                   45 	ld	a,(hl+)
+   0005 5E                   46 	ld	e, (hl)
+   0006 F8 00                47 	ldhl	sp,#0
+   0008 22                   48 	ld	(hl+),a
+   0009 73                   49 	ld	(hl),e
+                             50 ;../_memcpy.c:39: char * d = dst;
+   000A F8 0A                51 	ldhl	sp,#10
+   000C 2A                   52 	ld	a,(hl+)
+   000D 5E                   53 	ld	e, (hl)
+   000E F8 04                54 	ldhl	sp,#4
+   0010 22                   55 	ld	(hl+),a
+   0011 73                   56 	ld	(hl),e
+                             57 ;../_memcpy.c:40: const char * s = src;
+   0012 F8 0C                58 	ldhl	sp,#12
+   0014 2A                   59 	ld	a,(hl+)
+   0015 5E                   60 	ld	e, (hl)
+   0016 F8 06                61 	ldhl	sp,#6
+   0018 22                   62 	ld	(hl+),a
+   0019 73                   63 	ld	(hl),e
+                             64 ;../_memcpy.c:45: while (acount--) {
+   001A F8 0F                65 	ldhl	sp,#15
+   001C 2B                   66 	dec	hl
+   001D 4E                   67 	ld	c,(hl)
+   001E 23                   68 	inc	hl
+   001F 46                   69 	ld	b,(hl)
+   0020                      70 00101$:
+   0020 F8 02                71 	ldhl	sp,#2
+   0022 71                   72 	ld	(hl),c
+   0023 23                   73 	inc	hl
+   0024 70                   74 	ld	(hl),b
+   0025 0B                   75 	dec	bc
+   0026 3A                   76 	ld	a,(hl-)
+   0027 B6                   77 	or	a,(hl)
+   0028 28 1D                78 	jr	Z,00103$
+                             79 ;../_memcpy.c:46: *d++ = *s++;
+   002A F8 07                80 	ldhl	sp,#7
+   002C 2B                   81 	dec	hl
+   002D 5E                   82 	ld	e,(hl)
+   002E 23                   83 	inc	hl
+   002F 56                   84 	ld	d,(hl)
+   0030 1A                   85 	ld	a,(de)
+   0031 2B                   86 	dec	hl
+   0032 34                   87 	inc	(hl)
+   0033 20 02                88 	jr	NZ,00115$
+   0035 23                   89 	inc	hl
+   0036 34                   90 	inc	(hl)
+   0037                      91 00115$:
+   0037 F8 05                92 	ldhl	sp,#5
+   0039 2B                   93 	dec	hl
+   003A 5E                   94 	ld	e,(hl)
+   003B 23                   95 	inc	hl
+   003C 56                   96 	ld	d,(hl)
+   003D 12                   97 	ld	(de),a
+   003E 2B                   98 	dec	hl
+   003F 34                   99 	inc	(hl)
+   0040 20 DE               100 	jr	NZ,00101$
+   0042 23                  101 	inc	hl
+   0043 34                  102 	inc	(hl)
+   0044 C3r20r00            103 	jp	00101$
+   0047                     104 00103$:
+                            105 ;../_memcpy.c:49: return(ret);
+   0047 D1                  106 	pop	de
+   0048 D5                  107 	push	de
+   0049 E8 08               108 	add	sp, #8
+   004B C9                  109 	ret
+                            110 	.area _CODE
+                            111 	.area _CABS (ABS)

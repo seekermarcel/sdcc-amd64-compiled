@@ -1,0 +1,163 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:15:51 2022
+                              5 ;--------------------------------------------------------
+                              6 	.hd64
+                              7 	.module sprintf
+                              8 	.optsdcc -mz180
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl __print_format
+                             14 	.globl _vsprintf
+                             15 	.globl _sprintf
+                             16 ;--------------------------------------------------------
+                             17 ; special function registers
+                             18 ;--------------------------------------------------------
+                             19 ;--------------------------------------------------------
+                             20 ; ram data
+                             21 ;--------------------------------------------------------
+                             22 	.area _DATA
+                             23 ;--------------------------------------------------------
+                             24 ; ram data
+                             25 ;--------------------------------------------------------
+                             26 	.area _INITIALIZED
+                             27 ;--------------------------------------------------------
+                             28 ; absolute external ram data
+                             29 ;--------------------------------------------------------
+                             30 	.area _DABS (ABS)
+                             31 ;--------------------------------------------------------
+                             32 ; global & static initialisations
+                             33 ;--------------------------------------------------------
+                             34 	.area _HOME
+                             35 	.area _GSINIT
+                             36 	.area _GSFINAL
+                             37 	.area _GSINIT
+                             38 ;--------------------------------------------------------
+                             39 ; Home
+                             40 ;--------------------------------------------------------
+                             41 	.area _HOME
+                             42 	.area _HOME
+                             43 ;--------------------------------------------------------
+                             44 ; code
+                             45 ;--------------------------------------------------------
+                             46 	.area _CODE
+                             47 ;../sprintf.c:34: put_char_to_string (char c, void* p) _REENTRANT
+                             48 ;	---------------------------------
+                             49 ; Function put_char_to_string
+                             50 ; ---------------------------------
+   0000                      51 _put_char_to_string:
+   0000 DD E5         [14]   52 	push	ix
+   0002 DD 21 00 00   [12]   53 	ld	ix,#0
+   0006 DD 39         [10]   54 	add	ix,sp
+                             55 ;../sprintf.c:36: char **buf = (char **)p;
+   0008 DD 6E 05      [14]   56 	ld	l,5 (ix)
+   000B DD 66 06      [14]   57 	ld	h,6 (ix)
+                             58 ;../sprintf.c:37: *(*buf)++ = c;
+   000E E5            [11]   59 	push	hl
+   000F 5E            [ 6]   60 	ld	e,(hl)
+   0010 23            [ 4]   61 	inc	hl
+   0011 56            [ 6]   62 	ld	d,(hl)
+   0012 E1            [ 9]   63 	pop	hl
+   0013 4B            [ 4]   64 	ld	c, e
+   0014 42            [ 4]   65 	ld	b, d
+   0015 03            [ 4]   66 	inc	bc
+   0016 71            [ 7]   67 	ld	(hl),c
+   0017 23            [ 4]   68 	inc	hl
+   0018 70            [ 7]   69 	ld	(hl),b
+   0019 DD 7E 04      [14]   70 	ld	a,4 (ix)
+   001C 12            [ 7]   71 	ld	(de),a
+   001D DD E1         [12]   72 	pop	ix
+   001F C9            [ 9]   73 	ret
+                             74 ;../sprintf.c:41: vsprintf (char *buf, const char *format, va_list ap)
+                             75 ;	---------------------------------
+                             76 ; Function vsprintf
+                             77 ; ---------------------------------
+   0020                      78 _vsprintf::
+                             79 ;../sprintf.c:44: i = _print_format (put_char_to_string, &buf, format, ap);
+   0020 21 02 00      [ 9]   80 	ld	hl,#0x0002
+   0023 39            [ 7]   81 	add	hl,sp
+   0024 FD 21 06 00   [12]   82 	ld	iy,#6
+   0028 FD 39         [10]   83 	add	iy,sp
+   002A FD 4E 00      [14]   84 	ld	c,0 (iy)
+   002D FD 46 01      [14]   85 	ld	b,1 (iy)
+   0030 C5            [11]   86 	push	bc
+   0031 FD 21 06 00   [12]   87 	ld	iy,#6
+   0035 FD 39         [10]   88 	add	iy,sp
+   0037 FD 4E 00      [14]   89 	ld	c,0 (iy)
+   003A FD 46 01      [14]   90 	ld	b,1 (iy)
+   003D C5            [11]   91 	push	bc
+   003E E5            [11]   92 	push	hl
+   003F 21r00r00      [ 9]   93 	ld	hl,#_put_char_to_string
+   0042 E5            [11]   94 	push	hl
+   0043 CDr00r00      [16]   95 	call	__print_format
+   0046 33            [ 4]   96 	inc	sp
+   0047 33            [ 4]   97 	inc	sp
+   0048 33            [ 4]   98 	inc	sp
+   0049 33            [ 4]   99 	inc	sp
+   004A 33            [ 4]  100 	inc	sp
+   004B 33            [ 4]  101 	inc	sp
+   004C 33            [ 4]  102 	inc	sp
+   004D 33            [ 4]  103 	inc	sp
+   004E 55            [ 4]  104 	ld	d,l
+   004F 5C            [ 4]  105 	ld	e,h
+                            106 ;../sprintf.c:45: *buf = 0;
+   0050 C1            [ 9]  107 	pop	bc
+   0051 E1            [ 9]  108 	pop	hl
+   0052 E5            [11]  109 	push	hl
+   0053 C5            [11]  110 	push	bc
+   0054 36 00         [ 9]  111 	ld	(hl),#0x00
+                            112 ;../sprintf.c:46: return i;
+   0056 6A            [ 4]  113 	ld	l, d
+   0057 63            [ 4]  114 	ld	h, e
+   0058 C9            [ 9]  115 	ret
+                            116 ;../sprintf.c:50: sprintf (char *buf, const char *format, ...)
+                            117 ;	---------------------------------
+                            118 ; Function sprintf
+                            119 ; ---------------------------------
+   0059                     120 _sprintf::
+   0059 DD E5         [14]  121 	push	ix
+   005B DD 21 00 00   [12]  122 	ld	ix,#0
+   005F DD 39         [10]  123 	add	ix,sp
+                            124 ;../sprintf.c:55: va_start (arg, format);
+   0061 21 08 00      [ 9]  125 	ld	hl,#0x0006+1+1
+   0064 39            [ 7]  126 	add	hl,sp
+   0065 55            [ 4]  127 	ld	d,l
+   0066 5C            [ 4]  128 	ld	e,h
+                            129 ;../sprintf.c:56: i = _print_format (put_char_to_string, &buf, format, arg);
+   0067 21 04 00      [ 9]  130 	ld	hl,#0x0004
+   006A 39            [ 7]  131 	add	hl,sp
+   006B 4A            [ 4]  132 	ld	c, d
+   006C 43            [ 4]  133 	ld	b, e
+   006D C5            [11]  134 	push	bc
+   006E DD 4E 06      [14]  135 	ld	c,6 (ix)
+   0071 DD 46 07      [14]  136 	ld	b,7 (ix)
+   0074 C5            [11]  137 	push	bc
+   0075 E5            [11]  138 	push	hl
+   0076 21r00r00      [ 9]  139 	ld	hl,#_put_char_to_string
+   0079 E5            [11]  140 	push	hl
+   007A CDr00r00      [16]  141 	call	__print_format
+   007D 33            [ 4]  142 	inc	sp
+   007E 33            [ 4]  143 	inc	sp
+   007F 33            [ 4]  144 	inc	sp
+   0080 33            [ 4]  145 	inc	sp
+   0081 33            [ 4]  146 	inc	sp
+   0082 33            [ 4]  147 	inc	sp
+   0083 33            [ 4]  148 	inc	sp
+   0084 33            [ 4]  149 	inc	sp
+   0085 55            [ 4]  150 	ld	d,l
+   0086 5C            [ 4]  151 	ld	e,h
+                            152 ;../sprintf.c:57: *buf = 0;
+   0087 DD 6E 04      [14]  153 	ld	l,4 (ix)
+   008A DD 66 05      [14]  154 	ld	h,5 (ix)
+   008D 36 00         [ 9]  155 	ld	(hl),#0x00
+                            156 ;../sprintf.c:60: return i;
+   008F 6A            [ 4]  157 	ld	l, d
+   0090 63            [ 4]  158 	ld	h, e
+   0091 DD E1         [12]  159 	pop	ix
+   0093 C9            [ 9]  160 	ret
+                            161 	.area _CODE
+                            162 	.area _INITIALIZER
+                            163 	.area _CABS (ABS)

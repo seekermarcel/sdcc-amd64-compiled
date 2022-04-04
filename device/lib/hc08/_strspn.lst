@@ -1,0 +1,127 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:33 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _strspn
+                              7 	.optsdcc -mhc08
+                              8 	
+                              9 	.area HOME    (CODE)
+                             10 	.area GSINIT0 (CODE)
+                             11 	.area GSINIT  (CODE)
+                             12 	.area GSFINAL (CODE)
+                             13 	.area CSEG    (CODE)
+                             14 	.area XINIT   (CODE)
+                             15 	.area CONST   (CODE)
+                             16 	.area DSEG    (PAG)
+                             17 	.area OSEG    (PAG, OVR)
+                             18 	.area XSEG
+                             19 	.area XISEG
+                             20 ;--------------------------------------------------------
+                             21 ; Public variables in this module
+                             22 ;--------------------------------------------------------
+                             23 	.globl _strchr
+                             24 	.globl _strspn_PARM_2
+                             25 	.globl _strspn
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area DSEG    (PAG)
+   0000                      30 _strspn_count_1_22:
+   0000                      31 	.ds 2
+   0002                      32 _strspn_sloc0_1_0:
+   0002                      33 	.ds 2
+                             34 ;--------------------------------------------------------
+                             35 ; overlayable items in ram 
+                             36 ;--------------------------------------------------------
+                             37 ;--------------------------------------------------------
+                             38 ; absolute ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area IABS    (ABS)
+                             41 	.area IABS    (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; absolute external ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area XABS    (ABS)
+                             46 ;--------------------------------------------------------
+                             47 ; external initialized ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area XISEG
+                             50 ;--------------------------------------------------------
+                             51 ; extended address mode data
+                             52 ;--------------------------------------------------------
+                             53 	.area XSEG
+   0000                      54 _strspn_PARM_2:
+   0000                      55 	.ds 2
+                             56 ;--------------------------------------------------------
+                             57 ; global & static initialisations
+                             58 ;--------------------------------------------------------
+                             59 	.area HOME    (CODE)
+                             60 	.area GSINIT  (CODE)
+                             61 	.area GSFINAL (CODE)
+                             62 	.area GSINIT  (CODE)
+                             63 ;--------------------------------------------------------
+                             64 ; Home
+                             65 ;--------------------------------------------------------
+                             66 	.area HOME    (CODE)
+                             67 	.area HOME    (CODE)
+                             68 ;--------------------------------------------------------
+                             69 ; code
+                             70 ;--------------------------------------------------------
+                             71 	.area CSEG    (CODE)
+                             72 ;------------------------------------------------------------
+                             73 ;Allocation info for local variables in function 'strspn'
+                             74 ;------------------------------------------------------------
+                             75 ;count                     Allocated with name '_strspn_count_1_22'
+                             76 ;ch                        Allocated to registers x 
+                             77 ;sloc0                     Allocated with name '_strspn_sloc0_1_0'
+                             78 ;control                   Allocated with name '_strspn_PARM_2'
+                             79 ;string                    Allocated to registers 
+                             80 ;------------------------------------------------------------
+                             81 ;../_strspn.c:31: size_t strspn ( const char * string, const char * control )
+                             82 ;	-----------------------------------------
+                             83 ;	 function strspn
+                             84 ;	-----------------------------------------
+                             85 ;	Register assignment is optimal.
+                             86 ;	Stack space usage: 0 bytes.
+   0000                      87 _strspn:
+   0000 B7*03         [ 3]   88 	sta	*(_strspn_sloc0_1_0 + 1)
+   0002 BF*02         [ 3]   89 	stx	*_strspn_sloc0_1_0
+                             90 ;../_strspn.c:36: while (ch = *string) {
+   0004 8C            [ 1]   91 	clrh
+   0005 5F            [ 1]   92 	clrx
+   0006 35*00         [ 4]   93 	sthx	*_strspn_count_1_22
+   0008                      94 00104$:
+   0008 55*02         [ 4]   95 	ldhx	*_strspn_sloc0_1_0
+   000A F6            [ 2]   96 	lda	,x
+   000B 97            [ 1]   97 	tax
+   000C 4D            [ 1]   98 	tsta
+   000D 27 20         [ 3]   99 	beq	00106$
+                            100 ;../_strspn.c:37: if ( strchr(control,ch) )
+   000F CFr00r00      [ 4]  101 	stx	_strchr_PARM_2
+   0012 C6r00r01      [ 4]  102 	lda	(_strspn_PARM_2 + 1)
+   0015 CEr00r00      [ 4]  103 	ldx	_strspn_PARM_2
+   0018 CDr00r00      [ 5]  104 	jsr	_strchr
+   001B 4D            [ 1]  105 	tsta
+   001C 26 01         [ 3]  106 	bne	00123$
+   001E 5D            [ 1]  107 	tstx
+   001F                     108 00123$:
+   001F 27 0E         [ 3]  109 	beq	00106$
+                            110 ;../_strspn.c:38: count++ ;
+   0021 55*00         [ 4]  111 	ldhx	*_strspn_count_1_22
+   0023 AF 01         [ 2]  112 	aix	#1
+   0025 35*00         [ 4]  113 	sthx	*_strspn_count_1_22
+                            114 ;../_strspn.c:41: string++ ;
+   0027 55*02         [ 4]  115 	ldhx	*_strspn_sloc0_1_0
+   0029 AF 01         [ 2]  116 	aix	#1
+   002B 35*02         [ 4]  117 	sthx	*_strspn_sloc0_1_0
+   002D 20 D9         [ 3]  118 	bra	00104$
+   002F                     119 00106$:
+                            120 ;../_strspn.c:44: return count ;
+   002F BE*00         [ 3]  121 	ldx	*_strspn_count_1_22
+   0031 B6*01         [ 3]  122 	lda	*(_strspn_count_1_22 + 1)
+   0033 81            [ 4]  123 	rts
+                            124 	.area CSEG    (CODE)
+                            125 	.area CONST   (CODE)
+                            126 	.area XINIT   (CODE)
+                            127 	.area CABS    (ABS,CODE)

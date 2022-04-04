@@ -1,0 +1,212 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:12 2022
+                              5 ;--------------------------------------------------------
+                              6 	.r3k
+                              7 	.module _fsgt
+                              8 	.optsdcc -mr3ka
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl ___fsgt
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 ;../_fsgt.c:108: char __fsgt (float a1, float a2)
+                             41 ;	---------------------------------
+                             42 ; Function __fsgt
+                             43 ; ---------------------------------
+   0000                      44 ___fsgt::
+   0000 DD E5                45 	push	ix
+   0002 DD 21 00 00          46 	ld	ix,#0
+   0006 DD 39                47 	add	ix,sp
+   0008 27 F4                48 	add	sp, #-12
+                             49 ;../_fsgt.c:112: fl1.f = a1;
+   000A 21 04 00             50 	ld	hl,#0x0004
+   000D 39                   51 	add	hl,sp
+   000E EB                   52 	ex	de,hl
+   000F 21 10 00             53 	ld	hl, #0x0010
+   0012 39                   54 	add	hl, sp
+   0013 01 04 00             55 	ld	bc, #0x0004
+   0016 ED B0                56 	ldir
+                             57 ;../_fsgt.c:113: fl2.f = a2;
+   0018 21 00 00             58 	ld	hl,#0x0000
+   001B 39                   59 	add	hl,sp
+   001C EB                   60 	ex	de,hl
+   001D 21 14 00             61 	ld	hl, #0x0014
+   0020 39                   62 	add	hl, sp
+   0021 01 04 00             63 	ld	bc, #0x0004
+   0024 ED B0                64 	ldir
+                             65 ;../_fsgt.c:115: if (((fl1.l | fl2.l) & 0x7FFFFFFF) == 0)
+   0026 21 04 00             66 	ld	hl,#0x0004
+   0029 39                   67 	add	hl,sp
+   002A EB                   68 	ex	de,hl
+   002B 21 08 00             69 	ld	hl, #0x0008
+   002E 39                   70 	add	hl, sp
+   002F EB                   71 	ex	de, hl
+   0030 01 04 00             72 	ld	bc, #0x0004
+   0033 ED B0                73 	ldir
+   0035 21 00 00             74 	ld	hl,#0x0000
+   0038 39                   75 	add	hl,sp
+   0039 5E                   76 	ld	e,(hl)
+   003A 23                   77 	inc	hl
+   003B 56                   78 	ld	d,(hl)
+   003C 23                   79 	inc	hl
+   003D 4E                   80 	ld	c,(hl)
+   003E 23                   81 	inc	hl
+   003F 46                   82 	ld	b,(hl)
+   0040 DD 7E FC             83 	ld	a,-4 (ix)
+   0043 B3                   84 	or	a, e
+   0044 6F                   85 	ld	l,a
+   0045 DD 7E FD             86 	ld	a,-3 (ix)
+   0048 B2                   87 	or	a, d
+   0049 67                   88 	ld	h,a
+   004A DD 7E FE             89 	ld	a,-2 (ix)
+   004D B1                   90 	or	a, c
+   004E 5F                   91 	ld	e,a
+   004F DD 7E FF             92 	ld	a,-1 (ix)
+   0052 B0                   93 	or	a, b
+   0053 57                   94 	ld	d,a
+   0054 BF                   95 	cp	a, a
+   0055 ED 6A                96 	adc	hl, hl
+   0057 20 08                97 	jr	NZ,00102$
+   0059 F3                   98 	rl	de
+   005A 20 05                99 	jr	NZ,00102$
+                            100 ;../_fsgt.c:116: return (0);
+   005C 2E 00               101 	ld	l,#0x00
+   005E C3rF1r00            102 	jp	00110$
+   0061                     103 00102$:
+                            104 ;../_fsgt.c:118: if (fl1.l<0 && fl2.l<0) {
+   0061 21 04 00            105 	ld	hl,#0x0004
+   0064 39                  106 	add	hl,sp
+   0065 56                  107 	ld	d,(hl)
+   0066 23                  108 	inc	hl
+   0067 5E                  109 	ld	e,(hl)
+   0068 23                  110 	inc	hl
+   0069 4E                  111 	ld	c,(hl)
+   006A 23                  112 	inc	hl
+   006B 66                  113 	ld	h,(hl)
+   006C CB 7C               114 	bit	7, h
+   006E 28 49               115 	jr	Z,00106$
+   0070 21 00 00            116 	ld	hl,#0x0000
+   0073 39                  117 	add	hl,sp
+   0074 56                  118 	ld	d,(hl)
+   0075 23                  119 	inc	hl
+   0076 5E                  120 	ld	e,(hl)
+   0077 23                  121 	inc	hl
+   0078 4E                  122 	ld	c,(hl)
+   0079 23                  123 	inc	hl
+   007A 66                  124 	ld	h,(hl)
+   007B CB 7C               125 	bit	7, h
+   007D 28 3A               126 	jr	Z,00106$
+                            127 ;../_fsgt.c:119: if (fl2.l > fl1.l)
+   007F 21 00 00            128 	ld	hl,#0x0000
+   0082 39                  129 	add	hl,sp
+   0083 EB                  130 	ex	de,hl
+   0084 21 08 00            131 	ld	hl, #0x0008
+   0087 39                  132 	add	hl, sp
+   0088 EB                  133 	ex	de, hl
+   0089 01 04 00            134 	ld	bc, #0x0004
+   008C ED B0               135 	ldir
+   008E 21 04 00            136 	ld	hl,#0x0004
+   0091 39                  137 	add	hl,sp
+   0092 56                  138 	ld	d,(hl)
+   0093 23                  139 	inc	hl
+   0094 5E                  140 	ld	e,(hl)
+   0095 23                  141 	inc	hl
+   0096 4E                  142 	ld	c,(hl)
+   0097 23                  143 	inc	hl
+   0098 66                  144 	ld	h,(hl)
+   0099 7A                  145 	ld	a,d
+   009A DD 96 FC            146 	sub	a, -4 (ix)
+   009D 7B                  147 	ld	a,e
+   009E DD 9E FD            148 	sbc	a, -3 (ix)
+   00A1 79                  149 	ld	a,c
+   00A2 DD 9E FE            150 	sbc	a, -2 (ix)
+   00A5 7C                  151 	ld	a,h
+   00A6 DD 9E FF            152 	sbc	a, -1 (ix)
+   00A9 E2rAEr00            153 	jp	PO, 00134$
+   00AC EE 80               154 	xor	a, #0x80
+   00AE                     155 00134$:
+   00AE F2rB5r00            156 	jp	P,00104$
+                            157 ;../_fsgt.c:120: return (1);
+   00B1 2E 01               158 	ld	l,#0x01
+   00B3 18 3C               159 	jr	00110$
+   00B5                     160 00104$:
+                            161 ;../_fsgt.c:121: return (0);
+   00B5 2E 00               162 	ld	l,#0x00
+   00B7 18 38               163 	jr	00110$
+   00B9                     164 00106$:
+                            165 ;../_fsgt.c:124: if (fl1.l > fl2.l)
+   00B9 21 04 00            166 	ld	hl,#0x0004
+   00BC 39                  167 	add	hl,sp
+   00BD EB                  168 	ex	de,hl
+   00BE 21 08 00            169 	ld	hl, #0x0008
+   00C1 39                  170 	add	hl, sp
+   00C2 EB                  171 	ex	de, hl
+   00C3 01 04 00            172 	ld	bc, #0x0004
+   00C6 ED B0               173 	ldir
+   00C8 21 00 00            174 	ld	hl,#0x0000
+   00CB 39                  175 	add	hl,sp
+   00CC 56                  176 	ld	d,(hl)
+   00CD 23                  177 	inc	hl
+   00CE 5E                  178 	ld	e,(hl)
+   00CF 23                  179 	inc	hl
+   00D0 4E                  180 	ld	c,(hl)
+   00D1 23                  181 	inc	hl
+   00D2 66                  182 	ld	h,(hl)
+   00D3 7A                  183 	ld	a,d
+   00D4 DD 96 FC            184 	sub	a, -4 (ix)
+   00D7 7B                  185 	ld	a,e
+   00D8 DD 9E FD            186 	sbc	a, -3 (ix)
+   00DB 79                  187 	ld	a,c
+   00DC DD 9E FE            188 	sbc	a, -2 (ix)
+   00DF 7C                  189 	ld	a,h
+   00E0 DD 9E FF            190 	sbc	a, -1 (ix)
+   00E3 E2rE8r00            191 	jp	PO, 00135$
+   00E6 EE 80               192 	xor	a, #0x80
+   00E8                     193 00135$:
+   00E8 F2rEFr00            194 	jp	P,00109$
+                            195 ;../_fsgt.c:125: return (1);
+   00EB 2E 01               196 	ld	l,#0x01
+   00ED 18 02               197 	jr	00110$
+   00EF                     198 00109$:
+                            199 ;../_fsgt.c:126: return (0);
+   00EF 2E 00               200 	ld	l,#0x00
+   00F1                     201 00110$:
+   00F1 DD F9               202 	ld	sp, ix
+   00F3 DD E1               203 	pop	ix
+   00F5 C9                  204 	ret
+                            205 	.area _HOME
+                            206 ;--------------------------------------------------------
+                            207 ; code
+                            208 ;--------------------------------------------------------
+                            209 	.area _CODE
+                            210 	.area _CODE
+                            211 	.area _INITIALIZER
+                            212 	.area _CABS (ABS)

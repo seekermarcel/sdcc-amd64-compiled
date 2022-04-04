@@ -1,0 +1,80 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:48 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _calloc
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _memset
+                             13 	.globl _malloc
+                             14 	.globl _calloc
+                             15 ;--------------------------------------------------------
+                             16 ; ram data
+                             17 ;--------------------------------------------------------
+                             18 	.area _DATA
+                             19 ;--------------------------------------------------------
+                             20 ; absolute external ram data
+                             21 ;--------------------------------------------------------
+                             22 	.area _DABS (ABS)
+                             23 ;--------------------------------------------------------
+                             24 ; global & static initialisations
+                             25 ;--------------------------------------------------------
+                             26 	.area _HOME
+                             27 	.area _GSINIT
+                             28 	.area _GSFINAL
+                             29 	.area _GSINIT
+                             30 ;--------------------------------------------------------
+                             31 ; Home
+                             32 ;--------------------------------------------------------
+                             33 	.area _HOME
+                             34 	.area _HOME
+                             35 ;--------------------------------------------------------
+                             36 ; code
+                             37 ;--------------------------------------------------------
+                             38 	.area _CODE
+                             39 ;../_calloc.c:45: void __xdata * calloc (size_t nmemb, size_t size)
+                             40 ;	---------------------------------
+                             41 ; Function calloc
+                             42 ; ---------------------------------
+   0000                      43 _calloc::
+                             44 ;../_calloc.c:49: ptr = malloc(nmemb * size);
+   0000 F8 04                45 	ldhl	sp,#4
+   0002 2A                   46 	ld	a,(hl+)
+   0003 66                   47 	ld	h,(hl)
+   0004 6F                   48 	ld	l,a
+   0005 E5                   49 	push	hl
+   0006 F8 04                50 	ldhl	sp,#4
+   0008 2A                   51 	ld	a,(hl+)
+   0009 66                   52 	ld	h,(hl)
+   000A 6F                   53 	ld	l,a
+   000B E5                   54 	push	hl
+   000C CDr00r00             55 	call	__mulint
+   000F E8 04                56 	add	sp, #4
+   0011 4B                   57 	ld	c,e
+   0012 42                   58 	ld	b,d
+   0013 C5                   59 	push	bc
+   0014 C5                   60 	push	bc
+   0015 CDr00r00             61 	call	_malloc
+   0018 E8 02                62 	add	sp, #2
+   001A C1                   63 	pop	bc
+                             64 ;../_calloc.c:50: if (ptr)
+   001B 7A                   65 	ld	a,d
+   001C B3                   66 	or	a,e
+   001D C8                   67 	ret	Z
+                             68 ;../_calloc.c:52: memset(ptr, 0, nmemb * size);
+   001E D5                   69 	push	de
+   001F C5                   70 	push	bc
+   0020 21 00 00             71 	ld	hl,#0x0000
+   0023 E5                   72 	push	hl
+   0024 D5                   73 	push	de
+   0025 CDr00r00             74 	call	_memset
+   0028 E8 06                75 	add	sp, #6
+   002A D1                   76 	pop	de
+                             77 ;../_calloc.c:54: return ptr;
+   002B C9                   78 	ret
+                             79 	.area _CODE
+                             80 	.area _CABS (ABS)

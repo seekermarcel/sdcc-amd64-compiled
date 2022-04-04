@@ -1,0 +1,636 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:36 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module _fsdiv
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl ___fsdiv_PARM_2
+                             25 	.globl ___fsdiv_PARM_1
+                             26 	.globl ___fsdiv
+                             27 ;--------------------------------------------------------
+                             28 ; ram data
+                             29 ;--------------------------------------------------------
+                             30 	.area DSEG    (PAG)
+                             31 ;--------------------------------------------------------
+                             32 ; overlayable items in ram 
+                             33 ;--------------------------------------------------------
+                             34 	.area	OSEG    (PAG, OVR)
+   0000                      35 ___fsdiv_sloc0_1_0:
+   0000                      36 	.ds 4
+   0004                      37 ___fsdiv_sloc1_1_0:
+   0004                      38 	.ds 4
+                             39 ;--------------------------------------------------------
+                             40 ; absolute ram data
+                             41 ;--------------------------------------------------------
+                             42 	.area IABS    (ABS)
+                             43 	.area IABS    (ABS)
+                             44 ;--------------------------------------------------------
+                             45 ; absolute external ram data
+                             46 ;--------------------------------------------------------
+                             47 	.area XABS    (ABS)
+                             48 ;--------------------------------------------------------
+                             49 ; external initialized ram data
+                             50 ;--------------------------------------------------------
+                             51 	.area XISEG
+                             52 ;--------------------------------------------------------
+                             53 ; extended address mode data
+                             54 ;--------------------------------------------------------
+                             55 	.area XSEG
+   0000                      56 ___fsdiv_PARM_1:
+   0000                      57 	.ds 4
+   0004                      58 ___fsdiv_PARM_2:
+   0004                      59 	.ds 4
+   0008                      60 ___fsdiv_fl1_1_21:
+   0008                      61 	.ds 4
+   000C                      62 ___fsdiv_fl2_1_21:
+   000C                      63 	.ds 4
+   0010                      64 ___fsdiv_result_1_21:
+   0010                      65 	.ds 4
+   0014                      66 ___fsdiv_mask_1_21:
+   0014                      67 	.ds 4
+   0018                      68 ___fsdiv_mant1_1_21:
+   0018                      69 	.ds 4
+   001C                      70 ___fsdiv_mant2_1_21:
+   001C                      71 	.ds 4
+   0020                      72 ___fsdiv_exp_1_21:
+   0020                      73 	.ds 2
+   0022                      74 ___fsdiv_sign_1_21:
+   0022                      75 	.ds 1
+                             76 ;--------------------------------------------------------
+                             77 ; global & static initialisations
+                             78 ;--------------------------------------------------------
+                             79 	.area HOME    (CODE)
+                             80 	.area GSINIT  (CODE)
+                             81 	.area GSFINAL (CODE)
+                             82 	.area GSINIT  (CODE)
+                             83 ;--------------------------------------------------------
+                             84 ; Home
+                             85 ;--------------------------------------------------------
+                             86 	.area HOME    (CODE)
+                             87 	.area HOME    (CODE)
+                             88 ;--------------------------------------------------------
+                             89 ; code
+                             90 ;--------------------------------------------------------
+                             91 	.area CSEG    (CODE)
+                             92 ;------------------------------------------------------------
+                             93 ;Allocation info for local variables in function '__fsdiv'
+                             94 ;------------------------------------------------------------
+                             95 ;a1                        Allocated with name '___fsdiv_PARM_1'
+                             96 ;a2                        Allocated with name '___fsdiv_PARM_2'
+                             97 ;fl1                       Allocated with name '___fsdiv_fl1_1_21'
+                             98 ;fl2                       Allocated with name '___fsdiv_fl2_1_21'
+                             99 ;result                    Allocated with name '___fsdiv_result_1_21'
+                            100 ;mask                      Allocated with name '___fsdiv_mask_1_21'
+                            101 ;mant1                     Allocated with name '___fsdiv_mant1_1_21'
+                            102 ;mant2                     Allocated with name '___fsdiv_mant2_1_21'
+                            103 ;exp                       Allocated with name '___fsdiv_exp_1_21'
+                            104 ;sign                      Allocated with name '___fsdiv_sign_1_21'
+                            105 ;sloc0                     Allocated with name '___fsdiv_sloc0_1_0'
+                            106 ;sloc1                     Allocated with name '___fsdiv_sloc1_1_0'
+                            107 ;------------------------------------------------------------
+                            108 ;../_fsdiv.c:274: float __fsdiv (float a1, float a2)
+                            109 ;	-----------------------------------------
+                            110 ;	 function __fsdiv
+                            111 ;	-----------------------------------------
+                            112 ;	Register assignment is optimal.
+                            113 ;	Stack space usage: 0 bytes.
+   0000                     114 ___fsdiv:
+                            115 ;../_fsdiv.c:283: fl1.f = a1;
+   0000 C6r00r00      [ 4]  116 	lda	___fsdiv_PARM_1
+   0003 C7r00r08      [ 4]  117 	sta	___fsdiv_fl1_1_21
+   0006 C6r00r01      [ 4]  118 	lda	(___fsdiv_PARM_1 + 1)
+   0009 C7r00r09      [ 4]  119 	sta	(___fsdiv_fl1_1_21 + 1)
+   000C C6r00r02      [ 4]  120 	lda	(___fsdiv_PARM_1 + 2)
+   000F C7r00r0A      [ 4]  121 	sta	(___fsdiv_fl1_1_21 + 2)
+   0012 C6r00r03      [ 4]  122 	lda	(___fsdiv_PARM_1 + 3)
+   0015 C7r00r0B      [ 4]  123 	sta	(___fsdiv_fl1_1_21 + 3)
+                            124 ;../_fsdiv.c:284: fl2.f = a2;
+   0018 C6r00r04      [ 4]  125 	lda	___fsdiv_PARM_2
+   001B C7r00r0C      [ 4]  126 	sta	___fsdiv_fl2_1_21
+   001E C6r00r05      [ 4]  127 	lda	(___fsdiv_PARM_2 + 1)
+   0021 C7r00r0D      [ 4]  128 	sta	(___fsdiv_fl2_1_21 + 1)
+   0024 C6r00r06      [ 4]  129 	lda	(___fsdiv_PARM_2 + 2)
+   0027 C7r00r0E      [ 4]  130 	sta	(___fsdiv_fl2_1_21 + 2)
+   002A C6r00r07      [ 4]  131 	lda	(___fsdiv_PARM_2 + 3)
+   002D C7r00r0F      [ 4]  132 	sta	(___fsdiv_fl2_1_21 + 3)
+                            133 ;../_fsdiv.c:287: exp = EXP (fl1.l) ;
+   0030 C6r00r08      [ 4]  134 	lda	___fsdiv_fl1_1_21
+   0033 B7*00         [ 3]  135 	sta	*___fsdiv_sloc0_1_0
+   0035 C6r00r09      [ 4]  136 	lda	(___fsdiv_fl1_1_21 + 1)
+   0038 B7*01         [ 3]  137 	sta	*(___fsdiv_sloc0_1_0 + 1)
+   003A C6r00r0A      [ 4]  138 	lda	(___fsdiv_fl1_1_21 + 2)
+   003D B7*02         [ 3]  139 	sta	*(___fsdiv_sloc0_1_0 + 2)
+   003F C6r00r0B      [ 4]  140 	lda	(___fsdiv_fl1_1_21 + 3)
+   0042 B7*03         [ 3]  141 	sta	*(___fsdiv_sloc0_1_0 + 3)
+   0044 B6*01         [ 3]  142 	lda	*(___fsdiv_sloc0_1_0 + 1)
+   0046 BE*00         [ 3]  143 	ldx	*___fsdiv_sloc0_1_0
+   0048 48            [ 1]  144 	lsla
+   0049 9F            [ 1]  145 	txa
+   004A 49            [ 1]  146 	rola
+   004B 5F            [ 1]  147 	clrx
+   004C 59            [ 1]  148 	rolx
+   004D B7*03         [ 3]  149 	sta	*(___fsdiv_sloc0_1_0 + 3)
+   004F BF*02         [ 3]  150 	stx	*(___fsdiv_sloc0_1_0 + 2)
+   0051 6E 00*01      [ 4]  151 	mov	#0x00,*(___fsdiv_sloc0_1_0 + 1)
+   0054 6E 00*00      [ 4]  152 	mov	#0x00,*___fsdiv_sloc0_1_0
+   0057 6E 00*02      [ 4]  153 	mov	#0x00,*(___fsdiv_sloc0_1_0 + 2)
+   005A 6E 00*01      [ 4]  154 	mov	#0x00,*(___fsdiv_sloc0_1_0 + 1)
+   005D 6E 00*00      [ 4]  155 	mov	#0x00,*___fsdiv_sloc0_1_0
+   0060 B6*03         [ 3]  156 	lda	*(___fsdiv_sloc0_1_0 + 3)
+   0062 C7r00r21      [ 4]  157 	sta	(___fsdiv_exp_1_21 + 1)
+   0065 B6*02         [ 3]  158 	lda	*(___fsdiv_sloc0_1_0 + 2)
+   0067 C7r00r20      [ 4]  159 	sta	___fsdiv_exp_1_21
+                            160 ;../_fsdiv.c:288: exp -= EXP (fl2.l);
+   006A C6r00r0C      [ 4]  161 	lda	___fsdiv_fl2_1_21
+   006D B7*00         [ 3]  162 	sta	*___fsdiv_sloc0_1_0
+   006F C6r00r0D      [ 4]  163 	lda	(___fsdiv_fl2_1_21 + 1)
+   0072 B7*01         [ 3]  164 	sta	*(___fsdiv_sloc0_1_0 + 1)
+   0074 C6r00r0E      [ 4]  165 	lda	(___fsdiv_fl2_1_21 + 2)
+   0077 B7*02         [ 3]  166 	sta	*(___fsdiv_sloc0_1_0 + 2)
+   0079 C6r00r0F      [ 4]  167 	lda	(___fsdiv_fl2_1_21 + 3)
+   007C B7*03         [ 3]  168 	sta	*(___fsdiv_sloc0_1_0 + 3)
+   007E B6*01         [ 3]  169 	lda	*(___fsdiv_sloc0_1_0 + 1)
+   0080 BE*00         [ 3]  170 	ldx	*___fsdiv_sloc0_1_0
+   0082 48            [ 1]  171 	lsla
+   0083 9F            [ 1]  172 	txa
+   0084 49            [ 1]  173 	rola
+   0085 5F            [ 1]  174 	clrx
+   0086 59            [ 1]  175 	rolx
+   0087 B7*03         [ 3]  176 	sta	*(___fsdiv_sloc0_1_0 + 3)
+   0089 BF*02         [ 3]  177 	stx	*(___fsdiv_sloc0_1_0 + 2)
+   008B 6E 00*01      [ 4]  178 	mov	#0x00,*(___fsdiv_sloc0_1_0 + 1)
+   008E 6E 00*00      [ 4]  179 	mov	#0x00,*___fsdiv_sloc0_1_0
+   0091 6E 00*02      [ 4]  180 	mov	#0x00,*(___fsdiv_sloc0_1_0 + 2)
+   0094 6E 00*01      [ 4]  181 	mov	#0x00,*(___fsdiv_sloc0_1_0 + 1)
+   0097 6E 00*00      [ 4]  182 	mov	#0x00,*___fsdiv_sloc0_1_0
+   009A C6r00r21      [ 4]  183 	lda	(___fsdiv_exp_1_21 + 1)
+   009D B7*07         [ 3]  184 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   009F C6r00r20      [ 4]  185 	lda	___fsdiv_exp_1_21
+   00A2 B7*06         [ 3]  186 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   00A4 49            [ 1]  187 	rola	
+   00A5 4F            [ 1]  188 	clra	
+   00A6 A2 00         [ 2]  189 	sbc	#0x00
+   00A8 B7*05         [ 3]  190 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   00AA B7*04         [ 3]  191 	sta	*___fsdiv_sloc1_1_0
+   00AC B6*07         [ 3]  192 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   00AE B0*03         [ 3]  193 	sub	*(___fsdiv_sloc0_1_0 + 3)
+   00B0 B7*07         [ 3]  194 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   00B2 B6*06         [ 3]  195 	lda	*(___fsdiv_sloc1_1_0 + 2)
+   00B4 B2*02         [ 3]  196 	sbc	*(___fsdiv_sloc0_1_0 + 2)
+   00B6 B7*06         [ 3]  197 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   00B8 B6*05         [ 3]  198 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   00BA B2*01         [ 3]  199 	sbc	*(___fsdiv_sloc0_1_0 + 1)
+   00BC B7*05         [ 3]  200 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   00BE B6*04         [ 3]  201 	lda	*___fsdiv_sloc1_1_0
+   00C0 B2*00         [ 3]  202 	sbc	*___fsdiv_sloc0_1_0
+   00C2 B7*04         [ 3]  203 	sta	*___fsdiv_sloc1_1_0
+   00C4 B6*07         [ 3]  204 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   00C6 C7r00r21      [ 4]  205 	sta	(___fsdiv_exp_1_21 + 1)
+   00C9 B6*06         [ 3]  206 	lda	*(___fsdiv_sloc1_1_0 + 2)
+   00CB C7r00r20      [ 4]  207 	sta	___fsdiv_exp_1_21
+                            208 ;../_fsdiv.c:289: exp += EXCESS;
+   00CE 32r00r20      [ 5]  209 	ldhx	___fsdiv_exp_1_21
+   00D1 AF 7E         [ 2]  210 	aix	#126
+   00D3 96r00r20      [ 5]  211 	sthx	___fsdiv_exp_1_21
+                            212 ;../_fsdiv.c:292: sign = SIGN (fl1.l) ^ SIGN (fl2.l);
+   00D6 C6r00r08      [ 4]  213 	lda	___fsdiv_fl1_1_21
+   00D9 B7*04         [ 3]  214 	sta	*___fsdiv_sloc1_1_0
+   00DB C6r00r09      [ 4]  215 	lda	(___fsdiv_fl1_1_21 + 1)
+   00DE B7*05         [ 3]  216 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   00E0 C6r00r0A      [ 4]  217 	lda	(___fsdiv_fl1_1_21 + 2)
+   00E3 B7*06         [ 3]  218 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   00E5 C6r00r0B      [ 4]  219 	lda	(___fsdiv_fl1_1_21 + 3)
+   00E8 B7*07         [ 3]  220 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   00EA B6*04         [ 3]  221 	lda	*___fsdiv_sloc1_1_0
+   00EC 49            [ 1]  222 	rola
+   00ED 4F            [ 1]  223 	clra
+   00EE 49            [ 1]  224 	rola
+   00EF B7*04         [ 3]  225 	sta	*___fsdiv_sloc1_1_0
+   00F1 C6r00r0C      [ 4]  226 	lda	___fsdiv_fl2_1_21
+   00F4 B7*00         [ 3]  227 	sta	*___fsdiv_sloc0_1_0
+   00F6 C6r00r0D      [ 4]  228 	lda	(___fsdiv_fl2_1_21 + 1)
+   00F9 B7*01         [ 3]  229 	sta	*(___fsdiv_sloc0_1_0 + 1)
+   00FB C6r00r0E      [ 4]  230 	lda	(___fsdiv_fl2_1_21 + 2)
+   00FE B7*02         [ 3]  231 	sta	*(___fsdiv_sloc0_1_0 + 2)
+   0100 C6r00r0F      [ 4]  232 	lda	(___fsdiv_fl2_1_21 + 3)
+   0103 B7*03         [ 3]  233 	sta	*(___fsdiv_sloc0_1_0 + 3)
+   0105 B6*00         [ 3]  234 	lda	*___fsdiv_sloc0_1_0
+   0107 49            [ 1]  235 	rola
+   0108 4F            [ 1]  236 	clra
+   0109 49            [ 1]  237 	rola
+   010A B8*04         [ 3]  238 	eor	*___fsdiv_sloc1_1_0
+   010C C7r00r22      [ 4]  239 	sta	___fsdiv_sign_1_21
+                            240 ;../_fsdiv.c:295: if (!fl2.l)
+   010F C6r00r0C      [ 4]  241 	lda	___fsdiv_fl2_1_21
+   0112 B7*04         [ 3]  242 	sta	*___fsdiv_sloc1_1_0
+   0114 C6r00r0D      [ 4]  243 	lda	(___fsdiv_fl2_1_21 + 1)
+   0117 B7*05         [ 3]  244 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   0119 C6r00r0E      [ 4]  245 	lda	(___fsdiv_fl2_1_21 + 2)
+   011C B7*06         [ 3]  246 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   011E C6r00r0F      [ 4]  247 	lda	(___fsdiv_fl2_1_21 + 3)
+   0121 B7*07         [ 3]  248 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   0123 B6*04         [ 3]  249 	lda	*___fsdiv_sloc1_1_0
+   0125 BA*05         [ 3]  250 	ora	*(___fsdiv_sloc1_1_0 + 1)
+   0127 BA*06         [ 3]  251 	ora	*(___fsdiv_sloc1_1_0 + 2)
+   0129 BA*07         [ 3]  252 	ora	*(___fsdiv_sloc1_1_0 + 3)
+   012B 26 30         [ 3]  253 	bne	00102$
+                            254 ;../_fsdiv.c:297: fl2.l = 0x7FC00000;
+   012D A6 7F         [ 2]  255 	lda	#0x7F
+   012F C7r00r0C      [ 4]  256 	sta	___fsdiv_fl2_1_21
+   0132 A6 C0         [ 2]  257 	lda	#0xC0
+   0134 C7r00r0D      [ 4]  258 	sta	(___fsdiv_fl2_1_21 + 1)
+   0137 4F            [ 1]  259 	clra
+   0138 C7r00r0E      [ 4]  260 	sta	(___fsdiv_fl2_1_21 + 2)
+   013B C7r00r0F      [ 4]  261 	sta	(___fsdiv_fl2_1_21 + 3)
+                            262 ;../_fsdiv.c:298: return (fl2.f);
+   013E C6r00r0C      [ 4]  263 	lda	___fsdiv_fl2_1_21
+   0141 B7*04         [ 3]  264 	sta	*___fsdiv_sloc1_1_0
+   0143 C6r00r0D      [ 4]  265 	lda	(___fsdiv_fl2_1_21 + 1)
+   0146 B7*05         [ 3]  266 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   0148 C6r00r0E      [ 4]  267 	lda	(___fsdiv_fl2_1_21 + 2)
+   014B B7*06         [ 3]  268 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   014D C6r00r0F      [ 4]  269 	lda	(___fsdiv_fl2_1_21 + 3)
+   0150 B7*07         [ 3]  270 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   0152 4E*04*00      [ 6]  271 	mov	*___fsdiv_sloc1_1_0,*___SDCC_hc08_ret3
+   0155 4E*05*00      [ 6]  272 	mov	*(___fsdiv_sloc1_1_0 + 1),*___SDCC_hc08_ret2
+   0158 BE*06         [ 3]  273 	ldx	*(___fsdiv_sloc1_1_0 + 2)
+   015A B6*07         [ 3]  274 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   015C 81            [ 6]  275 	rts
+   015D                     276 00102$:
+                            277 ;../_fsdiv.c:302: if (!fl1.l)
+   015D C6r00r08      [ 4]  278 	lda	___fsdiv_fl1_1_21
+   0160 B7*04         [ 3]  279 	sta	*___fsdiv_sloc1_1_0
+   0162 C6r00r09      [ 4]  280 	lda	(___fsdiv_fl1_1_21 + 1)
+   0165 B7*05         [ 3]  281 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   0167 C6r00r0A      [ 4]  282 	lda	(___fsdiv_fl1_1_21 + 2)
+   016A B7*06         [ 3]  283 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   016C C6r00r0B      [ 4]  284 	lda	(___fsdiv_fl1_1_21 + 3)
+   016F B7*07         [ 3]  285 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   0171 B6*04         [ 3]  286 	lda	*___fsdiv_sloc1_1_0
+   0173 BA*05         [ 3]  287 	ora	*(___fsdiv_sloc1_1_0 + 1)
+   0175 BA*06         [ 3]  288 	ora	*(___fsdiv_sloc1_1_0 + 2)
+   0177 BA*07         [ 3]  289 	ora	*(___fsdiv_sloc1_1_0 + 3)
+   0179 26 07         [ 3]  290 	bne	00104$
+                            291 ;../_fsdiv.c:303: return (0);
+   017B 4F            [ 1]  292 	clra
+   017C 97            [ 1]  293 	tax
+   017D B7*00         [ 3]  294 	sta	*___SDCC_hc08_ret2
+   017F B7*00         [ 3]  295 	sta	*___SDCC_hc08_ret3
+   0181 81            [ 6]  296 	rts
+   0182                     297 00104$:
+                            298 ;../_fsdiv.c:306: mant1 = MANT (fl1.l);
+   0182 C6r00r08      [ 4]  299 	lda	___fsdiv_fl1_1_21
+   0185 B7*04         [ 3]  300 	sta	*___fsdiv_sloc1_1_0
+   0187 C6r00r09      [ 4]  301 	lda	(___fsdiv_fl1_1_21 + 1)
+   018A B7*05         [ 3]  302 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   018C C6r00r0A      [ 4]  303 	lda	(___fsdiv_fl1_1_21 + 2)
+   018F B7*06         [ 3]  304 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   0191 C6r00r0B      [ 4]  305 	lda	(___fsdiv_fl1_1_21 + 3)
+   0194 B7*07         [ 3]  306 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   0196 B6*05         [ 3]  307 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   0198 A4 7F         [ 2]  308 	and	#0x7F
+   019A B7*05         [ 3]  309 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   019C 6E 00*04      [ 4]  310 	mov	#0x00,*___fsdiv_sloc1_1_0
+   019F B6*07         [ 3]  311 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   01A1 C7r00r1B      [ 4]  312 	sta	(___fsdiv_mant1_1_21 + 3)
+   01A4 B6*06         [ 3]  313 	lda	*(___fsdiv_sloc1_1_0 + 2)
+   01A6 C7r00r1A      [ 4]  314 	sta	(___fsdiv_mant1_1_21 + 2)
+   01A9 B6*05         [ 3]  315 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   01AB AA 80         [ 2]  316 	ora	#0x80
+   01AD C7r00r19      [ 4]  317 	sta	(___fsdiv_mant1_1_21 + 1)
+   01B0 B6*04         [ 3]  318 	lda	*___fsdiv_sloc1_1_0
+   01B2 C7r00r18      [ 4]  319 	sta	___fsdiv_mant1_1_21
+                            320 ;../_fsdiv.c:307: mant2 = MANT (fl2.l);
+   01B5 C6r00r0C      [ 4]  321 	lda	___fsdiv_fl2_1_21
+   01B8 B7*04         [ 3]  322 	sta	*___fsdiv_sloc1_1_0
+   01BA C6r00r0D      [ 4]  323 	lda	(___fsdiv_fl2_1_21 + 1)
+   01BD B7*05         [ 3]  324 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   01BF C6r00r0E      [ 4]  325 	lda	(___fsdiv_fl2_1_21 + 2)
+   01C2 B7*06         [ 3]  326 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   01C4 C6r00r0F      [ 4]  327 	lda	(___fsdiv_fl2_1_21 + 3)
+   01C7 B7*07         [ 3]  328 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   01C9 B6*05         [ 3]  329 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   01CB A4 7F         [ 2]  330 	and	#0x7F
+   01CD B7*05         [ 3]  331 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   01CF 6E 00*04      [ 4]  332 	mov	#0x00,*___fsdiv_sloc1_1_0
+   01D2 B6*07         [ 3]  333 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   01D4 C7r00r1F      [ 4]  334 	sta	(___fsdiv_mant2_1_21 + 3)
+   01D7 B6*06         [ 3]  335 	lda	*(___fsdiv_sloc1_1_0 + 2)
+   01D9 C7r00r1E      [ 4]  336 	sta	(___fsdiv_mant2_1_21 + 2)
+   01DC B6*05         [ 3]  337 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   01DE AA 80         [ 2]  338 	ora	#0x80
+   01E0 C7r00r1D      [ 4]  339 	sta	(___fsdiv_mant2_1_21 + 1)
+   01E3 B6*04         [ 3]  340 	lda	*___fsdiv_sloc1_1_0
+   01E5 C7r00r1C      [ 4]  341 	sta	___fsdiv_mant2_1_21
+                            342 ;../_fsdiv.c:310: if (mant1 < mant2)
+   01E8 C6r00r1B      [ 4]  343 	lda	(___fsdiv_mant1_1_21 + 3)
+   01EB C0r00r1F      [ 4]  344 	sub	(___fsdiv_mant2_1_21 + 3)
+   01EE C6r00r1A      [ 4]  345 	lda	(___fsdiv_mant1_1_21 + 2)
+   01F1 C2r00r1E      [ 4]  346 	sbc	(___fsdiv_mant2_1_21 + 2)
+   01F4 C6r00r19      [ 4]  347 	lda	(___fsdiv_mant1_1_21 + 1)
+   01F7 C2r00r1D      [ 4]  348 	sbc	(___fsdiv_mant2_1_21 + 1)
+   01FA C6r00r18      [ 4]  349 	lda	___fsdiv_mant1_1_21
+   01FD C2r00r1C      [ 4]  350 	sbc	___fsdiv_mant2_1_21
+   0200 90 24         [ 3]  351 	bge	00106$
+                            352 ;../_fsdiv.c:312: mant1 <<= 1;
+   0202 C6r00r1B      [ 4]  353 	lda	(___fsdiv_mant1_1_21 + 3)
+   0205 CEr00r1A      [ 4]  354 	ldx	(___fsdiv_mant1_1_21 + 2)
+   0208 48            [ 1]  355 	lsla
+   0209 59            [ 1]  356 	rolx
+   020A C7r00r1B      [ 4]  357 	sta	(___fsdiv_mant1_1_21 + 3)
+   020D CFr00r1A      [ 4]  358 	stx	(___fsdiv_mant1_1_21 + 2)
+   0210 C6r00r19      [ 4]  359 	lda	(___fsdiv_mant1_1_21 + 1)
+   0213 CEr00r18      [ 4]  360 	ldx	___fsdiv_mant1_1_21
+   0216 49            [ 1]  361 	rola
+   0217 59            [ 1]  362 	rolx
+   0218 C7r00r19      [ 4]  363 	sta	(___fsdiv_mant1_1_21 + 1)
+   021B CFr00r18      [ 4]  364 	stx	___fsdiv_mant1_1_21
+                            365 ;../_fsdiv.c:313: exp--;
+   021E 32r00r20      [ 5]  366 	ldhx	___fsdiv_exp_1_21
+   0221 AF FF         [ 2]  367 	aix	#-1
+   0223 96r00r20      [ 5]  368 	sthx	___fsdiv_exp_1_21
+   0226                     369 00106$:
+                            370 ;../_fsdiv.c:317: mask = 0x1000000;
+   0226 45 01 00      [ 3]  371 	ldhx	#0x0100
+   0229 96r00r14      [ 5]  372 	sthx	___fsdiv_mask_1_21
+   022C 8C            [ 1]  373 	clrh
+   022D 96r00r16      [ 5]  374 	sthx	(___fsdiv_mask_1_21 + 2)
+                            375 ;../_fsdiv.c:318: result = 0;
+   0230 96r00r10      [ 5]  376 	sthx	___fsdiv_result_1_21
+   0233 96r00r12      [ 5]  377 	sthx	(___fsdiv_result_1_21 + 2)
+                            378 ;../_fsdiv.c:319: while (mask)
+   0236                     379 00109$:
+   0236 C6r00r14      [ 4]  380 	lda	___fsdiv_mask_1_21
+   0239 CAr00r15      [ 4]  381 	ora	(___fsdiv_mask_1_21 + 1)
+   023C CAr00r16      [ 4]  382 	ora	(___fsdiv_mask_1_21 + 2)
+   023F CAr00r17      [ 4]  383 	ora	(___fsdiv_mask_1_21 + 3)
+   0242 26 03         [ 3]  384 	bne	00167$
+   0244 CCr02rE3      [ 4]  385 	jmp	00111$
+   0247                     386 00167$:
+                            387 ;../_fsdiv.c:321: if (mant1 >= mant2)
+   0247 C6r00r1B      [ 4]  388 	lda	(___fsdiv_mant1_1_21 + 3)
+   024A C0r00r1F      [ 4]  389 	sub	(___fsdiv_mant2_1_21 + 3)
+   024D C6r00r1A      [ 4]  390 	lda	(___fsdiv_mant1_1_21 + 2)
+   0250 C2r00r1E      [ 4]  391 	sbc	(___fsdiv_mant2_1_21 + 2)
+   0253 C6r00r19      [ 4]  392 	lda	(___fsdiv_mant1_1_21 + 1)
+   0256 C2r00r1D      [ 4]  393 	sbc	(___fsdiv_mant2_1_21 + 1)
+   0259 C6r00r18      [ 4]  394 	lda	___fsdiv_mant1_1_21
+   025C C2r00r1C      [ 4]  395 	sbc	___fsdiv_mant2_1_21
+   025F 91 47         [ 3]  396 	blt	00108$
+                            397 ;../_fsdiv.c:323: result |= mask;
+   0261 32r00r12      [ 5]  398 	ldhx	(___fsdiv_result_1_21 + 2)
+   0264 35*06         [ 4]  399 	sthx	*(___fsdiv_sloc1_1_0 + 2)
+   0266 32r00r10      [ 5]  400 	ldhx	___fsdiv_result_1_21
+   0269 35*04         [ 4]  401 	sthx	*___fsdiv_sloc1_1_0
+   026B B6*07         [ 3]  402 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   026D CAr00r17      [ 4]  403 	ora	(___fsdiv_mask_1_21 + 3)
+   0270 C7r00r13      [ 4]  404 	sta	(___fsdiv_result_1_21 + 3)
+   0273 B6*06         [ 3]  405 	lda	*(___fsdiv_sloc1_1_0 + 2)
+   0275 CAr00r16      [ 4]  406 	ora	(___fsdiv_mask_1_21 + 2)
+   0278 C7r00r12      [ 4]  407 	sta	(___fsdiv_result_1_21 + 2)
+   027B B6*05         [ 3]  408 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   027D CAr00r15      [ 4]  409 	ora	(___fsdiv_mask_1_21 + 1)
+   0280 C7r00r11      [ 4]  410 	sta	(___fsdiv_result_1_21 + 1)
+   0283 B6*04         [ 3]  411 	lda	*___fsdiv_sloc1_1_0
+   0285 CAr00r14      [ 4]  412 	ora	___fsdiv_mask_1_21
+   0288 C7r00r10      [ 4]  413 	sta	___fsdiv_result_1_21
+                            414 ;../_fsdiv.c:324: mant1 -= mant2;
+   028B 45r00r18      [ 3]  415 	ldhx	#___fsdiv_mant1_1_21
+   028E E6 03         [ 3]  416 	lda	3,x
+   0290 C0r00r1F      [ 4]  417 	sub	(___fsdiv_mant2_1_21 + 3)
+   0293 E7 03         [ 3]  418 	sta	3,x
+   0295 E6 02         [ 3]  419 	lda	2,x
+   0297 C2r00r1E      [ 4]  420 	sbc	(___fsdiv_mant2_1_21 + 2)
+   029A E7 02         [ 3]  421 	sta	2,x
+   029C E6 01         [ 3]  422 	lda	1,x
+   029E C2r00r1D      [ 4]  423 	sbc	(___fsdiv_mant2_1_21 + 1)
+   02A1 E7 01         [ 3]  424 	sta	1,x
+   02A3 F6            [ 3]  425 	lda	,x
+   02A4 C2r00r1C      [ 4]  426 	sbc	___fsdiv_mant2_1_21
+   02A7 F7            [ 2]  427 	sta	,x
+   02A8                     428 00108$:
+                            429 ;../_fsdiv.c:326: mant1 <<= 1;
+   02A8 C6r00r1B      [ 4]  430 	lda	(___fsdiv_mant1_1_21 + 3)
+   02AB CEr00r1A      [ 4]  431 	ldx	(___fsdiv_mant1_1_21 + 2)
+   02AE 48            [ 1]  432 	lsla
+   02AF 59            [ 1]  433 	rolx
+   02B0 C7r00r1B      [ 4]  434 	sta	(___fsdiv_mant1_1_21 + 3)
+   02B3 CFr00r1A      [ 4]  435 	stx	(___fsdiv_mant1_1_21 + 2)
+   02B6 C6r00r19      [ 4]  436 	lda	(___fsdiv_mant1_1_21 + 1)
+   02B9 CEr00r18      [ 4]  437 	ldx	___fsdiv_mant1_1_21
+   02BC 49            [ 1]  438 	rola
+   02BD 59            [ 1]  439 	rolx
+   02BE C7r00r19      [ 4]  440 	sta	(___fsdiv_mant1_1_21 + 1)
+   02C1 CFr00r18      [ 4]  441 	stx	___fsdiv_mant1_1_21
+                            442 ;../_fsdiv.c:327: mask >>= 1;
+   02C4 C6r00r15      [ 4]  443 	lda	(___fsdiv_mask_1_21 + 1)
+   02C7 CEr00r14      [ 4]  444 	ldx	___fsdiv_mask_1_21
+   02CA 54            [ 1]  445 	lsrx
+   02CB 46            [ 1]  446 	rora
+   02CC C7r00r15      [ 4]  447 	sta	(___fsdiv_mask_1_21 + 1)
+   02CF CFr00r14      [ 4]  448 	stx	___fsdiv_mask_1_21
+   02D2 C6r00r17      [ 4]  449 	lda	(___fsdiv_mask_1_21 + 3)
+   02D5 CEr00r16      [ 4]  450 	ldx	(___fsdiv_mask_1_21 + 2)
+   02D8 56            [ 1]  451 	rorx
+   02D9 46            [ 1]  452 	rora
+   02DA C7r00r17      [ 4]  453 	sta	(___fsdiv_mask_1_21 + 3)
+   02DD CFr00r16      [ 4]  454 	stx	(___fsdiv_mask_1_21 + 2)
+   02E0 CCr02r36      [ 4]  455 	jmp	00109$
+   02E3                     456 00111$:
+                            457 ;../_fsdiv.c:331: result += 1;
+   02E3 45r00r10      [ 3]  458 	ldhx	#___fsdiv_result_1_21
+   02E6 6C 03         [ 5]  459 	inc	3,x
+   02E8 26 09         [ 3]  460 	bne	00169$
+   02EA 6C 02         [ 5]  461 	inc	2,x
+   02EC 26 05         [ 3]  462 	bne	00169$
+   02EE 6C 01         [ 5]  463 	inc	1,x
+   02F0 26 01         [ 3]  464 	bne	00169$
+   02F2 7C            [ 4]  465 	inc	,x
+   02F3                     466 00169$:
+                            467 ;../_fsdiv.c:334: exp++;
+   02F3 32r00r20      [ 5]  468 	ldhx	___fsdiv_exp_1_21
+   02F6 AF 01         [ 2]  469 	aix	#1
+   02F8 96r00r20      [ 5]  470 	sthx	___fsdiv_exp_1_21
+                            471 ;../_fsdiv.c:335: result >>= 1;
+   02FB C6r00r11      [ 4]  472 	lda	(___fsdiv_result_1_21 + 1)
+   02FE CEr00r10      [ 4]  473 	ldx	___fsdiv_result_1_21
+   0301 57            [ 1]  474 	asrx
+   0302 46            [ 1]  475 	rora
+   0303 C7r00r11      [ 4]  476 	sta	(___fsdiv_result_1_21 + 1)
+   0306 CFr00r10      [ 4]  477 	stx	___fsdiv_result_1_21
+   0309 C6r00r13      [ 4]  478 	lda	(___fsdiv_result_1_21 + 3)
+   030C CEr00r12      [ 4]  479 	ldx	(___fsdiv_result_1_21 + 2)
+   030F 56            [ 1]  480 	rorx
+   0310 46            [ 1]  481 	rora
+   0311 C7r00r13      [ 4]  482 	sta	(___fsdiv_result_1_21 + 3)
+   0314 CFr00r12      [ 4]  483 	stx	(___fsdiv_result_1_21 + 2)
+                            484 ;../_fsdiv.c:337: result &= ~HIDDEN;
+   0317 32r00r12      [ 5]  485 	ldhx	(___fsdiv_result_1_21 + 2)
+   031A 35*06         [ 4]  486 	sthx	*(___fsdiv_sloc1_1_0 + 2)
+   031C 32r00r10      [ 5]  487 	ldhx	___fsdiv_result_1_21
+   031F 35*04         [ 4]  488 	sthx	*___fsdiv_sloc1_1_0
+   0321 B6*07         [ 3]  489 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   0323 C7r00r13      [ 4]  490 	sta	(___fsdiv_result_1_21 + 3)
+   0326 B6*06         [ 3]  491 	lda	*(___fsdiv_sloc1_1_0 + 2)
+   0328 C7r00r12      [ 4]  492 	sta	(___fsdiv_result_1_21 + 2)
+   032B B6*05         [ 3]  493 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   032D A4 7F         [ 2]  494 	and	#0x7F
+   032F C7r00r11      [ 4]  495 	sta	(___fsdiv_result_1_21 + 1)
+   0332 B6*04         [ 3]  496 	lda	*___fsdiv_sloc1_1_0
+   0334 C7r00r10      [ 4]  497 	sta	___fsdiv_result_1_21
+                            498 ;../_fsdiv.c:340: if (exp >= 0x100)
+   0337 C6r00r21      [ 4]  499 	lda	(___fsdiv_exp_1_21 + 1)
+   033A A0 00         [ 2]  500 	sub	#0x00
+   033C C6r00r20      [ 4]  501 	lda	___fsdiv_exp_1_21
+   033F A2 01         [ 2]  502 	sbc	#0x01
+   0341 91 38         [ 3]  503 	blt	00116$
+                            504 ;../_fsdiv.c:341: fl1.l = (sign ? SIGNBIT : 0) | __INFINITY;
+   0343 C6r00r22      [ 4]  505 	lda	___fsdiv_sign_1_21
+   0346 27 0A         [ 3]  506 	beq	00120$
+   0348 45 80 00      [ 3]  507 	ldhx	#0x8000
+   034B 35*04         [ 4]  508 	sthx	*___fsdiv_sloc1_1_0
+   034D 8C            [ 1]  509 	clrh
+   034E 35*06         [ 4]  510 	sthx	*(___fsdiv_sloc1_1_0 + 2)
+   0350 20 06         [ 3]  511 	bra	00121$
+   0352                     512 00120$:
+   0352 8C            [ 1]  513 	clrh
+   0353 5F            [ 1]  514 	clrx
+   0354 35*04         [ 4]  515 	sthx	*___fsdiv_sloc1_1_0
+   0356 35*06         [ 4]  516 	sthx	*(___fsdiv_sloc1_1_0 + 2)
+   0358                     517 00121$:
+   0358 B6*05         [ 3]  518 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   035A AA 80         [ 2]  519 	ora	#0x80
+   035C B7*05         [ 3]  520 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   035E B6*04         [ 3]  521 	lda	*___fsdiv_sloc1_1_0
+   0360 AA 7F         [ 2]  522 	ora	#0x7F
+   0362 B7*04         [ 3]  523 	sta	*___fsdiv_sloc1_1_0
+   0364 B6*04         [ 3]  524 	lda	*___fsdiv_sloc1_1_0
+   0366 C7r00r08      [ 4]  525 	sta	___fsdiv_fl1_1_21
+   0369 B6*05         [ 3]  526 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   036B C7r00r09      [ 4]  527 	sta	(___fsdiv_fl1_1_21 + 1)
+   036E B6*06         [ 3]  528 	lda	*(___fsdiv_sloc1_1_0 + 2)
+   0370 C7r00r0A      [ 4]  529 	sta	(___fsdiv_fl1_1_21 + 2)
+   0373 B6*07         [ 3]  530 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   0375 C7r00r0B      [ 4]  531 	sta	(___fsdiv_fl1_1_21 + 3)
+   0378 CCr04r1F      [ 4]  532 	jmp	00117$
+   037B                     533 00116$:
+                            534 ;../_fsdiv.c:342: else if (exp < 0)
+   037B C6r00r21      [ 4]  535 	lda	(___fsdiv_exp_1_21 + 1)
+   037E A0 00         [ 2]  536 	sub	#0x00
+   0380 C6r00r20      [ 4]  537 	lda	___fsdiv_exp_1_21
+   0383 A2 00         [ 2]  538 	sbc	#0x00
+   0385 90 10         [ 3]  539 	bge	00113$
+                            540 ;../_fsdiv.c:343: fl1.l = 0;
+   0387 4F            [ 1]  541 	clra
+   0388 C7r00r08      [ 4]  542 	sta	___fsdiv_fl1_1_21
+   038B C7r00r09      [ 4]  543 	sta	(___fsdiv_fl1_1_21 + 1)
+   038E C7r00r0A      [ 4]  544 	sta	(___fsdiv_fl1_1_21 + 2)
+   0391 C7r00r0B      [ 4]  545 	sta	(___fsdiv_fl1_1_21 + 3)
+   0394 CCr04r1F      [ 4]  546 	jmp	00117$
+   0397                     547 00113$:
+                            548 ;../_fsdiv.c:345: fl1.l = PACK (sign ? SIGNBIT : 0 , exp, result);
+   0397 C6r00r22      [ 4]  549 	lda	___fsdiv_sign_1_21
+   039A 27 0A         [ 3]  550 	beq	00122$
+   039C 45 80 00      [ 3]  551 	ldhx	#0x8000
+   039F 35*04         [ 4]  552 	sthx	*___fsdiv_sloc1_1_0
+   03A1 8C            [ 1]  553 	clrh
+   03A2 35*06         [ 4]  554 	sthx	*(___fsdiv_sloc1_1_0 + 2)
+   03A4 20 06         [ 3]  555 	bra	00123$
+   03A6                     556 00122$:
+   03A6 8C            [ 1]  557 	clrh
+   03A7 5F            [ 1]  558 	clrx
+   03A8 35*04         [ 4]  559 	sthx	*___fsdiv_sloc1_1_0
+   03AA 35*06         [ 4]  560 	sthx	*(___fsdiv_sloc1_1_0 + 2)
+   03AC                     561 00123$:
+   03AC C6r00r21      [ 4]  562 	lda	(___fsdiv_exp_1_21 + 1)
+   03AF B7*03         [ 3]  563 	sta	*(___fsdiv_sloc0_1_0 + 3)
+   03B1 C6r00r20      [ 4]  564 	lda	___fsdiv_exp_1_21
+   03B4 B7*02         [ 3]  565 	sta	*(___fsdiv_sloc0_1_0 + 2)
+   03B6 49            [ 1]  566 	rola	
+   03B7 4F            [ 1]  567 	clra	
+   03B8 A2 00         [ 2]  568 	sbc	#0x00
+   03BA B7*01         [ 3]  569 	sta	*(___fsdiv_sloc0_1_0 + 1)
+   03BC B7*00         [ 3]  570 	sta	*___fsdiv_sloc0_1_0
+   03BE B6*03         [ 3]  571 	lda	*(___fsdiv_sloc0_1_0 + 3)
+   03C0 BE*02         [ 3]  572 	ldx	*(___fsdiv_sloc0_1_0 + 2)
+   03C2 54            [ 1]  573 	lsrx
+   03C3 46            [ 1]  574 	rora
+   03C4 97            [ 1]  575 	tax
+   03C5 4F            [ 1]  576 	clra
+   03C6 46            [ 1]  577 	rora
+   03C7 B7*01         [ 3]  578 	sta	*(___fsdiv_sloc0_1_0 + 1)
+   03C9 BF*00         [ 3]  579 	stx	*___fsdiv_sloc0_1_0
+   03CB 6E 00*03      [ 4]  580 	mov	#0x00,*(___fsdiv_sloc0_1_0 + 3)
+   03CE 6E 00*02      [ 4]  581 	mov	#0x00,*(___fsdiv_sloc0_1_0 + 2)
+   03D1 B6*07         [ 3]  582 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   03D3 BA*03         [ 3]  583 	ora	*(___fsdiv_sloc0_1_0 + 3)
+   03D5 B7*07         [ 3]  584 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   03D7 B6*06         [ 3]  585 	lda	*(___fsdiv_sloc1_1_0 + 2)
+   03D9 BA*02         [ 3]  586 	ora	*(___fsdiv_sloc0_1_0 + 2)
+   03DB B7*06         [ 3]  587 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   03DD B6*05         [ 3]  588 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   03DF BA*01         [ 3]  589 	ora	*(___fsdiv_sloc0_1_0 + 1)
+   03E1 B7*05         [ 3]  590 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   03E3 B6*04         [ 3]  591 	lda	*___fsdiv_sloc1_1_0
+   03E5 BA*00         [ 3]  592 	ora	*___fsdiv_sloc0_1_0
+   03E7 B7*04         [ 3]  593 	sta	*___fsdiv_sloc1_1_0
+   03E9 32r00r12      [ 5]  594 	ldhx	(___fsdiv_result_1_21 + 2)
+   03EC 35*02         [ 4]  595 	sthx	*(___fsdiv_sloc0_1_0 + 2)
+   03EE 32r00r10      [ 5]  596 	ldhx	___fsdiv_result_1_21
+   03F1 35*00         [ 4]  597 	sthx	*___fsdiv_sloc0_1_0
+   03F3 B6*07         [ 3]  598 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   03F5 BA*03         [ 3]  599 	ora	*(___fsdiv_sloc0_1_0 + 3)
+   03F7 B7*07         [ 3]  600 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   03F9 B6*06         [ 3]  601 	lda	*(___fsdiv_sloc1_1_0 + 2)
+   03FB BA*02         [ 3]  602 	ora	*(___fsdiv_sloc0_1_0 + 2)
+   03FD B7*06         [ 3]  603 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   03FF B6*05         [ 3]  604 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   0401 BA*01         [ 3]  605 	ora	*(___fsdiv_sloc0_1_0 + 1)
+   0403 B7*05         [ 3]  606 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   0405 B6*04         [ 3]  607 	lda	*___fsdiv_sloc1_1_0
+   0407 BA*00         [ 3]  608 	ora	*___fsdiv_sloc0_1_0
+   0409 B7*04         [ 3]  609 	sta	*___fsdiv_sloc1_1_0
+   040B B6*04         [ 3]  610 	lda	*___fsdiv_sloc1_1_0
+   040D C7r00r08      [ 4]  611 	sta	___fsdiv_fl1_1_21
+   0410 B6*05         [ 3]  612 	lda	*(___fsdiv_sloc1_1_0 + 1)
+   0412 C7r00r09      [ 4]  613 	sta	(___fsdiv_fl1_1_21 + 1)
+   0415 B6*06         [ 3]  614 	lda	*(___fsdiv_sloc1_1_0 + 2)
+   0417 C7r00r0A      [ 4]  615 	sta	(___fsdiv_fl1_1_21 + 2)
+   041A B6*07         [ 3]  616 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   041C C7r00r0B      [ 4]  617 	sta	(___fsdiv_fl1_1_21 + 3)
+   041F                     618 00117$:
+                            619 ;../_fsdiv.c:346: return (fl1.f);
+   041F C6r00r08      [ 4]  620 	lda	___fsdiv_fl1_1_21
+   0422 B7*04         [ 3]  621 	sta	*___fsdiv_sloc1_1_0
+   0424 C6r00r09      [ 4]  622 	lda	(___fsdiv_fl1_1_21 + 1)
+   0427 B7*05         [ 3]  623 	sta	*(___fsdiv_sloc1_1_0 + 1)
+   0429 C6r00r0A      [ 4]  624 	lda	(___fsdiv_fl1_1_21 + 2)
+   042C B7*06         [ 3]  625 	sta	*(___fsdiv_sloc1_1_0 + 2)
+   042E C6r00r0B      [ 4]  626 	lda	(___fsdiv_fl1_1_21 + 3)
+   0431 B7*07         [ 3]  627 	sta	*(___fsdiv_sloc1_1_0 + 3)
+   0433 4E*04*00      [ 6]  628 	mov	*___fsdiv_sloc1_1_0,*___SDCC_hc08_ret3
+   0436 4E*05*00      [ 6]  629 	mov	*(___fsdiv_sloc1_1_0 + 1),*___SDCC_hc08_ret2
+   0439 BE*06         [ 3]  630 	ldx	*(___fsdiv_sloc1_1_0 + 2)
+   043B B6*07         [ 3]  631 	lda	*(___fsdiv_sloc1_1_0 + 3)
+   043D 81            [ 6]  632 	rts
+                            633 	.area CSEG    (CODE)
+                            634 	.area CONST   (CODE)
+                            635 	.area XINIT   (CODE)
+                            636 	.area CABS    (ABS,CODE)

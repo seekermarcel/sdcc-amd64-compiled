@@ -1,0 +1,192 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:31 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _divulong
+                              7 	.optsdcc -mhc08
+                              8 	
+                              9 	.area HOME    (CODE)
+                             10 	.area GSINIT0 (CODE)
+                             11 	.area GSINIT  (CODE)
+                             12 	.area GSFINAL (CODE)
+                             13 	.area CSEG    (CODE)
+                             14 	.area XINIT   (CODE)
+                             15 	.area CONST   (CODE)
+                             16 	.area DSEG    (PAG)
+                             17 	.area OSEG    (PAG, OVR)
+                             18 	.area XSEG
+                             19 	.area XISEG
+                             20 ;--------------------------------------------------------
+                             21 ; Public variables in this module
+                             22 ;--------------------------------------------------------
+                             23 	.globl __divulong_PARM_2
+                             24 	.globl __divulong_PARM_1
+                             25 	.globl __divulong
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area DSEG    (PAG)
+                             30 ;--------------------------------------------------------
+                             31 ; overlayable items in ram 
+                             32 ;--------------------------------------------------------
+                             33 ;--------------------------------------------------------
+                             34 ; absolute ram data
+                             35 ;--------------------------------------------------------
+                             36 	.area IABS    (ABS)
+                             37 	.area IABS    (ABS)
+                             38 ;--------------------------------------------------------
+                             39 ; absolute external ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area XABS    (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; external initialized ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area XISEG
+                             46 ;--------------------------------------------------------
+                             47 ; extended address mode data
+                             48 ;--------------------------------------------------------
+                             49 	.area XSEG
+   0000                      50 __divulong_PARM_1:
+   0000                      51 	.ds 4
+   0004                      52 __divulong_PARM_2:
+   0004                      53 	.ds 4
+   0008                      54 __divulong_reste_1_2:
+   0008                      55 	.ds 4
+   000C                      56 __divulong_c_1_2:
+   000C                      57 	.ds 1
+                             58 ;--------------------------------------------------------
+                             59 ; global & static initialisations
+                             60 ;--------------------------------------------------------
+                             61 	.area HOME    (CODE)
+                             62 	.area GSINIT  (CODE)
+                             63 	.area GSFINAL (CODE)
+                             64 	.area GSINIT  (CODE)
+                             65 ;--------------------------------------------------------
+                             66 ; Home
+                             67 ;--------------------------------------------------------
+                             68 	.area HOME    (CODE)
+                             69 	.area HOME    (CODE)
+                             70 ;--------------------------------------------------------
+                             71 ; code
+                             72 ;--------------------------------------------------------
+                             73 	.area CSEG    (CODE)
+                             74 ;------------------------------------------------------------
+                             75 ;Allocation info for local variables in function '_divulong'
+                             76 ;------------------------------------------------------------
+                             77 ;a                         Allocated with name '__divulong_PARM_1'
+                             78 ;b                         Allocated with name '__divulong_PARM_2'
+                             79 ;reste                     Allocated with name '__divulong_reste_1_2'
+                             80 ;count                     Allocated to registers h 
+                             81 ;c                         Allocated with name '__divulong_c_1_2'
+                             82 ;------------------------------------------------------------
+                             83 ;_divulong.c:331: _divulong (unsigned long a, unsigned long b)
+                             84 ;	-----------------------------------------
+                             85 ;	 function _divulong
+                             86 ;	-----------------------------------------
+                             87 ;	Register assignment is optimal.
+                             88 ;	Stack space usage: 0 bytes.
+   0000                      89 __divulong:
+                             90 ;_divulong.c:333: unsigned long reste = 0L;
+   0000 45r00r08      [ 3]   91 	ldhx	#__divulong_reste_1_2
+   0003 4F            [ 1]   92 	clra
+   0004 F7            [ 2]   93 	sta	,x
+   0005 E7 01         [ 3]   94 	sta	1,x
+   0007 E7 02         [ 3]   95 	sta	2,x
+   0009 E7 03         [ 3]   96 	sta	3,x
+                             97 ;_divulong.c:334: unsigned char count = 32;
+   000B A6 20         [ 2]   98 	lda	#0x20
+   000D 87            [ 2]   99 	psha
+   000E 8A            [ 2]  100 	pulh
+                            101 ;_divulong.c:337: do
+   000F                     102 00105$:
+                            103 ;_divulong.c:340: c = MSB_SET(a);
+   000F C6r00r00      [ 4]  104 	lda	__divulong_PARM_1
+   0012 49            [ 1]  105 	rola
+   0013 4F            [ 1]  106 	clra
+   0014 49            [ 1]  107 	rola
+   0015 C7r00r0C      [ 4]  108 	sta	__divulong_c_1_2
+                            109 ;_divulong.c:341: a <<= 1;
+   0018 C6r00r03      [ 4]  110 	lda	(__divulong_PARM_1 + 3)
+   001B CEr00r02      [ 4]  111 	ldx	(__divulong_PARM_1 + 2)
+   001E 48            [ 1]  112 	lsla
+   001F 59            [ 1]  113 	rolx
+   0020 C7r00r03      [ 4]  114 	sta	(__divulong_PARM_1 + 3)
+   0023 CFr00r02      [ 4]  115 	stx	(__divulong_PARM_1 + 2)
+   0026 C6r00r01      [ 4]  116 	lda	(__divulong_PARM_1 + 1)
+   0029 CEr00r00      [ 4]  117 	ldx	__divulong_PARM_1
+   002C 49            [ 1]  118 	rola
+   002D 59            [ 1]  119 	rolx
+   002E C7r00r01      [ 4]  120 	sta	(__divulong_PARM_1 + 1)
+   0031 CFr00r00      [ 4]  121 	stx	__divulong_PARM_1
+                            122 ;_divulong.c:342: reste <<= 1;
+   0034 C6r00r0B      [ 4]  123 	lda	(__divulong_reste_1_2 + 3)
+   0037 CEr00r0A      [ 4]  124 	ldx	(__divulong_reste_1_2 + 2)
+   003A 48            [ 1]  125 	lsla
+   003B 59            [ 1]  126 	rolx
+   003C C7r00r0B      [ 4]  127 	sta	(__divulong_reste_1_2 + 3)
+   003F CFr00r0A      [ 4]  128 	stx	(__divulong_reste_1_2 + 2)
+   0042 C6r00r09      [ 4]  129 	lda	(__divulong_reste_1_2 + 1)
+   0045 CEr00r08      [ 4]  130 	ldx	__divulong_reste_1_2
+   0048 49            [ 1]  131 	rola
+   0049 59            [ 1]  132 	rolx
+   004A C7r00r09      [ 4]  133 	sta	(__divulong_reste_1_2 + 1)
+   004D CFr00r08      [ 4]  134 	stx	__divulong_reste_1_2
+                            135 ;_divulong.c:343: if (c)
+   0050 C6r00r0C      [ 4]  136 	lda	__divulong_c_1_2
+   0053 27 08         [ 3]  137 	beq	00102$
+                            138 ;_divulong.c:344: reste |= 1L;
+   0055 C6r00r0B      [ 4]  139 	lda	(__divulong_reste_1_2 + 3)
+   0058 AA 01         [ 2]  140 	ora	#0x01
+   005A C7r00r0B      [ 4]  141 	sta	(__divulong_reste_1_2 + 3)
+   005D                     142 00102$:
+                            143 ;_divulong.c:346: if (reste >= b)
+   005D C6r00r0B      [ 4]  144 	lda	(__divulong_reste_1_2 + 3)
+   0060 C0r00r07      [ 4]  145 	sub	(__divulong_PARM_2 + 3)
+   0063 C6r00r0A      [ 4]  146 	lda	(__divulong_reste_1_2 + 2)
+   0066 C2r00r06      [ 4]  147 	sbc	(__divulong_PARM_2 + 2)
+   0069 C6r00r09      [ 4]  148 	lda	(__divulong_reste_1_2 + 1)
+   006C C2r00r05      [ 4]  149 	sbc	(__divulong_PARM_2 + 1)
+   006F C6r00r08      [ 4]  150 	lda	__divulong_reste_1_2
+   0072 C2r00r04      [ 4]  151 	sbc	__divulong_PARM_2
+   0075 25 2C         [ 3]  152 	bcs	00106$
+                            153 ;_divulong.c:348: reste -= b;
+   0077 C6r00r0B      [ 4]  154 	lda	(__divulong_reste_1_2 + 3)
+   007A C0r00r07      [ 4]  155 	sub	(__divulong_PARM_2 + 3)
+   007D C7r00r0B      [ 4]  156 	sta	(__divulong_reste_1_2 + 3)
+   0080 C6r00r0A      [ 4]  157 	lda	(__divulong_reste_1_2 + 2)
+   0083 C2r00r06      [ 4]  158 	sbc	(__divulong_PARM_2 + 2)
+   0086 C7r00r0A      [ 4]  159 	sta	(__divulong_reste_1_2 + 2)
+   0089 C6r00r09      [ 4]  160 	lda	(__divulong_reste_1_2 + 1)
+   008C C2r00r05      [ 4]  161 	sbc	(__divulong_PARM_2 + 1)
+   008F C7r00r09      [ 4]  162 	sta	(__divulong_reste_1_2 + 1)
+   0092 C6r00r08      [ 4]  163 	lda	__divulong_reste_1_2
+   0095 C2r00r04      [ 4]  164 	sbc	__divulong_PARM_2
+   0098 C7r00r08      [ 4]  165 	sta	__divulong_reste_1_2
+                            166 ;_divulong.c:350: a |= 1L;
+   009B C6r00r03      [ 4]  167 	lda	(__divulong_PARM_1 + 3)
+   009E AA 01         [ 2]  168 	ora	#0x01
+   00A0 C7r00r03      [ 4]  169 	sta	(__divulong_PARM_1 + 3)
+   00A3                     170 00106$:
+                            171 ;_divulong.c:353: while (--count);
+   00A3 8B            [ 2]  172 	pshh
+   00A4 86            [ 2]  173 	pula
+   00A5 A0 01         [ 2]  174 	sub	#0x01
+   00A7 87            [ 2]  175 	psha
+   00A8 8A            [ 2]  176 	pulh
+   00A9 4D            [ 1]  177 	tsta
+   00AA 27 03         [ 3]  178 	beq	00128$
+   00AC CCr00r0F      [ 3]  179 	jmp	00105$
+   00AF                     180 00128$:
+                            181 ;_divulong.c:354: return a;
+   00AF C6r00r00      [ 4]  182 	lda	__divulong_PARM_1
+   00B2 B7*00         [ 3]  183 	sta	*___SDCC_hc08_ret3
+   00B4 C6r00r01      [ 4]  184 	lda	(__divulong_PARM_1 + 1)
+   00B7 B7*00         [ 3]  185 	sta	*___SDCC_hc08_ret2
+   00B9 CEr00r02      [ 4]  186 	ldx	(__divulong_PARM_1 + 2)
+   00BC C6r00r03      [ 4]  187 	lda	(__divulong_PARM_1 + 3)
+   00BF 81            [ 4]  188 	rts
+                            189 	.area CSEG    (CODE)
+                            190 	.area CONST   (CODE)
+                            191 	.area XINIT   (CODE)
+                            192 	.area CABS    (ABS,CODE)

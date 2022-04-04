@@ -1,0 +1,142 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:37 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module _memchr
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _memchr_PARM_3
+                             25 	.globl _memchr_PARM_2
+                             26 	.globl _memchr
+                             27 ;--------------------------------------------------------
+                             28 ; ram data
+                             29 ;--------------------------------------------------------
+                             30 	.area DSEG    (PAG)
+                             31 ;--------------------------------------------------------
+                             32 ; overlayable items in ram 
+                             33 ;--------------------------------------------------------
+                             34 	.area	OSEG    (PAG, OVR)
+   0000                      35 _memchr_sloc0_1_0:
+   0000                      36 	.ds 2
+                             37 ;--------------------------------------------------------
+                             38 ; absolute ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area IABS    (ABS)
+                             41 	.area IABS    (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; absolute external ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area XABS    (ABS)
+                             46 ;--------------------------------------------------------
+                             47 ; external initialized ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area XISEG
+                             50 ;--------------------------------------------------------
+                             51 ; extended address mode data
+                             52 ;--------------------------------------------------------
+                             53 	.area XSEG
+   0000                      54 _memchr_PARM_2:
+   0000                      55 	.ds 2
+   0002                      56 _memchr_PARM_3:
+   0002                      57 	.ds 2
+   0004                      58 _memchr_p_1_22:
+   0004                      59 	.ds 2
+   0006                      60 _memchr_end_1_22:
+   0006                      61 	.ds 2
+                             62 ;--------------------------------------------------------
+                             63 ; global & static initialisations
+                             64 ;--------------------------------------------------------
+                             65 	.area HOME    (CODE)
+                             66 	.area GSINIT  (CODE)
+                             67 	.area GSFINAL (CODE)
+                             68 	.area GSINIT  (CODE)
+                             69 ;--------------------------------------------------------
+                             70 ; Home
+                             71 ;--------------------------------------------------------
+                             72 	.area HOME    (CODE)
+                             73 	.area HOME    (CODE)
+                             74 ;--------------------------------------------------------
+                             75 ; code
+                             76 ;--------------------------------------------------------
+                             77 	.area CSEG    (CODE)
+                             78 ;------------------------------------------------------------
+                             79 ;Allocation info for local variables in function 'memchr'
+                             80 ;------------------------------------------------------------
+                             81 ;c                         Allocated with name '_memchr_PARM_2'
+                             82 ;n                         Allocated with name '_memchr_PARM_3'
+                             83 ;s                         Allocated to registers a x 
+                             84 ;p                         Allocated with name '_memchr_p_1_22'
+                             85 ;end                       Allocated with name '_memchr_end_1_22'
+                             86 ;sloc0                     Allocated with name '_memchr_sloc0_1_0'
+                             87 ;------------------------------------------------------------
+                             88 ;../_memchr.c:31: void *memchr(const void *s, int c, size_t n)
+                             89 ;	-----------------------------------------
+                             90 ;	 function memchr
+                             91 ;	-----------------------------------------
+                             92 ;	Register assignment is optimal.
+                             93 ;	Stack space usage: 0 bytes.
+   0000                      94 _memchr:
+                             95 ;../_memchr.c:33: unsigned char *p = (unsigned char *)s;
+   0000 C7r00r05      [ 4]   96 	sta	(_memchr_p_1_22 + 1)
+   0003 CFr00r04      [ 4]   97 	stx	_memchr_p_1_22
+                             98 ;../_memchr.c:34: unsigned char *end = p + n;
+   0006 45r00r06      [ 3]   99 	ldhx	#_memchr_end_1_22
+   0009 C6r00r05      [ 4]  100 	lda	(_memchr_p_1_22 + 1)
+   000C CBr00r03      [ 4]  101 	add	(_memchr_PARM_3 + 1)
+   000F E7 01         [ 3]  102 	sta	1,x
+   0011 C6r00r04      [ 4]  103 	lda	_memchr_p_1_22
+   0014 C9r00r02      [ 4]  104 	adc	_memchr_PARM_3
+   0017 F7            [ 2]  105 	sta	,x
+                            106 ;../_memchr.c:38: return(0);
+   0018 32r00r04      [ 5]  107 	ldhx	_memchr_p_1_22
+   001B 35*00         [ 4]  108 	sthx	*_memchr_sloc0_1_0
+   001D                     109 00105$:
+                            110 ;../_memchr.c:35: for(; p != end; p++)
+   001D 55*00         [ 4]  111 	ldhx	*_memchr_sloc0_1_0
+   001F 3Er00r06      [ 6]  112 	cphx	_memchr_end_1_22
+   0022 27 22         [ 3]  113 	beq	00103$
+                            114 ;../_memchr.c:36: if(*p == c)
+   0024 55*00         [ 4]  115 	ldhx	*_memchr_sloc0_1_0
+   0026 FE            [ 3]  116 	ldx	,x
+   0027 8C            [ 1]  117 	clrh
+   0028 3Er00r00      [ 6]  118 	cphx	_memchr_PARM_2
+   002B 26 07         [ 3]  119 	bne	00106$
+                            120 ;../_memchr.c:37: return((void *)p);
+   002D C6r00r05      [ 4]  121 	lda	(_memchr_p_1_22 + 1)
+   0030 CEr00r04      [ 4]  122 	ldx	_memchr_p_1_22
+   0033 81            [ 6]  123 	rts
+   0034                     124 00106$:
+                            125 ;../_memchr.c:35: for(; p != end; p++)
+   0034 55*00         [ 4]  126 	ldhx	*_memchr_sloc0_1_0
+   0036 AF 01         [ 2]  127 	aix	#1
+   0038 35*00         [ 4]  128 	sthx	*_memchr_sloc0_1_0
+   003A B6*00         [ 3]  129 	lda	*_memchr_sloc0_1_0
+   003C C7r00r04      [ 4]  130 	sta	_memchr_p_1_22
+   003F B6*01         [ 3]  131 	lda	*(_memchr_sloc0_1_0 + 1)
+   0041 C7r00r05      [ 4]  132 	sta	(_memchr_p_1_22 + 1)
+   0044 20 D7         [ 3]  133 	bra	00105$
+   0046                     134 00103$:
+                            135 ;../_memchr.c:38: return(0);
+   0046 4F            [ 1]  136 	clra
+   0047 97            [ 1]  137 	tax
+   0048 81            [ 6]  138 	rts
+                            139 	.area CSEG    (CODE)
+                            140 	.area CONST   (CODE)
+                            141 	.area XINIT   (CODE)
+                            142 	.area CABS    (ABS,CODE)

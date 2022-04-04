@@ -1,0 +1,243 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:47 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _divulonglong
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl __divulonglong
+                             13 ;--------------------------------------------------------
+                             14 ; ram data
+                             15 ;--------------------------------------------------------
+                             16 	.area _DATA
+                             17 ;--------------------------------------------------------
+                             18 ; absolute external ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DABS (ABS)
+                             21 ;--------------------------------------------------------
+                             22 ; global & static initialisations
+                             23 ;--------------------------------------------------------
+                             24 	.area _HOME
+                             25 	.area _GSINIT
+                             26 	.area _GSFINAL
+                             27 	.area _GSINIT
+                             28 ;--------------------------------------------------------
+                             29 ; Home
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 ;../_divulonglong.c:39: _divulonglong (unsigned long long x, unsigned long long y)
+                             33 ;	---------------------------------
+                             34 ; Function _divulonglong
+                             35 ; ---------------------------------
+   0000                      36 __divulonglong::
+   0000 E8 F8                37 	add	sp, #-8
+                             38 ;../_divulonglong.c:41: unsigned long long reste = 0L;
+   0002 AF                   39 	xor	a, a
+   0003 F8 00                40 	ldhl	sp,#0
+   0005 22                   41 	ld	(hl+),a
+   0006 22                   42 	ld	(hl+),a
+   0007 22                   43 	ld	(hl+),a
+   0008 22                   44 	ld	(hl+),a
+   0009 22                   45 	ld	(hl+),a
+   000A 22                   46 	ld	(hl+),a
+   000B 22                   47 	ld	(hl+),a
+   000C 77                   48 	ld	(hl),a
+                             49 ;../_divulonglong.c:42: unsigned char count = 64;
+   000D 06 40                50 	ld	b,#0x40
+                             51 ;../_divulonglong.c:45: do
+   000F                      52 00105$:
+                             53 ;../_divulonglong.c:48: c = MSB_SET(x);
+   000F F8 13                54 	ldhl	sp,#19
+   0011 7E                   55 	ld	a,(hl)
+   0012 CB 07                56 	rlc	a
+   0014 E6 01                57 	and	a,#0x01
+   0016 57                   58 	ld	d,a
+                             59 ;../_divulonglong.c:49: x <<= 1;
+   0017 F5                   60 	push	af
+   0018 F1                   61 	pop	af
+   0019 3E 01                62 	ld	a,#0x01
+   001B F8 0C                63 	ldhl	sp,#12
+   001D CB 26                64 	sla	(hl)
+   001F 23                   65 	inc	hl
+   0020 CB 16                66 	rl	(hl)
+   0022 23                   67 	inc	hl
+   0023 CB 16                68 	rl	(hl)
+   0025 23                   69 	inc	hl
+   0026 CB 16                70 	rl	(hl)
+   0028 23                   71 	inc	hl
+   0029 CB 16                72 	rl	(hl)
+   002B 23                   73 	inc	hl
+   002C CB 16                74 	rl	(hl)
+   002E 23                   75 	inc	hl
+   002F CB 16                76 	rl	(hl)
+   0031 23                   77 	inc	hl
+   0032 CB 16                78 	rl	(hl)
+                             79 ;../_divulonglong.c:50: reste <<= 1;
+   0034 F5                   80 	push	af
+   0035 F1                   81 	pop	af
+   0036 3E 01                82 	ld	a,#0x01
+   0038 F8 00                83 	ldhl	sp,#0
+   003A CB 26                84 	sla	(hl)
+   003C 23                   85 	inc	hl
+   003D CB 16                86 	rl	(hl)
+   003F 23                   87 	inc	hl
+   0040 CB 16                88 	rl	(hl)
+   0042 23                   89 	inc	hl
+   0043 CB 16                90 	rl	(hl)
+   0045 23                   91 	inc	hl
+   0046 CB 16                92 	rl	(hl)
+   0048 23                   93 	inc	hl
+   0049 CB 16                94 	rl	(hl)
+   004B 23                   95 	inc	hl
+   004C CB 16                96 	rl	(hl)
+   004E 23                   97 	inc	hl
+   004F CB 16                98 	rl	(hl)
+                             99 ;../_divulonglong.c:51: if (c)
+   0051 CB 42               100 	bit	0,d
+   0053 28 06               101 	jr	Z,00102$
+                            102 ;../_divulonglong.c:52: reste |= 1L;
+   0055 F8 00               103 	ldhl	sp,#0
+   0057 7E                  104 	ld	a,(hl)
+   0058 CB C7               105 	set	0, a
+   005A 77                  106 	ld	(hl),a
+   005B                     107 00102$:
+                            108 ;../_divulonglong.c:54: if (reste >= y)
+   005B F8 00               109 	ldhl	sp,#0
+   005D 54                  110 	ld	d, h
+   005E 5D                  111 	ld	e, l
+   005F F8 14               112 	ldhl	sp,#20
+   0061 1A                  113 	ld	a, (de)
+   0062 96                  114 	sub	a, (hl)
+   0063 23                  115 	inc	hl
+   0064 13                  116 	inc	de
+   0065 1A                  117 	ld	a, (de)
+   0066 9E                  118 	sbc	a, (hl)
+   0067 23                  119 	inc	hl
+   0068 13                  120 	inc	de
+   0069 1A                  121 	ld	a, (de)
+   006A 9E                  122 	sbc	a, (hl)
+   006B 23                  123 	inc	hl
+   006C 13                  124 	inc	de
+   006D 1A                  125 	ld	a, (de)
+   006E 9E                  126 	sbc	a, (hl)
+   006F 23                  127 	inc	hl
+   0070 13                  128 	inc	de
+   0071 1A                  129 	ld	a, (de)
+   0072 9E                  130 	sbc	a, (hl)
+   0073 23                  131 	inc	hl
+   0074 13                  132 	inc	de
+   0075 1A                  133 	ld	a, (de)
+   0076 9E                  134 	sbc	a, (hl)
+   0077 23                  135 	inc	hl
+   0078 13                  136 	inc	de
+   0079 1A                  137 	ld	a, (de)
+   007A 9E                  138 	sbc	a, (hl)
+   007B 23                  139 	inc	hl
+   007C 13                  140 	inc	de
+   007D 1A                  141 	ld	a, (de)
+   007E 9E                  142 	sbc	a, (hl)
+   007F DArC2r00            143 	jp	C,00106$
+                            144 ;../_divulonglong.c:56: reste -= y;
+   0082 F8 00               145 	ldhl	sp,#0
+   0084 7E                  146 	ld	a,(hl)
+   0085 F8 14               147 	ldhl	sp,#20
+   0087 96                  148 	sub	a, (hl)
+   0088 F8 00               149 	ldhl	sp,#0
+   008A 22                  150 	ld	(hl+),a
+   008B 7E                  151 	ld	a,(hl)
+   008C F8 15               152 	ldhl	sp,#21
+   008E 9E                  153 	sbc	a, (hl)
+   008F F8 01               154 	ldhl	sp,#1
+   0091 22                  155 	ld	(hl+),a
+   0092 7E                  156 	ld	a,(hl)
+   0093 F8 16               157 	ldhl	sp,#22
+   0095 9E                  158 	sbc	a, (hl)
+   0096 F8 02               159 	ldhl	sp,#2
+   0098 22                  160 	ld	(hl+),a
+   0099 7E                  161 	ld	a,(hl)
+   009A F8 17               162 	ldhl	sp,#23
+   009C 9E                  163 	sbc	a, (hl)
+   009D F8 03               164 	ldhl	sp,#3
+   009F 22                  165 	ld	(hl+),a
+   00A0 7E                  166 	ld	a,(hl)
+   00A1 F8 18               167 	ldhl	sp,#24
+   00A3 9E                  168 	sbc	a, (hl)
+   00A4 F8 04               169 	ldhl	sp,#4
+   00A6 22                  170 	ld	(hl+),a
+   00A7 7E                  171 	ld	a,(hl)
+   00A8 F8 19               172 	ldhl	sp,#25
+   00AA 9E                  173 	sbc	a, (hl)
+   00AB F8 05               174 	ldhl	sp,#5
+   00AD 22                  175 	ld	(hl+),a
+   00AE 7E                  176 	ld	a,(hl)
+   00AF F8 1A               177 	ldhl	sp,#26
+   00B1 9E                  178 	sbc	a, (hl)
+   00B2 F8 06               179 	ldhl	sp,#6
+   00B4 22                  180 	ld	(hl+),a
+   00B5 7E                  181 	ld	a,(hl)
+   00B6 F8 1B               182 	ldhl	sp,#27
+   00B8 9E                  183 	sbc	a, (hl)
+   00B9 F8 07               184 	ldhl	sp,#7
+   00BB 77                  185 	ld	(hl),a
+                            186 ;../_divulonglong.c:58: x |= 1L;
+   00BC F8 0C               187 	ldhl	sp,#12
+   00BE 7E                  188 	ld	a,(hl)
+   00BF CB C7               189 	set	0, a
+   00C1 77                  190 	ld	(hl),a
+   00C2                     191 00106$:
+                            192 ;../_divulonglong.c:61: while (--count);
+   00C2 78                  193 	ld	a,b
+   00C3 C6 FF               194 	add	a,#0xFF
+   00C5 47                  195 	ld	b,a
+   00C6 B7                  196 	or	a, a
+   00C7 C2r0Fr00            197 	jp	NZ,00105$
+                            198 ;../_divulonglong.c:62: return x;
+   00CA 21 0A 00            199 	ld	hl, #10
+   00CD 39                  200 	add	hl, sp
+   00CE 4E                  201 	ld	c, (hl)
+   00CF 23                  202 	inc	hl
+   00D0 46                  203 	ld	b, (hl)
+   00D1 F8 0C               204 	ldhl	sp,#12
+   00D3 7E                  205 	ld	a,(hl)
+   00D4 02                  206 	ld	(bc), a
+   00D5 03                  207 	inc	bc
+   00D6 23                  208 	inc	hl
+   00D7 7E                  209 	ld	a,(hl)
+   00D8 02                  210 	ld	(bc), a
+   00D9 03                  211 	inc	bc
+   00DA 23                  212 	inc	hl
+   00DB 7E                  213 	ld	a,(hl)
+   00DC 02                  214 	ld	(bc), a
+   00DD 03                  215 	inc	bc
+   00DE 23                  216 	inc	hl
+   00DF 7E                  217 	ld	a,(hl)
+   00E0 02                  218 	ld	(bc), a
+   00E1 03                  219 	inc	bc
+   00E2 23                  220 	inc	hl
+   00E3 7E                  221 	ld	a,(hl)
+   00E4 02                  222 	ld	(bc), a
+   00E5 03                  223 	inc	bc
+   00E6 23                  224 	inc	hl
+   00E7 7E                  225 	ld	a,(hl)
+   00E8 02                  226 	ld	(bc), a
+   00E9 03                  227 	inc	bc
+   00EA 23                  228 	inc	hl
+   00EB 7E                  229 	ld	a,(hl)
+   00EC 02                  230 	ld	(bc), a
+   00ED 03                  231 	inc	bc
+   00EE 23                  232 	inc	hl
+   00EF 7E                  233 	ld	a,(hl)
+   00F0 02                  234 	ld	(bc), a
+   00F1 E8 08               235 	add	sp, #8
+   00F3 C9                  236 	ret
+                            237 	.area _HOME
+                            238 ;--------------------------------------------------------
+                            239 ; code
+                            240 ;--------------------------------------------------------
+                            241 	.area _CODE
+                            242 	.area _CODE
+                            243 	.area _CABS (ABS)

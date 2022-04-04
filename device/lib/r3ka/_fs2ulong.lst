@@ -1,0 +1,173 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:10 2022
+                              5 ;--------------------------------------------------------
+                              6 	.r3k
+                              7 	.module _fs2ulong
+                              8 	.optsdcc -mr3ka
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl ___fs2ulong
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 ;../_fs2ulong.c:103: __fs2ulong (float a1)
+                             41 ;	---------------------------------
+                             42 ; Function __fs2ulong
+                             43 ; ---------------------------------
+   0000                      44 ___fs2ulong::
+   0000 DD E5                45 	push	ix
+   0002 DD 21 00 00          46 	ld	ix,#0
+   0006 DD 39                47 	add	ix,sp
+   0008 27 F6                48 	add	sp, #-10
+                             49 ;../_fs2ulong.c:109: fl1.f = a1;
+   000A 21 06 00             50 	ld	hl,#0x0006
+   000D 39                   51 	add	hl,sp
+   000E EB                   52 	ex	de,hl
+   000F 21 0E 00             53 	ld	hl, #0x000E
+   0012 39                   54 	add	hl, sp
+   0013 01 04 00             55 	ld	bc, #0x0004
+   0016 ED B0                56 	ldir
+                             57 ;../_fs2ulong.c:111: if (!fl1.l || SIGN(fl1.l))
+   0018 21 06 00             58 	ld	hl,#0x0006
+   001B 39                   59 	add	hl,sp
+   001C 5E                   60 	ld	e,(hl)
+   001D 23                   61 	inc	hl
+   001E 56                   62 	ld	d,(hl)
+   001F 23                   63 	inc	hl
+   0020 4E                   64 	ld	c,(hl)
+   0021 23                   65 	inc	hl
+   0022 7E                   66 	ld	a, (hl)
+   0023 B1                   67 	or	a, c
+   0024 B2                   68 	or	a, d
+   0025 B3                   69 	or	a,e
+   0026 28 11                70 	jr	Z,00101$
+   0028 21 06 00             71 	ld	hl,#0x0006
+   002B 39                   72 	add	hl,sp
+   002C 5E                   73 	ld	e,(hl)
+   002D 23                   74 	inc	hl
+   002E 56                   75 	ld	d,(hl)
+   002F 23                   76 	inc	hl
+   0030 4E                   77 	ld	c,(hl)
+   0031 23                   78 	inc	hl
+   0032 7E                   79 	ld	a, (hl)
+   0033 CB 07                80 	rlc	a
+   0035 E6 01                81 	and	a,#0x01
+   0037 28 07                82 	jr	Z,00102$
+   0039                      83 00101$:
+                             84 ;../_fs2ulong.c:112: return (0);
+   0039 21 00 00             85 	ld	hl,#0x0000
+   003C 5D                   86 	ld	e,l
+   003D 54                   87 	ld	d,h
+   003E 18 78                88 	jr	00104$
+   0040                      89 00102$:
+                             90 ;../_fs2ulong.c:114: exp = EXP (fl1.l) - EXCESS - 24;
+   0040 21 06 00             91 	ld	hl,#0x0006
+   0043 39                   92 	add	hl,sp
+   0044 4E                   93 	ld	c,(hl)
+   0045 23                   94 	inc	hl
+   0046 46                   95 	ld	b,(hl)
+   0047 23                   96 	inc	hl
+   0048 5E                   97 	ld	e,(hl)
+   0049 23                   98 	inc	hl
+   004A 56                   99 	ld	d,(hl)
+   004B 69                  100 	ld	l,c
+   004C 60                  101 	ld	h,b
+   004D 06 17               102 	ld	b,#0x17
+   004F                     103 00110$:
+   004F BF                  104 	cp	a, a
+   0050 FB                  105 	rr	de
+   0051 FC                  106 	rr	hl
+   0052 10 FB               107 	djnz	00110$
+   0054 26 00               108 	ld	h,#0x00
+   0056 11 00 00            109 	ld	de,#0x0000
+   0059 7D                  110 	ld	a,l
+   005A C6 6A               111 	add	a,#0x6A
+   005C 6F                  112 	ld	l,a
+   005D 7C                  113 	ld	a,h
+   005E CE FF               114 	adc	a,#0xFF
+   0060 67                  115 	ld	h,a
+   0061 7B                  116 	ld	a,e
+   0062 CE FF               117 	adc	a,#0xFF
+   0064 7A                  118 	ld	a,d
+   0065 CE FF               119 	adc	a,#0xFF
+   0067 DD 75 FA            120 	ld	-6 (ix),l
+   006A DD 74 FB            121 	ld	-5 (ix),h
+                            122 ;../_fs2ulong.c:115: l = MANT (fl1.l);
+   006D 21 06 00            123 	ld	hl,#0x0006
+   0070 39                  124 	add	hl,sp
+   0071 5E                  125 	ld	e,(hl)
+   0072 23                  126 	inc	hl
+   0073 56                  127 	ld	d,(hl)
+   0074 23                  128 	inc	hl
+   0075 4E                  129 	ld	c,(hl)
+   0076 23                  130 	inc	hl
+   0077 46                  131 	ld	b,(hl)
+   0078 CB B9               132 	res	7, c
+   007A 06 00               133 	ld	b,#0x00
+   007C DD 73 F6            134 	ld	-10 (ix),e
+   007F DD 72 F7            135 	ld	-9 (ix),d
+   0082 79                  136 	ld	a,c
+   0083 CB FF               137 	set	7, a
+   0085 DD 77 F8            138 	ld	-8 (ix),a
+   0088 DD 70 F9            139 	ld	-7 (ix),b
+                            140 ;../_fs2ulong.c:117: l >>= -exp;
+   008B AF                  141 	xor	a, a
+   008C DD 96 FA            142 	sub	a, -6 (ix)
+   008F 47                  143 	ld	b,a
+   0090 3E 00               144 	ld	a, #0x00
+   0092 DD 9E FB            145 	sbc	a, -5 (ix)
+   0095 F5                  146 	push	af
+   0096 F1                  147 	pop	af
+   0097 04                  148 	inc	b
+   0098 18 10               149 	jr	00113$
+   009A                     150 00112$:
+   009A DD CB F9 2E         151 	sra	-7 (ix)
+   009E DD CB F8 1E         152 	rr	-8 (ix)
+   00A2 DD CB F7 1E         153 	rr	-9 (ix)
+   00A6 DD CB F6 1E         154 	rr	-10 (ix)
+   00AA                     155 00113$:
+   00AA 10 EE               156 	djnz	00112$
+                            157 ;../_fs2ulong.c:119: return l;
+   00AC DD 6E F6            158 	ld	l,-10 (ix)
+   00AF DD 66 F7            159 	ld	h,-9 (ix)
+   00B2 DD 5E F8            160 	ld	e,-8 (ix)
+   00B5 DD 56 F9            161 	ld	d,-7 (ix)
+   00B8                     162 00104$:
+   00B8 DD F9               163 	ld	sp, ix
+   00BA DD E1               164 	pop	ix
+   00BC C9                  165 	ret
+                            166 	.area _HOME
+                            167 ;--------------------------------------------------------
+                            168 ; code
+                            169 ;--------------------------------------------------------
+                            170 	.area _CODE
+                            171 	.area _CODE
+                            172 	.area _INITIALIZER
+                            173 	.area _CABS (ABS)

@@ -1,0 +1,215 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:47 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module ceilf
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _ceilf
+                             13 ;--------------------------------------------------------
+                             14 ; ram data
+                             15 ;--------------------------------------------------------
+                             16 	.area _DATA
+                             17 ;--------------------------------------------------------
+                             18 ; absolute external ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DABS (ABS)
+                             21 ;--------------------------------------------------------
+                             22 ; global & static initialisations
+                             23 ;--------------------------------------------------------
+                             24 	.area _HOME
+                             25 	.area _GSINIT
+                             26 	.area _GSFINAL
+                             27 	.area _GSINIT
+                             28 ;--------------------------------------------------------
+                             29 ; Home
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _HOME
+                             33 ;--------------------------------------------------------
+                             34 ; code
+                             35 ;--------------------------------------------------------
+                             36 	.area _CODE
+                             37 ;../ceilf.c:33: float ceilf(float x) _FLOAT_FUNC_REENTRANT
+                             38 ;	---------------------------------
+                             39 ; Function ceilf
+                             40 ; ---------------------------------
+   0000                      41 _ceilf::
+   0000 E8 F8                42 	add	sp, #-8
+                             43 ;../ceilf.c:36: r=x;
+   0002 F8 0C                44 	ldhl	sp,#12
+   0004 2A                   45 	ld	a,(hl+)
+   0005 66                   46 	ld	h,(hl)
+   0006 6F                   47 	ld	l,a
+   0007 E5                   48 	push	hl
+   0008 F8 0C                49 	ldhl	sp,#12
+   000A 2A                   50 	ld	a,(hl+)
+   000B 66                   51 	ld	h,(hl)
+   000C 6F                   52 	ld	l,a
+   000D E5                   53 	push	hl
+   000E CDr00r00             54 	call	___fs2slong
+   0011 E8 04                55 	add	sp, #4
+   0013 45                   56 	ld	b,l
+   0014 4C                   57 	ld	c,h
+   0015 F8 00                58 	ldhl	sp,#0
+   0017 73                   59 	ld	(hl),e
+   0018 23                   60 	inc	hl
+   0019 72                   61 	ld	(hl),d
+   001A 23                   62 	inc	hl
+   001B 70                   63 	ld	(hl),b
+   001C 23                   64 	inc	hl
+   001D 71                   65 	ld	(hl),c
+                             66 ;../ceilf.c:38: return r;
+   001E 2B                   67 	dec	hl
+   001F 2A                   68 	ld	a,(hl+)
+   0020 66                   69 	ld	h,(hl)
+   0021 6F                   70 	ld	l,a
+   0022 E5                   71 	push	hl
+   0023 F8 02                72 	ldhl	sp,#2
+   0025 2A                   73 	ld	a,(hl+)
+   0026 66                   74 	ld	h,(hl)
+   0027 6F                   75 	ld	l,a
+   0028 E5                   76 	push	hl
+   0029 CDr00r00             77 	call	___slong2fs
+   002C E8 04                78 	add	sp, #4
+   002E E5                   79 	push	hl
+   002F F8 06                80 	ldhl	sp,#6
+   0031 73                   81 	ld	(hl),e
+   0032 23                   82 	inc	hl
+   0033 72                   83 	ld	(hl),d
+   0034 D1                   84 	pop	de
+   0035 23                   85 	inc	hl
+   0036 73                   86 	ld	(hl),e
+   0037 23                   87 	inc	hl
+   0038 72                   88 	ld	(hl),d
+                             89 ;../ceilf.c:37: if (r<0)
+   0039 F8 00                90 	ldhl	sp,#0
+   003B 7E                   91 	ld	a, (hl)
+   003C D6 00                92 	sub	a, #0x00
+   003E 23                   93 	inc	hl
+   003F 7E                   94 	ld	a, (hl)
+   0040 DE 00                95 	sbc	a, #0x00
+   0042 23                   96 	inc	hl
+   0043 7E                   97 	ld	a, (hl)
+   0044 DE 00                98 	sbc	a, #0x00
+   0046 23                   99 	inc	hl
+   0047 7E                  100 	ld	a, (hl)
+   0048 DE 00               101 	sbc	a, #0x00
+   004A 56                  102 	ld	d, (hl)
+   004B 3E 00               103 	ld	a,#0x00
+   004D 5F                  104 	ld	e, a
+   004E CB 7B               105 	bit	7, e
+   0050 28 07               106 	jr	Z,00116$
+   0052 CB 7A               107 	bit	7, d
+   0054 20 08               108 	jr	NZ,00117$
+   0056 BF                  109 	cp	a, a
+   0057 18 05               110 	jr	00117$
+   0059                     111 00116$:
+   0059 CB 7A               112 	bit	7, d
+   005B 28 01               113 	jr	Z,00117$
+   005D 37                  114 	scf
+   005E                     115 00117$:
+   005E 30 0D               116 	jr	NC,00102$
+                            117 ;../ceilf.c:38: return r;
+   0060 F8 05               118 	ldhl	sp,#5
+   0062 2B                  119 	dec	hl
+   0063 5E                  120 	ld	e,(hl)
+   0064 23                  121 	inc	hl
+   0065 56                  122 	ld	d,(hl)
+   0066 23                  123 	inc	hl
+   0067 2A                  124 	ld	a,(hl+)
+   0068 66                  125 	ld	h,(hl)
+   0069 6F                  126 	ld	l,a
+   006A C3rCFr00            127 	jp	00104$
+   006D                     128 00102$:
+                            129 ;../ceilf.c:40: return (r+((r<x)?1:0));
+   006D F8 0C               130 	ldhl	sp,#12
+   006F 2A                  131 	ld	a,(hl+)
+   0070 66                  132 	ld	h,(hl)
+   0071 6F                  133 	ld	l,a
+   0072 E5                  134 	push	hl
+   0073 F8 0C               135 	ldhl	sp,#12
+   0075 2A                  136 	ld	a,(hl+)
+   0076 66                  137 	ld	h,(hl)
+   0077 6F                  138 	ld	l,a
+   0078 E5                  139 	push	hl
+   0079 F8 0A               140 	ldhl	sp,#10
+   007B 2A                  141 	ld	a,(hl+)
+   007C 66                  142 	ld	h,(hl)
+   007D 6F                  143 	ld	l,a
+   007E E5                  144 	push	hl
+   007F F8 0A               145 	ldhl	sp,#10
+   0081 2A                  146 	ld	a,(hl+)
+   0082 66                  147 	ld	h,(hl)
+   0083 6F                  148 	ld	l,a
+   0084 E5                  149 	push	hl
+   0085 CDr00r00            150 	call	___fslt
+   0088 E8 08               151 	add	sp, #8
+   008A 7B                  152 	ld	a,e
+   008B B7                  153 	or	a, a
+   008C 28 04               154 	jr	Z,00106$
+   008E 1E 01               155 	ld	e,#0x01
+   0090 18 02               156 	jr	00107$
+   0092                     157 00106$:
+   0092 1E 00               158 	ld	e,#0x00
+   0094                     159 00107$:
+   0094 16 00               160 	ld	d,#0x00
+   0096 F8 04               161 	ldhl	sp,#4
+   0098 73                  162 	ld	(hl),e
+   0099 23                  163 	inc	hl
+   009A 72                  164 	ld	(hl),d
+   009B 7A                  165 	ld	a,d
+   009C 17                  166 	rla
+   009D 9F                  167 	sbc	a, a
+   009E 23                  168 	inc	hl
+   009F 22                  169 	ld	(hl+),a
+   00A0 77                  170 	ld	(hl),a
+   00A1 D1                  171 	pop	de
+   00A2 D5                  172 	push	de
+   00A3 7B                  173 	ld	a,e
+   00A4 F8 04               174 	ldhl	sp,#4
+   00A6 86                  175 	add	a, (hl)
+   00A7 5F                  176 	ld	e,a
+   00A8 7A                  177 	ld	a,d
+   00A9 23                  178 	inc	hl
+   00AA 8E                  179 	adc	a, (hl)
+   00AB F5                  180 	push	af
+   00AC 32                  181 	ld	(hl-),a
+   00AD 73                  182 	ld	(hl),e
+   00AE 2B                  183 	dec	hl
+   00AF 2B                  184 	dec	hl
+   00B0 5E                  185 	ld	e,(hl)
+   00B1 23                  186 	inc	hl
+   00B2 56                  187 	ld	d,(hl)
+   00B3 F8 08               188 	ldhl	sp,#8
+   00B5 F1                  189 	pop	af
+   00B6 7B                  190 	ld	a,e
+   00B7 8E                  191 	adc	a, (hl)
+   00B8 5F                  192 	ld	e,a
+   00B9 7A                  193 	ld	a,d
+   00BA 23                  194 	inc	hl
+   00BB 8E                  195 	adc	a, (hl)
+   00BC 32                  196 	ld	(hl-),a
+   00BD 73                  197 	ld	(hl),e
+   00BE 2A                  198 	ld	a,(hl+)
+   00BF 66                  199 	ld	h,(hl)
+   00C0 6F                  200 	ld	l,a
+   00C1 E5                  201 	push	hl
+   00C2 F8 06               202 	ldhl	sp,#6
+   00C4 2A                  203 	ld	a,(hl+)
+   00C5 66                  204 	ld	h,(hl)
+   00C6 6F                  205 	ld	l,a
+   00C7 E5                  206 	push	hl
+   00C8 CDr00r00            207 	call	___slong2fs
+   00CB E8 04               208 	add	sp, #4
+   00CD 45                  209 	ld	b,l
+   00CE 4C                  210 	ld	c,h
+   00CF                     211 00104$:
+   00CF E8 08               212 	add	sp, #8
+   00D1 C9                  213 	ret
+                            214 	.area _CODE
+                            215 	.area _CABS (ABS)

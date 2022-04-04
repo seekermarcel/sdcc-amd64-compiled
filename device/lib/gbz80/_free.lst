@@ -1,0 +1,195 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:48 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _free
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl __sdcc_find_memheader
+                             13 	.globl __sdcc_prev_memheader
+                             14 	.globl _free
+                             15 ;--------------------------------------------------------
+                             16 ; ram data
+                             17 ;--------------------------------------------------------
+                             18 	.area _DATA
+   0000                      19 __sdcc_prev_memheader::
+   0000                      20 	.ds 2
+                             21 ;--------------------------------------------------------
+                             22 ; absolute external ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _DABS (ABS)
+                             25 ;--------------------------------------------------------
+                             26 ; global & static initialisations
+                             27 ;--------------------------------------------------------
+                             28 	.area _HOME
+                             29 	.area _GSINIT
+                             30 	.area _GSFINAL
+                             31 	.area _GSINIT
+                             32 ;--------------------------------------------------------
+                             33 ; Home
+                             34 ;--------------------------------------------------------
+                             35 	.area _HOME
+                             36 	.area _HOME
+                             37 ;--------------------------------------------------------
+                             38 ; code
+                             39 ;--------------------------------------------------------
+                             40 	.area _CODE
+                             41 ;../_free.c:62: _sdcc_find_memheader(void * p)
+                             42 ;	---------------------------------
+                             43 ; Function _sdcc_find_memheader
+                             44 ; ---------------------------------
+   0000                      45 __sdcc_find_memheader::
+   0000 E8 FE                46 	add	sp, #-2
+                             47 ;../_free.c:65: if (!p)
+   0002 F8 05                48 	ldhl	sp,#5
+   0004 3A                   49 	ld	a,(hl-)
+   0005 B6                   50 	or	a,(hl)
+   0006 20 05                51 	jr	NZ,00102$
+                             52 ;../_free.c:66: return NULL;
+   0008 11 00 00             53 	ld	de,#0x0000
+   000B 18 21                54 	jr	00103$
+   000D                      55 00102$:
+                             56 ;../_free.c:67: pthis = (MEMHEADER * )((char *)  p - HEADER_SIZE); //to start of header
+   000D F8 05                57 	ldhl	sp,#5
+   000F 2B                   58 	dec	hl
+   0010 4E                   59 	ld	c,(hl)
+   0011 23                   60 	inc	hl
+   0012 46                   61 	ld	b,(hl)
+   0013 79                   62 	ld	a,c
+   0014 C6 FA                63 	add	a,#0xFA
+   0016 4F                   64 	ld	c,a
+   0017 78                   65 	ld	a,b
+   0018 CE FF                66 	adc	a,#0xFF
+   001A 47                   67 	ld	b,a
+                             68 ;../_free.c:68: _sdcc_prev_memheader = pthis->prev;
+   001B 21 02 00             69 	ld	hl,#0x0002
+   001E 09                   70 	add	hl,bc
+   001F 33                   71 	inc	sp
+   0020 33                   72 	inc	sp
+   0021 E5                   73 	push	hl
+   0022 D1                   74 	pop	de
+   0023 D5                   75 	push	de
+   0024 1A                   76 	ld	a,(de)
+   0025 21r00r00             77 	ld	hl,#__sdcc_prev_memheader
+   0028 22                   78 	ld	(hl+),a
+   0029 13                   79 	inc	de
+   002A 1A                   80 	ld	a,(de)
+   002B 77                   81 	ld	(hl),a
+                             82 ;../_free.c:70: return (pthis);
+   002C 59                   83 	ld	e, c
+   002D 50                   84 	ld	d, b
+   002E                      85 00103$:
+   002E E8 02                86 	add	sp, #2
+   0030 C9                   87 	ret
+                             88 ;../_free.c:74: free (void *p)
+                             89 ;	---------------------------------
+                             90 ; Function free
+                             91 ; ---------------------------------
+   0031                      92 _free::
+   0031 E8 FC                93 	add	sp, #-4
+                             94 ;../_free.c:78: if ( p ) //For allocated pointers only!
+   0033 F8 07                95 	ldhl	sp,#7
+   0035 3A                   96 	ld	a,(hl-)
+   0036 B6                   97 	or	a,(hl)
+   0037 CAr9Br00             98 	jp	Z,00108$
+                             99 ;../_free.c:95: }
+   003A F3                  100 	di
+                            101 ;../_free.c:81: pthis = (MEMHEADER * )((char *)  p - HEADER_SIZE); //to start of header
+   003B 4E                  102 	ld	c,(hl)
+   003C 23                  103 	inc	hl
+   003D 46                  104 	ld	b,(hl)
+   003E 79                  105 	ld	a,c
+   003F C6 FA               106 	add	a,#0xFA
+   0041 4F                  107 	ld	c,a
+   0042 78                  108 	ld	a,b
+   0043 CE FF               109 	adc	a,#0xFF
+   0045 47                  110 	ld	b,a
+   0046 F8 02               111 	ldhl	sp,#2
+   0048 71                  112 	ld	(hl),c
+   0049 23                  113 	inc	hl
+   004A 70                  114 	ld	(hl),b
+                            115 ;../_free.c:82: if ( pthis->prev ) // For the regular header
+   004B 2B                  116 	dec	hl
+   004C 4E                  117 	ld	c,(hl)
+   004D 23                  118 	inc	hl
+   004E 46                  119 	ld	b,(hl)
+   004F 03                  120 	inc	bc
+   0050 03                  121 	inc	bc
+   0051 59                  122 	ld	e, c
+   0052 50                  123 	ld	d, b
+   0053 1A                  124 	ld	a,(de)
+   0054 47                  125 	ld	b,a
+   0055 13                  126 	inc	de
+   0056 1A                  127 	ld	a,(de)
+   0057 4F                  128 	ld	c,a
+   0058 B0                  129 	or	a,b
+   0059 CAr89r00            130 	jp	Z,00104$
+                            131 ;../_free.c:84: prev_header = pthis->prev;
+   005C F8 00               132 	ldhl	sp,#0
+   005E 70                  133 	ld	(hl),b
+   005F 23                  134 	inc	hl
+   0060 71                  135 	ld	(hl),c
+                            136 ;../_free.c:85: prev_header->next = pthis->next;
+   0061 23                  137 	inc	hl
+   0062 5E                  138 	ld	e,(hl)
+   0063 23                  139 	inc	hl
+   0064 56                  140 	ld	d,(hl)
+   0065 1A                  141 	ld	a,(de)
+   0066 47                  142 	ld	b,a
+   0067 13                  143 	inc	de
+   0068 1A                  144 	ld	a,(de)
+   0069 4F                  145 	ld	c,a
+   006A E1                  146 	pop	hl
+   006B E5                  147 	push	hl
+   006C 70                  148 	ld	(hl),b
+   006D 23                  149 	inc	hl
+   006E 71                  150 	ld	(hl),c
+                            151 ;../_free.c:86: if (pthis->next)
+   006F F8 03               152 	ldhl	sp,#3
+   0071 2B                  153 	dec	hl
+   0072 5E                  154 	ld	e,(hl)
+   0073 23                  155 	inc	hl
+   0074 56                  156 	ld	d,(hl)
+   0075 1A                  157 	ld	a,(de)
+   0076 4F                  158 	ld	c,a
+   0077 13                  159 	inc	de
+   0078 1A                  160 	ld	a,(de)
+   0079 47                  161 	ld	b,a
+   007A B1                  162 	or	a,c
+   007B 28 1D               163 	jr	Z,00105$
+                            164 ;../_free.c:88: pthis->next->prev = prev_header;
+   007D 03                  165 	inc	bc
+   007E 03                  166 	inc	bc
+   007F F8 00               167 	ldhl	sp,#0
+   0081 7E                  168 	ld	a,(hl)
+   0082 02                  169 	ld	(bc),a
+   0083 03                  170 	inc	bc
+   0084 23                  171 	inc	hl
+   0085 7E                  172 	ld	a,(hl)
+   0086 02                  173 	ld	(bc),a
+   0087 18 11               174 	jr	00105$
+   0089                     175 00104$:
+                            176 ;../_free.c:93: pthis->len = 0; //For the first header
+   0089 F8 03               177 	ldhl	sp,#3
+   008B 2B                  178 	dec	hl
+   008C 5E                  179 	ld	e,(hl)
+   008D 23                  180 	inc	hl
+   008E 56                  181 	ld	d,(hl)
+   008F 21 04 00            182 	ld	hl,#0x0004
+   0092 19                  183 	add	hl,de
+   0093 45                  184 	ld	b,l
+   0094 4C                  185 	ld	c,h
+   0095 36 00               186 	ld	(hl),#0x00
+   0097 23                  187 	inc	hl
+   0098 36 00               188 	ld	(hl),#0x00
+   009A                     189 00105$:
+   009A FB                  190 	ei
+   009B                     191 00108$:
+   009B E8 04               192 	add	sp, #4
+   009D C9                  193 	ret
+                            194 	.area _CODE
+                            195 	.area _CABS (ABS)

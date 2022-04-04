@@ -1,0 +1,122 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:39 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module puts
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _puts
+                             25 	.globl _putchar
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area DSEG    (PAG)
+   0000                      30 _puts_sloc0_1_0:
+   0000                      31 	.ds 2
+   0002                      32 _puts_sloc1_1_0:
+   0002                      33 	.ds 2
+                             34 ;--------------------------------------------------------
+                             35 ; overlayable items in ram 
+                             36 ;--------------------------------------------------------
+                             37 ;--------------------------------------------------------
+                             38 ; absolute ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area IABS    (ABS)
+                             41 	.area IABS    (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; absolute external ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area XABS    (ABS)
+                             46 ;--------------------------------------------------------
+                             47 ; external initialized ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area XISEG
+                             50 ;--------------------------------------------------------
+                             51 ; extended address mode data
+                             52 ;--------------------------------------------------------
+                             53 	.area XSEG
+                             54 ;--------------------------------------------------------
+                             55 ; global & static initialisations
+                             56 ;--------------------------------------------------------
+                             57 	.area HOME    (CODE)
+                             58 	.area GSINIT  (CODE)
+                             59 	.area GSFINAL (CODE)
+                             60 	.area GSINIT  (CODE)
+                             61 ;--------------------------------------------------------
+                             62 ; Home
+                             63 ;--------------------------------------------------------
+                             64 	.area HOME    (CODE)
+                             65 	.area HOME    (CODE)
+                             66 ;--------------------------------------------------------
+                             67 ; code
+                             68 ;--------------------------------------------------------
+                             69 	.area CSEG    (CODE)
+                             70 ;------------------------------------------------------------
+                             71 ;Allocation info for local variables in function 'puts'
+                             72 ;------------------------------------------------------------
+                             73 ;sloc0                     Allocated with name '_puts_sloc0_1_0'
+                             74 ;sloc1                     Allocated with name '_puts_sloc1_1_0'
+                             75 ;s                         Allocated to registers 
+                             76 ;i                         Allocated to registers 
+                             77 ;------------------------------------------------------------
+                             78 ;../puts.c:31: int puts (char *s)
+                             79 ;	-----------------------------------------
+                             80 ;	 function puts
+                             81 ;	-----------------------------------------
+                             82 ;	Register assignment is optimal.
+                             83 ;	Stack space usage: 0 bytes.
+   0000                      84 _puts:
+   0000 B7*01         [ 3]   85 	sta	*(_puts_sloc0_1_0 + 1)
+   0002 BF*00         [ 3]   86 	stx	*_puts_sloc0_1_0
+                             87 ;../puts.c:34: while (*s){
+   0004 8C            [ 1]   88 	clrh
+   0005 5F            [ 1]   89 	clrx
+   0006                      90 00101$:
+   0006 89            [ 2]   91 	pshx
+   0007 8B            [ 2]   92 	pshh
+   0008 55*00         [ 4]   93 	ldhx	*_puts_sloc0_1_0
+   000A F6            [ 3]   94 	lda	,x
+   000B 8A            [ 3]   95 	pulh
+   000C 88            [ 3]   96 	pulx
+                             97 ;../puts.c:36: i++;
+   000D AF 01         [ 2]   98 	aix	#1
+   000F 35*02         [ 4]   99 	sthx	*_puts_sloc1_1_0
+                            100 ;../puts.c:34: while (*s){
+   0011 4D            [ 1]  101 	tsta
+   0012 27 0D         [ 3]  102 	beq	00103$
+                            103 ;../puts.c:35: putchar(*s++);
+   0014 55*00         [ 4]  104 	ldhx	*_puts_sloc0_1_0
+   0016 AF 01         [ 2]  105 	aix	#1
+   0018 35*00         [ 4]  106 	sthx	*_puts_sloc0_1_0
+   001A CDr00r00      [ 6]  107 	jsr	_putchar
+                            108 ;../puts.c:36: i++;
+   001D 55*02         [ 4]  109 	ldhx	*_puts_sloc1_1_0
+   001F 20 E5         [ 3]  110 	bra	00101$
+   0021                     111 00103$:
+                            112 ;../puts.c:38: putchar('\n');
+   0021 A6 0A         [ 2]  113 	lda	#0x0A
+   0023 CDr00r00      [ 6]  114 	jsr	_putchar
+                            115 ;../puts.c:39: return i+1;
+   0026 BE*02         [ 3]  116 	ldx	*_puts_sloc1_1_0
+   0028 B6*03         [ 3]  117 	lda	*(_puts_sloc1_1_0 + 1)
+   002A 81            [ 6]  118 	rts
+                            119 	.area CSEG    (CODE)
+                            120 	.area CONST   (CODE)
+                            121 	.area XINIT   (CODE)
+                            122 	.area CABS    (ABS,CODE)

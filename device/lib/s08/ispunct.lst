@@ -1,0 +1,130 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:37 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module ispunct
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _isalnum
+                             25 	.globl _isspace
+                             26 	.globl _isprint
+                             27 	.globl _ispunct
+                             28 ;--------------------------------------------------------
+                             29 ; ram data
+                             30 ;--------------------------------------------------------
+                             31 	.area DSEG    (PAG)
+   0000                      32 _ispunct_sloc0_1_0:
+   0000                      33 	.ds 2
+                             34 ;--------------------------------------------------------
+                             35 ; overlayable items in ram 
+                             36 ;--------------------------------------------------------
+                             37 ;--------------------------------------------------------
+                             38 ; absolute ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area IABS    (ABS)
+                             41 	.area IABS    (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; absolute external ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area XABS    (ABS)
+                             46 ;--------------------------------------------------------
+                             47 ; external initialized ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area XISEG
+                             50 ;--------------------------------------------------------
+                             51 ; extended address mode data
+                             52 ;--------------------------------------------------------
+                             53 	.area XSEG
+                             54 ;--------------------------------------------------------
+                             55 ; global & static initialisations
+                             56 ;--------------------------------------------------------
+                             57 	.area HOME    (CODE)
+                             58 	.area GSINIT  (CODE)
+                             59 	.area GSFINAL (CODE)
+                             60 	.area GSINIT  (CODE)
+                             61 ;--------------------------------------------------------
+                             62 ; Home
+                             63 ;--------------------------------------------------------
+                             64 	.area HOME    (CODE)
+                             65 	.area HOME    (CODE)
+                             66 ;--------------------------------------------------------
+                             67 ; code
+                             68 ;--------------------------------------------------------
+                             69 	.area CSEG    (CODE)
+                             70 ;------------------------------------------------------------
+                             71 ;Allocation info for local variables in function 'ispunct'
+                             72 ;------------------------------------------------------------
+                             73 ;sloc0                     Allocated with name '_ispunct_sloc0_1_0'
+                             74 ;c                         Allocated to registers a x 
+                             75 ;------------------------------------------------------------
+                             76 ;../ispunct.c:33: int ispunct (int c)
+                             77 ;	-----------------------------------------
+                             78 ;	 function ispunct
+                             79 ;	-----------------------------------------
+                             80 ;	Register assignment is optimal.
+                             81 ;	Stack space usage: 0 bytes.
+   0000                      82 _ispunct:
+                             83 ;../ispunct.c:35: return (isprint (c) && !isspace (c) && !isalnum (c));
+   0000 87            [ 2]   84 	psha
+   0001 89            [ 2]   85 	pshx
+   0002 CDr00r00      [ 6]   86 	jsr	_isprint
+   0005 B7*01         [ 3]   87 	sta	*(_ispunct_sloc0_1_0 + 1)
+   0007 BF*00         [ 3]   88 	stx	*_ispunct_sloc0_1_0
+   0009 88            [ 3]   89 	pulx
+   000A 86            [ 3]   90 	pula
+   000B 3D*01         [ 4]   91 	tst	*(_ispunct_sloc0_1_0 + 1)
+   000D 26 02         [ 3]   92 	bne	00116$
+   000F 3D*00         [ 4]   93 	tst	*_ispunct_sloc0_1_0
+   0011                      94 00116$:
+   0011 27 1C         [ 3]   95 	beq	00103$
+   0013 87            [ 2]   96 	psha
+   0014 89            [ 2]   97 	pshx
+   0015 CDr00r00      [ 6]   98 	jsr	_isspace
+   0018 B7*01         [ 3]   99 	sta	*(_ispunct_sloc0_1_0 + 1)
+   001A BF*00         [ 3]  100 	stx	*_ispunct_sloc0_1_0
+   001C 88            [ 3]  101 	pulx
+   001D 86            [ 3]  102 	pula
+   001E 3D*01         [ 4]  103 	tst	*(_ispunct_sloc0_1_0 + 1)
+   0020 26 02         [ 3]  104 	bne	00118$
+   0022 3D*00         [ 4]  105 	tst	*_ispunct_sloc0_1_0
+   0024                     106 00118$:
+   0024 26 09         [ 3]  107 	bne	00103$
+   0026 CDr00r00      [ 6]  108 	jsr	_isalnum
+   0029 4D            [ 1]  109 	tsta
+   002A 26 01         [ 3]  110 	bne	00120$
+   002C 5D            [ 1]  111 	tstx
+   002D                     112 00120$:
+   002D 27 03         [ 3]  113 	beq	00104$
+   002F                     114 00103$:
+   002F 4F            [ 1]  115 	clra
+   0030 20 02         [ 3]  116 	bra	00105$
+   0032                     117 00104$:
+   0032 A6 01         [ 2]  118 	lda	#0x01
+   0034                     119 00105$:
+   0034 87            [ 2]  120 	psha
+   0035 49            [ 1]  121 	rola	
+   0036 4F            [ 1]  122 	clra	
+   0037 A2 00         [ 2]  123 	sbc	#0x00
+   0039 97            [ 1]  124 	tax
+   003A 86            [ 3]  125 	pula
+   003B 81            [ 6]  126 	rts
+                            127 	.area CSEG    (CODE)
+                            128 	.area CONST   (CODE)
+                            129 	.area XINIT   (CODE)
+                            130 	.area CABS    (ABS,CODE)

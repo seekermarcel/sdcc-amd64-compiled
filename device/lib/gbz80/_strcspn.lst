@@ -1,0 +1,94 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:48 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _strcspn
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _strchr
+                             13 	.globl _strcspn
+                             14 ;--------------------------------------------------------
+                             15 ; ram data
+                             16 ;--------------------------------------------------------
+                             17 	.area _DATA
+                             18 ;--------------------------------------------------------
+                             19 ; absolute external ram data
+                             20 ;--------------------------------------------------------
+                             21 	.area _DABS (ABS)
+                             22 ;--------------------------------------------------------
+                             23 ; global & static initialisations
+                             24 ;--------------------------------------------------------
+                             25 	.area _HOME
+                             26 	.area _GSINIT
+                             27 	.area _GSFINAL
+                             28 	.area _GSINIT
+                             29 ;--------------------------------------------------------
+                             30 ; Home
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _HOME
+                             34 ;--------------------------------------------------------
+                             35 ; code
+                             36 ;--------------------------------------------------------
+                             37 	.area _CODE
+                             38 ;../_strcspn.c:31: size_t strcspn ( const char * string, const char * control )
+                             39 ;	---------------------------------
+                             40 ; Function strcspn
+                             41 ; ---------------------------------
+   0000                      42 _strcspn::
+   0000 E8 FE                43 	add	sp, #-2
+                             44 ;../_strcspn.c:36: while (ch = *string) {
+   0002 F8 00                45 	ldhl	sp,#0
+   0004 36 00                46 	ld	(hl),#0x00
+   0006 23                   47 	inc	hl
+   0007 36 00                48 	ld	(hl),#0x00
+   0009 F8 05                49 	ldhl	sp,#5
+   000B 2B                   50 	dec	hl
+   000C 4E                   51 	ld	c,(hl)
+   000D 23                   52 	inc	hl
+   000E 46                   53 	ld	b,(hl)
+   000F                      54 00104$:
+   000F 0A                   55 	ld	a,(bc)
+   0010 5F                   56 	ld	e,a
+   0011 B7                   57 	or	a, a
+   0012 28 20                58 	jr	Z,00106$
+                             59 ;../_strcspn.c:37: if (strchr(control,ch))
+   0014 7B                   60 	ld	a,e
+   0015 17                   61 	rla
+   0016 9F                   62 	sbc	a, a
+   0017 57                   63 	ld	d,a
+   0018 C5                   64 	push	bc
+   0019 D5                   65 	push	de
+   001A F8 0A                66 	ldhl	sp,#10
+   001C 2A                   67 	ld	a,(hl+)
+   001D 66                   68 	ld	h,(hl)
+   001E 6F                   69 	ld	l,a
+   001F E5                   70 	push	hl
+   0020 CDr00r00             71 	call	_strchr
+   0023 E8 04                72 	add	sp, #4
+   0025 C1                   73 	pop	bc
+   0026 7A                   74 	ld	a,d
+   0027 B3                   75 	or	a,e
+   0028 20 0A                76 	jr	NZ,00106$
+                             77 ;../_strcspn.c:40: count++;
+   002A F8 00                78 	ldhl	sp,#0
+   002C 34                   79 	inc	(hl)
+   002D 20 02                80 	jr	NZ,00122$
+   002F 23                   81 	inc	hl
+   0030 34                   82 	inc	(hl)
+   0031                      83 00122$:
+                             84 ;../_strcspn.c:41: string++;
+   0031 03                   85 	inc	bc
+   0032 18 DB                86 	jr	00104$
+   0034                      87 00106$:
+                             88 ;../_strcspn.c:44: return count;
+   0034 D1                   89 	pop	de
+   0035 D5                   90 	push	de
+   0036 E8 02                91 	add	sp, #2
+   0038 C9                   92 	ret
+                             93 	.area _CODE
+                             94 	.area _CABS (ABS)

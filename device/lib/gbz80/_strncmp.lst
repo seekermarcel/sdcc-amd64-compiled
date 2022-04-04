@@ -1,0 +1,148 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:48 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _strncmp
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _strncmp
+                             13 ;--------------------------------------------------------
+                             14 ; ram data
+                             15 ;--------------------------------------------------------
+                             16 	.area _DATA
+                             17 ;--------------------------------------------------------
+                             18 ; absolute external ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DABS (ABS)
+                             21 ;--------------------------------------------------------
+                             22 ; global & static initialisations
+                             23 ;--------------------------------------------------------
+                             24 	.area _HOME
+                             25 	.area _GSINIT
+                             26 	.area _GSFINAL
+                             27 	.area _GSINIT
+                             28 ;--------------------------------------------------------
+                             29 ; Home
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _HOME
+                             33 ;--------------------------------------------------------
+                             34 ; code
+                             35 ;--------------------------------------------------------
+                             36 	.area _CODE
+                             37 ;../_strncmp.c:31: int strncmp ( const char * first, const char * last, size_t count )
+                             38 ;	---------------------------------
+                             39 ; Function strncmp
+                             40 ; ---------------------------------
+   0000                      41 _strncmp::
+   0000 E8 FB                42 	add	sp, #-5
+                             43 ;../_strncmp.c:33: if (!count)
+   0002 F8 0C                44 	ldhl	sp,#12
+   0004 3A                   45 	ld	a,(hl-)
+   0005 B6                   46 	or	a,(hl)
+   0006 20 06                47 	jr	NZ,00114$
+                             48 ;../_strncmp.c:34: return(0);
+   0008 11 00 00             49 	ld	de,#0x0000
+   000B C3r73r00             50 	jp	00108$
+                             51 ;../_strncmp.c:36: while (--count && *first && *first == *last) {
+   000E                      52 00114$:
+   000E F8 07                53 	ldhl	sp,#7
+   0010 2A                   54 	ld	a,(hl+)
+   0011 5E                   55 	ld	e, (hl)
+   0012 F8 01                56 	ldhl	sp,#1
+   0014 22                   57 	ld	(hl+),a
+   0015 73                   58 	ld	(hl),e
+   0016 F8 0A                59 	ldhl	sp,#10
+   0018 2B                   60 	dec	hl
+   0019 4E                   61 	ld	c,(hl)
+   001A 23                   62 	inc	hl
+   001B 46                   63 	ld	b,(hl)
+   001C 23                   64 	inc	hl
+   001D 2A                   65 	ld	a,(hl+)
+   001E 5E                   66 	ld	e, (hl)
+   001F F8 03                67 	ldhl	sp,#3
+   0021 22                   68 	ld	(hl+),a
+   0022 73                   69 	ld	(hl),e
+   0023                      70 00105$:
+   0023 F8 04                71 	ldhl	sp,#4
+   0025 2B                   72 	dec	hl
+   0026 5E                   73 	ld	e,(hl)
+   0027 23                   74 	inc	hl
+   0028 56                   75 	ld	d,(hl)
+   0029 1B                   76 	dec	de
+   002A 2B                   77 	dec	hl
+   002B 73                   78 	ld	(hl),e
+   002C 23                   79 	inc	hl
+   002D 72                   80 	ld	(hl),d
+   002E 2B                   81 	dec	hl
+   002F 2B                   82 	dec	hl
+   0030 2B                   83 	dec	hl
+   0031 5E                   84 	ld	e,(hl)
+   0032 23                   85 	inc	hl
+   0033 56                   86 	ld	d,(hl)
+   0034 1A                   87 	ld	a,(de)
+   0035 2B                   88 	dec	hl
+   0036 2B                   89 	dec	hl
+   0037 77                   90 	ld	(hl),a
+   0038 0A                   91 	ld	a,(bc)
+   0039 57                   92 	ld	d,a
+   003A F8 04                93 	ldhl	sp,#4
+   003C 3A                   94 	ld	a,(hl-)
+   003D B6                   95 	or	a,(hl)
+   003E 28 15                96 	jr	Z,00107$
+   0040 F8 00                97 	ldhl	sp,#0
+   0042 7E                   98 	ld	a,(hl)
+   0043 B7                   99 	or	a, a
+   0044 28 0F               100 	jr	Z,00107$
+   0046 7E                  101 	ld	a,(hl)
+   0047 92                  102 	sub	a, d
+   0048 20 0B               103 	jr	NZ,00107$
+                            104 ;../_strncmp.c:37: first++;
+   004A F8 01               105 	ldhl	sp,#1
+   004C 34                  106 	inc	(hl)
+   004D 20 02               107 	jr	NZ,00133$
+   004F 23                  108 	inc	hl
+   0050 34                  109 	inc	(hl)
+   0051                     110 00133$:
+                            111 ;../_strncmp.c:38: last++;
+   0051 03                  112 	inc	bc
+   0052 C3r23r00            113 	jp	00105$
+   0055                     114 00107$:
+                            115 ;../_strncmp.c:41: return( *first - *last );
+   0055 F8 00               116 	ldhl	sp,#0
+   0057 46                  117 	ld	b,(hl)
+   0058 7E                  118 	ld	a,(hl)
+   0059 17                  119 	rla
+   005A 9F                  120 	sbc	a, a
+   005B 4F                  121 	ld	c,a
+   005C F8 03               122 	ldhl	sp,#3
+   005E 72                  123 	ld	(hl),d
+   005F 7A                  124 	ld	a,d
+   0060 17                  125 	rla
+   0061 9F                  126 	sbc	a, a
+   0062 23                  127 	inc	hl
+   0063 77                  128 	ld	(hl),a
+   0064 58                  129 	ld	e, b
+   0065 51                  130 	ld	d, c
+   0066 2B                  131 	dec	hl
+   0067 2A                  132 	ld	a,(hl+)
+   0068 66                  133 	ld	h,(hl)
+   0069 6F                  134 	ld	l,a
+   006A 7B                  135 	ld	a,e
+   006B 95                  136 	sub	a,l
+   006C 5F                  137 	ld	e,a
+   006D 7A                  138 	ld	a,d
+   006E 9C                  139 	sbc	a,h
+   006F 4F                  140 	ld	c,a
+   0070 43                  141 	ld	b,e
+   0071 58                  142 	ld	e, b
+   0072 51                  143 	ld	d, c
+   0073                     144 00108$:
+   0073 E8 05               145 	add	sp, #5
+   0075 C9                  146 	ret
+                            147 	.area _CODE
+                            148 	.area _CABS (ABS)

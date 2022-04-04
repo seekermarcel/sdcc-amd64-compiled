@@ -1,0 +1,2164 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                                      4 ; This file was generated Mon Apr  4 14:10:27 2022
+                                      5 ;--------------------------------------------------------
+                                      6 	.module time
+                                      7 	.optsdcc -mds390 --model-flat24
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; CPU specific extensions
+                                     11 ;--------------------------------------------------------
+                                     12 	.DS80C390
+                                     13 	.amode	2	; 24 bit flat addressing
+                           000082    14 dpl	=	0x82
+                           000083    15 dph	=	0x83
+                           000084    16 dpl1	=	0x84
+                           000085    17 dph1	=	0x85
+                           000086    18 dps	=	0x86
+                           000093    19 dpx	=	0x93
+                           000095    20 dpx1	=	0x95
+                           00009B    21 esp	=	0x9B
+                           00009C    22 ap	=	0x9C
+                           00009C    23 acc1	=	0x9C
+                           0000D1    24 mcnt0	=	0xD1
+                           0000D2    25 mcnt1	=	0xD2
+                           0000D3    26 ma	=	0xD3
+                           0000D4    27 mb	=	0xD4
+                           0000D5    28 mc	=	0xD5
+                           00009D    29 acon	=	0x9D
+                           0000D1    30 F1	=	0xD1	; user flag
+                                     31 ;--------------------------------------------------------
+                                     32 ; Public variables in this module
+                                     33 ;--------------------------------------------------------
+                                     34 	.globl ___day
+                                     35 	.globl ___month
+                                     36 	.globl _RtcRead
+                                     37 	.globl _sprintf
+                                     38 	.globl _time
+                                     39 	.globl _asctime
+                                     40 	.globl _ctime
+                                     41 	.globl _localtime
+                                     42 	.globl _gmtime
+                                     43 	.globl _mktime
+                                     44 ;--------------------------------------------------------
+                                     45 ; special function registers
+                                     46 ;--------------------------------------------------------
+                                     47 ;--------------------------------------------------------
+                                     48 ; special function bits
+                                     49 ;--------------------------------------------------------
+                                     50 ;--------------------------------------------------------
+                                     51 ; overlayable register banks
+                                     52 ;--------------------------------------------------------
+                                     53 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         54 	.ds 8
+                                     55 ;--------------------------------------------------------
+                                     56 ; internal ram data
+                                     57 ;--------------------------------------------------------
+                                     58 	.area DSEG    (DATA)
+                                     59 ;--------------------------------------------------------
+                                     60 ; overlayable items in internal ram 
+                                     61 ;--------------------------------------------------------
+                                     62 ;--------------------------------------------------------
+                                     63 ; indirectly addressable internal ram data
+                                     64 ;--------------------------------------------------------
+                                     65 	.area ISEG    (DATA)
+                                     66 ;--------------------------------------------------------
+                                     67 ; absolute internal ram data
+                                     68 ;--------------------------------------------------------
+                                     69 	.area IABS    (ABS,DATA)
+                                     70 	.area IABS    (ABS,DATA)
+                                     71 ;--------------------------------------------------------
+                                     72 ; bit data
+                                     73 ;--------------------------------------------------------
+                                     74 	.area BSEG    (BIT)
+                                     75 ;--------------------------------------------------------
+                                     76 ; paged external ram data
+                                     77 ;--------------------------------------------------------
+                                     78 	.area PSEG    (PAG,XDATA)
+                                     79 ;--------------------------------------------------------
+                                     80 ; external ram data
+                                     81 ;--------------------------------------------------------
+                                     82 	.area XSEG    (XDATA)
+      000000                         83 _time_timeptr_1_20:
+      000000                         84 	.ds 4
+      000004                         85 _time_now_1_21:
+      000004                         86 	.ds 12
+      000010                         87 _ascTimeBuffer:
+      000010                         88 	.ds 32
+      000030                         89 _CheckTime_sloc0_1_0:
+      000030                         90 	.ds 1
+      000031                         91 _asctime_timeptr_1_26:
+      000031                         92 	.ds 4
+      000035                         93 _asctime_sloc0_1_0:
+      000035                         94 	.ds 2
+      000037                         95 _asctime_sloc1_1_0:
+      000037                         96 	.ds 2
+      000039                         97 _asctime_sloc2_1_0:
+      000039                         98 	.ds 2
+      00003B                         99 _asctime_sloc3_1_0:
+      00003B                        100 	.ds 2
+      00003D                        101 _asctime_sloc4_1_0:
+      00003D                        102 	.ds 2
+      00003F                        103 _lastTime:
+      00003F                        104 	.ds 12
+      00004B                        105 _gmtime_days_1_33:
+      00004B                        106 	.ds 4
+      00004F                        107 _gmtime_sloc0_1_0:
+      00004F                        108 	.ds 1
+      000050                        109 _gmtime_sloc1_1_0:
+      000050                        110 	.ds 4
+      000054                        111 _mktime_timeptr_1_42:
+      000054                        112 	.ds 4
+      000058                        113 _mktime_year_1_43:
+      000058                        114 	.ds 2
+      00005A                        115 _mktime_month_1_43:
+      00005A                        116 	.ds 2
+      00005C                        117 _mktime_seconds_1_43:
+      00005C                        118 	.ds 4
+                                    119 ;--------------------------------------------------------
+                                    120 ; absolute external ram data
+                                    121 ;--------------------------------------------------------
+                                    122 	.area XABS    (ABS,XDATA)
+                                    123 ;--------------------------------------------------------
+                                    124 ; external initialized ram data
+                                    125 ;--------------------------------------------------------
+                                    126 	.area XISEG   (XDATA)
+                                    127 ;--------------------------------------------------------
+                                    128 ; global & static initialisations
+                                    129 ;--------------------------------------------------------
+                                    130 	.area HOME    (CODE)
+                                    131 	.area GSINIT  (CODE)
+                                    132 	.area GSFINAL (CODE)
+                                    133 	.area GSINIT  (CODE)
+                                    134 ;--------------------------------------------------------
+                                    135 ; Home
+                                    136 ;--------------------------------------------------------
+                                    137 	.area HOME    (CODE)
+                                    138 	.area HOME    (CODE)
+                                    139 ;--------------------------------------------------------
+                                    140 ; code
+                                    141 ;--------------------------------------------------------
+                                    142 	.area CSEG    (CODE)
+                                    143 ;------------------------------------------------------------
+                                    144 ;Allocation info for local variables in function 'RtcRead'
+                                    145 ;------------------------------------------------------------
+                                    146 ;timeptr                   Allocated to registers 
+                                    147 ;------------------------------------------------------------
+                                    148 ;	time.c:42: unsigned char RtcRead(struct tm *timeptr) {
+                                    149 ;	-----------------------------------------
+                                    150 ;	 function RtcRead
+                                    151 ;	-----------------------------------------
+      000000                        152 _RtcRead:
+                           000002   153 	ar2 = 0x02
+                           000003   154 	ar3 = 0x03
+                           000004   155 	ar4 = 0x04
+                           000005   156 	ar5 = 0x05
+                           000006   157 	ar6 = 0x06
+                           000007   158 	ar7 = 0x07
+                           000000   159 	ar0 = 0x00
+                           000001   160 	ar1 = 0x01
+                                    161 ;	time.c:45: return 0;
+      000000 75 82 00         [12]  162 	mov	dpl,#0x00
+      000003                        163 00101$:
+      000003 22               [16]  164 	ret
+                                    165 ;------------------------------------------------------------
+                                    166 ;Allocation info for local variables in function 'time'
+                                    167 ;------------------------------------------------------------
+                                    168 ;timeptr                   Allocated with name '_time_timeptr_1_20'
+                                    169 ;now                       Allocated with name '_time_now_1_21'
+                                    170 ;t                         Allocated to registers r6 r7 r0 r1 
+                                    171 ;------------------------------------------------------------
+                                    172 ;	time.c:50: time_t time(time_t *timeptr) {
+                                    173 ;	-----------------------------------------
+                                    174 ;	 function time
+                                    175 ;	-----------------------------------------
+      000004                        176 _time:
+      000004 75 86 01         [12]  177 	mov     dps, #1
+      000007 90s00r00r00      [12]  178 	mov     dptr, #_time_timeptr_1_20
+      00000B E5 82            [ 8]  179 	mov	a,dpl
+      00000D F0               [ 8]  180 	movx	@dptr,a
+      00000E A3               [12]  181 	inc	dptr
+      00000F E5 83            [ 8]  182 	mov	a,dph
+      000011 F0               [ 8]  183 	movx	@dptr,a
+      000012 A3               [12]  184 	inc	dptr
+      000013 E5 93            [ 8]  185 	mov	a,dpx
+      000015 F0               [ 8]  186 	movx	@dptr,a
+      000016 A3               [12]  187 	inc	dptr
+      000017 E5 F0            [ 8]  188 	mov	a,b
+      000019 F0               [ 8]  189 	movx	@dptr,a
+      00001A 75 86 00         [12]  190 	mov	dps,#0
+                                    191 ;	time.c:52: time_t t=(time_t) -1;
+                                    192 ;	genAssign: resultIsFar = TRUE
+      00001D 7E FF            [ 8]  193 	mov	r6,#0xFF
+      00001F 7F FF            [ 8]  194 	mov	r7,#0xFF
+      000021 78 FF            [ 8]  195 	mov	r0,#0xFF
+      000023 79 FF            [ 8]  196 	mov	r1,#0xFF
+                                    197 ;	time.c:54: if (RtcRead(&now)) {
+      000025 C0 06            [ 8]  198 	push	ar6
+      000027 C0 07            [ 8]  199 	push	ar7
+      000029 C0 00            [ 8]  200 	push	ar0
+      00002B C0 01            [ 8]  201 	push	ar1
+      00002D 90s00r00r04      [12]  202 	mov dptr,#_time_now_1_21
+      000031 75 F0 00         [12]  203 	mov	b,#0x00
+      000034 12s00r00r00      [16]  204 	lcall	_RtcRead
+      000038 D0 01            [ 8]  205 	pop	ar1
+      00003A D0 00            [ 8]  206 	pop	ar0
+      00003C D0 07            [ 8]  207 	pop	ar7
+      00003E D0 06            [ 8]  208 	pop	ar6
+      000040 E5 82            [ 8]  209 	mov	a,dpl
+      000042 60 1B            [12]  210 	jz  00102$
+      000044                        211 00113$:
+                                    212 ;	time.c:55: t=mktime(&now);
+      000044 90s00r00r04      [12]  213 	mov dptr,#_time_now_1_21
+      000048 75 F0 00         [12]  214 	mov	b,#0x00
+      00004B 12s00r07r88      [16]  215 	lcall	_mktime
+      00004F AA 82            [ 8]  216 	mov	r2,dpl
+      000051 AB 83            [ 8]  217 	mov	r3,dph
+      000053 AC 93            [ 8]  218 	mov	r4,dpx
+      000055 AD F0            [ 8]  219 	mov	r5,b
+                                    220 ;	genAssign: resultIsFar = TRUE
+      000057 8A 06            [ 8]  221 	mov	ar6,r2
+      000059 8B 07            [ 8]  222 	mov	ar7,r3
+      00005B 8C 00            [ 8]  223 	mov	ar0,r4
+      00005D 8D 01            [ 8]  224 	mov	ar1,r5
+      00005F                        225 00102$:
+                                    226 ;	time.c:57: if (timeptr) {
+      00005F 90s00r00r00      [12]  227 	mov	dptr,#_time_timeptr_1_20
+      000063 E0               [ 8]  228 	movx	a,@dptr
+      000064 F5 F0            [ 8]  229 	mov	b,a
+      000066 A3               [12]  230 	inc	dptr
+      000067 E0               [ 8]  231 	movx	a,@dptr
+      000068 42 F0            [ 8]  232 	orl	b,a
+      00006A A3               [12]  233 	inc	dptr
+      00006B E0               [ 8]  234 	movx	a,@dptr
+      00006C 45 F0            [ 8]  235 	orl	a,b
+      00006E 60 28            [12]  236 	jz  00104$
+      000070                        237 00114$:
+                                    238 ;	time.c:58: *timeptr=t;
+      000070 90s00r00r00      [12]  239 	mov	dptr,#_time_timeptr_1_20
+      000074 E0               [ 8]  240 	movx	a,@dptr
+      000075 C0 E0            [ 8]  241 	push	acc
+      000077 A3               [12]  242 	inc	dptr
+      000078 E0               [ 8]  243 	movx	a,@dptr
+      000079 C0 E0            [ 8]  244 	push	acc
+      00007B A3               [12]  245 	inc	dptr
+      00007C E0               [ 8]  246 	movx	a,@dptr
+      00007D C0 E0            [ 8]  247 	push	acc
+      00007F A3               [12]  248 	inc	dptr
+      000080 E0               [ 8]  249 	movx	a,@dptr
+      000081 F5 F0            [ 8]  250 	mov	b,a
+      000083 D0 93            [ 8]  251 	pop	dpx
+      000085 D0 83            [ 8]  252 	pop	dph
+      000087 D0 82            [ 8]  253 	pop	dpl
+      000089 8E 9C            [ 8]  254 	mov	acc1, r6
+      00008B EF               [ 4]  255 	mov	a,r7
+      00008C 12s00r00r00      [16]  256 	lcall	__gptrputWord
+      000090 A3               [12]  257 	inc	dptr
+      000091 88 9C            [ 8]  258 	mov	acc1, r0
+      000093 E9               [ 4]  259 	mov	a,r1
+      000094 12s00r00r00      [16]  260 	lcall	__gptrputWord
+      000098                        261 00104$:
+                                    262 ;	time.c:60: return t;
+      000098 8E 82            [ 8]  263 	mov	dpl,r6
+      00009A 8F 83            [ 8]  264 	mov	dph,r7
+      00009C 88 93            [ 8]  265 	mov	dpx,r0
+      00009E 89 F0            [ 8]  266 	mov	b,r1
+      0000A0                        267 00105$:
+      0000A0 22               [16]  268 	ret
+                                    269 ;------------------------------------------------------------
+                                    270 ;Allocation info for local variables in function 'CheckTime'
+                                    271 ;------------------------------------------------------------
+                                    272 ;timeptr                   Allocated to registers r2 r3 r4 r5 
+                                    273 ;sloc0                     Allocated with name '_CheckTime_sloc0_1_0'
+                                    274 ;------------------------------------------------------------
+                                    275 ;	time.c:73: static void CheckTime(struct tm *timeptr) {
+                                    276 ;	-----------------------------------------
+                                    277 ;	 function CheckTime
+                                    278 ;	-----------------------------------------
+      0000A1                        279 _CheckTime:
+                                    280 ;	time.c:84: if (timeptr->tm_sec>59) timeptr->tm_sec=59;
+      0000A1 AA 82            [ 8]  281 	mov     r2,dpl
+      0000A3 AB 83            [ 8]  282 	mov     r3,dph
+      0000A5 AC 93            [ 8]  283 	mov     r4,dpx
+      0000A7 AD F0            [ 8]  284 	mov     r5,b
+      0000A9 8D F0            [ 8]  285 	mov	b,r5
+      0000AB 12s00r00r00      [16]  286 	lcall	__gptrget
+      0000AF FE               [ 4]  287 	mov	r6,a
+      0000B0 C3               [ 4]  288 	clr	c
+      0000B1 74 3B            [ 8]  289 	mov	a,#0x3B
+      0000B3 9E               [ 4]  290 	subb	a,r6
+      0000B4 50 0E            [12]  291 	jnc  00102$
+      0000B6                        292 00144$:
+      0000B6 8A 82            [ 8]  293 	mov	dpl,r2
+      0000B8 8B 83            [ 8]  294 	mov	dph,r3
+      0000BA 8C 93            [ 8]  295 	mov	dpx,r4
+      0000BC 8D F0            [ 8]  296 	mov	b,r5
+      0000BE 74 3B            [ 8]  297 	mov	a,#0x3B
+      0000C0 12s00r00r00      [16]  298 	lcall	__gptrput
+      0000C4                        299 00102$:
+                                    300 ;	time.c:85: if (timeptr->tm_min>59) timeptr->tm_min=59;
+      0000C4 74 01            [ 8]  301 	mov	a,#0x01
+      0000C6 2A               [ 4]  302 	add	a,r2
+      0000C7 FE               [ 4]  303 	mov	r6,a
+      0000C8 E4               [ 4]  304 	clr	a
+      0000C9 3B               [ 4]  305 	addc	a,r3
+      0000CA FF               [ 4]  306 	mov	r7,a
+      0000CB E4               [ 4]  307 	clr	a
+      0000CC 3C               [ 4]  308 	addc	a,r4
+      0000CD F8               [ 4]  309 	mov	r0,a
+      0000CE 8D 01            [ 8]  310 	mov	ar1,r5
+      0000D0 C0 02            [ 8]  311 	push	ar2
+      0000D2 C0 03            [ 8]  312 	push	ar3
+      0000D4 C0 04            [ 8]  313 	push	ar4
+      0000D6 C0 05            [ 8]  314 	push	ar5
+      0000D8 8E 82            [ 8]  315 	mov	dpl,r6
+      0000DA 8F 83            [ 8]  316 	mov	dph,r7
+      0000DC 88 93            [ 8]  317 	mov	dpx,r0
+      0000DE 89 F0            [ 8]  318 	mov	b,r1
+      0000E0 12s00r00r00      [16]  319 	lcall	__gptrget
+      0000E4 FA               [ 4]  320 	mov	r2,a
+      0000E5 C3               [ 4]  321 	clr	c
+      0000E6 74 3B            [ 8]  322 	mov	a,#0x3B
+      0000E8 9A               [ 4]  323 	subb	a,r2
+      0000E9 D0 05            [ 8]  324 	pop	ar5
+      0000EB D0 04            [ 8]  325 	pop	ar4
+      0000ED D0 03            [ 8]  326 	pop	ar3
+      0000EF D0 02            [ 8]  327 	pop	ar2
+      0000F1 50 0E            [12]  328 	jnc  00104$
+      0000F3                        329 00145$:
+      0000F3 8E 82            [ 8]  330 	mov	dpl,r6
+      0000F5 8F 83            [ 8]  331 	mov	dph,r7
+      0000F7 88 93            [ 8]  332 	mov	dpx,r0
+      0000F9 89 F0            [ 8]  333 	mov	b,r1
+      0000FB 74 3B            [ 8]  334 	mov	a,#0x3B
+      0000FD 12s00r00r00      [16]  335 	lcall	__gptrput
+      000101                        336 00104$:
+                                    337 ;	time.c:86: if (timeptr->tm_hour>23) timeptr->tm_hour=23;
+      000101 74 02            [ 8]  338 	mov	a,#0x02
+      000103 2A               [ 4]  339 	add	a,r2
+      000104 FE               [ 4]  340 	mov	r6,a
+      000105 E4               [ 4]  341 	clr	a
+      000106 3B               [ 4]  342 	addc	a,r3
+      000107 FF               [ 4]  343 	mov	r7,a
+      000108 E4               [ 4]  344 	clr	a
+      000109 3C               [ 4]  345 	addc	a,r4
+      00010A F8               [ 4]  346 	mov	r0,a
+      00010B 8D 01            [ 8]  347 	mov	ar1,r5
+      00010D C0 02            [ 8]  348 	push	ar2
+      00010F C0 03            [ 8]  349 	push	ar3
+      000111 C0 04            [ 8]  350 	push	ar4
+      000113 C0 05            [ 8]  351 	push	ar5
+      000115 8E 82            [ 8]  352 	mov	dpl,r6
+      000117 8F 83            [ 8]  353 	mov	dph,r7
+      000119 88 93            [ 8]  354 	mov	dpx,r0
+      00011B 89 F0            [ 8]  355 	mov	b,r1
+      00011D 12s00r00r00      [16]  356 	lcall	__gptrget
+      000121 FA               [ 4]  357 	mov	r2,a
+      000122 C3               [ 4]  358 	clr	c
+      000123 74 17            [ 8]  359 	mov	a,#0x17
+      000125 9A               [ 4]  360 	subb	a,r2
+      000126 D0 05            [ 8]  361 	pop	ar5
+      000128 D0 04            [ 8]  362 	pop	ar4
+      00012A D0 03            [ 8]  363 	pop	ar3
+      00012C D0 02            [ 8]  364 	pop	ar2
+      00012E 50 0E            [12]  365 	jnc  00106$
+      000130                        366 00146$:
+      000130 8E 82            [ 8]  367 	mov	dpl,r6
+      000132 8F 83            [ 8]  368 	mov	dph,r7
+      000134 88 93            [ 8]  369 	mov	dpx,r0
+      000136 89 F0            [ 8]  370 	mov	b,r1
+      000138 74 17            [ 8]  371 	mov	a,#0x17
+      00013A 12s00r00r00      [16]  372 	lcall	__gptrput
+      00013E                        373 00106$:
+                                    374 ;	time.c:87: if (timeptr->tm_wday>6) timeptr->tm_wday=6;
+      00013E 74 07            [ 8]  375 	mov	a,#0x07
+      000140 2A               [ 4]  376 	add	a,r2
+      000141 FE               [ 4]  377 	mov	r6,a
+      000142 E4               [ 4]  378 	clr	a
+      000143 3B               [ 4]  379 	addc	a,r3
+      000144 FF               [ 4]  380 	mov	r7,a
+      000145 E4               [ 4]  381 	clr	a
+      000146 3C               [ 4]  382 	addc	a,r4
+      000147 F8               [ 4]  383 	mov	r0,a
+      000148 8D 01            [ 8]  384 	mov	ar1,r5
+      00014A C0 02            [ 8]  385 	push	ar2
+      00014C C0 03            [ 8]  386 	push	ar3
+      00014E C0 04            [ 8]  387 	push	ar4
+      000150 C0 05            [ 8]  388 	push	ar5
+      000152 8E 82            [ 8]  389 	mov	dpl,r6
+      000154 8F 83            [ 8]  390 	mov	dph,r7
+      000156 88 93            [ 8]  391 	mov	dpx,r0
+      000158 89 F0            [ 8]  392 	mov	b,r1
+      00015A 12s00r00r00      [16]  393 	lcall	__gptrget
+      00015E FA               [ 4]  394 	mov	r2,a
+      00015F C3               [ 4]  395 	clr	c
+      000160 74 06            [ 8]  396 	mov	a,#0x06
+      000162 9A               [ 4]  397 	subb	a,r2
+      000163 D0 05            [ 8]  398 	pop	ar5
+      000165 D0 04            [ 8]  399 	pop	ar4
+      000167 D0 03            [ 8]  400 	pop	ar3
+      000169 D0 02            [ 8]  401 	pop	ar2
+      00016B 50 0E            [12]  402 	jnc  00108$
+      00016D                        403 00147$:
+      00016D 8E 82            [ 8]  404 	mov	dpl,r6
+      00016F 8F 83            [ 8]  405 	mov	dph,r7
+      000171 88 93            [ 8]  406 	mov	dpx,r0
+      000173 89 F0            [ 8]  407 	mov	b,r1
+      000175 74 06            [ 8]  408 	mov	a,#0x06
+      000177 12s00r00r00      [16]  409 	lcall	__gptrput
+      00017B                        410 00108$:
+                                    411 ;	time.c:88: if (timeptr->tm_mday<1) timeptr->tm_mday=1;
+      00017B 74 03            [ 8]  412 	mov	a,#0x03
+      00017D 2A               [ 4]  413 	add	a,r2
+      00017E FE               [ 4]  414 	mov	r6,a
+      00017F E4               [ 4]  415 	clr	a
+      000180 3B               [ 4]  416 	addc	a,r3
+      000181 FF               [ 4]  417 	mov	r7,a
+      000182 E4               [ 4]  418 	clr	a
+      000183 3C               [ 4]  419 	addc	a,r4
+      000184 F8               [ 4]  420 	mov	r0,a
+      000185 8D 01            [ 8]  421 	mov	ar1,r5
+      000187 8E 82            [ 8]  422 	mov	dpl,r6
+      000189 8F 83            [ 8]  423 	mov	dph,r7
+      00018B 88 93            [ 8]  424 	mov	dpx,r0
+      00018D 89 F0            [ 8]  425 	mov	b,r1
+      00018F 75 86 01         [12]  426 	mov	dps, #1
+      000192 90s00r00r30      [12]  427 	mov	dptr, #_CheckTime_sloc0_1_0
+      000196 15 86            [ 8]  428 	dec	dps
+      000198 12s00r00r00      [16]  429 	lcall	__gptrget
+      00019C 75 86 01         [12]  430 	mov	dps,#1
+      00019F F0               [ 8]  431 	movx	@dptr,a
+      0001A0 75 86 00         [12]  432 	mov	dps,#0
+      0001A3 90s00r00r30      [12]  433 	mov	dptr,#_CheckTime_sloc0_1_0
+      0001A7 E0               [ 8]  434 	movx	a,@dptr
+      0001A8 B4 01 00         [16]  435 	cjne	a,#0x01,00148$
+      0001AB                        436 00148$:
+      0001AB 50 10            [12]  437 	jnc  00112$
+      0001AD                        438 00149$:
+      0001AD 8E 82            [ 8]  439 	mov	dpl,r6
+      0001AF 8F 83            [ 8]  440 	mov	dph,r7
+      0001B1 88 93            [ 8]  441 	mov	dpx,r0
+      0001B3 89 F0            [ 8]  442 	mov	b,r1
+      0001B5 74 01            [ 8]  443 	mov	a,#0x01
+      0001B7 12s00r00r00      [16]  444 	lcall	__gptrput
+      0001BB 80 1E            [12]  445 	sjmp 00113$
+      0001BD                        446 00112$:
+                                    447 ;	time.c:89: else if (timeptr->tm_mday>31) timeptr->tm_mday=31;
+      0001BD 90s00r00r30      [12]  448 	mov	dptr,#_CheckTime_sloc0_1_0
+      0001C1 C3               [ 4]  449 	clr	c
+      0001C2 74 1F            [ 8]  450 	mov	a,#0x1F
+      0001C4 C5 F0            [ 8]  451 	xch	a, b
+      0001C6 E0               [ 8]  452 	movx	a,@dptr
+      0001C7 C5 F0            [ 8]  453 	xch	a, b
+      0001C9 95 F0            [ 8]  454 	subb	a,b
+      0001CB 50 0E            [12]  455 	jnc  00113$
+      0001CD                        456 00150$:
+      0001CD 8E 82            [ 8]  457 	mov	dpl,r6
+      0001CF 8F 83            [ 8]  458 	mov	dph,r7
+      0001D1 88 93            [ 8]  459 	mov	dpx,r0
+      0001D3 89 F0            [ 8]  460 	mov	b,r1
+      0001D5 74 1F            [ 8]  461 	mov	a,#0x1F
+      0001D7 12s00r00r00      [16]  462 	lcall	__gptrput
+      0001DB                        463 00113$:
+                                    464 ;	time.c:90: if (timeptr->tm_mon>11) timeptr->tm_mon=11;
+      0001DB 74 04            [ 8]  465 	mov	a,#0x04
+      0001DD 2A               [ 4]  466 	add	a,r2
+      0001DE FE               [ 4]  467 	mov	r6,a
+      0001DF E4               [ 4]  468 	clr	a
+      0001E0 3B               [ 4]  469 	addc	a,r3
+      0001E1 FF               [ 4]  470 	mov	r7,a
+      0001E2 E4               [ 4]  471 	clr	a
+      0001E3 3C               [ 4]  472 	addc	a,r4
+      0001E4 F8               [ 4]  473 	mov	r0,a
+      0001E5 8D 01            [ 8]  474 	mov	ar1,r5
+      0001E7 C0 02            [ 8]  475 	push	ar2
+      0001E9 C0 03            [ 8]  476 	push	ar3
+      0001EB C0 04            [ 8]  477 	push	ar4
+      0001ED C0 05            [ 8]  478 	push	ar5
+      0001EF 8E 82            [ 8]  479 	mov	dpl,r6
+      0001F1 8F 83            [ 8]  480 	mov	dph,r7
+      0001F3 88 93            [ 8]  481 	mov	dpx,r0
+      0001F5 89 F0            [ 8]  482 	mov	b,r1
+      0001F7 12s00r00r00      [16]  483 	lcall	__gptrget
+      0001FB FA               [ 4]  484 	mov	r2,a
+      0001FC C3               [ 4]  485 	clr	c
+      0001FD 74 0B            [ 8]  486 	mov	a,#0x0B
+      0001FF 9A               [ 4]  487 	subb	a,r2
+      000200 D0 05            [ 8]  488 	pop	ar5
+      000202 D0 04            [ 8]  489 	pop	ar4
+      000204 D0 03            [ 8]  490 	pop	ar3
+      000206 D0 02            [ 8]  491 	pop	ar2
+      000208 50 0E            [12]  492 	jnc  00115$
+      00020A                        493 00151$:
+      00020A 8E 82            [ 8]  494 	mov	dpl,r6
+      00020C 8F 83            [ 8]  495 	mov	dph,r7
+      00020E 88 93            [ 8]  496 	mov	dpx,r0
+      000210 89 F0            [ 8]  497 	mov	b,r1
+      000212 74 0B            [ 8]  498 	mov	a,#0x0B
+      000214 12s00r00r00      [16]  499 	lcall	__gptrput
+      000218                        500 00115$:
+                                    501 ;	time.c:91: if (timeptr->tm_year<0) timeptr->tm_year=0;
+      000218 74 05            [ 8]  502 	mov	a,#0x05
+      00021A 2A               [ 4]  503 	add	a,r2
+      00021B FA               [ 4]  504 	mov	r2,a
+      00021C E4               [ 4]  505 	clr	a
+      00021D 3B               [ 4]  506 	addc	a,r3
+      00021E FB               [ 4]  507 	mov	r3,a
+      00021F E4               [ 4]  508 	clr	a
+      000220 3C               [ 4]  509 	addc	a,r4
+      000221 FC               [ 4]  510 	mov	r4,a
+      000222 8A 82            [ 8]  511 	mov	dpl,r2
+      000224 8B 83            [ 8]  512 	mov	dph,r3
+      000226 8C 93            [ 8]  513 	mov	dpx,r4
+      000228 8D F0            [ 8]  514 	mov	b,r5
+      00022A 12s00r00r00      [16]  515 	lcall	__gptrgetWord
+      00022E FE               [ 4]  516 	mov	r6,a
+      00022F AF 9C            [ 8]  517 	mov	r7,acc1
+      000231 EF               [ 4]  518 	mov	a,r7
+      000232 30 E7 0F         [12]  519 	jnb  acc[7],00118$
+      000235                        520 00152$:
+      000235 8A 82            [ 8]  521 	mov	dpl,r2
+      000237 8B 83            [ 8]  522 	mov	dph,r3
+      000239 8C 93            [ 8]  523 	mov	dpx,r4
+      00023B 8D F0            [ 8]  524 	mov	b,r5
+      00023D E4               [ 4]  525 	clr  a
+      00023E F5 9C            [ 8]  526 	mov  acc1,a
+      000240 12s00r00r00      [16]  527 	lcall	__gptrputWord
+      000244                        528 00118$:
+      000244 22               [16]  529 	ret
+                                    530 ;------------------------------------------------------------
+                                    531 ;Allocation info for local variables in function 'asctime'
+                                    532 ;------------------------------------------------------------
+                                    533 ;timeptr                   Allocated with name '_asctime_timeptr_1_26'
+                                    534 ;sloc0                     Allocated with name '_asctime_sloc0_1_0'
+                                    535 ;sloc1                     Allocated with name '_asctime_sloc1_1_0'
+                                    536 ;sloc2                     Allocated with name '_asctime_sloc2_1_0'
+                                    537 ;sloc3                     Allocated with name '_asctime_sloc3_1_0'
+                                    538 ;sloc4                     Allocated with name '_asctime_sloc4_1_0'
+                                    539 ;------------------------------------------------------------
+                                    540 ;	time.c:95: char *asctime(struct tm *timeptr) {
+                                    541 ;	-----------------------------------------
+                                    542 ;	 function asctime
+                                    543 ;	-----------------------------------------
+      000245                        544 _asctime:
+      000245 75 86 01         [12]  545 	mov     dps, #1
+      000248 90s00r00r31      [12]  546 	mov     dptr, #_asctime_timeptr_1_26
+      00024C E5 82            [ 8]  547 	mov	a,dpl
+      00024E F0               [ 8]  548 	movx	@dptr,a
+      00024F A3               [12]  549 	inc	dptr
+      000250 E5 83            [ 8]  550 	mov	a,dph
+      000252 F0               [ 8]  551 	movx	@dptr,a
+      000253 A3               [12]  552 	inc	dptr
+      000254 E5 93            [ 8]  553 	mov	a,dpx
+      000256 F0               [ 8]  554 	movx	@dptr,a
+      000257 A3               [12]  555 	inc	dptr
+      000258 E5 F0            [ 8]  556 	mov	a,b
+      00025A F0               [ 8]  557 	movx	@dptr,a
+                                    558 ;	time.c:96: CheckTime(timeptr);
+      00025B 75 86 01         [12]  559 	mov	dps, #1
+      00025E 90s00r00r31      [12]  560 	mov	dptr,#_asctime_timeptr_1_26
+      000262 E0               [ 8]  561 	movx	a,@dptr
+      000263 F5 82            [ 8]  562 	mov	dpl,a
+      000265 A3               [12]  563 	inc	dptr
+      000266 E0               [ 8]  564 	movx	a,@dptr
+      000267 F5 83            [ 8]  565 	mov	dph,a
+      000269 A3               [12]  566 	inc	dptr
+      00026A E0               [ 8]  567 	movx	a,@dptr
+      00026B F5 93            [ 8]  568 	mov	dpx,a
+      00026D A3               [12]  569 	inc	dptr
+      00026E E0               [ 8]  570 	movx	a,@dptr
+      00026F F5 F0            [ 8]  571 	mov	b,a
+      000271 75 86 00         [12]  572 	mov	dps,#0
+      000274 12s00r00rA1      [16]  573 	lcall	_CheckTime
+                                    574 ;	time.c:100: timeptr->tm_year+1900);
+      000278 90s00r00r31      [12]  575 	mov	dptr,#_asctime_timeptr_1_26
+      00027C E0               [ 8]  576 	movx	a,@dptr
+      00027D 24 05            [ 8]  577 	add	a,#0x05
+      00027F FE               [ 4]  578 	mov	r6,a
+      000280 A3               [12]  579 	inc	dptr
+      000281 E0               [ 8]  580 	movx	a,@dptr
+      000282 34 00            [ 8]  581 	addc	a,#0x00
+      000284 FF               [ 4]  582 	mov	r7,a
+      000285 A3               [12]  583 	inc	dptr
+      000286 E0               [ 8]  584 	movx	a,@dptr
+      000287 34 00            [ 8]  585 	addc	a,#0x00
+      000289 F8               [ 4]  586 	mov	r0,a
+      00028A A3               [12]  587 	inc	dptr
+      00028B E0               [ 8]  588 	movx	a,@dptr
+      00028C F9               [ 4]  589 	mov	r1,a
+      00028D 8E 82            [ 8]  590 	mov	dpl,r6
+      00028F 8F 83            [ 8]  591 	mov	dph,r7
+      000291 88 93            [ 8]  592 	mov	dpx,r0
+      000293 89 F0            [ 8]  593 	mov	b,r1
+      000295 12s00r00r00      [16]  594 	lcall	__gptrgetWord
+      000299 FE               [ 4]  595 	mov	r6,a
+      00029A AF 9C            [ 8]  596 	mov	r7,acc1
+      00029C 90s00r00r3D      [12]  597 	mov	dptr,#_asctime_sloc4_1_0
+      0002A0 74 6C            [ 8]  598 	mov	a,#0x6C
+      0002A2 2E               [ 4]  599 	add	a,r6
+      0002A3 F0               [ 8]  600 	movx	@dptr,a
+      0002A4 74 07            [ 8]  601 	mov	a,#0x07
+      0002A6 3F               [ 4]  602 	addc	a,r7
+      0002A7 A3               [12]  603 	inc	dptr
+      0002A8 F0               [ 8]  604 	movx	@dptr,a
+                                    605 ;	time.c:99: timeptr->tm_hour, timeptr->tm_min, timeptr->tm_sec, 
+      0002A9 90s00r00r31      [12]  606 	mov	dptr,#_asctime_timeptr_1_26
+      0002AD E0               [ 8]  607 	movx	a,@dptr
+      0002AE C0 E0            [ 8]  608 	push	acc
+      0002B0 A3               [12]  609 	inc	dptr
+      0002B1 E0               [ 8]  610 	movx	a,@dptr
+      0002B2 C0 E0            [ 8]  611 	push	acc
+      0002B4 A3               [12]  612 	inc	dptr
+      0002B5 E0               [ 8]  613 	movx	a,@dptr
+      0002B6 C0 E0            [ 8]  614 	push	acc
+      0002B8 A3               [12]  615 	inc	dptr
+      0002B9 E0               [ 8]  616 	movx	a,@dptr
+      0002BA F5 F0            [ 8]  617 	mov	b,a
+      0002BC D0 93            [ 8]  618 	pop	dpx
+      0002BE D0 83            [ 8]  619 	pop	dph
+      0002C0 D0 82            [ 8]  620 	pop	dpl
+      0002C2 12s00r00r00      [16]  621 	lcall	__gptrget
+      0002C6 F8               [ 4]  622 	mov  r0,a
+      0002C7 90s00r00r3B      [12]  623 	mov  dptr,#_asctime_sloc3_1_0
+      0002CB F0               [ 8]  624 	movx @dptr,a
+      0002CC A3               [12]  625 	inc	dptr
+      0002CD E4               [ 4]  626 	clr	a
+      0002CE F0               [ 8]  627 	movx	@dptr,a
+      0002CF 90s00r00r31      [12]  628 	mov	dptr,#_asctime_timeptr_1_26
+      0002D3 E0               [ 8]  629 	movx	a,@dptr
+      0002D4 24 01            [ 8]  630 	add	a,#0x01
+      0002D6 FA               [ 4]  631 	mov	r2,a
+      0002D7 A3               [12]  632 	inc	dptr
+      0002D8 E0               [ 8]  633 	movx	a,@dptr
+      0002D9 34 00            [ 8]  634 	addc	a,#0x00
+      0002DB FB               [ 4]  635 	mov	r3,a
+      0002DC A3               [12]  636 	inc	dptr
+      0002DD E0               [ 8]  637 	movx	a,@dptr
+      0002DE 34 00            [ 8]  638 	addc	a,#0x00
+      0002E0 FC               [ 4]  639 	mov	r4,a
+      0002E1 A3               [12]  640 	inc	dptr
+      0002E2 E0               [ 8]  641 	movx	a,@dptr
+      0002E3 FD               [ 4]  642 	mov	r5,a
+      0002E4 8A 82            [ 8]  643 	mov	dpl,r2
+      0002E6 8B 83            [ 8]  644 	mov	dph,r3
+      0002E8 8C 93            [ 8]  645 	mov	dpx,r4
+      0002EA 8D F0            [ 8]  646 	mov	b,r5
+      0002EC 12s00r00r00      [16]  647 	lcall	__gptrget
+      0002F0 FA               [ 4]  648 	mov  r2,a
+      0002F1 90s00r00r35      [12]  649 	mov  dptr,#_asctime_sloc0_1_0
+      0002F5 F0               [ 8]  650 	movx @dptr,a
+      0002F6 A3               [12]  651 	inc	dptr
+      0002F7 E4               [ 4]  652 	clr	a
+      0002F8 F0               [ 8]  653 	movx	@dptr,a
+      0002F9 90s00r00r31      [12]  654 	mov	dptr,#_asctime_timeptr_1_26
+      0002FD E0               [ 8]  655 	movx	a,@dptr
+      0002FE 24 02            [ 8]  656 	add	a,#0x02
+      000300 FC               [ 4]  657 	mov	r4,a
+      000301 A3               [12]  658 	inc	dptr
+      000302 E0               [ 8]  659 	movx	a,@dptr
+      000303 34 00            [ 8]  660 	addc	a,#0x00
+      000305 FD               [ 4]  661 	mov	r5,a
+      000306 A3               [12]  662 	inc	dptr
+      000307 E0               [ 8]  663 	movx	a,@dptr
+      000308 34 00            [ 8]  664 	addc	a,#0x00
+      00030A FA               [ 4]  665 	mov	r2,a
+      00030B A3               [12]  666 	inc	dptr
+      00030C E0               [ 8]  667 	movx	a,@dptr
+      00030D FB               [ 4]  668 	mov	r3,a
+      00030E 8C 82            [ 8]  669 	mov	dpl,r4
+      000310 8D 83            [ 8]  670 	mov	dph,r5
+      000312 8A 93            [ 8]  671 	mov	dpx,r2
+      000314 8B F0            [ 8]  672 	mov	b,r3
+      000316 12s00r00r00      [16]  673 	lcall	__gptrget
+      00031A FC               [ 4]  674 	mov  r4,a
+      00031B 90s00r00r37      [12]  675 	mov  dptr,#_asctime_sloc1_1_0
+      00031F F0               [ 8]  676 	movx @dptr,a
+      000320 A3               [12]  677 	inc	dptr
+      000321 E4               [ 4]  678 	clr	a
+      000322 F0               [ 8]  679 	movx	@dptr,a
+                                    680 ;	time.c:98: __day[timeptr->tm_wday], __month[timeptr->tm_mon], timeptr->tm_mday,
+      000323 90s00r00r31      [12]  681 	mov	dptr,#_asctime_timeptr_1_26
+      000327 E0               [ 8]  682 	movx	a,@dptr
+      000328 24 03            [ 8]  683 	add	a,#0x03
+      00032A FB               [ 4]  684 	mov	r3,a
+      00032B A3               [12]  685 	inc	dptr
+      00032C E0               [ 8]  686 	movx	a,@dptr
+      00032D 34 00            [ 8]  687 	addc	a,#0x00
+      00032F FD               [ 4]  688 	mov	r5,a
+      000330 A3               [12]  689 	inc	dptr
+      000331 E0               [ 8]  690 	movx	a,@dptr
+      000332 34 00            [ 8]  691 	addc	a,#0x00
+      000334 FA               [ 4]  692 	mov	r2,a
+      000335 A3               [12]  693 	inc	dptr
+      000336 E0               [ 8]  694 	movx	a,@dptr
+      000337 FC               [ 4]  695 	mov	r4,a
+      000338 8B 82            [ 8]  696 	mov	dpl,r3
+      00033A 8D 83            [ 8]  697 	mov	dph,r5
+      00033C 8A 93            [ 8]  698 	mov	dpx,r2
+      00033E 8C F0            [ 8]  699 	mov	b,r4
+      000340 12s00r00r00      [16]  700 	lcall	__gptrget
+      000344 FB               [ 4]  701 	mov  r3,a
+      000345 90s00r00r39      [12]  702 	mov  dptr,#_asctime_sloc2_1_0
+      000349 F0               [ 8]  703 	movx @dptr,a
+      00034A A3               [12]  704 	inc	dptr
+      00034B E4               [ 4]  705 	clr	a
+      00034C F0               [ 8]  706 	movx	@dptr,a
+      00034D 90s00r00r31      [12]  707 	mov	dptr,#_asctime_timeptr_1_26
+      000351 E0               [ 8]  708 	movx	a,@dptr
+      000352 24 04            [ 8]  709 	add	a,#0x04
+      000354 FC               [ 4]  710 	mov	r4,a
+      000355 A3               [12]  711 	inc	dptr
+      000356 E0               [ 8]  712 	movx	a,@dptr
+      000357 34 00            [ 8]  713 	addc	a,#0x00
+      000359 FD               [ 4]  714 	mov	r5,a
+      00035A A3               [12]  715 	inc	dptr
+      00035B E0               [ 8]  716 	movx	a,@dptr
+      00035C 34 00            [ 8]  717 	addc	a,#0x00
+      00035E FA               [ 4]  718 	mov	r2,a
+      00035F A3               [12]  719 	inc	dptr
+      000360 E0               [ 8]  720 	movx	a,@dptr
+      000361 FB               [ 4]  721 	mov	r3,a
+      000362 8C 82            [ 8]  722 	mov	dpl,r4
+      000364 8D 83            [ 8]  723 	mov	dph,r5
+      000366 8A 93            [ 8]  724 	mov	dpx,r2
+      000368 8B F0            [ 8]  725 	mov	b,r3
+      00036A 12s00r00r00      [16]  726 	lcall	__gptrget
+      00036E FC               [ 4]  727 	mov	r4,a
+      00036F 75 F0 03         [12]  728 	mov	b,#0x03
+      000372 EC               [ 4]  729 	mov	a,r4
+      000373 A4               [20]  730 	mul	ab
+      000374 FC               [ 4]  731 	mov	r4,a
+      000375 AA F0            [ 8]  732 	mov	r2,b
+      000377 24r0C            [ 8]  733 	add	a,#___month
+      000379 F5 82            [ 8]  734 	mov	dpl,a
+      00037B EA               [ 4]  735 	mov	a,r2
+      00037C 34s00            [ 8]  736 	addc	a,#(___month >> 8)
+      00037E F5 83            [ 8]  737 	mov	dph,a
+      000380 E4               [ 4]  738 	clr	a
+      000381 34s00            [ 8]  739 	addc	a,#(___month >> 16)
+      000383 F5 93            [ 8]  740 	mov	dpx,a
+      000385 E4               [ 4]  741 	clr	a
+      000386 93               [12]  742 	movc	a,@a+dptr
+      000387 A3               [12]  743 	inc	dptr
+      000388 FA               [ 4]  744 	mov	r2,a
+      000389 E4               [ 4]  745 	clr	a
+      00038A 93               [12]  746 	movc	a,@a+dptr
+      00038B A3               [12]  747 	inc	dptr
+      00038C FB               [ 4]  748 	mov	r3,a
+      00038D E4               [ 4]  749 	clr	a
+      00038E 93               [12]  750 	movc	a,@a+dptr
+      00038F FC               [ 4]  751 	mov	r4,a
+      000390 7D 80            [ 8]  752 	mov	r5,#0x80
+      000392 90s00r00r31      [12]  753 	mov	dptr,#_asctime_timeptr_1_26
+      000396 E0               [ 8]  754 	movx	a,@dptr
+      000397 24 07            [ 8]  755 	add	a,#0x07
+      000399 F8               [ 4]  756 	mov	r0,a
+      00039A A3               [12]  757 	inc	dptr
+      00039B E0               [ 8]  758 	movx	a,@dptr
+      00039C 34 00            [ 8]  759 	addc	a,#0x00
+      00039E F9               [ 4]  760 	mov	r1,a
+      00039F A3               [12]  761 	inc	dptr
+      0003A0 E0               [ 8]  762 	movx	a,@dptr
+      0003A1 34 00            [ 8]  763 	addc	a,#0x00
+      0003A3 FE               [ 4]  764 	mov	r6,a
+      0003A4 A3               [12]  765 	inc	dptr
+      0003A5 E0               [ 8]  766 	movx	a,@dptr
+      0003A6 FF               [ 4]  767 	mov	r7,a
+      0003A7 88 82            [ 8]  768 	mov	dpl,r0
+      0003A9 89 83            [ 8]  769 	mov	dph,r1
+      0003AB 8E 93            [ 8]  770 	mov	dpx,r6
+      0003AD 8F F0            [ 8]  771 	mov	b,r7
+      0003AF 12s00r00r00      [16]  772 	lcall	__gptrget
+      0003B3 F8               [ 4]  773 	mov	r0,a
+      0003B4 75 F0 03         [12]  774 	mov	b,#0x03
+      0003B7 E8               [ 4]  775 	mov	a,r0
+      0003B8 A4               [20]  776 	mul	ab
+      0003B9 F8               [ 4]  777 	mov	r0,a
+      0003BA AE F0            [ 8]  778 	mov	r6,b
+      0003BC 24r30            [ 8]  779 	add	a,#___day
+      0003BE F5 82            [ 8]  780 	mov	dpl,a
+      0003C0 EE               [ 4]  781 	mov	a,r6
+      0003C1 34s00            [ 8]  782 	addc	a,#(___day >> 8)
+      0003C3 F5 83            [ 8]  783 	mov	dph,a
+      0003C5 E4               [ 4]  784 	clr	a
+      0003C6 34s00            [ 8]  785 	addc	a,#(___day >> 16)
+      0003C8 F5 93            [ 8]  786 	mov	dpx,a
+      0003CA E4               [ 4]  787 	clr	a
+      0003CB 93               [12]  788 	movc	a,@a+dptr
+      0003CC A3               [12]  789 	inc	dptr
+      0003CD FE               [ 4]  790 	mov	r6,a
+      0003CE E4               [ 4]  791 	clr	a
+      0003CF 93               [12]  792 	movc	a,@a+dptr
+      0003D0 A3               [12]  793 	inc	dptr
+      0003D1 FF               [ 4]  794 	mov	r7,a
+      0003D2 E4               [ 4]  795 	clr	a
+      0003D3 93               [12]  796 	movc	a,@a+dptr
+      0003D4 F8               [ 4]  797 	mov	r0,a
+      0003D5 79 80            [ 8]  798 	mov	r1,#0x80
+                                    799 ;	time.c:97: sprintf (ascTimeBuffer, "%s %s %2d %02d:%02d:%02d %04d\n",
+      0003D7 90s00r00r3D      [12]  800 	mov	dptr,#_asctime_sloc4_1_0
+      0003DB E0               [ 8]  801 	movx	a,@dptr
+      0003DC C0 E0            [ 8]  802 	push	acc
+      0003DE A3               [12]  803 	inc	dptr
+      0003DF E0               [ 8]  804 	movx	a,@dptr
+      0003E0 C0 E0            [ 8]  805 	push	acc
+      0003E2 90s00r00r3B      [12]  806 	mov	dptr,#_asctime_sloc3_1_0
+      0003E6 E0               [ 8]  807 	movx	a,@dptr
+      0003E7 C0 E0            [ 8]  808 	push	acc
+      0003E9 A3               [12]  809 	inc	dptr
+      0003EA E0               [ 8]  810 	movx	a,@dptr
+      0003EB C0 E0            [ 8]  811 	push	acc
+      0003ED 90s00r00r35      [12]  812 	mov	dptr,#_asctime_sloc0_1_0
+      0003F1 E0               [ 8]  813 	movx	a,@dptr
+      0003F2 C0 E0            [ 8]  814 	push	acc
+      0003F4 A3               [12]  815 	inc	dptr
+      0003F5 E0               [ 8]  816 	movx	a,@dptr
+      0003F6 C0 E0            [ 8]  817 	push	acc
+      0003F8 90s00r00r37      [12]  818 	mov	dptr,#_asctime_sloc1_1_0
+      0003FC E0               [ 8]  819 	movx	a,@dptr
+      0003FD C0 E0            [ 8]  820 	push	acc
+      0003FF A3               [12]  821 	inc	dptr
+      000400 E0               [ 8]  822 	movx	a,@dptr
+      000401 C0 E0            [ 8]  823 	push	acc
+      000403 90s00r00r39      [12]  824 	mov	dptr,#_asctime_sloc2_1_0
+      000407 E0               [ 8]  825 	movx	a,@dptr
+      000408 C0 E0            [ 8]  826 	push	acc
+      00040A A3               [12]  827 	inc	dptr
+      00040B E0               [ 8]  828 	movx	a,@dptr
+      00040C C0 E0            [ 8]  829 	push	acc
+      00040E C0 02            [ 8]  830 	push	ar2
+      000410 C0 03            [ 8]  831 	push	ar3
+      000412 C0 04            [ 8]  832 	push	ar4
+      000414 C0 05            [ 8]  833 	push	ar5
+      000416 C0 06            [ 8]  834 	push	ar6
+      000418 C0 07            [ 8]  835 	push	ar7
+      00041A C0 00            [ 8]  836 	push	ar0
+      00041C C0 01            [ 8]  837 	push	ar1
+      00041E 74r45            [ 8]  838 	mov	a,#___str_0
+      000420 C0 E0            [ 8]  839 	push	acc
+      000422 74s00            [ 8]  840 	mov	a,#(___str_0 >> 8)
+      000424 C0 E0            [ 8]  841 	push	acc
+      000426 74s00            [ 8]  842 	mov	a,#(___str_0 >> 16)
+      000428 C0 E0            [ 8]  843 	push	acc
+      00042A 74 80            [ 8]  844 	mov	a,#0x80
+      00042C C0 E0            [ 8]  845 	push	acc
+      00042E 74r10            [ 8]  846 	mov	a,#_ascTimeBuffer
+      000430 C0 E0            [ 8]  847 	push	acc
+      000432 74s00            [ 8]  848 	mov	a,#(_ascTimeBuffer >> 8)
+      000434 C0 E0            [ 8]  849 	push	acc
+      000436 74s00            [ 8]  850 	mov	a,#(_ascTimeBuffer >> 16)
+      000438 C0 E0            [ 8]  851 	push	acc
+      00043A E4               [ 4]  852 	clr	a
+      00043B C0 E0            [ 8]  853 	push	acc
+      00043D 12s00r00r00      [16]  854 	lcall	_sprintf
+      000441 C3               [ 4]  855 	clr	c
+      000442 E5 81            [ 8]  856 	mov	a,sp
+      000444 94 1A            [ 8]  857 	subb	a,#0x1A
+      000446 F5 81            [ 8]  858 	mov	sp,a
+      000448 E5 9B            [ 8]  859 	mov	a,esp
+      00044A 54 03            [ 8]  860 	anl	a,#3
+      00044C 94 00            [ 8]  861 	subb	a,#0x00
+      00044E F5 9B            [ 8]  862 	mov	esp,a
+                                    863 ;	time.c:101: return ascTimeBuffer;
+      000450 90s00r00r10      [12]  864 	mov dptr,#_ascTimeBuffer
+      000454 75 F0 00         [12]  865 	mov	b,#0x00
+      000457                        866 00101$:
+      000457 22               [16]  867 	ret
+                                    868 ;------------------------------------------------------------
+                                    869 ;Allocation info for local variables in function 'ctime'
+                                    870 ;------------------------------------------------------------
+                                    871 ;timep                     Allocated to registers r2 r3 r4 r5 
+                                    872 ;------------------------------------------------------------
+                                    873 ;	time.c:104: char *ctime(time_t *timep) {
+                                    874 ;	-----------------------------------------
+                                    875 ;	 function ctime
+                                    876 ;	-----------------------------------------
+      000458                        877 _ctime:
+                                    878 ;	time.c:105: return asctime(localtime(timep));
+      000458 AA 82            [ 8]  879 	mov     r2,dpl
+      00045A AB 83            [ 8]  880 	mov     r3,dph
+      00045C AC 93            [ 8]  881 	mov     r4,dpx
+      00045E AD F0            [ 8]  882 	mov     r5,b
+      000460 8D F0            [ 8]  883 	mov	b,r5
+      000462 12s00r04r6B      [16]  884 	lcall	_localtime
+      000466 12s00r02r45      [16]  885 	lcall	_asctime
+      00046A                        886 00101$:
+      00046A 22               [16]  887 	ret
+                                    888 ;------------------------------------------------------------
+                                    889 ;Allocation info for local variables in function 'localtime'
+                                    890 ;------------------------------------------------------------
+                                    891 ;timep                     Allocated to registers r2 r3 r4 r5 
+                                    892 ;------------------------------------------------------------
+                                    893 ;	time.c:121: struct tm *localtime(time_t *timep) {
+                                    894 ;	-----------------------------------------
+                                    895 ;	 function localtime
+                                    896 ;	-----------------------------------------
+      00046B                        897 _localtime:
+                                    898 ;	time.c:122: return gmtime(timep);
+      00046B AA 82            [ 8]  899 	mov     r2,dpl
+      00046D AB 83            [ 8]  900 	mov     r3,dph
+      00046F AC 93            [ 8]  901 	mov     r4,dpx
+      000471 AD F0            [ 8]  902 	mov     r5,b
+      000473 8D F0            [ 8]  903 	mov	b,r5
+      000475 12s00r04r7A      [16]  904 	lcall	_gmtime
+      000479                        905 00101$:
+      000479 22               [16]  906 	ret
+                                    907 ;------------------------------------------------------------
+                                    908 ;Allocation info for local variables in function 'gmtime'
+                                    909 ;------------------------------------------------------------
+                                    910 ;timep                     Allocated to registers 
+                                    911 ;epoch                     Allocated to registers r2 r3 r4 r5 
+                                    912 ;year                      Allocated to registers 
+                                    913 ;month                     Allocated to registers 
+                                    914 ;monthLength               Allocated to registers r0 
+                                    915 ;days                      Allocated with name '_gmtime_days_1_33'
+                                    916 ;sloc0                     Allocated with name '_gmtime_sloc0_1_0'
+                                    917 ;sloc1                     Allocated with name '_gmtime_sloc1_1_0'
+                                    918 ;------------------------------------------------------------
+                                    919 ;	time.c:125: struct tm *gmtime(time_t *timep) {
+                                    920 ;	-----------------------------------------
+                                    921 ;	 function gmtime
+                                    922 ;	-----------------------------------------
+      00047A                        923 _gmtime:
+                                    924 ;	time.c:126: unsigned long epoch=*timep;
+      00047A 12s00r00r00      [16]  925 	lcall	__gptrgetWord
+      00047E FA               [ 4]  926 	mov	r2,a
+      00047F AB 9C            [ 8]  927 	mov	r3,acc1
+      000481 A3               [12]  928 	inc	dptr
+      000482 12s00r00r00      [16]  929 	lcall	__gptrgetWord
+      000486 FC               [ 4]  930 	mov	r4,a
+      000487 AD 9C            [ 8]  931 	mov	r5,acc1
+                                    932 ;	genAssign: resultIsFar = TRUE
+                                    933 ;	time.c:131: lastTime.tm_sec=epoch%60;
+                                    934 ;	genAssign: resultIsFar = TRUE
+      000489 90s00r00r00      [12]  935 	mov	dptr,#__modulong_PARM_2
+      00048D 74 3C            [ 8]  936 	mov	a,#0x3C
+      00048F F0               [ 8]  937 	movx	@dptr,a
+      000490 E4               [ 4]  938 	clr	a
+      000491 A3               [12]  939 	inc	dptr
+      000492 F0               [ 8]  940 	movx	@dptr,a
+      000493 A3               [12]  941 	inc	dptr
+      000494 F0               [ 8]  942 	movx	@dptr,a
+      000495 A3               [12]  943 	inc	dptr
+      000496 F0               [ 8]  944 	movx	@dptr,a
+      000497 C0 02            [ 8]  945 	push	ar2
+      000499 C0 03            [ 8]  946 	push	ar3
+      00049B C0 04            [ 8]  947 	push	ar4
+      00049D C0 05            [ 8]  948 	push	ar5
+      00049F 8A 82            [ 8]  949 	mov	dpl,r2
+      0004A1 8B 83            [ 8]  950 	mov	dph,r3
+      0004A3 8C 93            [ 8]  951 	mov	dpx,r4
+      0004A5 8D F0            [ 8]  952 	mov	b,r5
+      0004A7 12s00r00r00      [16]  953 	lcall	__modulong
+      0004AB D0 05            [ 8]  954 	pop	ar5
+      0004AD D0 04            [ 8]  955 	pop	ar4
+      0004AF D0 03            [ 8]  956 	pop	ar3
+      0004B1 D0 02            [ 8]  957 	pop	ar2
+      0004B3 AE 82            [ 8]  958 	mov	r6,dpl
+      0004B5 90s00r00r3F      [12]  959 	mov	dptr,#_lastTime
+      0004B9 EE               [ 4]  960 	mov	a,r6
+      0004BA F0               [ 8]  961 	movx	@dptr,a
+                                    962 ;	time.c:132: epoch/=60; // now it is minutes
+                                    963 ;	genAssign: resultIsFar = TRUE
+      0004BB 90s00r00r00      [12]  964 	mov	dptr,#__divulong_PARM_2
+      0004BF 74 3C            [ 8]  965 	mov	a,#0x3C
+      0004C1 F0               [ 8]  966 	movx	@dptr,a
+      0004C2 E4               [ 4]  967 	clr	a
+      0004C3 A3               [12]  968 	inc	dptr
+      0004C4 F0               [ 8]  969 	movx	@dptr,a
+      0004C5 A3               [12]  970 	inc	dptr
+      0004C6 F0               [ 8]  971 	movx	@dptr,a
+      0004C7 A3               [12]  972 	inc	dptr
+      0004C8 F0               [ 8]  973 	movx	@dptr,a
+      0004C9 8A 82            [ 8]  974 	mov	dpl,r2
+      0004CB 8B 83            [ 8]  975 	mov	dph,r3
+      0004CD 8C 93            [ 8]  976 	mov	dpx,r4
+      0004CF 8D F0            [ 8]  977 	mov	b,r5
+      0004D1 12s00r00r00      [16]  978 	lcall	__divulong
+      0004D5 AE 82            [ 8]  979 	mov	r6,dpl
+      0004D7 AF 83            [ 8]  980 	mov	r7,dph
+      0004D9 A8 93            [ 8]  981 	mov	r0,dpx
+      0004DB A9 F0            [ 8]  982 	mov	r1,b
+                                    983 ;	genAssign: resultIsFar = TRUE
+      0004DD 8E 02            [ 8]  984 	mov	ar2,r6
+      0004DF 8F 03            [ 8]  985 	mov	ar3,r7
+      0004E1 88 04            [ 8]  986 	mov	ar4,r0
+      0004E3 89 05            [ 8]  987 	mov	ar5,r1
+                                    988 ;	time.c:133: lastTime.tm_min=epoch%60;
+                                    989 ;	genAssign: resultIsFar = TRUE
+      0004E5 90s00r00r00      [12]  990 	mov	dptr,#__modulong_PARM_2
+      0004E9 74 3C            [ 8]  991 	mov	a,#0x3C
+      0004EB F0               [ 8]  992 	movx	@dptr,a
+      0004EC E4               [ 4]  993 	clr	a
+      0004ED A3               [12]  994 	inc	dptr
+      0004EE F0               [ 8]  995 	movx	@dptr,a
+      0004EF A3               [12]  996 	inc	dptr
+      0004F0 F0               [ 8]  997 	movx	@dptr,a
+      0004F1 A3               [12]  998 	inc	dptr
+      0004F2 F0               [ 8]  999 	movx	@dptr,a
+      0004F3 C0 02            [ 8] 1000 	push	ar2
+      0004F5 C0 03            [ 8] 1001 	push	ar3
+      0004F7 C0 04            [ 8] 1002 	push	ar4
+      0004F9 C0 05            [ 8] 1003 	push	ar5
+      0004FB 8A 82            [ 8] 1004 	mov	dpl,r2
+      0004FD 8B 83            [ 8] 1005 	mov	dph,r3
+      0004FF 8C 93            [ 8] 1006 	mov	dpx,r4
+      000501 8D F0            [ 8] 1007 	mov	b,r5
+      000503 12s00r00r00      [16] 1008 	lcall	__modulong
+      000507 D0 05            [ 8] 1009 	pop	ar5
+      000509 D0 04            [ 8] 1010 	pop	ar4
+      00050B D0 03            [ 8] 1011 	pop	ar3
+      00050D D0 02            [ 8] 1012 	pop	ar2
+      00050F AE 82            [ 8] 1013 	mov	r6,dpl
+      000511 90s00r00r40      [12] 1014 	mov	dptr,#(_lastTime + 0x000001)
+      000515 EE               [ 4] 1015 	mov	a,r6
+      000516 F0               [ 8] 1016 	movx	@dptr,a
+                                   1017 ;	time.c:134: epoch/=60; // now it is hours
+                                   1018 ;	genAssign: resultIsFar = TRUE
+      000517 90s00r00r00      [12] 1019 	mov	dptr,#__divulong_PARM_2
+      00051B 74 3C            [ 8] 1020 	mov	a,#0x3C
+      00051D F0               [ 8] 1021 	movx	@dptr,a
+      00051E E4               [ 4] 1022 	clr	a
+      00051F A3               [12] 1023 	inc	dptr
+      000520 F0               [ 8] 1024 	movx	@dptr,a
+      000521 A3               [12] 1025 	inc	dptr
+      000522 F0               [ 8] 1026 	movx	@dptr,a
+      000523 A3               [12] 1027 	inc	dptr
+      000524 F0               [ 8] 1028 	movx	@dptr,a
+      000525 8A 82            [ 8] 1029 	mov	dpl,r2
+      000527 8B 83            [ 8] 1030 	mov	dph,r3
+      000529 8C 93            [ 8] 1031 	mov	dpx,r4
+      00052B 8D F0            [ 8] 1032 	mov	b,r5
+      00052D 12s00r00r00      [16] 1033 	lcall	__divulong
+      000531 AE 82            [ 8] 1034 	mov	r6,dpl
+      000533 AF 83            [ 8] 1035 	mov	r7,dph
+      000535 A8 93            [ 8] 1036 	mov	r0,dpx
+      000537 A9 F0            [ 8] 1037 	mov	r1,b
+                                   1038 ;	genAssign: resultIsFar = TRUE
+      000539 8E 02            [ 8] 1039 	mov	ar2,r6
+      00053B 8F 03            [ 8] 1040 	mov	ar3,r7
+      00053D 88 04            [ 8] 1041 	mov	ar4,r0
+      00053F 89 05            [ 8] 1042 	mov	ar5,r1
+                                   1043 ;	time.c:135: lastTime.tm_hour=epoch%24;
+                                   1044 ;	genAssign: resultIsFar = TRUE
+      000541 90s00r00r00      [12] 1045 	mov	dptr,#__modulong_PARM_2
+      000545 74 18            [ 8] 1046 	mov	a,#0x18
+      000547 F0               [ 8] 1047 	movx	@dptr,a
+      000548 E4               [ 4] 1048 	clr	a
+      000549 A3               [12] 1049 	inc	dptr
+      00054A F0               [ 8] 1050 	movx	@dptr,a
+      00054B A3               [12] 1051 	inc	dptr
+      00054C F0               [ 8] 1052 	movx	@dptr,a
+      00054D A3               [12] 1053 	inc	dptr
+      00054E F0               [ 8] 1054 	movx	@dptr,a
+      00054F C0 02            [ 8] 1055 	push	ar2
+      000551 C0 03            [ 8] 1056 	push	ar3
+      000553 C0 04            [ 8] 1057 	push	ar4
+      000555 C0 05            [ 8] 1058 	push	ar5
+      000557 8A 82            [ 8] 1059 	mov	dpl,r2
+      000559 8B 83            [ 8] 1060 	mov	dph,r3
+      00055B 8C 93            [ 8] 1061 	mov	dpx,r4
+      00055D 8D F0            [ 8] 1062 	mov	b,r5
+      00055F 12s00r00r00      [16] 1063 	lcall	__modulong
+      000563 D0 05            [ 8] 1064 	pop	ar5
+      000565 D0 04            [ 8] 1065 	pop	ar4
+      000567 D0 03            [ 8] 1066 	pop	ar3
+      000569 D0 02            [ 8] 1067 	pop	ar2
+      00056B AE 82            [ 8] 1068 	mov	r6,dpl
+      00056D 90s00r00r41      [12] 1069 	mov	dptr,#(_lastTime + 0x000002)
+      000571 EE               [ 4] 1070 	mov	a,r6
+      000572 F0               [ 8] 1071 	movx	@dptr,a
+                                   1072 ;	time.c:136: epoch/=24; // now it is days
+                                   1073 ;	genAssign: resultIsFar = TRUE
+      000573 90s00r00r00      [12] 1074 	mov	dptr,#__divulong_PARM_2
+      000577 74 18            [ 8] 1075 	mov	a,#0x18
+      000579 F0               [ 8] 1076 	movx	@dptr,a
+      00057A E4               [ 4] 1077 	clr	a
+      00057B A3               [12] 1078 	inc	dptr
+      00057C F0               [ 8] 1079 	movx	@dptr,a
+      00057D A3               [12] 1080 	inc	dptr
+      00057E F0               [ 8] 1081 	movx	@dptr,a
+      00057F A3               [12] 1082 	inc	dptr
+      000580 F0               [ 8] 1083 	movx	@dptr,a
+      000581 8A 82            [ 8] 1084 	mov	dpl,r2
+      000583 8B 83            [ 8] 1085 	mov	dph,r3
+      000585 8C 93            [ 8] 1086 	mov	dpx,r4
+      000587 8D F0            [ 8] 1087 	mov	b,r5
+      000589 12s00r00r00      [16] 1088 	lcall	__divulong
+      00058D AE 82            [ 8] 1089 	mov	r6,dpl
+      00058F AF 83            [ 8] 1090 	mov	r7,dph
+      000591 A8 93            [ 8] 1091 	mov	r0,dpx
+      000593 A9 F0            [ 8] 1092 	mov	r1,b
+                                   1093 ;	genAssign: resultIsFar = TRUE
+      000595 8E 02            [ 8] 1094 	mov	ar2,r6
+      000597 8F 03            [ 8] 1095 	mov	ar3,r7
+      000599 88 04            [ 8] 1096 	mov	ar4,r0
+      00059B 89 05            [ 8] 1097 	mov	ar5,r1
+                                   1098 ;	time.c:137: lastTime.tm_wday=(epoch+4)%7;
+      00059D 74 04            [ 8] 1099 	mov	a,#0x04
+      00059F 2A               [ 4] 1100 	add	a,r2
+      0005A0 FE               [ 4] 1101 	mov	r6,a
+      0005A1 E4               [ 4] 1102 	clr	a
+      0005A2 3B               [ 4] 1103 	addc	a,r3
+      0005A3 FF               [ 4] 1104 	mov	r7,a
+      0005A4 E4               [ 4] 1105 	clr	a
+      0005A5 3C               [ 4] 1106 	addc	a,r4
+      0005A6 F8               [ 4] 1107 	mov	r0,a
+      0005A7 E4               [ 4] 1108 	clr	a
+      0005A8 3D               [ 4] 1109 	addc	a,r5
+      0005A9 F9               [ 4] 1110 	mov	r1,a
+                                   1111 ;	genAssign: resultIsFar = TRUE
+      0005AA 90s00r00r00      [12] 1112 	mov	dptr,#__modulong_PARM_2
+      0005AE 74 07            [ 8] 1113 	mov	a,#0x07
+      0005B0 F0               [ 8] 1114 	movx	@dptr,a
+      0005B1 E4               [ 4] 1115 	clr	a
+      0005B2 A3               [12] 1116 	inc	dptr
+      0005B3 F0               [ 8] 1117 	movx	@dptr,a
+      0005B4 A3               [12] 1118 	inc	dptr
+      0005B5 F0               [ 8] 1119 	movx	@dptr,a
+      0005B6 A3               [12] 1120 	inc	dptr
+      0005B7 F0               [ 8] 1121 	movx	@dptr,a
+      0005B8 C0 02            [ 8] 1122 	push	ar2
+      0005BA C0 03            [ 8] 1123 	push	ar3
+      0005BC C0 04            [ 8] 1124 	push	ar4
+      0005BE C0 05            [ 8] 1125 	push	ar5
+      0005C0 8E 82            [ 8] 1126 	mov	dpl,r6
+      0005C2 8F 83            [ 8] 1127 	mov	dph,r7
+      0005C4 88 93            [ 8] 1128 	mov	dpx,r0
+      0005C6 89 F0            [ 8] 1129 	mov	b,r1
+      0005C8 12s00r00r00      [16] 1130 	lcall	__modulong
+      0005CC D0 05            [ 8] 1131 	pop	ar5
+      0005CE D0 04            [ 8] 1132 	pop	ar4
+      0005D0 D0 03            [ 8] 1133 	pop	ar3
+      0005D2 D0 02            [ 8] 1134 	pop	ar2
+      0005D4 AE 82            [ 8] 1135 	mov	r6,dpl
+      0005D6 90s00r00r46      [12] 1136 	mov	dptr,#(_lastTime + 0x000007)
+      0005DA EE               [ 4] 1137 	mov	a,r6
+      0005DB F0               [ 8] 1138 	movx	@dptr,a
+                                   1139 ;	time.c:140: days=0;
+                                   1140 ;	genAssign: resultIsFar = TRUE
+      0005DC 90s00r00r4B      [12] 1141 	mov	dptr,#_gmtime_days_1_33
+      0005E0 E4               [ 4] 1142 	clr	a
+      0005E1 F0               [ 8] 1143 	movx	@dptr,a
+      0005E2 A3               [12] 1144 	inc	dptr
+      0005E3 F0               [ 8] 1145 	movx	@dptr,a
+      0005E4 A3               [12] 1146 	inc	dptr
+      0005E5 F0               [ 8] 1147 	movx	@dptr,a
+      0005E6 A3               [12] 1148 	inc	dptr
+      0005E7 F0               [ 8] 1149 	movx	@dptr,a
+                                   1150 ;	time.c:141: while((days += (LEAP_YEAR(year) ? 366 : 365)) <= epoch) {
+                                   1151 ;	genAssign: resultIsFar = FALSE
+      0005E8 7E B2            [ 8] 1152 	mov	r6,#0xB2
+      0005EA 7F 07            [ 8] 1153 	mov	r7,#0x07
+      0005EC                       1154 00101$:
+      0005EC 74 03            [ 8] 1155 	mov	a,#0x03
+      0005EE 5E               [ 4] 1156 	anl	a,r6
+      0005EF F8               [ 4] 1157 	mov	r0,a
+      0005F0 79 00            [ 8] 1158 	mov	r1,#0x00
+      0005F2 E8               [ 4] 1159 	mov	a,r0
+      0005F3 49               [ 4] 1160 	orl	a,r1
+      0005F4 70 06            [12] 1161 	jnz  00118$
+      0005F6                       1162 00148$:
+                                   1163 ;	genAssign: resultIsFar = FALSE
+      0005F6 78 6E            [ 8] 1164 	mov	r0,#0x6E
+      0005F8 79 01            [ 8] 1165 	mov	r1,#0x01
+      0005FA 80 04            [12] 1166 	sjmp 00119$
+      0005FC                       1167 00118$:
+                                   1168 ;	genAssign: resultIsFar = FALSE
+      0005FC 78 6D            [ 8] 1169 	mov	r0,#0x6D
+      0005FE 79 01            [ 8] 1170 	mov	r1,#0x01
+      000600                       1171 00119$:
+      000600 C0 06            [ 8] 1172 	push	ar6
+      000602 C0 07            [ 8] 1173 	push	ar7
+      000604 E9               [ 4] 1174 	mov	a,r1
+      000605 33               [ 4] 1175 	rlc	a
+      000606 95 E0            [ 8] 1176 	subb	a,acc
+      000608 FE               [ 4] 1177 	mov	r6,a
+      000609 FF               [ 4] 1178 	mov	r7,a
+      00060A 90s00r00r4B      [12] 1179 	mov	dptr,#_gmtime_days_1_33
+      00060E E0               [ 8] 1180 	movx	a,@dptr
+      00060F 28               [ 4] 1181 	add	a,r0
+      000610 F8               [ 4] 1182 	mov	r0,a
+      000611 A3               [12] 1183 	inc	dptr
+      000612 E0               [ 8] 1184 	movx	a,@dptr
+      000613 39               [ 4] 1185 	addc	a,r1
+      000614 F9               [ 4] 1186 	mov	r1,a
+      000615 A3               [12] 1187 	inc	dptr
+      000616 E0               [ 8] 1188 	movx	a,@dptr
+      000617 3E               [ 4] 1189 	addc	a,r6
+      000618 FE               [ 4] 1190 	mov	r6,a
+      000619 A3               [12] 1191 	inc	dptr
+      00061A E0               [ 8] 1192 	movx	a,@dptr
+      00061B 3F               [ 4] 1193 	addc	a,r7
+      00061C FF               [ 4] 1194 	mov	r7,a
+                                   1195 ;	genAssign: resultIsFar = TRUE
+      00061D 90s00r00r4B      [12] 1196 	mov	dptr,#_gmtime_days_1_33
+      000621 E8               [ 4] 1197 	mov	a,r0
+      000622 F0               [ 8] 1198 	movx	@dptr,a
+      000623 A3               [12] 1199 	inc	dptr
+      000624 E9               [ 4] 1200 	mov	a,r1
+      000625 F0               [ 8] 1201 	movx	@dptr,a
+      000626 A3               [12] 1202 	inc	dptr
+      000627 EE               [ 4] 1203 	mov	a,r6
+      000628 F0               [ 8] 1204 	movx	@dptr,a
+      000629 A3               [12] 1205 	inc	dptr
+      00062A EF               [ 4] 1206 	mov	a,r7
+      00062B F0               [ 8] 1207 	movx	@dptr,a
+      00062C C3               [ 4] 1208 	clr	c
+      00062D EA               [ 4] 1209 	mov	a,r2
+      00062E 98               [ 4] 1210 	subb	a,r0
+      00062F EB               [ 4] 1211 	mov	a,r3
+      000630 99               [ 4] 1212 	subb	a,r1
+      000631 EC               [ 4] 1213 	mov	a,r4
+      000632 9E               [ 4] 1214 	subb	a,r6
+      000633 ED               [ 4] 1215 	mov	a,r5
+      000634 9F               [ 4] 1216 	subb	a,r7
+      000635 D0 07            [ 8] 1217 	pop	ar7
+      000637 D0 06            [ 8] 1218 	pop	ar6
+      000639 40 07            [12] 1219 	jc   00103$
+      00063B                       1220 00149$:
+                                   1221 ;	time.c:142: year++;
+      00063B 0E               [ 4] 1222 	inc	r6
+      00063C BE 00 01         [16] 1223 	cjne	r6,#0x00,00150$
+      00063F 0F               [ 4] 1224 	inc	r7
+      000640                       1225 00150$:
+      000640 80 AA            [12] 1226 	sjmp 00101$
+      000642                       1227 00103$:
+                                   1228 ;	time.c:144: lastTime.tm_year=year-1900;
+      000642 EE               [ 4] 1229 	mov	a,r6
+      000643 24 94            [ 8] 1230 	add	a,#0x94
+      000645 F8               [ 4] 1231 	mov	r0,a
+      000646 EF               [ 4] 1232 	mov	a,r7
+      000647 34 F8            [ 8] 1233 	addc	a,#0xF8
+      000649 F9               [ 4] 1234 	mov	r1,a
+      00064A 90s00r00r44      [12] 1235 	mov	dptr,#(_lastTime + 0x000005)
+      00064E E8               [ 4] 1236 	mov	a,r0
+      00064F F0               [ 8] 1237 	movx	@dptr,a
+      000650 A3               [12] 1238 	inc	dptr
+      000651 E9               [ 4] 1239 	mov	a,r1
+      000652 F0               [ 8] 1240 	movx	@dptr,a
+                                   1241 ;	time.c:146: days -= LEAP_YEAR(year) ? 366 : 365;
+      000653 53 06 03         [12] 1242 	anl	ar6,#0x03
+      000656 7F 00            [ 8] 1243 	mov	r7,#0x00
+      000658 EE               [ 4] 1244 	mov	a,r6
+      000659 4F               [ 4] 1245 	orl	a,r7
+      00065A 70 06            [12] 1246 	jnz  00120$
+      00065C                       1247 00151$:
+                                   1248 ;	genAssign: resultIsFar = FALSE
+      00065C 78 6E            [ 8] 1249 	mov	r0,#0x6E
+      00065E 79 01            [ 8] 1250 	mov	r1,#0x01
+      000660 80 04            [12] 1251 	sjmp 00121$
+      000662                       1252 00120$:
+                                   1253 ;	genAssign: resultIsFar = FALSE
+      000662 78 6D            [ 8] 1254 	mov	r0,#0x6D
+      000664 79 01            [ 8] 1255 	mov	r1,#0x01
+      000666                       1256 00121$:
+      000666 C0 06            [ 8] 1257 	push	ar6
+      000668 C0 07            [ 8] 1258 	push	ar7
+      00066A E9               [ 4] 1259 	mov	a,r1
+      00066B 33               [ 4] 1260 	rlc	a
+      00066C 95 E0            [ 8] 1261 	subb	a,acc
+      00066E FE               [ 4] 1262 	mov	r6,a
+      00066F FF               [ 4] 1263 	mov	r7,a
+      000670 90s00r00r4B      [12] 1264 	mov	dptr,#_gmtime_days_1_33
+      000674 C3               [ 4] 1265 	clr	c
+      000675 E0               [ 8] 1266 	movx	a,@dptr
+      000676 98               [ 4] 1267 	subb	a,r0
+      000677 F0               [ 8] 1268 	movx	@dptr,a
+      000678 A3               [12] 1269 	inc	dptr
+      000679 E0               [ 8] 1270 	movx	a,@dptr
+      00067A 99               [ 4] 1271 	subb	a,r1
+      00067B F0               [ 8] 1272 	movx	@dptr,a
+      00067C A3               [12] 1273 	inc	dptr
+      00067D E0               [ 8] 1274 	movx	a,@dptr
+      00067E 9E               [ 4] 1275 	subb	a,r6
+      00067F F0               [ 8] 1276 	movx	@dptr,a
+      000680 A3               [12] 1277 	inc	dptr
+      000681 E0               [ 8] 1278 	movx	a,@dptr
+      000682 9F               [ 4] 1279 	subb	a,r7
+      000683 F0               [ 8] 1280 	movx	@dptr,a
+                                   1281 ;	time.c:147: epoch -= days; // now it is days in this year, starting at 0
+      000684 90s00r00r4B      [12] 1282 	mov	dptr,#_gmtime_days_1_33
+      000688 C3               [ 4] 1283 	clr	c
+      000689 E0               [ 8] 1284 	movx	a,@dptr
+      00068A F5 F0            [ 8] 1285 	mov	b,a
+      00068C EA               [ 4] 1286 	mov	a,r2
+      00068D 95 F0            [ 8] 1287 	subb	a,b
+      00068F FA               [ 4] 1288 	mov	r2,a
+      000690 A3               [12] 1289 	inc	dptr
+      000691 E0               [ 8] 1290 	movx	a,@dptr
+      000692 F5 F0            [ 8] 1291 	mov	b,a
+      000694 EB               [ 4] 1292 	mov	a,r3
+      000695 95 F0            [ 8] 1293 	subb	a,b
+      000697 FB               [ 4] 1294 	mov	r3,a
+      000698 A3               [12] 1295 	inc	dptr
+      000699 E0               [ 8] 1296 	movx	a,@dptr
+      00069A F5 F0            [ 8] 1297 	mov	b,a
+      00069C EC               [ 4] 1298 	mov	a,r4
+      00069D 95 F0            [ 8] 1299 	subb	a,b
+      00069F FC               [ 4] 1300 	mov	r4,a
+      0006A0 A3               [12] 1301 	inc	dptr
+      0006A1 E0               [ 8] 1302 	movx	a,@dptr
+      0006A2 F5 F0            [ 8] 1303 	mov	b,a
+      0006A4 ED               [ 4] 1304 	mov	a,r5
+      0006A5 95 F0            [ 8] 1305 	subb	a,b
+      0006A7 FD               [ 4] 1306 	mov	r5,a
+                                   1307 ;	time.c:148: lastTime.tm_yday=epoch;
+      0006A8 8A 06            [ 8] 1308 	mov	ar6,r2
+      0006AA 8B 07            [ 8] 1309 	mov	ar7,r3
+      0006AC 90s00r00r47      [12] 1310 	mov	dptr,#(_lastTime + 0x000008)
+      0006B0 EE               [ 4] 1311 	mov	a,r6
+      0006B1 F0               [ 8] 1312 	movx	@dptr,a
+      0006B2 A3               [12] 1313 	inc	dptr
+      0006B3 EF               [ 4] 1314 	mov	a,r7
+      0006B4 F0               [ 8] 1315 	movx	@dptr,a
+                                   1316 ;	time.c:153: for (month=0; month<12; month++) {
+                                   1317 ;	genAssign: resultIsFar = TRUE
+      0006B5 90s00r00r4F      [12] 1318 	mov	dptr,#_gmtime_sloc0_1_0
+      0006B9 E4               [ 4] 1319 	clr	a
+      0006BA F0               [ 8] 1320 	movx	@dptr,a
+                                   1321 ;	time.c:175: return &lastTime;
+      0006BB D0 07            [ 8] 1322 	pop	ar7
+      0006BD D0 06            [ 8] 1323 	pop	ar6
+                                   1324 ;	time.c:153: for (month=0; month<12; month++) {
+      0006BF                       1325 00114$:
+                                   1326 ;	time.c:154: if (month==1) { // februari
+      0006BF 90s00r00r4F      [12] 1327 	mov	dptr,#_gmtime_sloc0_1_0
+      0006C3 E0               [ 8] 1328 	movx	a,@dptr
+      0006C4 B4 01 0C         [16] 1329 	cjne a,#0x01,00108$
+      0006C7                       1330 00153$:
+                                   1331 ;	time.c:155: if (LEAP_YEAR(year)) {
+      0006C7 EE               [ 4] 1332 	mov	a,r6
+      0006C8 4F               [ 4] 1333 	orl	a,r7
+      0006C9 70 04            [12] 1334 	jnz  00105$
+      0006CB                       1335 00154$:
+                                   1336 ;	time.c:156: monthLength=29;
+                                   1337 ;	genAssign: resultIsFar = TRUE
+      0006CB 78 1D            [ 8] 1338 	mov	r0,#0x1D
+      0006CD 80 22            [12] 1339 	sjmp 00109$
+      0006CF                       1340 00105$:
+                                   1341 ;	time.c:158: monthLength=28;
+                                   1342 ;	genAssign: resultIsFar = TRUE
+      0006CF 78 1C            [ 8] 1343 	mov	r0,#0x1C
+      0006D1 80 1E            [12] 1344 	sjmp 00109$
+      0006D3                       1345 00108$:
+                                   1346 ;	time.c:161: monthLength = monthDays[month];
+      0006D3 75 86 01         [12] 1347 	mov     dps, #1
+      0006D6 90s00r00r4F      [12] 1348 	mov     dptr, #_gmtime_sloc0_1_0
+      0006DA E0               [ 8] 1349 	movx	a,@dptr
+      0006DB 24r00            [ 8] 1350 	add	a,#_monthDays
+      0006DD F5 82            [ 8] 1351 	mov	dpl,a
+      0006DF E4               [ 4] 1352 	clr	a
+      0006E0 34s00            [ 8] 1353 	addc	a,#(_monthDays >> 8)
+      0006E2 F5 83            [ 8] 1354 	mov	dph,a
+      0006E4 E4               [ 4] 1355 	clr	a
+      0006E5 34s00            [ 8] 1356 	addc	a,#(_monthDays >> 16)
+      0006E7 F5 93            [ 8] 1357 	mov	dpx,a
+      0006E9 75 86 00         [12] 1358 	mov	dps,#0
+      0006EC E4               [ 4] 1359 	clr	a
+      0006ED 93               [12] 1360 	movc	a,@a+dptr
+      0006EE F9               [ 4] 1361 	mov	r1,a
+                                   1362 ;	genAssign: resultIsFar = TRUE
+      0006EF 89 00            [ 8] 1363 	mov	ar0,r1
+      0006F1                       1364 00109$:
+                                   1365 ;	time.c:164: if (epoch>=monthLength) {
+      0006F1 90s00r00r50      [12] 1366 	mov	dptr,#_gmtime_sloc1_1_0
+      0006F5 E8               [ 4] 1367 	mov	a,r0
+      0006F6 F0               [ 8] 1368 	movx	@dptr,a
+      0006F7 A3               [12] 1369 	inc	dptr
+      0006F8 E4               [ 4] 1370 	clr	a
+      0006F9 F0               [ 8] 1371 	movx	@dptr,a
+      0006FA A3               [12] 1372 	inc	dptr
+      0006FB E4               [ 4] 1373 	clr	a
+      0006FC F0               [ 8] 1374 	movx	@dptr,a
+      0006FD A3               [12] 1375 	inc	dptr
+      0006FE E4               [ 4] 1376 	clr	a
+      0006FF F0               [ 8] 1377 	movx	@dptr,a
+      000700 90s00r00r50      [12] 1378 	mov	dptr,#_gmtime_sloc1_1_0
+      000704 C3               [ 4] 1379 	clr	c
+      000705 EA               [ 4] 1380 	mov	a,r2
+      000706 C5 F0            [ 8] 1381 	xch	a, b
+      000708 E0               [ 8] 1382 	movx	a,@dptr
+      000709 C5 F0            [ 8] 1383 	xch	a, b
+      00070B 95 F0            [ 8] 1384 	subb	a,b
+      00070D EB               [ 4] 1385 	mov	a,r3
+      00070E C5 F0            [ 8] 1386 	xch	a, b
+      000710 A3               [12] 1387 	inc	dptr
+      000711 E0               [ 8] 1388 	movx	a,@dptr
+      000712 C5 F0            [ 8] 1389 	xch	a, b
+      000714 95 F0            [ 8] 1390 	subb	a,b
+      000716 EC               [ 4] 1391 	mov	a,r4
+      000717 C5 F0            [ 8] 1392 	xch	a, b
+      000719 A3               [12] 1393 	inc	dptr
+      00071A E0               [ 8] 1394 	movx	a,@dptr
+      00071B C5 F0            [ 8] 1395 	xch	a, b
+      00071D 95 F0            [ 8] 1396 	subb	a,b
+      00071F ED               [ 4] 1397 	mov	a,r5
+      000720 C5 F0            [ 8] 1398 	xch	a, b
+      000722 A3               [12] 1399 	inc	dptr
+      000723 E0               [ 8] 1400 	movx	a,@dptr
+      000724 C5 F0            [ 8] 1401 	xch	a, b
+      000726 95 F0            [ 8] 1402 	subb	a,b
+      000728 40 3A            [12] 1403 	jc   00113$
+      00072A                       1404 00155$:
+                                   1405 ;	time.c:165: epoch-=monthLength;
+      00072A 90s00r00r50      [12] 1406 	mov	dptr,#_gmtime_sloc1_1_0
+      00072E C3               [ 4] 1407 	clr	c
+      00072F E0               [ 8] 1408 	movx	a,@dptr
+      000730 F5 F0            [ 8] 1409 	mov	b,a
+      000732 EA               [ 4] 1410 	mov	a,r2
+      000733 95 F0            [ 8] 1411 	subb	a,b
+      000735 FA               [ 4] 1412 	mov	r2,a
+      000736 A3               [12] 1413 	inc	dptr
+      000737 E0               [ 8] 1414 	movx	a,@dptr
+      000738 F5 F0            [ 8] 1415 	mov	b,a
+      00073A EB               [ 4] 1416 	mov	a,r3
+      00073B 95 F0            [ 8] 1417 	subb	a,b
+      00073D FB               [ 4] 1418 	mov	r3,a
+      00073E A3               [12] 1419 	inc	dptr
+      00073F E0               [ 8] 1420 	movx	a,@dptr
+      000740 F5 F0            [ 8] 1421 	mov	b,a
+      000742 EC               [ 4] 1422 	mov	a,r4
+      000743 95 F0            [ 8] 1423 	subb	a,b
+      000745 FC               [ 4] 1424 	mov	r4,a
+      000746 A3               [12] 1425 	inc	dptr
+      000747 E0               [ 8] 1426 	movx	a,@dptr
+      000748 F5 F0            [ 8] 1427 	mov	b,a
+      00074A ED               [ 4] 1428 	mov	a,r5
+      00074B 95 F0            [ 8] 1429 	subb	a,b
+      00074D FD               [ 4] 1430 	mov	r5,a
+                                   1431 ;	time.c:153: for (month=0; month<12; month++) {
+      00074E 90s00r00r4F      [12] 1432 	mov	dptr,#_gmtime_sloc0_1_0
+      000752 E0               [ 8] 1433 	movx	a,@dptr
+      000753 24 01            [ 8] 1434 	add	a,#0x01
+      000755 F0               [ 8] 1435 	movx	@dptr,a
+      000756 90s00r00r4F      [12] 1436 	mov	dptr,#_gmtime_sloc0_1_0
+      00075A E0               [ 8] 1437 	movx	a,@dptr
+      00075B B4 0C 00         [16] 1438 	cjne	a,#0x0C,00156$
+      00075E                       1439 00156$:
+      00075E 50 04            [12] 1440 	jnc	00157$
+      000760 02s00r06rBF      [16] 1441 	ljmp	00114$
+      000764                       1442 00157$:
+      000764                       1443 00113$:
+                                   1444 ;	time.c:170: lastTime.tm_mon=month;
+      000764 90s00r00r43      [12] 1445 	mov	dptr,#(_lastTime + 0x000004)
+      000768 75 86 01         [12] 1446 	mov     dps, #1
+      00076B 90s00r00r4F      [12] 1447 	mov     dptr, #_gmtime_sloc0_1_0
+      00076F E0               [ 8] 1448 	movx	a,@dptr
+      000770 15 86            [ 8] 1449 	dec	dps
+      000772 F0               [ 8] 1450 	movx	@dptr,a
+                                   1451 ;	time.c:171: lastTime.tm_mday=epoch+1;
+      000773 0A               [ 4] 1452 	inc	r2
+      000774 90s00r00r42      [12] 1453 	mov	dptr,#(_lastTime + 0x000003)
+      000778 EA               [ 4] 1454 	mov	a,r2
+      000779 F0               [ 8] 1455 	movx	@dptr,a
+                                   1456 ;	time.c:173: lastTime.tm_isdst=0;
+      00077A 90s00r00r49      [12] 1457 	mov	dptr,#(_lastTime + 0x00000a)
+      00077E E4               [ 4] 1458 	clr	a
+      00077F F0               [ 8] 1459 	movx	@dptr,a
+                                   1460 ;	time.c:175: return &lastTime;
+      000780 90s00r00r3F      [12] 1461 	mov dptr,#_lastTime
+      000784 75 F0 00         [12] 1462 	mov	b,#0x00
+      000787                       1463 00116$:
+      000787 22               [16] 1464 	ret
+                                   1465 ;------------------------------------------------------------
+                                   1466 ;Allocation info for local variables in function 'mktime'
+                                   1467 ;------------------------------------------------------------
+                                   1468 ;timeptr                   Allocated with name '_mktime_timeptr_1_42'
+                                   1469 ;year                      Allocated with name '_mktime_year_1_43'
+                                   1470 ;month                     Allocated with name '_mktime_month_1_43'
+                                   1471 ;i                         Allocated to registers 
+                                   1472 ;seconds                   Allocated with name '_mktime_seconds_1_43'
+                                   1473 ;sloc0                     Allocated with name '_mktime_sloc0_1_0'
+                                   1474 ;------------------------------------------------------------
+                                   1475 ;	time.c:179: time_t mktime(struct tm *timeptr) {
+                                   1476 ;	-----------------------------------------
+                                   1477 ;	 function mktime
+                                   1478 ;	-----------------------------------------
+      000788                       1479 _mktime:
+      000788 75 86 01         [12] 1480 	mov     dps, #1
+      00078B 90s00r00r54      [12] 1481 	mov     dptr, #_mktime_timeptr_1_42
+      00078F E5 82            [ 8] 1482 	mov	a,dpl
+      000791 F0               [ 8] 1483 	movx	@dptr,a
+      000792 A3               [12] 1484 	inc	dptr
+      000793 E5 83            [ 8] 1485 	mov	a,dph
+      000795 F0               [ 8] 1486 	movx	@dptr,a
+      000796 A3               [12] 1487 	inc	dptr
+      000797 E5 93            [ 8] 1488 	mov	a,dpx
+      000799 F0               [ 8] 1489 	movx	@dptr,a
+      00079A A3               [12] 1490 	inc	dptr
+      00079B E5 F0            [ 8] 1491 	mov	a,b
+      00079D F0               [ 8] 1492 	movx	@dptr,a
+      00079E 75 86 00         [12] 1493 	mov	dps,#0
+                                   1494 ;	time.c:180: int year=timeptr->tm_year+1900, month=timeptr->tm_mon, i;
+      0007A1 90s00r00r54      [12] 1495 	mov	dptr,#_mktime_timeptr_1_42
+      0007A5 E0               [ 8] 1496 	movx	a,@dptr
+      0007A6 24 05            [ 8] 1497 	add	a,#0x05
+      0007A8 FE               [ 4] 1498 	mov	r6,a
+      0007A9 A3               [12] 1499 	inc	dptr
+      0007AA E0               [ 8] 1500 	movx	a,@dptr
+      0007AB 34 00            [ 8] 1501 	addc	a,#0x00
+      0007AD FF               [ 4] 1502 	mov	r7,a
+      0007AE A3               [12] 1503 	inc	dptr
+      0007AF E0               [ 8] 1504 	movx	a,@dptr
+      0007B0 34 00            [ 8] 1505 	addc	a,#0x00
+      0007B2 F8               [ 4] 1506 	mov	r0,a
+      0007B3 A3               [12] 1507 	inc	dptr
+      0007B4 E0               [ 8] 1508 	movx	a,@dptr
+      0007B5 F9               [ 4] 1509 	mov	r1,a
+      0007B6 8E 82            [ 8] 1510 	mov	dpl,r6
+      0007B8 8F 83            [ 8] 1511 	mov	dph,r7
+      0007BA 88 93            [ 8] 1512 	mov	dpx,r0
+      0007BC 89 F0            [ 8] 1513 	mov	b,r1
+      0007BE 12s00r00r00      [16] 1514 	lcall	__gptrgetWord
+      0007C2 FE               [ 4] 1515 	mov	r6,a
+      0007C3 AF 9C            [ 8] 1516 	mov	r7,acc1
+      0007C5 90s00r00r58      [12] 1517 	mov	dptr,#_mktime_year_1_43
+      0007C9 74 6C            [ 8] 1518 	mov	a,#0x6C
+      0007CB 2E               [ 4] 1519 	add	a,r6
+      0007CC F0               [ 8] 1520 	movx	@dptr,a
+      0007CD 74 07            [ 8] 1521 	mov	a,#0x07
+      0007CF 3F               [ 4] 1522 	addc	a,r7
+      0007D0 A3               [12] 1523 	inc	dptr
+      0007D1 F0               [ 8] 1524 	movx	@dptr,a
+      0007D2 90s00r00r54      [12] 1525 	mov	dptr,#_mktime_timeptr_1_42
+      0007D6 E0               [ 8] 1526 	movx	a,@dptr
+      0007D7 24 04            [ 8] 1527 	add	a,#0x04
+      0007D9 F8               [ 4] 1528 	mov	r0,a
+      0007DA A3               [12] 1529 	inc	dptr
+      0007DB E0               [ 8] 1530 	movx	a,@dptr
+      0007DC 34 00            [ 8] 1531 	addc	a,#0x00
+      0007DE F9               [ 4] 1532 	mov	r1,a
+      0007DF A3               [12] 1533 	inc	dptr
+      0007E0 E0               [ 8] 1534 	movx	a,@dptr
+      0007E1 34 00            [ 8] 1535 	addc	a,#0x00
+      0007E3 FE               [ 4] 1536 	mov	r6,a
+      0007E4 A3               [12] 1537 	inc	dptr
+      0007E5 E0               [ 8] 1538 	movx	a,@dptr
+      0007E6 FF               [ 4] 1539 	mov	r7,a
+      0007E7 88 82            [ 8] 1540 	mov	dpl,r0
+      0007E9 89 83            [ 8] 1541 	mov	dph,r1
+      0007EB 8E 93            [ 8] 1542 	mov	dpx,r6
+      0007ED 8F F0            [ 8] 1543 	mov	b,r7
+      0007EF 12s00r00r00      [16] 1544 	lcall	__gptrget
+      0007F3 F8               [ 4] 1545 	mov  r0,a
+      0007F4 90s00r00r5A      [12] 1546 	mov  dptr,#_mktime_month_1_43
+      0007F8 F0               [ 8] 1547 	movx @dptr,a
+      0007F9 A3               [12] 1548 	inc	dptr
+      0007FA E4               [ 4] 1549 	clr	a
+      0007FB F0               [ 8] 1550 	movx	@dptr,a
+                                   1551 ;	time.c:183: CheckTime(timeptr);
+      0007FC 05 86            [ 8] 1552 	inc	dps
+      0007FE 90s00r00r54      [12] 1553 	mov	dptr,#_mktime_timeptr_1_42
+      000802 E0               [ 8] 1554 	movx	a,@dptr
+      000803 F5 82            [ 8] 1555 	mov	dpl,a
+      000805 A3               [12] 1556 	inc	dptr
+      000806 E0               [ 8] 1557 	movx	a,@dptr
+      000807 F5 83            [ 8] 1558 	mov	dph,a
+      000809 A3               [12] 1559 	inc	dptr
+      00080A E0               [ 8] 1560 	movx	a,@dptr
+      00080B F5 93            [ 8] 1561 	mov	dpx,a
+      00080D A3               [12] 1562 	inc	dptr
+      00080E E0               [ 8] 1563 	movx	a,@dptr
+      00080F F5 F0            [ 8] 1564 	mov	b,a
+      000811 75 86 00         [12] 1565 	mov	dps,#0
+      000814 12s00r00rA1      [16] 1566 	lcall	_CheckTime
+                                   1567 ;	time.c:186: seconds= (year-1970)*(60*60*24L*365);
+      000818 90s00r00r58      [12] 1568 	mov	dptr,#_mktime_year_1_43
+      00081C E0               [ 8] 1569 	movx	a,@dptr
+      00081D 24 4E            [ 8] 1570 	add	a,#0x4E
+      00081F F8               [ 4] 1571 	mov	r0,a
+      000820 A3               [12] 1572 	inc	dptr
+      000821 E0               [ 8] 1573 	movx	a,@dptr
+      000822 34 F8            [ 8] 1574 	addc	a,#0xF8
+      000824 F9               [ 4] 1575 	mov	r1,a
+      000825 90s00r00r00      [12] 1576 	mov	dptr,#__mullong_PARM_2
+      000829 E8               [ 4] 1577 	mov	a,r0
+      00082A F0               [ 8] 1578 	movx	@dptr,a
+      00082B A3               [12] 1579 	inc	dptr
+      00082C E9               [ 4] 1580 	mov	a,r1
+      00082D F0               [ 8] 1581 	movx	@dptr,a
+      00082E E9               [ 4] 1582 	mov	a,r1
+      00082F 33               [ 4] 1583 	rlc	a
+      000830 95 E0            [ 8] 1584 	subb	a,acc
+      000832 A3               [12] 1585 	inc	dptr
+      000833 F0               [ 8] 1586 	movx	@dptr,a
+      000834 A3               [12] 1587 	inc	dptr
+      000835 F0               [ 8] 1588 	movx	@dptr,a
+      000836 90 E1 33 80      [12] 1589 	mov	dptr,#0xE13380
+      00083A 75 F0 01         [12] 1590 	mov	b,#0x01
+      00083D 12s00r00r00      [16] 1591 	lcall	__mullong
+      000841 A8 82            [ 8] 1592 	mov	r0,dpl
+      000843 A9 83            [ 8] 1593 	mov	r1,dph
+      000845 AE 93            [ 8] 1594 	mov	r6,dpx
+      000847 AF F0            [ 8] 1595 	mov	r7,b
+                                   1596 ;	genAssign: resultIsFar = TRUE
+      000849 90s00r00r5C      [12] 1597 	mov	dptr,#_mktime_seconds_1_43
+      00084D E8               [ 4] 1598 	mov	a,r0
+      00084E F0               [ 8] 1599 	movx	@dptr,a
+      00084F A3               [12] 1600 	inc	dptr
+      000850 E9               [ 4] 1601 	mov	a,r1
+      000851 F0               [ 8] 1602 	movx	@dptr,a
+      000852 A3               [12] 1603 	inc	dptr
+      000853 EE               [ 4] 1604 	mov	a,r6
+      000854 F0               [ 8] 1605 	movx	@dptr,a
+      000855 A3               [12] 1606 	inc	dptr
+      000856 EF               [ 4] 1607 	mov	a,r7
+      000857 F0               [ 8] 1608 	movx	@dptr,a
+                                   1609 ;	time.c:189: for (i=1970; i<year; i++) {
+      000858 90s00r00r5C      [12] 1610 	mov	dptr,#_mktime_seconds_1_43
+                                   1611 ;	genAssign: resultIsFar = FALSE
+      00085C E0               [ 8] 1612 	movx	a,@dptr
+      00085D FA               [ 4] 1613 	mov	r2,a
+      00085E A3               [12] 1614 	inc	dptr
+      00085F E0               [ 8] 1615 	movx	a,@dptr
+      000860 FB               [ 4] 1616 	mov	r3,a
+      000861 A3               [12] 1617 	inc	dptr
+      000862 E0               [ 8] 1618 	movx	a,@dptr
+      000863 FC               [ 4] 1619 	mov	r4,a
+      000864 A3               [12] 1620 	inc	dptr
+      000865 E0               [ 8] 1621 	movx	a,@dptr
+      000866 FD               [ 4] 1622 	mov	r5,a
+                                   1623 ;	genAssign: resultIsFar = FALSE
+      000867 7E B2            [ 8] 1624 	mov	r6,#0xB2
+      000869 7F 07            [ 8] 1625 	mov	r7,#0x07
+      00086B                       1626 00110$:
+      00086B 90s00r00r58      [12] 1627 	mov	dptr,#_mktime_year_1_43
+      00086F C3               [ 4] 1628 	clr	c
+      000870 EE               [ 4] 1629 	mov	a,r6
+      000871 C5 F0            [ 8] 1630 	xch	a, b
+      000873 E0               [ 8] 1631 	movx	a,@dptr
+      000874 C5 F0            [ 8] 1632 	xch	a, b
+      000876 95 F0            [ 8] 1633 	subb	a,b
+      000878 EF               [ 4] 1634 	mov	a,r7
+      000879 64 80            [ 8] 1635 	xrl	a,#0x80
+      00087B C5 F0            [ 8] 1636 	xch	a, b
+      00087D A3               [12] 1637 	inc	dptr
+      00087E E0               [ 8] 1638 	movx	a,@dptr
+      00087F C5 F0            [ 8] 1639 	xch	a, b
+      000881 63 F0 80         [12] 1640 	xrl	b,#0x80
+      000884 95 F0            [ 8] 1641 	subb	a,b
+      000886 50 46            [12] 1642 	jnc  00124$
+      000888                       1643 00140$:
+                                   1644 ;	time.c:190: if (LEAP_YEAR(i)) {
+                                   1645 ;	genAssign: resultIsFar = TRUE
+      000888 90s00r00r00      [12] 1646 	mov	dptr,#__modsint_PARM_2
+      00088C 74 04            [ 8] 1647 	mov	a,#0x04
+      00088E F0               [ 8] 1648 	movx	@dptr,a
+      00088F E4               [ 4] 1649 	clr	a
+      000890 A3               [12] 1650 	inc	dptr
+      000891 F0               [ 8] 1651 	movx	@dptr,a
+      000892 C0 02            [ 8] 1652 	push	ar2
+      000894 C0 03            [ 8] 1653 	push	ar3
+      000896 C0 04            [ 8] 1654 	push	ar4
+      000898 C0 05            [ 8] 1655 	push	ar5
+      00089A C0 06            [ 8] 1656 	push	ar6
+      00089C C0 07            [ 8] 1657 	push	ar7
+      00089E 8E 82            [ 8] 1658 	mov	dpl,r6
+      0008A0 8F 83            [ 8] 1659 	mov	dph,r7
+      0008A2 12s00r00r00      [16] 1660 	lcall	__modsint
+      0008A6 D0 07            [ 8] 1661 	pop	ar7
+      0008A8 D0 06            [ 8] 1662 	pop	ar6
+      0008AA D0 05            [ 8] 1663 	pop	ar5
+      0008AC D0 04            [ 8] 1664 	pop	ar4
+      0008AE D0 03            [ 8] 1665 	pop	ar3
+      0008B0 D0 02            [ 8] 1666 	pop	ar2
+      0008B2 E5 82            [ 8] 1667 	mov	a,dpl
+      0008B4 45 83            [ 8] 1668 	orl	a,dph
+      0008B6 70 0F            [12] 1669 	jnz  00111$
+      0008B8                       1670 00141$:
+                                   1671 ;	time.c:191: seconds+= 60*60*24L;
+      0008B8 74 80            [ 8] 1672 	mov	a,#0x80
+      0008BA 2A               [ 4] 1673 	add	a,r2
+      0008BB FA               [ 4] 1674 	mov	r2,a
+      0008BC 74 51            [ 8] 1675 	mov	a,#0x51
+      0008BE 3B               [ 4] 1676 	addc	a,r3
+      0008BF FB               [ 4] 1677 	mov	r3,a
+      0008C0 74 01            [ 8] 1678 	mov	a,#0x01
+      0008C2 3C               [ 4] 1679 	addc	a,r4
+      0008C3 FC               [ 4] 1680 	mov	r4,a
+      0008C4 E4               [ 4] 1681 	clr	a
+      0008C5 3D               [ 4] 1682 	addc	a,r5
+      0008C6 FD               [ 4] 1683 	mov	r5,a
+      0008C7                       1684 00111$:
+                                   1685 ;	time.c:189: for (i=1970; i<year; i++) {
+      0008C7 0E               [ 4] 1686 	inc	r6
+      0008C8 BE 00 01         [16] 1687 	cjne	r6,#0x00,00142$
+      0008CB 0F               [ 4] 1688 	inc	r7
+      0008CC                       1689 00142$:
+      0008CC 80 9D            [12] 1690 	sjmp 00110$
+      0008CE                       1691 00124$:
+                                   1692 ;	genAssign: resultIsFar = TRUE
+      0008CE 90s00r00r5C      [12] 1693 	mov	dptr,#_mktime_seconds_1_43
+      0008D2 EA               [ 4] 1694 	mov	a,r2
+      0008D3 F0               [ 8] 1695 	movx	@dptr,a
+      0008D4 A3               [12] 1696 	inc	dptr
+      0008D5 EB               [ 4] 1697 	mov	a,r3
+      0008D6 F0               [ 8] 1698 	movx	@dptr,a
+      0008D7 A3               [12] 1699 	inc	dptr
+      0008D8 EC               [ 4] 1700 	mov	a,r4
+      0008D9 F0               [ 8] 1701 	movx	@dptr,a
+      0008DA A3               [12] 1702 	inc	dptr
+      0008DB ED               [ 4] 1703 	mov	a,r5
+      0008DC F0               [ 8] 1704 	movx	@dptr,a
+                                   1705 ;	time.c:196: for (i=0; i<month; i++) {
+                                   1706 ;	genAssign: resultIsFar = TRUE
+      0008DD 90s00r00r00      [12] 1707 	mov	dptr,#__modsint_PARM_2
+      0008E1 74 04            [ 8] 1708 	mov	a,#0x04
+      0008E3 F0               [ 8] 1709 	movx	@dptr,a
+      0008E4 E4               [ 4] 1710 	clr	a
+      0008E5 A3               [12] 1711 	inc	dptr
+      0008E6 F0               [ 8] 1712 	movx	@dptr,a
+      0008E7 05 86            [ 8] 1713 	inc	dps
+      0008E9 90s00r00r58      [12] 1714 	mov	dptr,#_mktime_year_1_43
+      0008ED E0               [ 8] 1715 	movx	a,@dptr
+      0008EE F5 82            [ 8] 1716 	mov	dpl,a
+      0008F0 A3               [12] 1717 	inc	dptr
+      0008F1 E0               [ 8] 1718 	movx	a,@dptr
+      0008F2 F5 83            [ 8] 1719 	mov	dph,a
+      0008F4 75 86 00         [12] 1720 	mov	dps,#0
+      0008F7 12s00r00r00      [16] 1721 	lcall	__modsint
+      0008FB AA 82            [ 8] 1722 	mov	r2,dpl
+      0008FD AB 83            [ 8] 1723 	mov	r3,dph
+                                   1724 ;	genAssign: resultIsFar = FALSE
+      0008FF 7C 00            [ 8] 1725 	mov	r4,#0x00
+      000901 7D 00            [ 8] 1726 	mov	r5,#0x00
+      000903                       1727 00113$:
+      000903 90s00r00r5A      [12] 1728 	mov	dptr,#_mktime_month_1_43
+      000907 C3               [ 4] 1729 	clr	c
+      000908 EC               [ 4] 1730 	mov	a,r4
+      000909 C5 F0            [ 8] 1731 	xch	a, b
+      00090B E0               [ 8] 1732 	movx	a,@dptr
+      00090C C5 F0            [ 8] 1733 	xch	a, b
+      00090E 95 F0            [ 8] 1734 	subb	a,b
+      000910 ED               [ 4] 1735 	mov	a,r5
+      000911 64 80            [ 8] 1736 	xrl	a,#0x80
+      000913 C5 F0            [ 8] 1737 	xch	a, b
+      000915 A3               [12] 1738 	inc	dptr
+      000916 E0               [ 8] 1739 	movx	a,@dptr
+      000917 C5 F0            [ 8] 1740 	xch	a, b
+      000919 63 F0 80         [12] 1741 	xrl	b,#0x80
+      00091C 95 F0            [ 8] 1742 	subb	a,b
+      00091E 40 04            [12] 1743 	jc	00143$
+      000920 02s00r09rA7      [16] 1744 	ljmp	00108$
+      000924                       1745 00143$:
+                                   1746 ;	time.c:197: if (i==1 && LEAP_YEAR(year)) { 
+      000924 BC 01 20         [16] 1747 	cjne r4,#0x01,00105$
+      000927 BD 00 1D         [16] 1748 	cjne r5,#0x00,00105$
+      00092A                       1749 00145$:
+      00092A EA               [ 4] 1750 	mov	a,r2
+      00092B 4B               [ 4] 1751 	orl	a,r3
+      00092C 70 19            [12] 1752 	jnz  00105$
+      00092E                       1753 00146$:
+                                   1754 ;	time.c:198: seconds+= 60*60*24L*29;
+      00092E 90s00r00r5C      [12] 1755 	mov	dptr,#_mktime_seconds_1_43
+      000932 E0               [ 8] 1756 	movx	a,@dptr
+      000933 24 80            [ 8] 1757 	add	a,#0x80
+      000935 F0               [ 8] 1758 	movx	@dptr,a
+      000936 A3               [12] 1759 	inc	dptr
+      000937 E0               [ 8] 1760 	movx	a,@dptr
+      000938 34 3B            [ 8] 1761 	addc	a,#0x3B
+      00093A F0               [ 8] 1762 	movx	@dptr,a
+      00093B A3               [12] 1763 	inc	dptr
+      00093C E0               [ 8] 1764 	movx	a,@dptr
+      00093D 34 26            [ 8] 1765 	addc	a,#0x26
+      00093F F0               [ 8] 1766 	movx	@dptr,a
+      000940 A3               [12] 1767 	inc	dptr
+      000941 E0               [ 8] 1768 	movx	a,@dptr
+      000942 34 00            [ 8] 1769 	addc	a,#0x00
+      000944 F0               [ 8] 1770 	movx	@dptr,a
+      000945 80 57            [12] 1771 	sjmp 00114$
+      000947                       1772 00105$:
+                                   1773 ;	time.c:200: seconds+= 60*60*24L*monthDays[i];
+      000947 C0 02            [ 8] 1774 	push	ar2
+      000949 C0 03            [ 8] 1775 	push	ar3
+      00094B EC               [ 4] 1776 	mov	a,r4
+      00094C 24r00            [ 8] 1777 	add	a,#_monthDays
+      00094E F5 82            [ 8] 1778 	mov	dpl,a
+      000950 ED               [ 4] 1779 	mov	a,r5
+      000951 34s00            [ 8] 1780 	addc	a,#(_monthDays >> 8)
+      000953 F5 83            [ 8] 1781 	mov	dph,a
+      000955 E4               [ 4] 1782 	clr	a
+      000956 34s00            [ 8] 1783 	addc	a,#(_monthDays >> 16)
+      000958 F5 93            [ 8] 1784 	mov	dpx,a
+      00095A E4               [ 4] 1785 	clr	a
+      00095B 93               [12] 1786 	movc	a,@a+dptr
+      00095C FA               [ 4] 1787 	mov  r2,a
+      00095D 90s00r00r00      [12] 1788 	mov  dptr,#__mullong_PARM_2
+      000961 F0               [ 8] 1789 	movx @dptr,a
+      000962 EA               [ 4] 1790 	mov	a,r2
+      000963 33               [ 4] 1791 	rlc	a
+      000964 95 E0            [ 8] 1792 	subb	a,acc
+      000966 A3               [12] 1793 	inc	dptr
+      000967 F0               [ 8] 1794 	movx	@dptr,a
+      000968 A3               [12] 1795 	inc	dptr
+      000969 F0               [ 8] 1796 	movx	@dptr,a
+      00096A A3               [12] 1797 	inc	dptr
+      00096B F0               [ 8] 1798 	movx	@dptr,a
+      00096C C0 04            [ 8] 1799 	push	ar4
+      00096E C0 05            [ 8] 1800 	push	ar5
+      000970 90 01 51 80      [12] 1801 	mov	dptr,#0x015180
+      000974 75 F0 00         [12] 1802 	mov	b,#0x00
+      000977 12s00r00r00      [16] 1803 	lcall	__mullong
+      00097B AA 82            [ 8] 1804 	mov	r2,dpl
+      00097D AB 83            [ 8] 1805 	mov	r3,dph
+      00097F AE 93            [ 8] 1806 	mov	r6,dpx
+      000981 AF F0            [ 8] 1807 	mov	r7,b
+      000983 D0 05            [ 8] 1808 	pop	ar5
+      000985 D0 04            [ 8] 1809 	pop	ar4
+      000987 90s00r00r5C      [12] 1810 	mov	dptr,#_mktime_seconds_1_43
+      00098B E0               [ 8] 1811 	movx	a,@dptr
+      00098C 2A               [ 4] 1812 	add	a,r2
+      00098D F0               [ 8] 1813 	movx	@dptr,a
+      00098E A3               [12] 1814 	inc	dptr
+      00098F E0               [ 8] 1815 	movx	a,@dptr
+      000990 3B               [ 4] 1816 	addc	a,r3
+      000991 F0               [ 8] 1817 	movx	@dptr,a
+      000992 A3               [12] 1818 	inc	dptr
+      000993 E0               [ 8] 1819 	movx	a,@dptr
+      000994 3E               [ 4] 1820 	addc	a,r6
+      000995 F0               [ 8] 1821 	movx	@dptr,a
+      000996 A3               [12] 1822 	inc	dptr
+      000997 E0               [ 8] 1823 	movx	a,@dptr
+      000998 3F               [ 4] 1824 	addc	a,r7
+      000999 F0               [ 8] 1825 	movx	@dptr,a
+                                   1826 ;	time.c:208: return seconds;
+      00099A D0 03            [ 8] 1827 	pop	ar3
+      00099C D0 02            [ 8] 1828 	pop	ar2
+                                   1829 ;	time.c:200: seconds+= 60*60*24L*monthDays[i];
+      00099E                       1830 00114$:
+                                   1831 ;	time.c:196: for (i=0; i<month; i++) {
+      00099E 0C               [ 4] 1832 	inc	r4
+      00099F BC 00 01         [16] 1833 	cjne	r4,#0x00,00147$
+      0009A2 0D               [ 4] 1834 	inc	r5
+      0009A3                       1835 00147$:
+      0009A3 02s00r09r03      [16] 1836 	ljmp	00113$
+      0009A7                       1837 00108$:
+                                   1838 ;	time.c:204: seconds+= (timeptr->tm_mday-1)*60*60*24L;
+      0009A7 90s00r00r54      [12] 1839 	mov	dptr,#_mktime_timeptr_1_42
+      0009AB E0               [ 8] 1840 	movx	a,@dptr
+      0009AC 24 03            [ 8] 1841 	add	a,#0x03
+      0009AE FA               [ 4] 1842 	mov	r2,a
+      0009AF A3               [12] 1843 	inc	dptr
+      0009B0 E0               [ 8] 1844 	movx	a,@dptr
+      0009B1 34 00            [ 8] 1845 	addc	a,#0x00
+      0009B3 FB               [ 4] 1846 	mov	r3,a
+      0009B4 A3               [12] 1847 	inc	dptr
+      0009B5 E0               [ 8] 1848 	movx	a,@dptr
+      0009B6 34 00            [ 8] 1849 	addc	a,#0x00
+      0009B8 FC               [ 4] 1850 	mov	r4,a
+      0009B9 A3               [12] 1851 	inc	dptr
+      0009BA E0               [ 8] 1852 	movx	a,@dptr
+      0009BB FD               [ 4] 1853 	mov	r5,a
+      0009BC 8A 82            [ 8] 1854 	mov	dpl,r2
+      0009BE 8B 83            [ 8] 1855 	mov	dph,r3
+      0009C0 8C 93            [ 8] 1856 	mov	dpx,r4
+      0009C2 8D F0            [ 8] 1857 	mov	b,r5
+      0009C4 12s00r00r00      [16] 1858 	lcall	__gptrget
+      0009C8 FA               [ 4] 1859 	mov	r2,a
+      0009C9 7B 00            [ 8] 1860 	mov	r3,#0x00
+      0009CB 1A               [ 4] 1861 	dec	r2
+      0009CC BA FF 01         [16] 1862 	cjne	r2,#0xFF,00148$
+      0009CF 1B               [ 4] 1863 	dec	r3
+      0009D0                       1864 00148$:
+      0009D0 90s00r00r00      [12] 1865 	mov	dptr,#__mullong_PARM_2
+      0009D4 EA               [ 4] 1866 	mov	a,r2
+      0009D5 F0               [ 8] 1867 	movx	@dptr,a
+      0009D6 A3               [12] 1868 	inc	dptr
+      0009D7 EB               [ 4] 1869 	mov	a,r3
+      0009D8 F0               [ 8] 1870 	movx	@dptr,a
+      0009D9 EB               [ 4] 1871 	mov	a,r3
+      0009DA 33               [ 4] 1872 	rlc	a
+      0009DB 95 E0            [ 8] 1873 	subb	a,acc
+      0009DD A3               [12] 1874 	inc	dptr
+      0009DE F0               [ 8] 1875 	movx	@dptr,a
+      0009DF A3               [12] 1876 	inc	dptr
+      0009E0 F0               [ 8] 1877 	movx	@dptr,a
+      0009E1 90 01 51 80      [12] 1878 	mov	dptr,#0x015180
+      0009E5 75 F0 00         [12] 1879 	mov	b,#0x00
+      0009E8 12s00r00r00      [16] 1880 	lcall	__mullong
+      0009EC AA 82            [ 8] 1881 	mov	r2,dpl
+      0009EE AB 83            [ 8] 1882 	mov	r3,dph
+      0009F0 AC 93            [ 8] 1883 	mov	r4,dpx
+      0009F2 AD F0            [ 8] 1884 	mov	r5,b
+      0009F4 90s00r00r5C      [12] 1885 	mov	dptr,#_mktime_seconds_1_43
+      0009F8 E0               [ 8] 1886 	movx	a,@dptr
+      0009F9 2A               [ 4] 1887 	add	a,r2
+      0009FA F0               [ 8] 1888 	movx	@dptr,a
+      0009FB A3               [12] 1889 	inc	dptr
+      0009FC E0               [ 8] 1890 	movx	a,@dptr
+      0009FD 3B               [ 4] 1891 	addc	a,r3
+      0009FE F0               [ 8] 1892 	movx	@dptr,a
+      0009FF A3               [12] 1893 	inc	dptr
+      000A00 E0               [ 8] 1894 	movx	a,@dptr
+      000A01 3C               [ 4] 1895 	addc	a,r4
+      000A02 F0               [ 8] 1896 	movx	@dptr,a
+      000A03 A3               [12] 1897 	inc	dptr
+      000A04 E0               [ 8] 1898 	movx	a,@dptr
+      000A05 3D               [ 4] 1899 	addc	a,r5
+      000A06 F0               [ 8] 1900 	movx	@dptr,a
+                                   1901 ;	time.c:205: seconds+= timeptr->tm_hour*60*60L;
+      000A07 90s00r00r54      [12] 1902 	mov	dptr,#_mktime_timeptr_1_42
+      000A0B E0               [ 8] 1903 	movx	a,@dptr
+      000A0C 24 02            [ 8] 1904 	add	a,#0x02
+      000A0E FA               [ 4] 1905 	mov	r2,a
+      000A0F A3               [12] 1906 	inc	dptr
+      000A10 E0               [ 8] 1907 	movx	a,@dptr
+      000A11 34 00            [ 8] 1908 	addc	a,#0x00
+      000A13 FB               [ 4] 1909 	mov	r3,a
+      000A14 A3               [12] 1910 	inc	dptr
+      000A15 E0               [ 8] 1911 	movx	a,@dptr
+      000A16 34 00            [ 8] 1912 	addc	a,#0x00
+      000A18 FC               [ 4] 1913 	mov	r4,a
+      000A19 A3               [12] 1914 	inc	dptr
+      000A1A E0               [ 8] 1915 	movx	a,@dptr
+      000A1B FD               [ 4] 1916 	mov	r5,a
+      000A1C 8A 82            [ 8] 1917 	mov	dpl,r2
+      000A1E 8B 83            [ 8] 1918 	mov	dph,r3
+      000A20 8C 93            [ 8] 1919 	mov	dpx,r4
+      000A22 8D F0            [ 8] 1920 	mov	b,r5
+      000A24 12s00r00r00      [16] 1921 	lcall	__gptrget
+      000A28 FA               [ 4] 1922 	mov  r2,a
+      000A29 90s00r00r00      [12] 1923 	mov  dptr,#__mullong_PARM_2
+      000A2D F0               [ 8] 1924 	movx @dptr,a
+      000A2E A3               [12] 1925 	inc	dptr
+      000A2F E4               [ 4] 1926 	clr	a
+      000A30 F0               [ 8] 1927 	movx	@dptr,a
+      000A31 A3               [12] 1928 	inc	dptr
+      000A32 E4               [ 4] 1929 	clr	a
+      000A33 F0               [ 8] 1930 	movx	@dptr,a
+      000A34 A3               [12] 1931 	inc	dptr
+      000A35 E4               [ 4] 1932 	clr	a
+      000A36 F0               [ 8] 1933 	movx	@dptr,a
+      000A37 90 00 0E 10      [12] 1934 	mov	dptr,#0x000E10
+      000A3B 75 F0 00         [12] 1935 	mov	b,#0x00
+      000A3E 12s00r00r00      [16] 1936 	lcall	__mullong
+      000A42 AA 82            [ 8] 1937 	mov	r2,dpl
+      000A44 AB 83            [ 8] 1938 	mov	r3,dph
+      000A46 AC 93            [ 8] 1939 	mov	r4,dpx
+      000A48 AD F0            [ 8] 1940 	mov	r5,b
+      000A4A 90s00r00r5C      [12] 1941 	mov	dptr,#_mktime_seconds_1_43
+      000A4E E0               [ 8] 1942 	movx	a,@dptr
+      000A4F 2A               [ 4] 1943 	add	a,r2
+      000A50 F0               [ 8] 1944 	movx	@dptr,a
+      000A51 A3               [12] 1945 	inc	dptr
+      000A52 E0               [ 8] 1946 	movx	a,@dptr
+      000A53 3B               [ 4] 1947 	addc	a,r3
+      000A54 F0               [ 8] 1948 	movx	@dptr,a
+      000A55 A3               [12] 1949 	inc	dptr
+      000A56 E0               [ 8] 1950 	movx	a,@dptr
+      000A57 3C               [ 4] 1951 	addc	a,r4
+      000A58 F0               [ 8] 1952 	movx	@dptr,a
+      000A59 A3               [12] 1953 	inc	dptr
+      000A5A E0               [ 8] 1954 	movx	a,@dptr
+      000A5B 3D               [ 4] 1955 	addc	a,r5
+      000A5C F0               [ 8] 1956 	movx	@dptr,a
+                                   1957 ;	time.c:206: seconds+= timeptr->tm_min*60;
+      000A5D 90s00r00r54      [12] 1958 	mov	dptr,#_mktime_timeptr_1_42
+      000A61 E0               [ 8] 1959 	movx	a,@dptr
+      000A62 24 01            [ 8] 1960 	add	a,#0x01
+      000A64 FA               [ 4] 1961 	mov	r2,a
+      000A65 A3               [12] 1962 	inc	dptr
+      000A66 E0               [ 8] 1963 	movx	a,@dptr
+      000A67 34 00            [ 8] 1964 	addc	a,#0x00
+      000A69 FB               [ 4] 1965 	mov	r3,a
+      000A6A A3               [12] 1966 	inc	dptr
+      000A6B E0               [ 8] 1967 	movx	a,@dptr
+      000A6C 34 00            [ 8] 1968 	addc	a,#0x00
+      000A6E FC               [ 4] 1969 	mov	r4,a
+      000A6F A3               [12] 1970 	inc	dptr
+      000A70 E0               [ 8] 1971 	movx	a,@dptr
+      000A71 FD               [ 4] 1972 	mov	r5,a
+      000A72 8A 82            [ 8] 1973 	mov	dpl,r2
+      000A74 8B 83            [ 8] 1974 	mov	dph,r3
+      000A76 8C 93            [ 8] 1975 	mov	dpx,r4
+      000A78 8D F0            [ 8] 1976 	mov	b,r5
+      000A7A 12s00r00r00      [16] 1977 	lcall	__gptrget
+      000A7E FA               [ 4] 1978 	mov	r2,a
+      000A7F 75 F0 3C         [12] 1979 	mov	b,#0x3C
+      000A82 EA               [ 4] 1980 	mov	a,r2
+      000A83 A4               [20] 1981 	mul	ab
+      000A84 FA               [ 4] 1982 	mov	r2,a
+      000A85 AB F0            [ 8] 1983 	mov	r3,b
+      000A87 EB               [ 4] 1984 	mov	a,r3
+      000A88 33               [ 4] 1985 	rlc	a
+      000A89 95 E0            [ 8] 1986 	subb	a,acc
+      000A8B FC               [ 4] 1987 	mov	r4,a
+      000A8C FD               [ 4] 1988 	mov	r5,a
+      000A8D 90s00r00r5C      [12] 1989 	mov	dptr,#_mktime_seconds_1_43
+      000A91 E0               [ 8] 1990 	movx	a,@dptr
+      000A92 2A               [ 4] 1991 	add	a,r2
+      000A93 F0               [ 8] 1992 	movx	@dptr,a
+      000A94 A3               [12] 1993 	inc	dptr
+      000A95 E0               [ 8] 1994 	movx	a,@dptr
+      000A96 3B               [ 4] 1995 	addc	a,r3
+      000A97 F0               [ 8] 1996 	movx	@dptr,a
+      000A98 A3               [12] 1997 	inc	dptr
+      000A99 E0               [ 8] 1998 	movx	a,@dptr
+      000A9A 3C               [ 4] 1999 	addc	a,r4
+      000A9B F0               [ 8] 2000 	movx	@dptr,a
+      000A9C A3               [12] 2001 	inc	dptr
+      000A9D E0               [ 8] 2002 	movx	a,@dptr
+      000A9E 3D               [ 4] 2003 	addc	a,r5
+      000A9F F0               [ 8] 2004 	movx	@dptr,a
+                                   2005 ;	time.c:207: seconds+= timeptr->tm_sec;
+      000AA0 90s00r00r54      [12] 2006 	mov	dptr,#_mktime_timeptr_1_42
+      000AA4 E0               [ 8] 2007 	movx	a,@dptr
+      000AA5 C0 E0            [ 8] 2008 	push	acc
+      000AA7 A3               [12] 2009 	inc	dptr
+      000AA8 E0               [ 8] 2010 	movx	a,@dptr
+      000AA9 C0 E0            [ 8] 2011 	push	acc
+      000AAB A3               [12] 2012 	inc	dptr
+      000AAC E0               [ 8] 2013 	movx	a,@dptr
+      000AAD C0 E0            [ 8] 2014 	push	acc
+      000AAF A3               [12] 2015 	inc	dptr
+      000AB0 E0               [ 8] 2016 	movx	a,@dptr
+      000AB1 F5 F0            [ 8] 2017 	mov	b,a
+      000AB3 D0 93            [ 8] 2018 	pop	dpx
+      000AB5 D0 83            [ 8] 2019 	pop	dph
+      000AB7 D0 82            [ 8] 2020 	pop	dpl
+      000AB9 12s00r00r00      [16] 2021 	lcall	__gptrget
+      000ABD FA               [ 4] 2022 	mov	r2,a
+      000ABE 7B 00            [ 8] 2023 	mov	r3,#0x00
+      000AC0 EB               [ 4] 2024 	mov	a,r3
+      000AC1 33               [ 4] 2025 	rlc	a
+      000AC2 95 E0            [ 8] 2026 	subb	a,acc
+      000AC4 FC               [ 4] 2027 	mov	r4,a
+      000AC5 FD               [ 4] 2028 	mov	r5,a
+      000AC6 90s00r00r5C      [12] 2029 	mov	dptr,#_mktime_seconds_1_43
+      000ACA E0               [ 8] 2030 	movx	a,@dptr
+      000ACB 2A               [ 4] 2031 	add	a,r2
+      000ACC F0               [ 8] 2032 	movx	@dptr,a
+      000ACD A3               [12] 2033 	inc	dptr
+      000ACE E0               [ 8] 2034 	movx	a,@dptr
+      000ACF 3B               [ 4] 2035 	addc	a,r3
+      000AD0 F0               [ 8] 2036 	movx	@dptr,a
+      000AD1 A3               [12] 2037 	inc	dptr
+      000AD2 E0               [ 8] 2038 	movx	a,@dptr
+      000AD3 3C               [ 4] 2039 	addc	a,r4
+      000AD4 F0               [ 8] 2040 	movx	@dptr,a
+      000AD5 A3               [12] 2041 	inc	dptr
+      000AD6 E0               [ 8] 2042 	movx	a,@dptr
+      000AD7 3D               [ 4] 2043 	addc	a,r5
+      000AD8 F0               [ 8] 2044 	movx	@dptr,a
+                                   2045 ;	time.c:208: return seconds;
+      000AD9 75 86 01         [12] 2046 	mov     dps, #1
+      000ADC 90s00r00r5C      [12] 2047 	mov     dptr, #_mktime_seconds_1_43
+      000AE0 E0               [ 8] 2048 	movx	a,@dptr
+      000AE1 F5 82            [ 8] 2049 	mov	dpl,a
+      000AE3 A3               [12] 2050 	inc	dptr
+      000AE4 E0               [ 8] 2051 	movx	a,@dptr
+      000AE5 F5 83            [ 8] 2052 	mov	dph,a
+      000AE7 A3               [12] 2053 	inc	dptr
+      000AE8 E0               [ 8] 2054 	movx	a,@dptr
+      000AE9 F5 93            [ 8] 2055 	mov	dpx,a
+      000AEB A3               [12] 2056 	inc	dptr
+      000AEC E0               [ 8] 2057 	movx	a,@dptr
+      000AED F5 F0            [ 8] 2058 	mov	b,a
+      000AEF 75 86 00         [12] 2059 	mov	dps,#0
+      000AF2                       2060 00115$:
+      000AF2 22               [16] 2061 	ret
+                                   2062 	.area CSEG    (CODE)
+                                   2063 	.area CONST   (CODE)
+      000000                       2064 _monthDays:
+      000000 1F                    2065 	.db #0x1F	;  31
+      000001 1C                    2066 	.db #0x1C	;  28
+      000002 1F                    2067 	.db #0x1F	;  31
+      000003 1E                    2068 	.db #0x1E	;  30
+      000004 1F                    2069 	.db #0x1F	;  31
+      000005 1E                    2070 	.db #0x1E	;  30
+      000006 1F                    2071 	.db #0x1F	;  31
+      000007 1F                    2072 	.db #0x1F	;  31
+      000008 1E                    2073 	.db #0x1E	;  30
+      000009 1F                    2074 	.db #0x1F	;  31
+      00000A 1E                    2075 	.db #0x1E	;  30
+      00000B 1F                    2076 	.db #0x1F	;  31
+      00000C                       2077 ___month:
+      00000Cr64s00s00              2078 	.byte __str_1, (__str_1 >> 8), (__str_1 >> 16)
+      00000Fr68s00s00              2079 	.byte __str_2, (__str_2 >> 8), (__str_2 >> 16)
+      000012r6Cs00s00              2080 	.byte __str_3, (__str_3 >> 8), (__str_3 >> 16)
+      000015r70s00s00              2081 	.byte __str_4, (__str_4 >> 8), (__str_4 >> 16)
+      000018r74s00s00              2082 	.byte __str_5, (__str_5 >> 8), (__str_5 >> 16)
+      00001Br78s00s00              2083 	.byte __str_6, (__str_6 >> 8), (__str_6 >> 16)
+      00001Er7Cs00s00              2084 	.byte __str_7, (__str_7 >> 8), (__str_7 >> 16)
+      000021r80s00s00              2085 	.byte __str_8, (__str_8 >> 8), (__str_8 >> 16)
+      000024r84s00s00              2086 	.byte __str_9, (__str_9 >> 8), (__str_9 >> 16)
+      000027r88s00s00              2087 	.byte __str_10, (__str_10 >> 8), (__str_10 >> 16)
+      00002Ar8Cs00s00              2088 	.byte __str_11, (__str_11 >> 8), (__str_11 >> 16)
+      00002Dr90s00s00              2089 	.byte __str_12, (__str_12 >> 8), (__str_12 >> 16)
+      000030                       2090 ___day:
+      000030r94s00s00              2091 	.byte __str_13, (__str_13 >> 8), (__str_13 >> 16)
+      000033r98s00s00              2092 	.byte __str_14, (__str_14 >> 8), (__str_14 >> 16)
+      000036r9Cs00s00              2093 	.byte __str_15, (__str_15 >> 8), (__str_15 >> 16)
+      000039rA0s00s00              2094 	.byte __str_16, (__str_16 >> 8), (__str_16 >> 16)
+      00003CrA4s00s00              2095 	.byte __str_17, (__str_17 >> 8), (__str_17 >> 16)
+      00003FrA8s00s00              2096 	.byte __str_18, (__str_18 >> 8), (__str_18 >> 16)
+      000042rACs00s00              2097 	.byte __str_19, (__str_19 >> 8), (__str_19 >> 16)
+      000045                       2098 ___str_0:
+      000045 25 73 20 25 73 20 25  2099 	.ascii "%s %s %2d %02d:%02d:%02d %04d"
+             32 64 20 25 30 32 64
+             3A 25 30 32 64 3A 25
+             30 32 64 20 25 30 34
+             64
+      000062 0A                    2100 	.db 0x0A
+      000063 00                    2101 	.db 0x00
+      000064                       2102 __str_1:
+      000064 4A 61 6E              2103 	.ascii "Jan"
+      000067 00                    2104 	.db 0x00
+      000068                       2105 __str_2:
+      000068 46 65 62              2106 	.ascii "Feb"
+      00006B 00                    2107 	.db 0x00
+      00006C                       2108 __str_3:
+      00006C 4D 61 72              2109 	.ascii "Mar"
+      00006F 00                    2110 	.db 0x00
+      000070                       2111 __str_4:
+      000070 41 70 72              2112 	.ascii "Apr"
+      000073 00                    2113 	.db 0x00
+      000074                       2114 __str_5:
+      000074 4D 61 79              2115 	.ascii "May"
+      000077 00                    2116 	.db 0x00
+      000078                       2117 __str_6:
+      000078 4A 75 6E              2118 	.ascii "Jun"
+      00007B 00                    2119 	.db 0x00
+      00007C                       2120 __str_7:
+      00007C 4A 75 6C              2121 	.ascii "Jul"
+      00007F 00                    2122 	.db 0x00
+      000080                       2123 __str_8:
+      000080 41 75 67              2124 	.ascii "Aug"
+      000083 00                    2125 	.db 0x00
+      000084                       2126 __str_9:
+      000084 53 65 70              2127 	.ascii "Sep"
+      000087 00                    2128 	.db 0x00
+      000088                       2129 __str_10:
+      000088 4F 63 74              2130 	.ascii "Oct"
+      00008B 00                    2131 	.db 0x00
+      00008C                       2132 __str_11:
+      00008C 4E 6F 76              2133 	.ascii "Nov"
+      00008F 00                    2134 	.db 0x00
+      000090                       2135 __str_12:
+      000090 44 65 63              2136 	.ascii "Dec"
+      000093 00                    2137 	.db 0x00
+      000094                       2138 __str_13:
+      000094 53 75 6E              2139 	.ascii "Sun"
+      000097 00                    2140 	.db 0x00
+      000098                       2141 __str_14:
+      000098 4D 6F 6E              2142 	.ascii "Mon"
+      00009B 00                    2143 	.db 0x00
+      00009C                       2144 __str_15:
+      00009C 54 75 65              2145 	.ascii "Tue"
+      00009F 00                    2146 	.db 0x00
+      0000A0                       2147 __str_16:
+      0000A0 57 65 64              2148 	.ascii "Wed"
+      0000A3 00                    2149 	.db 0x00
+      0000A4                       2150 __str_17:
+      0000A4 54 68 75              2151 	.ascii "Thu"
+      0000A7 00                    2152 	.db 0x00
+      0000A8                       2153 __str_18:
+      0000A8 46 72 69              2154 	.ascii "Fri"
+      0000AB 00                    2155 	.db 0x00
+      0000AC                       2156 __str_19:
+      0000AC 53 61 74              2157 	.ascii "Sat"
+      0000AF 00                    2158 	.db 0x00
+                                   2159 	.area XINIT   (CODE)
+                                   2160 	.area CABS    (ABS,CODE)

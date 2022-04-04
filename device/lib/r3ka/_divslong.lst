@@ -1,0 +1,141 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:16 2022
+                              5 ;--------------------------------------------------------
+                              6 	.r3k
+                              7 	.module _divslong
+                              8 	.optsdcc -mr3ka
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl __divslong
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 ;../_divslong.c:259: _divslong (long x, long y)
+                             41 ;	---------------------------------
+                             42 ; Function _divslong
+                             43 ; ---------------------------------
+   0000                      44 __divslong::
+   0000 DD E5                45 	push	ix
+   0002 DD 21 00 00          46 	ld	ix,#0
+   0006 DD 39                47 	add	ix,sp
+   0008 27 FA                48 	add	sp, #-6
+                             49 ;../_divslong.c:263: r = (unsigned long)(x < 0 ? -x : x) / (unsigned long)(y < 0 ? -y : y);
+   000A DD 7E 07             50 	ld	a,7 (ix)
+   000D 07                   51 	rlca
+   000E E6 01                52 	and	a,#0x01
+   0010 DD 77 FA             53 	ld	-6 (ix), a
+   0013 B7                   54 	or	a, a
+   0014 28 19                55 	jr	Z,00106$
+   0016 AF                   56 	xor	a, a
+   0017 DD 96 04             57 	sub	a, 4 (ix)
+   001A 4F                   58 	ld	c,a
+   001B 3E 00                59 	ld	a, #0x00
+   001D DD 9E 05             60 	sbc	a, 5 (ix)
+   0020 47                   61 	ld	b,a
+   0021 3E 00                62 	ld	a, #0x00
+   0023 DD 9E 06             63 	sbc	a, 6 (ix)
+   0026 5F                   64 	ld	e,a
+   0027 3E 00                65 	ld	a, #0x00
+   0029 DD 9E 07             66 	sbc	a, 7 (ix)
+   002C 57                   67 	ld	d,a
+   002D 18 0C                68 	jr	00107$
+   002F                      69 00106$:
+   002F DD 4E 04             70 	ld	c,4 (ix)
+   0032 DD 46 05             71 	ld	b,5 (ix)
+   0035 DD 5E 06             72 	ld	e,6 (ix)
+   0038 DD 56 07             73 	ld	d,7 (ix)
+   003B                      74 00107$:
+   003B DD 7E 0B             75 	ld	a,11 (ix)
+   003E 07                   76 	rlca
+   003F E6 01                77 	and	a,#0x01
+   0041 DD 77 FB             78 	ld	-5 (ix), a
+   0044 B7                   79 	or	a, a
+   0045 28 21                80 	jr	Z,00108$
+   0047 AF                   81 	xor	a, a
+   0048 DD 96 08             82 	sub	a, 8 (ix)
+   004B DD 77 FC             83 	ld	-4 (ix),a
+   004E 3E 00                84 	ld	a, #0x00
+   0050 DD 9E 09             85 	sbc	a, 9 (ix)
+   0053 DD 77 FD             86 	ld	-3 (ix),a
+   0056 3E 00                87 	ld	a, #0x00
+   0058 DD 9E 0A             88 	sbc	a, 10 (ix)
+   005B DD 77 FE             89 	ld	-2 (ix),a
+   005E 3E 00                90 	ld	a, #0x00
+   0060 DD 9E 0B             91 	sbc	a, 11 (ix)
+   0063 DD 77 FF             92 	ld	-1 (ix),a
+   0066 18 18                93 	jr	00109$
+   0068                      94 00108$:
+   0068 DD 7E 08             95 	ld	a,8 (ix)
+   006B DD 77 FC             96 	ld	-4 (ix),a
+   006E DD 7E 09             97 	ld	a,9 (ix)
+   0071 DD 77 FD             98 	ld	-3 (ix),a
+   0074 DD 7E 0A             99 	ld	a,10 (ix)
+   0077 DD 77 FE            100 	ld	-2 (ix),a
+   007A DD 7E 0B            101 	ld	a,11 (ix)
+   007D DD 77 FF            102 	ld	-1 (ix),a
+   0080                     103 00109$:
+   0080 C4 04               104 	ld	hl, 4 (sp)
+   0082 E5                  105 	push	hl
+   0083 C4 04               106 	ld	hl, 4 (sp)
+   0085 E5                  107 	push	hl
+   0086 D5                  108 	push	de
+   0087 C5                  109 	push	bc
+   0088 CDr00r00            110 	call	__divulong
+   008B 27 08               111 	add	sp, #8
+                            112 ;../_divslong.c:264: if ((x < 0) ^ (y < 0))
+   008D DD 7E FA            113 	ld	a,-6 (ix)
+   0090 DD AE FB            114 	xor	a,-5 (ix)
+   0093 28 0F               115 	jr	Z,00102$
+                            116 ;../_divslong.c:265: return -r;
+   0095 AF                  117 	xor	a, a
+   0096 95                  118 	sub	a, l
+   0097 6F                  119 	ld	l,a
+   0098 3E 00               120 	ld	a, #0x00
+   009A 9C                  121 	sbc	a, h
+   009B 67                  122 	ld	h,a
+   009C 3E 00               123 	ld	a, #0x00
+   009E 9B                  124 	sbc	a, e
+   009F 5F                  125 	ld	e,a
+   00A0 3E 00               126 	ld	a, #0x00
+   00A2 9A                  127 	sbc	a, d
+   00A3 57                  128 	ld	d,a
+                            129 ;../_divslong.c:267: return r;
+   00A4                     130 00102$:
+   00A4 DD F9               131 	ld	sp, ix
+   00A6 DD E1               132 	pop	ix
+   00A8 C9                  133 	ret
+                            134 	.area _HOME
+                            135 ;--------------------------------------------------------
+                            136 ; code
+                            137 ;--------------------------------------------------------
+                            138 	.area _CODE
+                            139 	.area _CODE
+                            140 	.area _INITIALIZER
+                            141 	.area _CABS (ABS)

@@ -1,0 +1,184 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:32 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module cotf
+                              7 	.optsdcc -mhc08
+                              8 	
+                              9 	.area HOME    (CODE)
+                             10 	.area GSINIT0 (CODE)
+                             11 	.area GSINIT  (CODE)
+                             12 	.area GSFINAL (CODE)
+                             13 	.area CSEG    (CODE)
+                             14 	.area XINIT   (CODE)
+                             15 	.area CONST   (CODE)
+                             16 	.area DSEG    (PAG)
+                             17 	.area OSEG    (PAG, OVR)
+                             18 	.area XSEG
+                             19 	.area XISEG
+                             20 ;--------------------------------------------------------
+                             21 ; Public variables in this module
+                             22 ;--------------------------------------------------------
+                             23 	.globl _tancotf
+                             24 	.globl _fabsf
+                             25 	.globl _cotf
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area DSEG    (PAG)
+                             30 ;--------------------------------------------------------
+                             31 ; overlayable items in ram 
+                             32 ;--------------------------------------------------------
+                             33 ;--------------------------------------------------------
+                             34 ; absolute ram data
+                             35 ;--------------------------------------------------------
+                             36 	.area IABS    (ABS)
+                             37 	.area IABS    (ABS)
+                             38 ;--------------------------------------------------------
+                             39 ; absolute external ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area XABS    (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; external initialized ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area XISEG
+                             46 ;--------------------------------------------------------
+                             47 ; extended address mode data
+                             48 ;--------------------------------------------------------
+                             49 	.area XSEG
+                             50 ;--------------------------------------------------------
+                             51 ; global & static initialisations
+                             52 ;--------------------------------------------------------
+                             53 	.area HOME    (CODE)
+                             54 	.area GSINIT  (CODE)
+                             55 	.area GSFINAL (CODE)
+                             56 	.area GSINIT  (CODE)
+                             57 ;--------------------------------------------------------
+                             58 ; Home
+                             59 ;--------------------------------------------------------
+                             60 	.area HOME    (CODE)
+                             61 	.area HOME    (CODE)
+                             62 ;--------------------------------------------------------
+                             63 ; code
+                             64 ;--------------------------------------------------------
+                             65 	.area CSEG    (CODE)
+                             66 ;------------------------------------------------------------
+                             67 ;Allocation info for local variables in function 'cotf'
+                             68 ;------------------------------------------------------------
+                             69 ;x                         Allocated to stack - sp -2
+                             70 ;y                         Allocated to stack - sp -8
+                             71 ;sloc0                     Allocated to stack - sp -8
+                             72 ;------------------------------------------------------------
+                             73 ;../cotf.c:37: float cotf(float x) _FLOAT_FUNC_REENTRANT
+                             74 ;	-----------------------------------------
+                             75 ;	 function cotf
+                             76 ;	-----------------------------------------
+                             77 ;	Register assignment is optimal.
+                             78 ;	Stack space usage: 4 bytes.
+   0000                      79 _cotf:
+   0000 A7 FC         [ 2]   80 	ais	#-4
+                             81 ;../cotf.c:41: y=fabsf(x);
+   0002 95            [ 2]   82 	tsx
+   0003 E6 09         [ 3]   83 	lda	9,x
+   0005 87            [ 2]   84 	psha
+   0006 E6 08         [ 3]   85 	lda	8,x
+   0008 87            [ 2]   86 	psha
+   0009 E6 07         [ 3]   87 	lda	7,x
+   000B 87            [ 2]   88 	psha
+   000C E6 06         [ 3]   89 	lda	6,x
+   000E 87            [ 2]   90 	psha
+   000F CDr00r00      [ 5]   91 	jsr	_fabsf
+   0012 C7r00r03      [ 4]   92 	sta	(___fslt_PARM_1 + 3)
+   0015 CFr00r02      [ 4]   93 	stx	(___fslt_PARM_1 + 2)
+   0018 B6*00         [ 3]   94 	lda	*___SDCC_hc08_ret2
+   001A C7r00r01      [ 4]   95 	sta	(___fslt_PARM_1 + 1)
+   001D B6*00         [ 3]   96 	lda	*___SDCC_hc08_ret3
+   001F C7r00r00      [ 4]   97 	sta	___fslt_PARM_1
+   0022 A7 04         [ 2]   98 	ais	#4
+                             99 ;../cotf.c:42: if (y<1.0E-30) //This one requires more thinking...
+   0024 45r00r00      [ 3]  100 	ldhx	#___fslt_PARM_2
+   0027 A6 0D         [ 2]  101 	lda	#0x0D
+   0029 F7            [ 2]  102 	sta	,x
+   002A A6 A2         [ 2]  103 	lda	#0xA2
+   002C E7 01         [ 3]  104 	sta	1,x
+   002E A6 42         [ 2]  105 	lda	#0x42
+   0030 E7 02         [ 3]  106 	sta	2,x
+   0032 A6 60         [ 2]  107 	lda	#0x60
+   0034 E7 03         [ 3]  108 	sta	3,x
+   0036 CDr00r00      [ 5]  109 	jsr	___fslt
+   0039 4D            [ 1]  110 	tsta
+   003A 27 46         [ 3]  111 	beq	00105$
+                            112 ;../cotf.c:44: errno = ERANGE;
+   003C 4F            [ 1]  113 	clra
+   003D C7r00r00      [ 4]  114 	sta	_errno
+   0040 A6 22         [ 2]  115 	lda	#0x22
+   0042 C7r00r01      [ 4]  116 	sta	(_errno + 1)
+                            117 ;../cotf.c:45: if (x<0.0)
+   0045 95            [ 2]  118 	tsx
+   0046 45r00r00      [ 3]  119 	ldhx	#___fslt_PARM_1
+   0049 9E E6 07      [ 4]  120 	lda	7,s
+   004C F7            [ 2]  121 	sta	,x
+   004D 9E E6 08      [ 4]  122 	lda	8,s
+   0050 E7 01         [ 3]  123 	sta	1,x
+   0052 9E E6 09      [ 4]  124 	lda	9,s
+   0055 E7 02         [ 3]  125 	sta	2,x
+   0057 9E E6 0A      [ 4]  126 	lda	10,s
+   005A E7 03         [ 3]  127 	sta	3,x
+   005C 45r00r00      [ 3]  128 	ldhx	#___fslt_PARM_2
+   005F 4F            [ 1]  129 	clra
+   0060 F7            [ 2]  130 	sta	,x
+   0061 E7 01         [ 3]  131 	sta	1,x
+   0063 E7 02         [ 3]  132 	sta	2,x
+   0065 E7 03         [ 3]  133 	sta	3,x
+   0067 CDr00r00      [ 5]  134 	jsr	___fslt
+   006A 4D            [ 1]  135 	tsta
+   006B 27 0A         [ 3]  136 	beq	00102$
+                            137 ;../cotf.c:46: return -HUGE_VALF;
+   006D A6 FF         [ 2]  138 	lda	#0xFF
+   006F 97            [ 1]  139 	tax
+   0070 6E 7F*00      [ 4]  140 	mov	#0x7F,*___SDCC_hc08_ret2
+   0073 B7*00         [ 3]  141 	sta	*___SDCC_hc08_ret3
+   0075 20 47         [ 3]  142 	bra	00106$
+   0077                     143 00102$:
+                            144 ;../cotf.c:48: return +HUGE_VALF;
+   0077 A6 FF         [ 2]  145 	lda	#0xFF
+   0079 97            [ 1]  146 	tax
+   007A 6E 7F*00      [ 4]  147 	mov	#0x7F,*___SDCC_hc08_ret2
+   007D 6E 7F*00      [ 4]  148 	mov	#0x7F,*___SDCC_hc08_ret3
+   0080 20 3C         [ 3]  149 	bra	00106$
+   0082                     150 00105$:
+                            151 ;../cotf.c:50: return tancotf(x, 1);
+   0082 95            [ 2]  152 	tsx
+   0083 45r00r00      [ 3]  153 	ldhx	#_tancotf_PARM_1
+   0086 9E E6 07      [ 4]  154 	lda	7,s
+   0089 F7            [ 2]  155 	sta	,x
+   008A 9E E6 08      [ 4]  156 	lda	8,s
+   008D E7 01         [ 3]  157 	sta	1,x
+   008F 9E E6 09      [ 4]  158 	lda	9,s
+   0092 E7 02         [ 3]  159 	sta	2,x
+   0094 9E E6 0A      [ 4]  160 	lda	10,s
+   0097 E7 03         [ 3]  161 	sta	3,x
+   0099 A6 01         [ 2]  162 	lda	#0x01
+   009B C7r00r00      [ 4]  163 	sta	_tancotf_PARM_2
+   009E CDr00r00      [ 5]  164 	jsr	_tancotf
+   00A1 9E E7 04      [ 4]  165 	sta	4,s
+   00A4 9E EF 03      [ 4]  166 	stx	3,s
+   00A7 B6*00         [ 3]  167 	lda	*___SDCC_hc08_ret2
+   00A9 9E E7 02      [ 4]  168 	sta	2,s
+   00AC B6*00         [ 3]  169 	lda	*___SDCC_hc08_ret3
+   00AE 9E E7 01      [ 4]  170 	sta	1,s
+   00B1 95            [ 2]  171 	tsx
+   00B2 F6            [ 2]  172 	lda	,x
+   00B3 B7*00         [ 3]  173 	sta	*___SDCC_hc08_ret3
+   00B5 E6 01         [ 3]  174 	lda	1,x
+   00B7 B7*00         [ 3]  175 	sta	*___SDCC_hc08_ret2
+   00B9 EE 02         [ 3]  176 	ldx	2,x
+   00BB 9E E6 04      [ 4]  177 	lda	4,s
+   00BE                     178 00106$:
+   00BE A7 04         [ 2]  179 	ais	#4
+   00C0 81            [ 4]  180 	rts
+                            181 	.area CSEG    (CODE)
+                            182 	.area CONST   (CODE)
+                            183 	.area XINIT   (CODE)
+                            184 	.area CABS    (ABS,CODE)

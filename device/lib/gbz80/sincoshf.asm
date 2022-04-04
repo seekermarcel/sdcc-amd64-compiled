@@ -1,0 +1,785 @@
+;--------------------------------------------------------
+; File Created by SDCC : free open source ANSI-C Compiler
+; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+; This file was generated Mon Apr  4 14:16:46 2022
+;--------------------------------------------------------
+	.module sincoshf
+	.optsdcc -mgbz80
+	
+;--------------------------------------------------------
+; Public variables in this module
+;--------------------------------------------------------
+	.globl _sincoshf
+	.globl _expf
+;--------------------------------------------------------
+; ram data
+;--------------------------------------------------------
+	.area _DATA
+;--------------------------------------------------------
+; absolute external ram data
+;--------------------------------------------------------
+	.area _DABS (ABS)
+;--------------------------------------------------------
+; global & static initialisations
+;--------------------------------------------------------
+	.area _HOME
+	.area _GSINIT
+	.area _GSFINAL
+	.area _GSINIT
+;--------------------------------------------------------
+; Home
+;--------------------------------------------------------
+	.area _HOME
+	.area _HOME
+;--------------------------------------------------------
+; code
+;--------------------------------------------------------
+	.area _CODE
+;../sincoshf.c:56: float sincoshf(float x, bool iscosh)
+;	---------------------------------
+; Function sincoshf
+; ---------------------------------
+_sincoshf::
+	add	sp, #-30
+;../sincoshf.c:62: else { y=x;  sign=0; }
+	ldhl	sp,#32
+	ld	d,h
+	ld	e,l
+	ldhl	sp,#26
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl),a
+;../sincoshf.c:61: if (x<0.0) { y=-x; sign=1; }
+	ld	hl,#0x0000
+	push	hl
+	ld	hl,#0x0000
+	push	hl
+	ldhl	sp,#38
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#38
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fslt
+	add	sp, #8
+	ldhl	sp,#25
+	ld	(hl),e
+	ldhl	sp,#25
+	ld	a,(hl)
+	or	a, a
+	jr	Z,00102$
+	ldhl	sp,#35
+	ld	a,(hl)
+	xor	a,#0x80
+	ldhl	sp,#12
+	ld	(hl),a
+	ldhl	sp,#32
+	ld	a,(hl)
+	ldhl	sp,#9
+	ld	(hl),a
+	ldhl	sp,#33
+	ld	a,(hl)
+	ldhl	sp,#10
+	ld	(hl),a
+	ldhl	sp,#34
+	ld	a,(hl)
+	ldhl	sp,#11
+	ld	(hl),a
+	ldhl	sp,#0
+	ld	(hl),#0x01
+	jr	00103$
+00102$:
+;../sincoshf.c:62: else { y=x;  sign=0; }
+	ldhl	sp,#26
+	ld	d,h
+	ld	e,l
+	ldhl	sp,#9
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl),a
+	ldhl	sp,#0
+	ld	(hl),#0x00
+00103$:
+;../sincoshf.c:64: if ((y>1.0) || iscosh)
+	ld	hl,#0x3F80
+	push	hl
+	ld	hl,#0x0000
+	push	hl
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsgt
+	add	sp, #8
+	ldhl	sp,#25
+	ld	(hl),e
+	ldhl	sp,#25
+	ld	a,(hl)
+	or	a, a
+	jr	NZ,00117$
+	ldhl	sp,#36
+	bit	0,(hl)
+	jp	Z,00118$
+00117$:
+;../sincoshf.c:66: if(y>YBAR)
+	ld	hl,#0x4110
+	push	hl
+	ld	hl,#0x0000
+	push	hl
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsgt
+	add	sp, #8
+	ldhl	sp,#25
+	ld	(hl),e
+	ldhl	sp,#25
+	ld	a,(hl)
+	or	a, a
+	jp	Z,00110$
+;../sincoshf.c:68: w=y-K1;
+	ld	hl,#0x3F31
+	push	hl
+	ld	hl,#0x7300
+	push	hl
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fssub
+	add	sp, #8
+	push	hl
+	ldhl	sp,#7
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ldhl	sp,#5
+	ld	d,h
+	ld	e,l
+	ldhl	sp,#21
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl),a
+;../sincoshf.c:69: if (w>WMAX)
+	ld	hl,#0x4233
+	push	hl
+	ld	hl,#0xBDCF
+	push	hl
+	ldhl	sp,#27
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#27
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsgt
+	add	sp, #8
+	ld	a,e
+	or	a, a
+	jr	Z,00105$
+;../sincoshf.c:71: errno=ERANGE;
+	ld	hl,#_errno
+	ld	(hl),#0x22
+	inc	hl
+	ld	(hl),#0x00
+;../sincoshf.c:72: z=HUGE_VALF;
+	ldhl	sp,#17
+	ld	(hl),#0xFF
+	inc	hl
+	ld	(hl),#0xFF
+	inc	hl
+	ld	(hl),#0x7F
+	inc	hl
+	ld	(hl),#0x7F
+	jp	00111$
+00105$:
+;../sincoshf.c:76: z=expf(w);
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	_expf
+	add	sp, #4
+	push	hl
+	ldhl	sp,#23
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+;../sincoshf.c:77: z+=K3*z;
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ld	hl,#0x3768
+	push	hl
+	ld	hl,#0x0897
+	push	hl
+	call	___fsmul
+	add	sp, #8
+	ld	c,l
+	ld	b,h
+	push	bc
+	push	de
+	ldhl	sp,#27
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#27
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsadd
+	add	sp, #8
+	push	hl
+	ldhl	sp,#23
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ldhl	sp,#21
+	ld	d,h
+	ld	e,l
+	ldhl	sp,#17
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl),a
+	jp	00111$
+00110$:
+;../sincoshf.c:82: z=expf(y);
+	ldhl	sp,#11
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#11
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	_expf
+	add	sp, #4
+	push	hl
+	ldhl	sp,#23
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ldhl	sp,#21
+	ld	d,h
+	ld	e,l
+	ldhl	sp,#1
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl),a
+;../sincoshf.c:83: w=1.0/z;
+	ldhl	sp,#3
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#3
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ld	hl,#0x3F80
+	push	hl
+	ld	hl,#0x0000
+	push	hl
+	call	___fsdiv
+	add	sp, #8
+	ld	b,l
+	ld	c,h
+	ldhl	sp,#5
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	inc	hl
+	ld	(hl),b
+	inc	hl
+	ld	(hl),c
+;../sincoshf.c:84: if(!iscosh) w=-w;
+	ldhl	sp,#36
+	bit	0,(hl)
+	jr	NZ,00108$
+	ldhl	sp,#8
+	ld	a,(hl)
+	xor	a,#0x80
+	ld	(hl),a
+00108$:
+;../sincoshf.c:85: z=(z+w)*0.5;
+	ldhl	sp,#7
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#7
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#7
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#7
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsadd
+	add	sp, #8
+	push	hl
+	ldhl	sp,#23
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ld	hl,#0x3F00
+	push	hl
+	ld	hl,#0x0000
+	push	hl
+	call	___fsmul
+	add	sp, #8
+	ld	b,l
+	ld	c,h
+	ldhl	sp,#17
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	inc	hl
+	ld	(hl),b
+	inc	hl
+	ld	(hl),c
+00111$:
+;../sincoshf.c:87: if(sign) z=-z;
+	ldhl	sp,#0
+	bit	0,(hl)
+	jp	Z,00119$
+	ldhl	sp,#20
+	ld	a,(hl)
+	xor	a,#0x80
+	ld	(hl),a
+	jp	00119$
+00118$:
+;../sincoshf.c:91: if (y<EPS)
+	ld	hl,#0x3980
+	push	hl
+	ld	hl,#0x0000
+	push	hl
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fslt
+	add	sp, #8
+	ld	a,e
+	or	a, a
+	jr	Z,00115$
+;../sincoshf.c:92: z=x;
+	ldhl	sp,#26
+	ld	d,h
+	ld	e,l
+	ldhl	sp,#17
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl),a
+	jp	00119$
+00115$:
+;../sincoshf.c:95: z=x*x;
+	ldhl	sp,#34
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#34
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#38
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#38
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsmul
+	add	sp, #8
+	push	hl
+	ldhl	sp,#23
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+;../sincoshf.c:96: z=x+x*z*P(z)/Q(z);
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#38
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#38
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsmul
+	add	sp, #8
+	push	hl
+	ldhl	sp,#28
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ld	hl,#0xBE42
+	push	hl
+	ld	hl,#0xE6EA
+	push	hl
+	call	___fsmul
+	add	sp, #8
+	push	hl
+	ldhl	sp,#15
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ld	hl,#0xC0E4
+	push	hl
+	ld	hl,#0x69F0
+	push	hl
+	ldhl	sp,#19
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#19
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsadd
+	add	sp, #8
+	push	hl
+	ldhl	sp,#15
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#32
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#32
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsmul
+	add	sp, #8
+	push	hl
+	ldhl	sp,#15
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ld	hl,#0xC22B
+	push	hl
+	ld	hl,#0x4F93
+	push	hl
+	ldhl	sp,#27
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#27
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsadd
+	add	sp, #8
+	push	hl
+	ldhl	sp,#23
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#23
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#19
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#19
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsdiv
+	add	sp, #8
+	push	hl
+	ldhl	sp,#15
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#15
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#38
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	ldhl	sp,#38
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	push	hl
+	call	___fsadd
+	add	sp, #8
+	push	hl
+	ldhl	sp,#15
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	pop	de
+	inc	hl
+	ld	(hl),e
+	inc	hl
+	ld	(hl),d
+	ldhl	sp,#13
+	ld	d,h
+	ld	e,l
+	ldhl	sp,#17
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl+),a
+	inc	de
+	ld	a,(de)
+	ld	(hl),a
+00119$:
+;../sincoshf.c:99: return z;
+	ldhl	sp,#18
+	dec	hl
+	ld	e,(hl)
+	inc	hl
+	ld	d,(hl)
+	inc	hl
+	ld	a,(hl+)
+	ld	h,(hl)
+	ld	l,a
+	add	sp, #30
+	ret
+	.area _CODE
+	.area _CABS (ABS)

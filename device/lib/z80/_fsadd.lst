@@ -1,0 +1,582 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:15:19 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _fsadd
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl ___fsadd
+                             13 ;--------------------------------------------------------
+                             14 ; special function registers
+                             15 ;--------------------------------------------------------
+                             16 ;--------------------------------------------------------
+                             17 ; ram data
+                             18 ;--------------------------------------------------------
+                             19 	.area _DATA
+                             20 ;--------------------------------------------------------
+                             21 ; ram data
+                             22 ;--------------------------------------------------------
+                             23 	.area _INITIALIZED
+                             24 ;--------------------------------------------------------
+                             25 ; absolute external ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area _DABS (ABS)
+                             28 ;--------------------------------------------------------
+                             29 ; global & static initialisations
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _GSINIT
+                             33 	.area _GSFINAL
+                             34 	.area _GSINIT
+                             35 ;--------------------------------------------------------
+                             36 ; Home
+                             37 ;--------------------------------------------------------
+                             38 	.area _HOME
+                             39 ;../_fsadd.c:170: float __fsadd (float a1, float a2)
+                             40 ;	---------------------------------
+                             41 ; Function __fsadd
+                             42 ; ---------------------------------
+   0000                      43 ___fsadd::
+   0000 DD E5         [15]   44 	push	ix
+   0002 DD 21 00 00   [14]   45 	ld	ix,#0
+   0006 DD 39         [15]   46 	add	ix,sp
+   0008 21 E1 FF      [10]   47 	ld	hl,#-31
+   000B 39            [11]   48 	add	hl,sp
+   000C F9            [ 6]   49 	ld	sp,hl
+                             50 ;../_fsadd.c:178: pfl2 = (long _AUTOMEM *)&a2;
+   000D 21 27 00      [10]   51 	ld	hl,#0x0027
+   0010 39            [11]   52 	add	hl,sp
+                             53 ;../_fsadd.c:179: exp2 = EXP (*pfl2);
+   0011 EB            [ 4]   54 	ex	de,hl
+   0012 21 11 00      [10]   55 	ld	hl, #0x0011
+   0015 39            [11]   56 	add	hl, sp
+   0016 EB            [ 4]   57 	ex	de, hl
+   0017 01 04 00      [10]   58 	ld	bc, #0x0004
+   001A ED B0         [21]   59 	ldir
+   001C 21 1B 00      [10]   60 	ld	hl, #27
+   001F 39            [11]   61 	add	hl, sp
+   0020 EB            [ 4]   62 	ex	de, hl
+   0021 21 11 00      [10]   63 	ld	hl, #17
+   0024 39            [11]   64 	add	hl, sp
+   0025 01 04 00      [10]   65 	ld	bc, #4
+   0028 ED B0         [21]   66 	ldir
+   002A F5            [11]   67 	push	af
+   002B DD 6E FC      [19]   68 	ld	l,-4 (ix)
+   002E DD 66 FD      [19]   69 	ld	h,-3 (ix)
+   0031 DD 56 FE      [19]   70 	ld	d,-2 (ix)
+   0034 DD 4E FF      [19]   71 	ld	c,-1 (ix)
+   0037 F1            [10]   72 	pop	af
+   0038 06 17         [ 7]   73 	ld	b,#0x17
+   003A                      74 00221$:
+   003A CB 39         [ 8]   75 	srl	c
+   003C CB 1A         [ 8]   76 	rr	d
+   003E CB 1C         [ 8]   77 	rr	h
+   0040 CB 1D         [ 8]   78 	rr	l
+   0042 10 F6         [13]   79 	djnz	00221$
+   0044 DD 75 E4      [19]   80 	ld	-28 (ix), l
+   0047 DD 36 E5 00   [19]   81 	ld	-27 (ix), #0x00
+                             82 ;../_fsadd.c:180: mant2 = MANT (*pfl2) << 4;
+   004B DD 6E FC      [19]   83 	ld	l,-4 (ix)
+   004E DD 66 FD      [19]   84 	ld	h,-3 (ix)
+   0051 DD 4E FE      [19]   85 	ld	c,-2 (ix)
+   0054 CB B9         [ 8]   86 	res	7, c
+   0056 06 00         [ 7]   87 	ld	b,#0x00
+   0058 79            [ 4]   88 	ld	a,c
+   0059 CB FF         [ 8]   89 	set	7, a
+   005B 57            [ 4]   90 	ld	d,a
+   005C F5            [11]   91 	push	af
+   005D DD 75 EA      [19]   92 	ld	-22 (ix),l
+   0060 DD 74 EB      [19]   93 	ld	-21 (ix),h
+   0063 DD 72 EC      [19]   94 	ld	-20 (ix),d
+   0066 DD 70 ED      [19]   95 	ld	-19 (ix),b
+   0069 F1            [10]   96 	pop	af
+   006A 3E 04         [ 7]   97 	ld	a,#0x04
+   006C                      98 00223$:
+   006C DD CB EA 26   [23]   99 	sla	-22 (ix)
+   0070 DD CB EB 16   [23]  100 	rl	-21 (ix)
+   0074 DD CB EC 16   [23]  101 	rl	-20 (ix)
+   0078 DD CB ED 16   [23]  102 	rl	-19 (ix)
+   007C 3D            [ 4]  103 	dec	a
+   007D 20 ED         [12]  104 	jr	NZ,00223$
+                            105 ;../_fsadd.c:181: if (SIGN (*pfl2))
+   007F DD 7E FF      [19]  106 	ld	a,-1 (ix)
+   0082 CB 07         [ 8]  107 	rlc	a
+   0084 E6 01         [ 7]  108 	and	a,#0x01
+   0086 28 1F         [12]  109 	jr	Z,00102$
+                            110 ;../_fsadd.c:182: mant2 = -mant2;
+   0088 AF            [ 4]  111 	xor	a, a
+   0089 DD 96 EA      [19]  112 	sub	a, -22 (ix)
+   008C DD 77 EA      [19]  113 	ld	-22 (ix),a
+   008F 3E 00         [ 7]  114 	ld	a, #0x00
+   0091 DD 9E EB      [19]  115 	sbc	a, -21 (ix)
+   0094 DD 77 EB      [19]  116 	ld	-21 (ix),a
+   0097 3E 00         [ 7]  117 	ld	a, #0x00
+   0099 DD 9E EC      [19]  118 	sbc	a, -20 (ix)
+   009C DD 77 EC      [19]  119 	ld	-20 (ix),a
+   009F 3E 00         [ 7]  120 	ld	a, #0x00
+   00A1 DD 9E ED      [19]  121 	sbc	a, -19 (ix)
+   00A4 DD 77 ED      [19]  122 	ld	-19 (ix),a
+   00A7                     123 00102$:
+                            124 ;../_fsadd.c:184: if (!*pfl2)
+   00A7 DD 7E F5      [19]  125 	ld	a,-11 (ix)
+   00AA DD B6 F4      [19]  126 	or	a, -12 (ix)
+   00AD DD B6 F3      [19]  127 	or	a, -13 (ix)
+   00B0 DD B6 F2      [19]  128 	or	a,-14 (ix)
+   00B3 20 0F         [12]  129 	jr	NZ,00104$
+                            130 ;../_fsadd.c:185: return (a1);
+   00B5 DD 6E 04      [19]  131 	ld	l,4 (ix)
+   00B8 DD 66 05      [19]  132 	ld	h,5 (ix)
+   00BB DD 5E 06      [19]  133 	ld	e,6 (ix)
+   00BE DD 56 07      [19]  134 	ld	d,7 (ix)
+   00C1 C3r50r04      [10]  135 	jp	00137$
+   00C4                     136 00104$:
+                            137 ;../_fsadd.c:187: pfl1 = (long _AUTOMEM *)&a1;
+   00C4 21 23 00      [10]  138 	ld	hl,#0x0023
+   00C7 39            [11]  139 	add	hl,sp
+   00C8 DD 75 FC      [19]  140 	ld	-4 (ix),l
+   00CB DD 74 FD      [19]  141 	ld	-3 (ix),h
+   00CE DD 7E FC      [19]  142 	ld	a,-4 (ix)
+   00D1 DD 77 E8      [19]  143 	ld	-24 (ix),a
+   00D4 DD 7E FD      [19]  144 	ld	a,-3 (ix)
+   00D7 DD 77 E9      [19]  145 	ld	-23 (ix),a
+                            146 ;../_fsadd.c:188: exp1 = EXP (*pfl1);
+   00DA DD 5E E8      [19]  147 	ld	e,-24 (ix)
+   00DD DD 56 E9      [19]  148 	ld	d,-23 (ix)
+   00E0 21 1B 00      [10]  149 	ld	hl, #0x001B
+   00E3 39            [11]  150 	add	hl, sp
+   00E4 EB            [ 4]  151 	ex	de, hl
+   00E5 01 04 00      [10]  152 	ld	bc, #0x0004
+   00E8 ED B0         [21]  153 	ldir
+   00EA 21 11 00      [10]  154 	ld	hl, #17
+   00ED 39            [11]  155 	add	hl, sp
+   00EE EB            [ 4]  156 	ex	de, hl
+   00EF 21 1B 00      [10]  157 	ld	hl, #27
+   00F2 39            [11]  158 	add	hl, sp
+   00F3 01 04 00      [10]  159 	ld	bc, #4
+   00F6 ED B0         [21]  160 	ldir
+   00F8 F5            [11]  161 	push	af
+   00F9 DD 6E F2      [19]  162 	ld	l,-14 (ix)
+   00FC DD 66 F3      [19]  163 	ld	h,-13 (ix)
+   00FF DD 5E F4      [19]  164 	ld	e,-12 (ix)
+   0102 DD 56 F5      [19]  165 	ld	d,-11 (ix)
+   0105 F1            [10]  166 	pop	af
+   0106 06 17         [ 7]  167 	ld	b,#0x17
+   0108                     168 00225$:
+   0108 CB 3A         [ 8]  169 	srl	d
+   010A CB 1B         [ 8]  170 	rr	e
+   010C CB 1C         [ 8]  171 	rr	h
+   010E CB 1D         [ 8]  172 	rr	l
+   0110 10 F6         [13]  173 	djnz	00225$
+   0112 26 00         [ 7]  174 	ld	h,#0x00
+   0114 1E 00         [ 7]  175 	ld	e,#0x00
+   0116 DD 75 F6      [19]  176 	ld	-10 (ix),l
+   0119 DD 74 F7      [19]  177 	ld	-9 (ix),h
+                            178 ;../_fsadd.c:189: mant1 = MANT (*pfl1) << 4;
+   011C DD 6E F2      [19]  179 	ld	l,-14 (ix)
+   011F DD 66 F3      [19]  180 	ld	h,-13 (ix)
+   0122 DD 4E F4      [19]  181 	ld	c,-12 (ix)
+   0125 CB B9         [ 8]  182 	res	7, c
+   0127 06 00         [ 7]  183 	ld	b,#0x00
+   0129 79            [ 4]  184 	ld	a,c
+   012A CB FF         [ 8]  185 	set	7, a
+   012C 57            [ 4]  186 	ld	d,a
+   012D F5            [11]  187 	push	af
+   012E DD 75 F8      [19]  188 	ld	-8 (ix),l
+   0131 DD 74 F9      [19]  189 	ld	-7 (ix),h
+   0134 DD 72 FA      [19]  190 	ld	-6 (ix),d
+   0137 DD 70 FB      [19]  191 	ld	-5 (ix),b
+   013A F1            [10]  192 	pop	af
+   013B 3E 04         [ 7]  193 	ld	a,#0x04
+   013D                     194 00227$:
+   013D DD CB F8 26   [23]  195 	sla	-8 (ix)
+   0141 DD CB F9 16   [23]  196 	rl	-7 (ix)
+   0145 DD CB FA 16   [23]  197 	rl	-6 (ix)
+   0149 DD CB FB 16   [23]  198 	rl	-5 (ix)
+   014D 3D            [ 4]  199 	dec	a
+   014E 20 ED         [12]  200 	jr	NZ,00227$
+                            201 ;../_fsadd.c:190: if (SIGN(*pfl1))
+   0150 DD 7E F5      [19]  202 	ld	a,-11 (ix)
+   0153 CB 07         [ 8]  203 	rlc	a
+   0155 E6 01         [ 7]  204 	and	a,#0x01
+   0157 28 25         [12]  205 	jr	Z,00108$
+                            206 ;../_fsadd.c:191: if (*pfl1 & 0x80000000)
+   0159 DD CB F5 7E   [20]  207 	bit	7, -11 (ix)
+   015D 28 1F         [12]  208 	jr	Z,00108$
+                            209 ;../_fsadd.c:192: mant1 = -mant1;
+   015F AF            [ 4]  210 	xor	a, a
+   0160 DD 96 F8      [19]  211 	sub	a, -8 (ix)
+   0163 DD 77 F8      [19]  212 	ld	-8 (ix),a
+   0166 3E 00         [ 7]  213 	ld	a, #0x00
+   0168 DD 9E F9      [19]  214 	sbc	a, -7 (ix)
+   016B DD 77 F9      [19]  215 	ld	-7 (ix),a
+   016E 3E 00         [ 7]  216 	ld	a, #0x00
+   0170 DD 9E FA      [19]  217 	sbc	a, -6 (ix)
+   0173 DD 77 FA      [19]  218 	ld	-6 (ix),a
+   0176 3E 00         [ 7]  219 	ld	a, #0x00
+   0178 DD 9E FB      [19]  220 	sbc	a, -5 (ix)
+   017B DD 77 FB      [19]  221 	ld	-5 (ix),a
+   017E                     222 00108$:
+                            223 ;../_fsadd.c:194: if (!*pfl1)
+   017E DD 7E FF      [19]  224 	ld	a,-1 (ix)
+   0181 DD B6 FE      [19]  225 	or	a, -2 (ix)
+   0184 DD B6 FD      [19]  226 	or	a, -3 (ix)
+   0187 DD B6 FC      [19]  227 	or	a,-4 (ix)
+   018A 20 0F         [12]  228 	jr	NZ,00110$
+                            229 ;../_fsadd.c:195: return (a2);
+   018C DD 6E 08      [19]  230 	ld	l,8 (ix)
+   018F DD 66 09      [19]  231 	ld	h,9 (ix)
+   0192 DD 5E 0A      [19]  232 	ld	e,10 (ix)
+   0195 DD 56 0B      [19]  233 	ld	d,11 (ix)
+   0198 C3r50r04      [10]  234 	jp	00137$
+   019B                     235 00110$:
+                            236 ;../_fsadd.c:197: expd = exp1 - exp2;
+   019B DD 7E F6      [19]  237 	ld	a,-10 (ix)
+   019E DD 96 E4      [19]  238 	sub	a, -28 (ix)
+   01A1 DD 77 FC      [19]  239 	ld	-4 (ix),a
+   01A4 DD 7E F7      [19]  240 	ld	a,-9 (ix)
+   01A7 DD 9E E5      [19]  241 	sbc	a, -27 (ix)
+   01AA DD 77 FD      [19]  242 	ld	-3 (ix),a
+                            243 ;../_fsadd.c:198: if (expd > 25)
+   01AD 3E 19         [ 7]  244 	ld	a,#0x19
+   01AF DD BE FC      [19]  245 	cp	a, -4 (ix)
+   01B2 3E 00         [ 7]  246 	ld	a,#0x00
+   01B4 DD 9E FD      [19]  247 	sbc	a, -3 (ix)
+   01B7 E2rBCr01      [10]  248 	jp	PO, 00230$
+   01BA EE 80         [ 7]  249 	xor	a, #0x80
+   01BC                     250 00230$:
+   01BC F2rCEr01      [10]  251 	jp	P,00112$
+                            252 ;../_fsadd.c:199: return (a1);
+   01BF DD 6E 04      [19]  253 	ld	l,4 (ix)
+   01C2 DD 66 05      [19]  254 	ld	h,5 (ix)
+   01C5 DD 5E 06      [19]  255 	ld	e,6 (ix)
+   01C8 DD 56 07      [19]  256 	ld	d,7 (ix)
+   01CB C3r50r04      [10]  257 	jp	00137$
+   01CE                     258 00112$:
+                            259 ;../_fsadd.c:200: if (expd < -25)
+   01CE DD 7E FC      [19]  260 	ld	a,-4 (ix)
+   01D1 D6 E7         [ 7]  261 	sub	a, #0xE7
+   01D3 DD 7E FD      [19]  262 	ld	a,-3 (ix)
+   01D6 17            [ 4]  263 	rla
+   01D7 3F            [ 4]  264 	ccf
+   01D8 1F            [ 4]  265 	rra
+   01D9 DE 7F         [ 7]  266 	sbc	a, #0x7F
+   01DB 30 0F         [12]  267 	jr	NC,00114$
+                            268 ;../_fsadd.c:201: return (a2);
+   01DD DD 6E 08      [19]  269 	ld	l,8 (ix)
+   01E0 DD 66 09      [19]  270 	ld	h,9 (ix)
+   01E3 DD 5E 0A      [19]  271 	ld	e,10 (ix)
+   01E6 DD 56 0B      [19]  272 	ld	d,11 (ix)
+   01E9 C3r50r04      [10]  273 	jp	00137$
+   01EC                     274 00114$:
+                            275 ;../_fsadd.c:203: if (expd < 0)
+   01EC DD CB FD 7E   [20]  276 	bit	7, -3 (ix)
+   01F0 28 49         [12]  277 	jr	Z,00116$
+                            278 ;../_fsadd.c:205: expd = -expd;
+   01F2 AF            [ 4]  279 	xor	a, a
+   01F3 DD 96 FC      [19]  280 	sub	a, -4 (ix)
+   01F6 DD 77 F2      [19]  281 	ld	-14 (ix),a
+   01F9 3E 00         [ 7]  282 	ld	a, #0x00
+   01FB DD 9E FD      [19]  283 	sbc	a, -3 (ix)
+   01FE DD 77 F3      [19]  284 	ld	-13 (ix),a
+   0201 DD 7E F2      [19]  285 	ld	a,-14 (ix)
+   0204 DD 77 E2      [19]  286 	ld	-30 (ix),a
+   0207 DD 7E F3      [19]  287 	ld	a,-13 (ix)
+   020A DD 77 E3      [19]  288 	ld	-29 (ix),a
+                            289 ;../_fsadd.c:206: exp1 += expd;
+   020D DD 7E F6      [19]  290 	ld	a,-10 (ix)
+   0210 DD 86 E2      [19]  291 	add	a, -30 (ix)
+   0213 DD 77 F6      [19]  292 	ld	-10 (ix),a
+   0216 DD 7E F7      [19]  293 	ld	a,-9 (ix)
+   0219 DD 8E E3      [19]  294 	adc	a, -29 (ix)
+   021C DD 77 F7      [19]  295 	ld	-9 (ix),a
+                            296 ;../_fsadd.c:207: mant1 >>= expd;
+   021F DD 46 E2      [19]  297 	ld	b,-30 (ix)
+   0222 F5            [11]  298 	push	af
+   0223 F1            [10]  299 	pop	af
+   0224 04            [ 4]  300 	inc	b
+   0225 18 10         [12]  301 	jr	00232$
+   0227                     302 00231$:
+   0227 DD CB FB 2E   [23]  303 	sra	-5 (ix)
+   022B DD CB FA 1E   [23]  304 	rr	-6 (ix)
+   022F DD CB F9 1E   [23]  305 	rr	-7 (ix)
+   0233 DD CB F8 1E   [23]  306 	rr	-8 (ix)
+   0237                     307 00232$:
+   0237 10 EE         [13]  308 	djnz	00231$
+   0239 18 1A         [12]  309 	jr	00117$
+   023B                     310 00116$:
+                            311 ;../_fsadd.c:211: mant2 >>= expd;
+   023B DD 46 FC      [19]  312 	ld	b,-4 (ix)
+   023E F5            [11]  313 	push	af
+   023F F1            [10]  314 	pop	af
+   0240 04            [ 4]  315 	inc	b
+   0241 18 10         [12]  316 	jr	00234$
+   0243                     317 00233$:
+   0243 DD CB ED 2E   [23]  318 	sra	-19 (ix)
+   0247 DD CB EC 1E   [23]  319 	rr	-20 (ix)
+   024B DD CB EB 1E   [23]  320 	rr	-21 (ix)
+   024F DD CB EA 1E   [23]  321 	rr	-22 (ix)
+   0253                     322 00234$:
+   0253 10 EE         [13]  323 	djnz	00233$
+   0255                     324 00117$:
+                            325 ;../_fsadd.c:213: mant1 += mant2;
+   0255 DD 7E F8      [19]  326 	ld	a,-8 (ix)
+   0258 DD 86 EA      [19]  327 	add	a, -22 (ix)
+   025B 6F            [ 4]  328 	ld	l,a
+   025C DD 7E F9      [19]  329 	ld	a,-7 (ix)
+   025F DD 8E EB      [19]  330 	adc	a, -21 (ix)
+   0262 67            [ 4]  331 	ld	h,a
+   0263 DD 7E FA      [19]  332 	ld	a,-6 (ix)
+   0266 DD 8E EC      [19]  333 	adc	a, -20 (ix)
+   0269 5F            [ 4]  334 	ld	e,a
+   026A DD 7E FB      [19]  335 	ld	a,-5 (ix)
+   026D DD 8E ED      [19]  336 	adc	a, -19 (ix)
+   0270 57            [ 4]  337 	ld	d,a
+   0271 DD 75 EE      [19]  338 	ld	-18 (ix),l
+   0274 DD 74 EF      [19]  339 	ld	-17 (ix),h
+   0277 DD 73 F0      [19]  340 	ld	-16 (ix),e
+   027A DD 72 F1      [19]  341 	ld	-15 (ix),d
+                            342 ;../_fsadd.c:215: sign = false;
+   027D DD 36 E1 00   [19]  343 	ld	-31 (ix),#0x00
+                            344 ;../_fsadd.c:217: if (mant1 < 0)
+   0281 DD CB F1 7E   [20]  345 	bit	7, -15 (ix)
+   0285 28 25         [12]  346 	jr	Z,00121$
+                            347 ;../_fsadd.c:219: mant1 = -mant1;
+   0287 AF            [ 4]  348 	xor	a, a
+   0288 DD 96 EE      [19]  349 	sub	a, -18 (ix)
+   028B DD 77 EE      [19]  350 	ld	-18 (ix),a
+   028E 3E 00         [ 7]  351 	ld	a, #0x00
+   0290 DD 9E EF      [19]  352 	sbc	a, -17 (ix)
+   0293 DD 77 EF      [19]  353 	ld	-17 (ix),a
+   0296 3E 00         [ 7]  354 	ld	a, #0x00
+   0298 DD 9E F0      [19]  355 	sbc	a, -16 (ix)
+   029B DD 77 F0      [19]  356 	ld	-16 (ix),a
+   029E 3E 00         [ 7]  357 	ld	a, #0x00
+   02A0 DD 9E F1      [19]  358 	sbc	a, -15 (ix)
+   02A3 DD 77 F1      [19]  359 	ld	-15 (ix),a
+                            360 ;../_fsadd.c:220: sign = true;
+   02A6 DD 36 E1 01   [19]  361 	ld	-31 (ix),#0x01
+   02AA 18 16         [12]  362 	jr	00154$
+   02AC                     363 00121$:
+                            364 ;../_fsadd.c:222: else if (!mant1)
+   02AC DD 7E F1      [19]  365 	ld	a,-15 (ix)
+   02AF DD B6 F0      [19]  366 	or	a, -16 (ix)
+   02B2 DD B6 EF      [19]  367 	or	a, -17 (ix)
+   02B5 DD B6 EE      [19]  368 	or	a,-18 (ix)
+   02B8 20 08         [12]  369 	jr	NZ,00154$
+                            370 ;../_fsadd.c:223: return (0);
+   02BA 21 00 00      [10]  371 	ld	hl,#0x0000
+   02BD 5D            [ 4]  372 	ld	e,l
+   02BE 54            [ 4]  373 	ld	d,h
+   02BF C3r50r04      [10]  374 	jp	00137$
+                            375 ;../_fsadd.c:226: while (mant1 < (HIDDEN<<4)) {
+   02C2                     376 00154$:
+   02C2 DD 4E F6      [19]  377 	ld	c,-10 (ix)
+   02C5 DD 46 F7      [19]  378 	ld	b,-9 (ix)
+   02C8                     379 00123$:
+   02C8 DD 56 F0      [19]  380 	ld	d,-16 (ix)
+   02CB DD 5E F1      [19]  381 	ld	e,-15 (ix)
+   02CE 7B            [ 4]  382 	ld	a,e
+   02CF D6 08         [ 7]  383 	sub	a, #0x08
+   02D1 30 15         [12]  384 	jr	NC,00157$
+                            385 ;../_fsadd.c:227: mant1 <<= 1;
+   02D3 F5            [11]  386 	push	af
+   02D4 F1            [10]  387 	pop	af
+   02D5 DD CB EE 26   [23]  388 	sla	-18 (ix)
+   02D9 DD CB EF 16   [23]  389 	rl	-17 (ix)
+   02DD DD CB F0 16   [23]  390 	rl	-16 (ix)
+   02E1 DD CB F1 16   [23]  391 	rl	-15 (ix)
+                            392 ;../_fsadd.c:228: exp1--;
+   02E5 0B            [ 6]  393 	dec	bc
+   02E6 18 E0         [12]  394 	jr	00123$
+                            395 ;../_fsadd.c:232: while (mant1 & 0xf0000000) {
+   02E8                     396 00157$:
+   02E8 DD 71 E6      [19]  397 	ld	-26 (ix),c
+   02EB DD 70 E7      [19]  398 	ld	-25 (ix),b
+   02EE                     399 00128$:
+   02EE 21 17 00      [10]  400 	ld	hl, #23
+   02F1 39            [11]  401 	add	hl, sp
+   02F2 EB            [ 4]  402 	ex	de, hl
+   02F3 21 0D 00      [10]  403 	ld	hl, #13
+   02F6 39            [11]  404 	add	hl, sp
+   02F7 01 04 00      [10]  405 	ld	bc, #4
+   02FA ED B0         [21]  406 	ldir
+   02FC DD 7E FB      [19]  407 	ld	a,-5 (ix)
+   02FF E6 F0         [ 7]  408 	and	a, #0xF0
+   0301 28 44         [12]  409 	jr	Z,00163$
+                            410 ;../_fsadd.c:233: if (mant1&1)
+   0303 DD CB EE 46   [20]  411 	bit	0, -18 (ix)
+   0307 28 20         [12]  412 	jr	Z,00127$
+                            413 ;../_fsadd.c:234: mant1 += 2;
+   0309 DD 7E EE      [19]  414 	ld	a,-18 (ix)
+   030C C6 02         [ 7]  415 	add	a, #0x02
+   030E DD 77 EE      [19]  416 	ld	-18 (ix),a
+   0311 DD 7E EF      [19]  417 	ld	a,-17 (ix)
+   0314 CE 00         [ 7]  418 	adc	a, #0x00
+   0316 DD 77 EF      [19]  419 	ld	-17 (ix),a
+   0319 DD 7E F0      [19]  420 	ld	a,-16 (ix)
+   031C CE 00         [ 7]  421 	adc	a, #0x00
+   031E DD 77 F0      [19]  422 	ld	-16 (ix),a
+   0321 DD 7E F1      [19]  423 	ld	a,-15 (ix)
+   0324 CE 00         [ 7]  424 	adc	a, #0x00
+   0326 DD 77 F1      [19]  425 	ld	-15 (ix),a
+   0329                     426 00127$:
+                            427 ;../_fsadd.c:235: mant1 >>= 1;
+   0329 F5            [11]  428 	push	af
+   032A F1            [10]  429 	pop	af
+   032B 06 01         [ 7]  430 	ld	b,#0x01
+   032D DD CB F1 2E   [23]  431 	sra	-15 (ix)
+   0331 DD CB F0 1E   [23]  432 	rr	-16 (ix)
+   0335 DD CB EF 1E   [23]  433 	rr	-17 (ix)
+   0339 DD CB EE 1E   [23]  434 	rr	-18 (ix)
+                            435 ;../_fsadd.c:236: exp1++;
+   033D DD 34 E6      [23]  436 	inc	-26 (ix)
+   0340 20 AC         [12]  437 	jr	NZ,00128$
+   0342 DD 34 E7      [23]  438 	inc	-25 (ix)
+   0345 18 A7         [12]  439 	jr	00128$
+   0347                     440 00163$:
+   0347 DD 7E E6      [19]  441 	ld	a,-26 (ix)
+   034A DD 77 F6      [19]  442 	ld	-10 (ix),a
+   034D DD 7E E7      [19]  443 	ld	a,-25 (ix)
+   0350 DD 77 F7      [19]  444 	ld	-9 (ix),a
+                            445 ;../_fsadd.c:240: mant1 &= ~(HIDDEN<<4);
+   0353 DD CB FB 9E   [23]  446 	res	3, -5 (ix)
+                            447 ;../_fsadd.c:243: if (exp1 >= 0x100)
+   0357 DD 7E E7      [19]  448 	ld	a,-25 (ix)
+   035A EE 80         [ 7]  449 	xor	a, #0x80
+   035C D6 81         [ 7]  450 	sub	a, #0x81
+   035E 38 3A         [12]  451 	jr	C,00135$
+                            452 ;../_fsadd.c:244: *pfl1 = (sign ? (SIGNBIT | __INFINITY) : __INFINITY);
+   0360 DD CB E1 46   [20]  453 	bit	0,-31 (ix)
+   0364 28 12         [12]  454 	jr	Z,00139$
+   0366 DD 36 FC 00   [19]  455 	ld	-4 (ix),#0x00
+   036A DD 36 FD 00   [19]  456 	ld	-3 (ix),#0x00
+   036E DD 36 FE 80   [19]  457 	ld	-2 (ix),#0x80
+   0372 DD 36 FF FF   [19]  458 	ld	-1 (ix),#0xFF
+   0376 18 10         [12]  459 	jr	00140$
+   0378                     460 00139$:
+   0378 DD 36 FC 00   [19]  461 	ld	-4 (ix),#0x00
+   037C DD 36 FD 00   [19]  462 	ld	-3 (ix),#0x00
+   0380 DD 36 FE 80   [19]  463 	ld	-2 (ix),#0x80
+   0384 DD 36 FF 7F   [19]  464 	ld	-1 (ix),#0x7F
+   0388                     465 00140$:
+   0388 DD 5E E8      [19]  466 	ld	e,-24 (ix)
+   038B DD 56 E9      [19]  467 	ld	d,-23 (ix)
+   038E 21 1B 00      [10]  468 	ld	hl, #0x001B
+   0391 39            [11]  469 	add	hl, sp
+   0392 01 04 00      [10]  470 	ld	bc, #0x0004
+   0395 ED B0         [21]  471 	ldir
+   0397 C3r44r04      [10]  472 	jp	00136$
+   039A                     473 00135$:
+                            474 ;../_fsadd.c:245: else if (exp1 < 0)
+   039A DD CB E7 7E   [20]  475 	bit	7, -25 (ix)
+   039E 28 12         [12]  476 	jr	Z,00132$
+                            477 ;../_fsadd.c:246: *pfl1 = 0;
+   03A0 DD 6E E8      [19]  478 	ld	l,-24 (ix)
+   03A3 DD 66 E9      [19]  479 	ld	h,-23 (ix)
+   03A6 AF            [ 4]  480 	xor	a, a
+   03A7 77            [ 7]  481 	ld	(hl), a
+   03A8 23            [ 6]  482 	inc	hl
+   03A9 77            [ 7]  483 	ld	(hl), a
+   03AA 23            [ 6]  484 	inc	hl
+   03AB AF            [ 4]  485 	xor	a, a
+   03AC 77            [ 7]  486 	ld	(hl), a
+   03AD 23            [ 6]  487 	inc	hl
+   03AE 77            [ 7]  488 	ld	(hl), a
+   03AF C3r44r04      [10]  489 	jp	00136$
+   03B2                     490 00132$:
+                            491 ;../_fsadd.c:248: *pfl1 = PACK (sign ? SIGNBIT : 0 , exp1, mant1>>4);
+   03B2 DD CB E1 46   [20]  492 	bit	0,-31 (ix)
+   03B6 28 12         [12]  493 	jr	Z,00141$
+   03B8 DD 36 FC 00   [19]  494 	ld	-4 (ix),#0x00
+   03BC DD 36 FD 00   [19]  495 	ld	-3 (ix),#0x00
+   03C0 DD 36 FE 00   [19]  496 	ld	-2 (ix),#0x00
+   03C4 DD 36 FF 80   [19]  497 	ld	-1 (ix),#0x80
+   03C8 18 0D         [12]  498 	jr	00142$
+   03CA                     499 00141$:
+   03CA AF            [ 4]  500 	xor	a, a
+   03CB DD 77 FC      [19]  501 	ld	-4 (ix),a
+   03CE DD 77 FD      [19]  502 	ld	-3 (ix),a
+   03D1 DD 77 FE      [19]  503 	ld	-2 (ix),a
+   03D4 DD 77 FF      [19]  504 	ld	-1 (ix),a
+   03D7                     505 00142$:
+   03D7 DD 6E F6      [19]  506 	ld	l,-10 (ix)
+   03DA DD 66 F7      [19]  507 	ld	h,-9 (ix)
+   03DD DD 7E F7      [19]  508 	ld	a,-9 (ix)
+   03E0 17            [ 4]  509 	rla
+   03E1 9F            [ 4]  510 	sbc	a, a
+   03E2 5F            [ 4]  511 	ld	e,a
+   03E3 57            [ 4]  512 	ld	d,a
+   03E4 06 17         [ 7]  513 	ld	b,#0x17
+   03E6                     514 00242$:
+   03E6 29            [11]  515 	add	hl, hl
+   03E7 CB 13         [ 8]  516 	rl	e
+   03E9 CB 12         [ 8]  517 	rl	d
+   03EB 10 F9         [13]  518 	djnz	00242$
+   03ED DD 7E FC      [19]  519 	ld	a,-4 (ix)
+   03F0 B5            [ 4]  520 	or	a, l
+   03F1 DD 77 FC      [19]  521 	ld	-4 (ix),a
+   03F4 DD 7E FD      [19]  522 	ld	a,-3 (ix)
+   03F7 B4            [ 4]  523 	or	a, h
+   03F8 DD 77 FD      [19]  524 	ld	-3 (ix),a
+   03FB DD 7E FE      [19]  525 	ld	a,-2 (ix)
+   03FE B3            [ 4]  526 	or	a, e
+   03FF DD 77 FE      [19]  527 	ld	-2 (ix),a
+   0402 DD 7E FF      [19]  528 	ld	a,-1 (ix)
+   0405 B2            [ 4]  529 	or	a, d
+   0406 DD 77 FF      [19]  530 	ld	-1 (ix),a
+   0409 F5            [11]  531 	push	af
+   040A DD 5E F8      [19]  532 	ld	e,-8 (ix)
+   040D DD 56 F9      [19]  533 	ld	d,-7 (ix)
+   0410 DD 6E FA      [19]  534 	ld	l,-6 (ix)
+   0413 DD 66 FB      [19]  535 	ld	h,-5 (ix)
+   0416 F1            [10]  536 	pop	af
+   0417 06 04         [ 7]  537 	ld	b,#0x04
+   0419                     538 00244$:
+   0419 CB 2C         [ 8]  539 	sra	h
+   041B CB 1D         [ 8]  540 	rr	l
+   041D CB 1A         [ 8]  541 	rr	d
+   041F CB 1B         [ 8]  542 	rr	e
+   0421 10 F6         [13]  543 	djnz	00244$
+   0423 DD 7E FC      [19]  544 	ld	a,-4 (ix)
+   0426 B3            [ 4]  545 	or	a, e
+   0427 5F            [ 4]  546 	ld	e,a
+   0428 DD 7E FD      [19]  547 	ld	a,-3 (ix)
+   042B B2            [ 4]  548 	or	a, d
+   042C 57            [ 4]  549 	ld	d,a
+   042D DD 7E FE      [19]  550 	ld	a,-2 (ix)
+   0430 B5            [ 4]  551 	or	a, l
+   0431 4F            [ 4]  552 	ld	c,a
+   0432 DD 7E FF      [19]  553 	ld	a,-1 (ix)
+   0435 B4            [ 4]  554 	or	a, h
+   0436 47            [ 4]  555 	ld	b,a
+   0437 DD 6E E8      [19]  556 	ld	l,-24 (ix)
+   043A DD 66 E9      [19]  557 	ld	h,-23 (ix)
+   043D 73            [ 7]  558 	ld	(hl),e
+   043E 23            [ 6]  559 	inc	hl
+   043F 72            [ 7]  560 	ld	(hl),d
+   0440 23            [ 6]  561 	inc	hl
+   0441 71            [ 7]  562 	ld	(hl),c
+   0442 23            [ 6]  563 	inc	hl
+   0443 70            [ 7]  564 	ld	(hl),b
+   0444                     565 00136$:
+                            566 ;../_fsadd.c:249: return (a1);
+   0444 DD 6E 04      [19]  567 	ld	l,4 (ix)
+   0447 DD 66 05      [19]  568 	ld	h,5 (ix)
+   044A DD 5E 06      [19]  569 	ld	e,6 (ix)
+   044D DD 56 07      [19]  570 	ld	d,7 (ix)
+   0450                     571 00137$:
+   0450 DD F9         [10]  572 	ld	sp, ix
+   0452 DD E1         [14]  573 	pop	ix
+   0454 C9            [10]  574 	ret
+                            575 	.area _HOME
+                            576 ;--------------------------------------------------------
+                            577 ; code
+                            578 ;--------------------------------------------------------
+                            579 	.area _CODE
+                            580 	.area _CODE
+                            581 	.area _INITIALIZER
+                            582 	.area _CABS (ABS)

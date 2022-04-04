@@ -1,0 +1,135 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:16 2022
+                              5 ;--------------------------------------------------------
+                              6 	.r3k
+                              7 	.module ceilf
+                              8 	.optsdcc -mr3ka
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl _ceilf
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 	.area _HOME
+                             41 ;--------------------------------------------------------
+                             42 ; code
+                             43 ;--------------------------------------------------------
+                             44 	.area _CODE
+                             45 ;../ceilf.c:33: float ceilf(float x) _FLOAT_FUNC_REENTRANT
+                             46 ;	---------------------------------
+                             47 ; Function ceilf
+                             48 ; ---------------------------------
+   0000                      49 _ceilf::
+   0000 DD E5                50 	push	ix
+   0002 DD 21 00 00          51 	ld	ix,#0
+   0006 DD 39                52 	add	ix,sp
+   0008 27 F8                53 	add	sp, #-8
+                             54 ;../ceilf.c:36: r=x;
+   000A C4 0E                55 	ld	hl, 14 (sp)
+   000C E5                   56 	push	hl
+   000D C4 0E                57 	ld	hl, 14 (sp)
+   000F E5                   58 	push	hl
+   0010 CDr00r00             59 	call	___fs2slong
+   0013 27 04                60 	add	sp, #4
+   0015 DD 75 F8             61 	ld	-8 (ix),l
+   0018 DD 74 F9             62 	ld	-7 (ix),h
+   001B DD 73 FA             63 	ld	-6 (ix),e
+   001E DD 72 FB             64 	ld	-5 (ix),d
+                             65 ;../ceilf.c:38: return r;
+   0021 C4 02                66 	ld	hl, 2 (sp)
+   0023 E5                   67 	push	hl
+   0024 C4 02                68 	ld	hl, 2 (sp)
+   0026 E5                   69 	push	hl
+   0027 CDr00r00             70 	call	___slong2fs
+   002A 27 04                71 	add	sp, #4
+   002C DD 72 FF             72 	ld	-1 (ix),d
+   002F DD 73 FE             73 	ld	-2 (ix),e
+   0032 DD 74 FD             74 	ld	-3 (ix),h
+   0035 DD 75 FC             75 	ld	-4 (ix),l
+                             76 ;../ceilf.c:37: if (r<0)
+   0038 DD CB FB 7E          77 	bit	7, -5 (ix)
+   003C 28 0E                78 	jr	Z,00102$
+                             79 ;../ceilf.c:38: return r;
+   003E DD 6E FC             80 	ld	l,-4 (ix)
+   0041 DD 66 FD             81 	ld	h,-3 (ix)
+   0044 DD 5E FE             82 	ld	e,-2 (ix)
+   0047 DD 56 FF             83 	ld	d,-1 (ix)
+   004A 18 47                84 	jr	00104$
+   004C                      85 00102$:
+                             86 ;../ceilf.c:40: return (r+((r<x)?1:0));
+   004C C4 0E                87 	ld	hl, 14 (sp)
+   004E E5                   88 	push	hl
+   004F C4 0E                89 	ld	hl, 14 (sp)
+   0051 E5                   90 	push	hl
+   0052 C4 0A                91 	ld	hl, 10 (sp)
+   0054 E5                   92 	push	hl
+   0055 C4 0A                93 	ld	hl, 10 (sp)
+   0057 E5                   94 	push	hl
+   0058 CDr00r00             95 	call	___fslt
+   005B 27 08                96 	add	sp, #8
+   005D DD 75 FC             97 	ld	-4 (ix), l
+   0060 7D                   98 	ld	a, l
+   0061 B7                   99 	or	a, a
+   0062 28 06               100 	jr	Z,00106$
+   0064 DD 36 FC 01         101 	ld	-4 (ix),#0x01
+   0068 18 04               102 	jr	00107$
+   006A                     103 00106$:
+   006A DD 36 FC 00         104 	ld	-4 (ix),#0x00
+   006E                     105 00107$:
+   006E DD 6E FC            106 	ld	l,-4 (ix)
+   0071 26 00               107 	ld	h,#0x00
+   0073 7C                  108 	ld	a,h
+   0074 17                  109 	rla
+   0075 9F                  110 	sbc	a, a
+   0076 5F                  111 	ld	e,a
+   0077 57                  112 	ld	d,a
+   0078 DD 7E F8            113 	ld	a,-8 (ix)
+   007B 85                  114 	add	a, l
+   007C 6F                  115 	ld	l,a
+   007D DD 7E F9            116 	ld	a,-7 (ix)
+   0080 8C                  117 	adc	a, h
+   0081 67                  118 	ld	h,a
+   0082 DD 7E FA            119 	ld	a,-6 (ix)
+   0085 8B                  120 	adc	a, e
+   0086 5F                  121 	ld	e,a
+   0087 DD 7E FB            122 	ld	a,-5 (ix)
+   008A 8A                  123 	adc	a, d
+   008B 57                  124 	ld	d,a
+   008C D5                  125 	push	de
+   008D E5                  126 	push	hl
+   008E CDr00r00            127 	call	___slong2fs
+   0091 27 04               128 	add	sp, #4
+   0093                     129 00104$:
+   0093 DD F9               130 	ld	sp, ix
+   0095 DD E1               131 	pop	ix
+   0097 C9                  132 	ret
+                            133 	.area _CODE
+                            134 	.area _INITIALIZER
+                            135 	.area _CABS (ABS)

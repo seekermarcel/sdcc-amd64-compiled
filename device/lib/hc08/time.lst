@@ -1,0 +1,1329 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:35 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module time
+                              7 	.optsdcc -mhc08
+                              8 	
+                              9 	.area HOME    (CODE)
+                             10 	.area GSINIT0 (CODE)
+                             11 	.area GSINIT  (CODE)
+                             12 	.area GSFINAL (CODE)
+                             13 	.area CSEG    (CODE)
+                             14 	.area XINIT   (CODE)
+                             15 	.area CONST   (CODE)
+                             16 	.area DSEG    (PAG)
+                             17 	.area OSEG    (PAG, OVR)
+                             18 	.area XSEG
+                             19 	.area XISEG
+                             20 ;--------------------------------------------------------
+                             21 ; Public variables in this module
+                             22 ;--------------------------------------------------------
+                             23 	.globl ___day
+                             24 	.globl ___month
+                             25 	.globl _RtcRead
+                             26 	.globl _sprintf
+                             27 	.globl _time
+                             28 	.globl _asctime
+                             29 	.globl _ctime
+                             30 	.globl _localtime
+                             31 	.globl _gmtime
+                             32 	.globl _mktime
+                             33 ;--------------------------------------------------------
+                             34 ; ram data
+                             35 ;--------------------------------------------------------
+                             36 	.area DSEG    (PAG)
+   0000                      37 _asctime_sloc0_1_0:
+   0000                      38 	.ds 2
+   0002                      39 _asctime_sloc1_1_0:
+   0002                      40 	.ds 2
+   0004                      41 _asctime_sloc2_1_0:
+   0004                      42 	.ds 2
+   0006                      43 _asctime_sloc3_1_0:
+   0006                      44 	.ds 2
+   0008                      45 _asctime_sloc4_1_0:
+   0008                      46 	.ds 2
+   000A                      47 _asctime_sloc5_1_0:
+   000A                      48 	.ds 2
+   000C                      49 _gmtime_sloc0_1_0:
+   000C                      50 	.ds 4
+   0010                      51 _gmtime_sloc1_1_0:
+   0010                      52 	.ds 4
+   0014                      53 _gmtime_sloc2_1_0:
+   0014                      54 	.ds 2
+   0016                      55 _gmtime_sloc3_1_0:
+   0016                      56 	.ds 4
+   001A                      57 _mktime_sloc0_1_0:
+   001A                      58 	.ds 4
+   001E                      59 _mktime_sloc1_1_0:
+   001E                      60 	.ds 2
+                             61 ;--------------------------------------------------------
+                             62 ; overlayable items in ram 
+                             63 ;--------------------------------------------------------
+                             64 	.area	OSEG    (PAG, OVR)
+   0000                      65 _CheckTime_sloc0_1_0:
+   0000                      66 	.ds 2
+                             67 ;--------------------------------------------------------
+                             68 ; absolute ram data
+                             69 ;--------------------------------------------------------
+                             70 	.area IABS    (ABS)
+                             71 	.area IABS    (ABS)
+                             72 ;--------------------------------------------------------
+                             73 ; absolute external ram data
+                             74 ;--------------------------------------------------------
+                             75 	.area XABS    (ABS)
+                             76 ;--------------------------------------------------------
+                             77 ; external initialized ram data
+                             78 ;--------------------------------------------------------
+                             79 	.area XISEG
+                             80 ;--------------------------------------------------------
+                             81 ; extended address mode data
+                             82 ;--------------------------------------------------------
+                             83 	.area XSEG
+   0000                      84 _time_now_1_21:
+   0000                      85 	.ds 12
+   000C                      86 _time_t_1_21:
+   000C                      87 	.ds 4
+   0010                      88 _ascTimeBuffer:
+   0010                      89 	.ds 32
+   0030                      90 _CheckTime_timeptr_1_24:
+   0030                      91 	.ds 2
+   0032                      92 _asctime_timeptr_1_26:
+   0032                      93 	.ds 2
+   0034                      94 _lastTime:
+   0034                      95 	.ds 12
+   0040                      96 _gmtime_epoch_1_33:
+   0040                      97 	.ds 4
+   0044                      98 _gmtime_days_1_33:
+   0044                      99 	.ds 4
+   0048                     100 _mktime_timeptr_1_42:
+   0048                     101 	.ds 2
+   004A                     102 _mktime_year_1_43:
+   004A                     103 	.ds 2
+   004C                     104 _mktime_month_1_43:
+   004C                     105 	.ds 2
+   004E                     106 _mktime_seconds_1_43:
+   004E                     107 	.ds 4
+                            108 ;--------------------------------------------------------
+                            109 ; global & static initialisations
+                            110 ;--------------------------------------------------------
+                            111 	.area HOME    (CODE)
+                            112 	.area GSINIT  (CODE)
+                            113 	.area GSFINAL (CODE)
+                            114 	.area GSINIT  (CODE)
+                            115 ;--------------------------------------------------------
+                            116 ; Home
+                            117 ;--------------------------------------------------------
+                            118 	.area HOME    (CODE)
+                            119 	.area HOME    (CODE)
+                            120 ;--------------------------------------------------------
+                            121 ; code
+                            122 ;--------------------------------------------------------
+                            123 	.area CSEG    (CODE)
+                            124 ;------------------------------------------------------------
+                            125 ;Allocation info for local variables in function 'RtcRead'
+                            126 ;------------------------------------------------------------
+                            127 ;timeptr                   Allocated to registers 
+                            128 ;------------------------------------------------------------
+                            129 ;../time.c:42: unsigned char RtcRead(struct tm *timeptr) {
+                            130 ;	-----------------------------------------
+                            131 ;	 function RtcRead
+                            132 ;	-----------------------------------------
+                            133 ;	Register assignment is optimal.
+                            134 ;	Stack space usage: 0 bytes.
+   0000                     135 _RtcRead:
+                            136 ;../time.c:45: return 0;
+   0000 4F            [ 1]  137 	clra
+   0001 81            [ 4]  138 	rts
+                            139 ;------------------------------------------------------------
+                            140 ;Allocation info for local variables in function 'time'
+                            141 ;------------------------------------------------------------
+                            142 ;timeptr                   Allocated to registers x h 
+                            143 ;now                       Allocated with name '_time_now_1_21'
+                            144 ;t                         Allocated with name '_time_t_1_21'
+                            145 ;------------------------------------------------------------
+                            146 ;../time.c:50: time_t time(time_t *timeptr) {
+                            147 ;	-----------------------------------------
+                            148 ;	 function time
+                            149 ;	-----------------------------------------
+                            150 ;	Register assignment is optimal.
+                            151 ;	Stack space usage: 0 bytes.
+   0002                     152 _time:
+   0002 89            [ 2]  153 	pshx
+   0003 97            [ 1]  154 	tax
+   0004 8A            [ 2]  155 	pulh
+                            156 ;../time.c:52: time_t t=(time_t) -1;
+   0005 A6 FF         [ 2]  157 	lda	#0xFF
+   0007 C7r00r0C      [ 4]  158 	sta	_time_t_1_21
+   000A C7r00r0D      [ 4]  159 	sta	(_time_t_1_21 + 1)
+   000D C7r00r0E      [ 4]  160 	sta	(_time_t_1_21 + 2)
+   0010 C7r00r0F      [ 4]  161 	sta	(_time_t_1_21 + 3)
+                            162 ;../time.c:54: if (RtcRead(&now)) {
+   0013 89            [ 2]  163 	pshx
+   0014 8B            [ 2]  164 	pshh
+   0015 A6r00         [ 2]  165 	lda	#_time_now_1_21
+   0017 AEs00         [ 2]  166 	ldx	#>_time_now_1_21
+   0019 CDr00r00      [ 5]  167 	jsr	_RtcRead
+   001C 8A            [ 2]  168 	pulh
+   001D 88            [ 2]  169 	pulx
+   001E 4D            [ 1]  170 	tsta
+   001F 27 1B         [ 3]  171 	beq	00102$
+                            172 ;../time.c:55: t=mktime(&now);
+   0021 89            [ 2]  173 	pshx
+   0022 8B            [ 2]  174 	pshh
+   0023 A6r00         [ 2]  175 	lda	#_time_now_1_21
+   0025 AEs00         [ 2]  176 	ldx	#>_time_now_1_21
+   0027 CDr04r6E      [ 5]  177 	jsr	_mktime
+   002A C7r00r0F      [ 4]  178 	sta	(_time_t_1_21 + 3)
+   002D CFr00r0E      [ 4]  179 	stx	(_time_t_1_21 + 2)
+   0030 B6*00         [ 3]  180 	lda	*___SDCC_hc08_ret2
+   0032 C7r00r0D      [ 4]  181 	sta	(_time_t_1_21 + 1)
+   0035 B6*00         [ 3]  182 	lda	*___SDCC_hc08_ret3
+   0037 C7r00r0C      [ 4]  183 	sta	_time_t_1_21
+   003A 8A            [ 2]  184 	pulh
+   003B 88            [ 2]  185 	pulx
+   003C                     186 00102$:
+                            187 ;../time.c:57: if (timeptr) {
+   003C 65 00 00      [ 3]  188 	cphx	#0x00
+   003F 27 13         [ 3]  189 	beq	00104$
+                            190 ;../time.c:58: *timeptr=t;
+   0041 C6r00r0C      [ 4]  191 	lda	_time_t_1_21
+   0044 F7            [ 2]  192 	sta	,x
+   0045 C6r00r0D      [ 4]  193 	lda	(_time_t_1_21 + 1)
+   0048 E7 01         [ 3]  194 	sta	1,x
+   004A C6r00r0E      [ 4]  195 	lda	(_time_t_1_21 + 2)
+   004D E7 02         [ 3]  196 	sta	2,x
+   004F C6r00r0F      [ 4]  197 	lda	(_time_t_1_21 + 3)
+   0052 E7 03         [ 3]  198 	sta	3,x
+   0054                     199 00104$:
+                            200 ;../time.c:60: return t;
+   0054 C6r00r0C      [ 4]  201 	lda	_time_t_1_21
+   0057 B7*00         [ 3]  202 	sta	*___SDCC_hc08_ret3
+   0059 C6r00r0D      [ 4]  203 	lda	(_time_t_1_21 + 1)
+   005C B7*00         [ 3]  204 	sta	*___SDCC_hc08_ret2
+   005E CEr00r0E      [ 4]  205 	ldx	(_time_t_1_21 + 2)
+   0061 C6r00r0F      [ 4]  206 	lda	(_time_t_1_21 + 3)
+   0064 81            [ 4]  207 	rts
+                            208 ;------------------------------------------------------------
+                            209 ;Allocation info for local variables in function 'CheckTime'
+                            210 ;------------------------------------------------------------
+                            211 ;timeptr                   Allocated with name '_CheckTime_timeptr_1_24'
+                            212 ;sloc0                     Allocated with name '_CheckTime_sloc0_1_0'
+                            213 ;------------------------------------------------------------
+                            214 ;../time.c:73: static void CheckTime(struct tm *timeptr) {
+                            215 ;	-----------------------------------------
+                            216 ;	 function CheckTime
+                            217 ;	-----------------------------------------
+                            218 ;	Register assignment is optimal.
+                            219 ;	Stack space usage: 0 bytes.
+   0065                     220 _CheckTime:
+   0065 C7r00r31      [ 4]  221 	sta	(_CheckTime_timeptr_1_24 + 1)
+   0068 CFr00r30      [ 4]  222 	stx	_CheckTime_timeptr_1_24
+                            223 ;../time.c:84: if (timeptr->tm_sec>59) timeptr->tm_sec=59;
+   006B C6r00r30      [ 4]  224 	lda	_CheckTime_timeptr_1_24
+   006E 87            [ 2]  225 	psha
+   006F 8A            [ 2]  226 	pulh
+   0070 CEr00r31      [ 4]  227 	ldx	(_CheckTime_timeptr_1_24 + 1)
+   0073 FE            [ 2]  228 	ldx	,x
+   0074 A3 3B         [ 2]  229 	cpx	#0x3B
+   0076 23 0B         [ 3]  230 	bls	00102$
+   0078 C6r00r30      [ 4]  231 	lda	_CheckTime_timeptr_1_24
+   007B 87            [ 2]  232 	psha
+   007C 8A            [ 2]  233 	pulh
+   007D CEr00r31      [ 4]  234 	ldx	(_CheckTime_timeptr_1_24 + 1)
+   0080 A6 3B         [ 2]  235 	lda	#0x3B
+   0082 F7            [ 2]  236 	sta	,x
+   0083                     237 00102$:
+                            238 ;../time.c:85: if (timeptr->tm_min>59) timeptr->tm_min=59;
+   0083 C6r00r30      [ 4]  239 	lda	_CheckTime_timeptr_1_24
+   0086 87            [ 2]  240 	psha
+   0087 8A            [ 2]  241 	pulh
+   0088 CEr00r31      [ 4]  242 	ldx	(_CheckTime_timeptr_1_24 + 1)
+   008B E6 01         [ 3]  243 	lda	1,x
+   008D A1 3B         [ 2]  244 	cmp	#0x3B
+   008F 23 04         [ 3]  245 	bls	00104$
+   0091 A6 3B         [ 2]  246 	lda	#0x3B
+   0093 E7 01         [ 3]  247 	sta	1,x
+   0095                     248 00104$:
+                            249 ;../time.c:86: if (timeptr->tm_hour>23) timeptr->tm_hour=23;
+   0095 C6r00r30      [ 4]  250 	lda	_CheckTime_timeptr_1_24
+   0098 87            [ 2]  251 	psha
+   0099 8A            [ 2]  252 	pulh
+   009A CEr00r31      [ 4]  253 	ldx	(_CheckTime_timeptr_1_24 + 1)
+   009D E6 02         [ 3]  254 	lda	2,x
+   009F A1 17         [ 2]  255 	cmp	#0x17
+   00A1 23 04         [ 3]  256 	bls	00106$
+   00A3 A6 17         [ 2]  257 	lda	#0x17
+   00A5 E7 02         [ 3]  258 	sta	2,x
+   00A7                     259 00106$:
+                            260 ;../time.c:87: if (timeptr->tm_wday>6) timeptr->tm_wday=6;
+   00A7 C6r00r30      [ 4]  261 	lda	_CheckTime_timeptr_1_24
+   00AA 87            [ 2]  262 	psha
+   00AB 8A            [ 2]  263 	pulh
+   00AC CEr00r31      [ 4]  264 	ldx	(_CheckTime_timeptr_1_24 + 1)
+   00AF E6 07         [ 3]  265 	lda	7,x
+   00B1 A1 06         [ 2]  266 	cmp	#0x06
+   00B3 23 04         [ 3]  267 	bls	00108$
+   00B5 A6 06         [ 2]  268 	lda	#0x06
+   00B7 E7 07         [ 3]  269 	sta	7,x
+   00B9                     270 00108$:
+                            271 ;../time.c:88: if (timeptr->tm_mday<1) timeptr->tm_mday=1;
+   00B9 C6r00r30      [ 4]  272 	lda	_CheckTime_timeptr_1_24
+   00BC 87            [ 2]  273 	psha
+   00BD 8A            [ 2]  274 	pulh
+   00BE CEr00r31      [ 4]  275 	ldx	(_CheckTime_timeptr_1_24 + 1)
+   00C1 E6 03         [ 3]  276 	lda	3,x
+   00C3 A1 01         [ 2]  277 	cmp	#0x01
+   00C5 24 06         [ 3]  278 	bcc	00112$
+   00C7 A6 01         [ 2]  279 	lda	#0x01
+   00C9 E7 03         [ 3]  280 	sta	3,x
+   00CB 20 08         [ 3]  281 	bra	00113$
+   00CD                     282 00112$:
+                            283 ;../time.c:89: else if (timeptr->tm_mday>31) timeptr->tm_mday=31;
+   00CD A1 1F         [ 2]  284 	cmp	#0x1F
+   00CF 23 04         [ 3]  285 	bls	00113$
+   00D1 A6 1F         [ 2]  286 	lda	#0x1F
+   00D3 E7 03         [ 3]  287 	sta	3,x
+   00D5                     288 00113$:
+                            289 ;../time.c:90: if (timeptr->tm_mon>11) timeptr->tm_mon=11;
+   00D5 C6r00r30      [ 4]  290 	lda	_CheckTime_timeptr_1_24
+   00D8 87            [ 2]  291 	psha
+   00D9 8A            [ 2]  292 	pulh
+   00DA CEr00r31      [ 4]  293 	ldx	(_CheckTime_timeptr_1_24 + 1)
+   00DD E6 04         [ 3]  294 	lda	4,x
+   00DF A1 0B         [ 2]  295 	cmp	#0x0B
+   00E1 23 04         [ 3]  296 	bls	00115$
+   00E3 A6 0B         [ 2]  297 	lda	#0x0B
+   00E5 E7 04         [ 3]  298 	sta	4,x
+   00E7                     299 00115$:
+                            300 ;../time.c:91: if (timeptr->tm_year<0) timeptr->tm_year=0;
+   00E7 C6r00r30      [ 4]  301 	lda	_CheckTime_timeptr_1_24
+   00EA 87            [ 2]  302 	psha
+   00EB 8A            [ 2]  303 	pulh
+   00EC CEr00r31      [ 4]  304 	ldx	(_CheckTime_timeptr_1_24 + 1)
+   00EF E6 05         [ 3]  305 	lda	5,x
+   00F1 B7*00         [ 3]  306 	sta	*_CheckTime_sloc0_1_0
+   00F3 E6 06         [ 3]  307 	lda	6,x
+   00F5 B7*01         [ 3]  308 	sta	*(_CheckTime_sloc0_1_0 + 1)
+   00F7 B6*00         [ 3]  309 	lda	*_CheckTime_sloc0_1_0
+   00F9 A0 00         [ 2]  310 	sub	#0x00
+   00FB 90 05         [ 3]  311 	bge	00118$
+   00FD 4F            [ 1]  312 	clra
+   00FE E7 05         [ 3]  313 	sta	5,x
+   0100 E7 06         [ 3]  314 	sta	6,x
+   0102                     315 00118$:
+   0102 81            [ 4]  316 	rts
+                            317 ;------------------------------------------------------------
+                            318 ;Allocation info for local variables in function 'asctime'
+                            319 ;------------------------------------------------------------
+                            320 ;sloc0                     Allocated with name '_asctime_sloc0_1_0'
+                            321 ;sloc1                     Allocated with name '_asctime_sloc1_1_0'
+                            322 ;sloc2                     Allocated with name '_asctime_sloc2_1_0'
+                            323 ;sloc3                     Allocated with name '_asctime_sloc3_1_0'
+                            324 ;sloc4                     Allocated with name '_asctime_sloc4_1_0'
+                            325 ;sloc5                     Allocated with name '_asctime_sloc5_1_0'
+                            326 ;timeptr                   Allocated with name '_asctime_timeptr_1_26'
+                            327 ;------------------------------------------------------------
+                            328 ;../time.c:95: char *asctime(struct tm *timeptr) {
+                            329 ;	-----------------------------------------
+                            330 ;	 function asctime
+                            331 ;	-----------------------------------------
+                            332 ;	Register assignment is optimal.
+                            333 ;	Stack space usage: 0 bytes.
+   0103                     334 _asctime:
+   0103 C7r00r33      [ 4]  335 	sta	(_asctime_timeptr_1_26 + 1)
+   0106 CFr00r32      [ 4]  336 	stx	_asctime_timeptr_1_26
+                            337 ;../time.c:96: CheckTime(timeptr);
+   0109 C6r00r33      [ 4]  338 	lda	(_asctime_timeptr_1_26 + 1)
+   010C CEr00r32      [ 4]  339 	ldx	_asctime_timeptr_1_26
+   010F CDr00r65      [ 5]  340 	jsr	_CheckTime
+                            341 ;../time.c:100: timeptr->tm_year+1900);
+   0112 C6r00r32      [ 4]  342 	lda	_asctime_timeptr_1_26
+   0115 87            [ 2]  343 	psha
+   0116 8A            [ 2]  344 	pulh
+   0117 CEr00r33      [ 4]  345 	ldx	(_asctime_timeptr_1_26 + 1)
+   011A E6 06         [ 3]  346 	lda	6,x
+   011C EE 05         [ 3]  347 	ldx	5,x
+   011E AB 6C         [ 2]  348 	add	#0x6C
+   0120 B7*01         [ 3]  349 	sta	*(_asctime_sloc0_1_0 + 1)
+   0122 9F            [ 1]  350 	txa
+   0123 A9 07         [ 2]  351 	adc	#0x07
+   0125 B7*00         [ 3]  352 	sta	*_asctime_sloc0_1_0
+                            353 ;../time.c:99: timeptr->tm_hour, timeptr->tm_min, timeptr->tm_sec, 
+   0127 C6r00r32      [ 4]  354 	lda	_asctime_timeptr_1_26
+   012A 87            [ 2]  355 	psha
+   012B 8A            [ 2]  356 	pulh
+   012C CEr00r33      [ 4]  357 	ldx	(_asctime_timeptr_1_26 + 1)
+   012F FE            [ 2]  358 	ldx	,x
+   0130 BF*03         [ 3]  359 	stx	*(_asctime_sloc1_1_0 + 1)
+   0132 6E 00*02      [ 4]  360 	mov	#0x00,*_asctime_sloc1_1_0
+   0135 C6r00r32      [ 4]  361 	lda	_asctime_timeptr_1_26
+   0138 87            [ 2]  362 	psha
+   0139 8A            [ 2]  363 	pulh
+   013A CEr00r33      [ 4]  364 	ldx	(_asctime_timeptr_1_26 + 1)
+   013D EE 01         [ 3]  365 	ldx	1,x
+   013F BF*05         [ 3]  366 	stx	*(_asctime_sloc2_1_0 + 1)
+   0141 6E 00*04      [ 4]  367 	mov	#0x00,*_asctime_sloc2_1_0
+   0144 C6r00r32      [ 4]  368 	lda	_asctime_timeptr_1_26
+   0147 87            [ 2]  369 	psha
+   0148 8A            [ 2]  370 	pulh
+   0149 CEr00r33      [ 4]  371 	ldx	(_asctime_timeptr_1_26 + 1)
+   014C EE 02         [ 3]  372 	ldx	2,x
+   014E BF*07         [ 3]  373 	stx	*(_asctime_sloc3_1_0 + 1)
+   0150 6E 00*06      [ 4]  374 	mov	#0x00,*_asctime_sloc3_1_0
+                            375 ;../time.c:98: __day[timeptr->tm_wday], __month[timeptr->tm_mon], timeptr->tm_mday,
+   0153 C6r00r32      [ 4]  376 	lda	_asctime_timeptr_1_26
+   0156 87            [ 2]  377 	psha
+   0157 8A            [ 2]  378 	pulh
+   0158 CEr00r33      [ 4]  379 	ldx	(_asctime_timeptr_1_26 + 1)
+   015B EE 03         [ 3]  380 	ldx	3,x
+   015D BF*09         [ 3]  381 	stx	*(_asctime_sloc4_1_0 + 1)
+   015F 6E 00*08      [ 4]  382 	mov	#0x00,*_asctime_sloc4_1_0
+   0162 C6r00r32      [ 4]  383 	lda	_asctime_timeptr_1_26
+   0165 87            [ 2]  384 	psha
+   0166 8A            [ 2]  385 	pulh
+   0167 CEr00r33      [ 4]  386 	ldx	(_asctime_timeptr_1_26 + 1)
+   016A E6 04         [ 3]  387 	lda	4,x
+   016C AE 02         [ 2]  388 	ldx	#0x02
+   016E 42            [ 5]  389 	mul
+   016F 89            [ 2]  390 	pshx
+   0170 8A            [ 2]  391 	pulh
+   0171 97            [ 1]  392 	tax
+   0172 D6r00r0D      [ 4]  393 	lda	(___month+1),x
+   0175 DEr00r0C      [ 4]  394 	ldx	(___month),x
+   0178 B7*0B         [ 3]  395 	sta	*(_asctime_sloc5_1_0 + 1)
+   017A BF*0A         [ 3]  396 	stx	*_asctime_sloc5_1_0
+   017C C6r00r32      [ 4]  397 	lda	_asctime_timeptr_1_26
+   017F 87            [ 2]  398 	psha
+   0180 8A            [ 2]  399 	pulh
+   0181 CEr00r33      [ 4]  400 	ldx	(_asctime_timeptr_1_26 + 1)
+   0184 E6 07         [ 3]  401 	lda	7,x
+   0186 AE 02         [ 2]  402 	ldx	#0x02
+   0188 42            [ 5]  403 	mul
+   0189 89            [ 2]  404 	pshx
+   018A 8A            [ 2]  405 	pulh
+   018B 97            [ 1]  406 	tax
+   018C D6r00r24      [ 4]  407 	lda	(___day),x
+   018F 87            [ 2]  408 	psha
+   0190 DEr00r25      [ 4]  409 	ldx	(___day+1),x
+   0193 8A            [ 2]  410 	pulh
+                            411 ;../time.c:97: sprintf (ascTimeBuffer, "%s %s %2d %02d:%02d:%02d %04d\n",
+   0194 B6*01         [ 3]  412 	lda	*(_asctime_sloc0_1_0 + 1)
+   0196 87            [ 2]  413 	psha
+   0197 B6*00         [ 3]  414 	lda	*_asctime_sloc0_1_0
+   0199 87            [ 2]  415 	psha
+   019A B6*03         [ 3]  416 	lda	*(_asctime_sloc1_1_0 + 1)
+   019C 87            [ 2]  417 	psha
+   019D B6*02         [ 3]  418 	lda	*_asctime_sloc1_1_0
+   019F 87            [ 2]  419 	psha
+   01A0 B6*05         [ 3]  420 	lda	*(_asctime_sloc2_1_0 + 1)
+   01A2 87            [ 2]  421 	psha
+   01A3 B6*04         [ 3]  422 	lda	*_asctime_sloc2_1_0
+   01A5 87            [ 2]  423 	psha
+   01A6 B6*07         [ 3]  424 	lda	*(_asctime_sloc3_1_0 + 1)
+   01A8 87            [ 2]  425 	psha
+   01A9 B6*06         [ 3]  426 	lda	*_asctime_sloc3_1_0
+   01AB 87            [ 2]  427 	psha
+   01AC B6*09         [ 3]  428 	lda	*(_asctime_sloc4_1_0 + 1)
+   01AE 87            [ 2]  429 	psha
+   01AF B6*08         [ 3]  430 	lda	*_asctime_sloc4_1_0
+   01B1 87            [ 2]  431 	psha
+   01B2 B6*0B         [ 3]  432 	lda	*(_asctime_sloc5_1_0 + 1)
+   01B4 87            [ 2]  433 	psha
+   01B5 B6*0A         [ 3]  434 	lda	*_asctime_sloc5_1_0
+   01B7 87            [ 2]  435 	psha
+   01B8 89            [ 2]  436 	pshx
+   01B9 8B            [ 2]  437 	pshh
+   01BA A6r32         [ 2]  438 	lda	#___str_0
+   01BC 87            [ 2]  439 	psha
+   01BD A6s00         [ 2]  440 	lda	#>___str_0
+   01BF 87            [ 2]  441 	psha
+   01C0 A6r10         [ 2]  442 	lda	#_ascTimeBuffer
+   01C2 87            [ 2]  443 	psha
+   01C3 A6s00         [ 2]  444 	lda	#>_ascTimeBuffer
+   01C5 87            [ 2]  445 	psha
+   01C6 CDr00r00      [ 5]  446 	jsr	_sprintf
+   01C9 A7 12         [ 2]  447 	ais	#18
+                            448 ;../time.c:101: return ascTimeBuffer;
+   01CB AEs00         [ 2]  449 	ldx	#>_ascTimeBuffer
+   01CD A6r10         [ 2]  450 	lda	#_ascTimeBuffer
+   01CF 81            [ 4]  451 	rts
+                            452 ;------------------------------------------------------------
+                            453 ;Allocation info for local variables in function 'ctime'
+                            454 ;------------------------------------------------------------
+                            455 ;timep                     Allocated to registers a x 
+                            456 ;------------------------------------------------------------
+                            457 ;../time.c:104: char *ctime(time_t *timep) {
+                            458 ;	-----------------------------------------
+                            459 ;	 function ctime
+                            460 ;	-----------------------------------------
+                            461 ;	Register assignment is optimal.
+                            462 ;	Stack space usage: 0 bytes.
+   01D0                     463 _ctime:
+                            464 ;../time.c:105: return asctime(localtime(timep));
+   01D0 CDr01rD6      [ 5]  465 	jsr	_localtime
+   01D3 CCr01r03      [ 3]  466 	jmp	_asctime
+                            467 ;------------------------------------------------------------
+                            468 ;Allocation info for local variables in function 'localtime'
+                            469 ;------------------------------------------------------------
+                            470 ;timep                     Allocated to registers a x 
+                            471 ;------------------------------------------------------------
+                            472 ;../time.c:121: struct tm *localtime(time_t *timep) {
+                            473 ;	-----------------------------------------
+                            474 ;	 function localtime
+                            475 ;	-----------------------------------------
+                            476 ;	Register assignment is optimal.
+                            477 ;	Stack space usage: 0 bytes.
+   01D6                     478 _localtime:
+                            479 ;../time.c:122: return gmtime(timep);
+   01D6 CCr01rD9      [ 3]  480 	jmp	_gmtime
+                            481 ;------------------------------------------------------------
+                            482 ;Allocation info for local variables in function 'gmtime'
+                            483 ;------------------------------------------------------------
+                            484 ;sloc0                     Allocated with name '_gmtime_sloc0_1_0'
+                            485 ;sloc1                     Allocated with name '_gmtime_sloc1_1_0'
+                            486 ;sloc2                     Allocated with name '_gmtime_sloc2_1_0'
+                            487 ;sloc3                     Allocated with name '_gmtime_sloc3_1_0'
+                            488 ;timep                     Allocated to registers x h 
+                            489 ;epoch                     Allocated with name '_gmtime_epoch_1_33'
+                            490 ;year                      Allocated to registers 
+                            491 ;month                     Allocated to registers 
+                            492 ;monthLength               Allocated to registers x 
+                            493 ;days                      Allocated with name '_gmtime_days_1_33'
+                            494 ;------------------------------------------------------------
+                            495 ;../time.c:125: struct tm *gmtime(time_t *timep) {
+                            496 ;	-----------------------------------------
+                            497 ;	 function gmtime
+                            498 ;	-----------------------------------------
+                            499 ;	Register assignment is optimal.
+                            500 ;	Stack space usage: 0 bytes.
+   01D9                     501 _gmtime:
+   01D9 89            [ 2]  502 	pshx
+   01DA 97            [ 1]  503 	tax
+   01DB 8A            [ 2]  504 	pulh
+                            505 ;../time.c:126: unsigned long epoch=*timep;
+   01DC F6            [ 2]  506 	lda	,x
+   01DD B7*0C         [ 3]  507 	sta	*_gmtime_sloc0_1_0
+   01DF E6 01         [ 3]  508 	lda	1,x
+   01E1 B7*0D         [ 3]  509 	sta	*(_gmtime_sloc0_1_0 + 1)
+   01E3 E6 02         [ 3]  510 	lda	2,x
+   01E5 B7*0E         [ 3]  511 	sta	*(_gmtime_sloc0_1_0 + 2)
+   01E7 E6 03         [ 3]  512 	lda	3,x
+   01E9 B7*0F         [ 3]  513 	sta	*(_gmtime_sloc0_1_0 + 3)
+                            514 ;../time.c:131: lastTime.tm_sec=epoch%60;
+   01EB 45r00r00      [ 3]  515 	ldhx	#__modulong_PARM_1
+   01EE 5E*0C         [ 4]  516 	mov	*_gmtime_sloc0_1_0,x+
+   01F0 5E*0D         [ 4]  517 	mov	*(_gmtime_sloc0_1_0 + 1),x+
+   01F2 5E*0E         [ 4]  518 	mov	*(_gmtime_sloc0_1_0 + 2),x+
+   01F4 5E*0F         [ 4]  519 	mov	*(_gmtime_sloc0_1_0 + 3),x+
+   01F6 45r00r00      [ 3]  520 	ldhx	#__modulong_PARM_2
+   01F9 4F            [ 1]  521 	clra
+   01FA F7            [ 2]  522 	sta	,x
+   01FB E7 01         [ 3]  523 	sta	1,x
+   01FD E7 02         [ 3]  524 	sta	2,x
+   01FF A6 3C         [ 2]  525 	lda	#0x3C
+   0201 E7 03         [ 3]  526 	sta	3,x
+   0203 CDr00r00      [ 5]  527 	jsr	__modulong
+   0206 B7*13         [ 3]  528 	sta	*(_gmtime_sloc1_1_0 + 3)
+   0208 BF*12         [ 3]  529 	stx	*(_gmtime_sloc1_1_0 + 2)
+   020A 4E*00*11      [ 5]  530 	mov	*___SDCC_hc08_ret2,*(_gmtime_sloc1_1_0 + 1)
+   020D 4E*00*10      [ 5]  531 	mov	*___SDCC_hc08_ret3,*_gmtime_sloc1_1_0
+   0210 BE*13         [ 3]  532 	ldx	*(_gmtime_sloc1_1_0 + 3)
+   0212 CFr00r34      [ 4]  533 	stx	_lastTime
+                            534 ;../time.c:132: epoch/=60; // now it is minutes
+   0215 45r00r00      [ 3]  535 	ldhx	#__divulong_PARM_1
+   0218 5E*0C         [ 4]  536 	mov	*_gmtime_sloc0_1_0,x+
+   021A 5E*0D         [ 4]  537 	mov	*(_gmtime_sloc0_1_0 + 1),x+
+   021C 5E*0E         [ 4]  538 	mov	*(_gmtime_sloc0_1_0 + 2),x+
+   021E 5E*0F         [ 4]  539 	mov	*(_gmtime_sloc0_1_0 + 3),x+
+   0220 45r00r00      [ 3]  540 	ldhx	#__divulong_PARM_2
+   0223 4F            [ 1]  541 	clra
+   0224 F7            [ 2]  542 	sta	,x
+   0225 E7 01         [ 3]  543 	sta	1,x
+   0227 E7 02         [ 3]  544 	sta	2,x
+   0229 A6 3C         [ 2]  545 	lda	#0x3C
+   022B E7 03         [ 3]  546 	sta	3,x
+                            547 ;../time.c:133: lastTime.tm_min=epoch%60;
+   022D CDr00r00      [ 5]  548 	jsr	__divulong
+   0230 B7*13         [ 3]  549 	sta	*(_gmtime_sloc1_1_0 + 3)
+   0232 BF*12         [ 3]  550 	stx	*(_gmtime_sloc1_1_0 + 2)
+   0234 4E*00*11      [ 5]  551 	mov	*___SDCC_hc08_ret2,*(_gmtime_sloc1_1_0 + 1)
+   0237 4E*00*10      [ 5]  552 	mov	*___SDCC_hc08_ret3,*_gmtime_sloc1_1_0
+   023A 45r00r00      [ 3]  553 	ldhx	#__modulong_PARM_1
+   023D 5E*10         [ 4]  554 	mov	*_gmtime_sloc1_1_0,x+
+   023F 5E*11         [ 4]  555 	mov	*(_gmtime_sloc1_1_0 + 1),x+
+   0241 5E*12         [ 4]  556 	mov	*(_gmtime_sloc1_1_0 + 2),x+
+   0243 5E*13         [ 4]  557 	mov	*(_gmtime_sloc1_1_0 + 3),x+
+   0245 45r00r00      [ 3]  558 	ldhx	#__modulong_PARM_2
+   0248 4F            [ 1]  559 	clra
+   0249 F7            [ 2]  560 	sta	,x
+   024A E7 01         [ 3]  561 	sta	1,x
+   024C E7 02         [ 3]  562 	sta	2,x
+   024E A6 3C         [ 2]  563 	lda	#0x3C
+   0250 E7 03         [ 3]  564 	sta	3,x
+   0252 CDr00r00      [ 5]  565 	jsr	__modulong
+   0255 B7*0F         [ 3]  566 	sta	*(_gmtime_sloc0_1_0 + 3)
+   0257 BF*0E         [ 3]  567 	stx	*(_gmtime_sloc0_1_0 + 2)
+   0259 4E*00*0D      [ 5]  568 	mov	*___SDCC_hc08_ret2,*(_gmtime_sloc0_1_0 + 1)
+   025C 4E*00*0C      [ 5]  569 	mov	*___SDCC_hc08_ret3,*_gmtime_sloc0_1_0
+   025F BE*0F         [ 3]  570 	ldx	*(_gmtime_sloc0_1_0 + 3)
+   0261 CFr00r35      [ 4]  571 	stx	(_lastTime + 0x0001)
+                            572 ;../time.c:134: epoch/=60; // now it is hours
+   0264 45r00r00      [ 3]  573 	ldhx	#__divulong_PARM_1
+   0267 5E*10         [ 4]  574 	mov	*_gmtime_sloc1_1_0,x+
+   0269 5E*11         [ 4]  575 	mov	*(_gmtime_sloc1_1_0 + 1),x+
+   026B 5E*12         [ 4]  576 	mov	*(_gmtime_sloc1_1_0 + 2),x+
+   026D 5E*13         [ 4]  577 	mov	*(_gmtime_sloc1_1_0 + 3),x+
+   026F 45r00r00      [ 3]  578 	ldhx	#__divulong_PARM_2
+   0272 4F            [ 1]  579 	clra
+   0273 F7            [ 2]  580 	sta	,x
+   0274 E7 01         [ 3]  581 	sta	1,x
+   0276 E7 02         [ 3]  582 	sta	2,x
+   0278 A6 3C         [ 2]  583 	lda	#0x3C
+   027A E7 03         [ 3]  584 	sta	3,x
+                            585 ;../time.c:135: lastTime.tm_hour=epoch%24;
+   027C CDr00r00      [ 5]  586 	jsr	__divulong
+   027F B7*13         [ 3]  587 	sta	*(_gmtime_sloc1_1_0 + 3)
+   0281 BF*12         [ 3]  588 	stx	*(_gmtime_sloc1_1_0 + 2)
+   0283 4E*00*11      [ 5]  589 	mov	*___SDCC_hc08_ret2,*(_gmtime_sloc1_1_0 + 1)
+   0286 4E*00*10      [ 5]  590 	mov	*___SDCC_hc08_ret3,*_gmtime_sloc1_1_0
+   0289 45r00r00      [ 3]  591 	ldhx	#__modulong_PARM_1
+   028C 5E*10         [ 4]  592 	mov	*_gmtime_sloc1_1_0,x+
+   028E 5E*11         [ 4]  593 	mov	*(_gmtime_sloc1_1_0 + 1),x+
+   0290 5E*12         [ 4]  594 	mov	*(_gmtime_sloc1_1_0 + 2),x+
+   0292 5E*13         [ 4]  595 	mov	*(_gmtime_sloc1_1_0 + 3),x+
+   0294 45r00r00      [ 3]  596 	ldhx	#__modulong_PARM_2
+   0297 4F            [ 1]  597 	clra
+   0298 F7            [ 2]  598 	sta	,x
+   0299 E7 01         [ 3]  599 	sta	1,x
+   029B E7 02         [ 3]  600 	sta	2,x
+   029D A6 18         [ 2]  601 	lda	#0x18
+   029F E7 03         [ 3]  602 	sta	3,x
+   02A1 CDr00r00      [ 5]  603 	jsr	__modulong
+   02A4 B7*0F         [ 3]  604 	sta	*(_gmtime_sloc0_1_0 + 3)
+   02A6 BF*0E         [ 3]  605 	stx	*(_gmtime_sloc0_1_0 + 2)
+   02A8 4E*00*0D      [ 5]  606 	mov	*___SDCC_hc08_ret2,*(_gmtime_sloc0_1_0 + 1)
+   02AB 4E*00*0C      [ 5]  607 	mov	*___SDCC_hc08_ret3,*_gmtime_sloc0_1_0
+   02AE BE*0F         [ 3]  608 	ldx	*(_gmtime_sloc0_1_0 + 3)
+   02B0 CFr00r36      [ 4]  609 	stx	(_lastTime + 0x0002)
+                            610 ;../time.c:136: epoch/=24; // now it is days
+   02B3 45r00r00      [ 3]  611 	ldhx	#__divulong_PARM_1
+   02B6 5E*10         [ 4]  612 	mov	*_gmtime_sloc1_1_0,x+
+   02B8 5E*11         [ 4]  613 	mov	*(_gmtime_sloc1_1_0 + 1),x+
+   02BA 5E*12         [ 4]  614 	mov	*(_gmtime_sloc1_1_0 + 2),x+
+   02BC 5E*13         [ 4]  615 	mov	*(_gmtime_sloc1_1_0 + 3),x+
+   02BE 45r00r00      [ 3]  616 	ldhx	#__divulong_PARM_2
+   02C1 4F            [ 1]  617 	clra
+   02C2 F7            [ 2]  618 	sta	,x
+   02C3 E7 01         [ 3]  619 	sta	1,x
+   02C5 E7 02         [ 3]  620 	sta	2,x
+   02C7 A6 18         [ 2]  621 	lda	#0x18
+   02C9 E7 03         [ 3]  622 	sta	3,x
+                            623 ;../time.c:137: lastTime.tm_wday=(epoch+4)%7;
+   02CB CDr00r00      [ 5]  624 	jsr	__divulong
+   02CE B7*13         [ 3]  625 	sta	*(_gmtime_sloc1_1_0 + 3)
+   02D0 BF*12         [ 3]  626 	stx	*(_gmtime_sloc1_1_0 + 2)
+   02D2 4E*00*11      [ 5]  627 	mov	*___SDCC_hc08_ret2,*(_gmtime_sloc1_1_0 + 1)
+   02D5 4E*00*10      [ 5]  628 	mov	*___SDCC_hc08_ret3,*_gmtime_sloc1_1_0
+   02D8 45r00r00      [ 3]  629 	ldhx	#__modulong_PARM_1
+   02DB B6*13         [ 3]  630 	lda	*(_gmtime_sloc1_1_0 + 3)
+   02DD AB 04         [ 2]  631 	add	#0x04
+   02DF E7 03         [ 3]  632 	sta	3,x
+   02E1 B6*12         [ 3]  633 	lda	*(_gmtime_sloc1_1_0 + 2)
+   02E3 A9 00         [ 2]  634 	adc	#0x00
+   02E5 E7 02         [ 3]  635 	sta	2,x
+   02E7 B6*11         [ 3]  636 	lda	*(_gmtime_sloc1_1_0 + 1)
+   02E9 A9 00         [ 2]  637 	adc	#0x00
+   02EB E7 01         [ 3]  638 	sta	1,x
+   02ED B6*10         [ 3]  639 	lda	*_gmtime_sloc1_1_0
+   02EF A9 00         [ 2]  640 	adc	#0x00
+   02F1 F7            [ 2]  641 	sta	,x
+   02F2 45r00r00      [ 3]  642 	ldhx	#__modulong_PARM_2
+   02F5 4F            [ 1]  643 	clra
+   02F6 F7            [ 2]  644 	sta	,x
+   02F7 E7 01         [ 3]  645 	sta	1,x
+   02F9 E7 02         [ 3]  646 	sta	2,x
+   02FB A6 07         [ 2]  647 	lda	#0x07
+   02FD E7 03         [ 3]  648 	sta	3,x
+   02FF CDr00r00      [ 5]  649 	jsr	__modulong
+   0302 B7*0F         [ 3]  650 	sta	*(_gmtime_sloc0_1_0 + 3)
+   0304 BF*0E         [ 3]  651 	stx	*(_gmtime_sloc0_1_0 + 2)
+   0306 4E*00*0D      [ 5]  652 	mov	*___SDCC_hc08_ret2,*(_gmtime_sloc0_1_0 + 1)
+   0309 4E*00*0C      [ 5]  653 	mov	*___SDCC_hc08_ret3,*_gmtime_sloc0_1_0
+   030C BE*0F         [ 3]  654 	ldx	*(_gmtime_sloc0_1_0 + 3)
+   030E CFr00r3B      [ 4]  655 	stx	(_lastTime + 0x0007)
+                            656 ;../time.c:140: days=0;
+   0311 45r00r44      [ 3]  657 	ldhx	#_gmtime_days_1_33
+   0314 4F            [ 1]  658 	clra
+   0315 F7            [ 2]  659 	sta	,x
+   0316 E7 01         [ 3]  660 	sta	1,x
+   0318 E7 02         [ 3]  661 	sta	2,x
+   031A E7 03         [ 3]  662 	sta	3,x
+                            663 ;../time.c:141: while((days += (LEAP_YEAR(year) ? 366 : 365)) <= epoch) {
+   031C 45 07 B2      [ 3]  664 	ldhx	#0x07B2
+   031F 35*0C         [ 4]  665 	sthx	*_gmtime_sloc0_1_0
+   0321                     666 00101$:
+   0321 B6*0D         [ 3]  667 	lda	*(_gmtime_sloc0_1_0 + 1)
+   0323 A4 03         [ 2]  668 	and	#0x03
+   0325 B7*15         [ 3]  669 	sta	*(_gmtime_sloc2_1_0 + 1)
+   0327 6E 00*14      [ 4]  670 	mov	#0x00,*_gmtime_sloc2_1_0
+   032A B6*15         [ 3]  671 	lda	*(_gmtime_sloc2_1_0 + 1)
+   032C BA*14         [ 3]  672 	ora	*_gmtime_sloc2_1_0
+   032E 26 05         [ 3]  673 	bne	00118$
+   0330 45 01 6E      [ 3]  674 	ldhx	#0x016E
+   0333 20 03         [ 3]  675 	bra	00119$
+   0335                     676 00118$:
+   0335 45 01 6D      [ 3]  677 	ldhx	#0x016D
+   0338                     678 00119$:
+   0338 BF*19         [ 3]  679 	stx	*(_gmtime_sloc3_1_0 + 3)
+   033A 8B            [ 2]  680 	pshh
+   033B 86            [ 2]  681 	pula
+   033C B7*18         [ 3]  682 	sta	*(_gmtime_sloc3_1_0 + 2)
+   033E 49            [ 1]  683 	rola	
+   033F 4F            [ 1]  684 	clra	
+   0340 A2 00         [ 2]  685 	sbc	#0x00
+   0342 B7*17         [ 3]  686 	sta	*(_gmtime_sloc3_1_0 + 1)
+   0344 B7*16         [ 3]  687 	sta	*_gmtime_sloc3_1_0
+   0346 45r00r44      [ 3]  688 	ldhx	#_gmtime_days_1_33
+   0349 E6 03         [ 3]  689 	lda	3,x
+   034B BB*19         [ 3]  690 	add	*(_gmtime_sloc3_1_0 + 3)
+   034D B7*19         [ 3]  691 	sta	*(_gmtime_sloc3_1_0 + 3)
+   034F E6 02         [ 3]  692 	lda	2,x
+   0351 B9*18         [ 3]  693 	adc	*(_gmtime_sloc3_1_0 + 2)
+   0353 B7*18         [ 3]  694 	sta	*(_gmtime_sloc3_1_0 + 2)
+   0355 E6 01         [ 3]  695 	lda	1,x
+   0357 B9*17         [ 3]  696 	adc	*(_gmtime_sloc3_1_0 + 1)
+   0359 B7*17         [ 3]  697 	sta	*(_gmtime_sloc3_1_0 + 1)
+   035B F6            [ 2]  698 	lda	,x
+   035C B9*16         [ 3]  699 	adc	*_gmtime_sloc3_1_0
+   035E B7*16         [ 3]  700 	sta	*_gmtime_sloc3_1_0
+   0360 45r00r44      [ 3]  701 	ldhx	#_gmtime_days_1_33
+   0363 5E*16         [ 4]  702 	mov	*_gmtime_sloc3_1_0,x+
+   0365 5E*17         [ 4]  703 	mov	*(_gmtime_sloc3_1_0 + 1),x+
+   0367 5E*18         [ 4]  704 	mov	*(_gmtime_sloc3_1_0 + 2),x+
+   0369 5E*19         [ 4]  705 	mov	*(_gmtime_sloc3_1_0 + 3),x+
+   036B B6*13         [ 3]  706 	lda	*(_gmtime_sloc1_1_0 + 3)
+   036D B0*19         [ 3]  707 	sub	*(_gmtime_sloc3_1_0 + 3)
+   036F B6*12         [ 3]  708 	lda	*(_gmtime_sloc1_1_0 + 2)
+   0371 B2*18         [ 3]  709 	sbc	*(_gmtime_sloc3_1_0 + 2)
+   0373 B6*11         [ 3]  710 	lda	*(_gmtime_sloc1_1_0 + 1)
+   0375 B2*17         [ 3]  711 	sbc	*(_gmtime_sloc3_1_0 + 1)
+   0377 B6*10         [ 3]  712 	lda	*_gmtime_sloc1_1_0
+   0379 B2*16         [ 3]  713 	sbc	*_gmtime_sloc3_1_0
+   037B 25 08         [ 3]  714 	bcs	00103$
+                            715 ;../time.c:142: year++;
+   037D 55*0C         [ 4]  716 	ldhx	*_gmtime_sloc0_1_0
+   037F AF 01         [ 2]  717 	aix	#1
+   0381 35*0C         [ 4]  718 	sthx	*_gmtime_sloc0_1_0
+   0383 20 9C         [ 3]  719 	bra	00101$
+   0385                     720 00103$:
+                            721 ;../time.c:144: lastTime.tm_year=year-1900;
+   0385 B6*0D         [ 3]  722 	lda	*(_gmtime_sloc0_1_0 + 1)
+   0387 A0 6C         [ 2]  723 	sub	#0x6C
+   0389 97            [ 1]  724 	tax
+   038A B6*0C         [ 3]  725 	lda	*_gmtime_sloc0_1_0
+   038C A2 07         [ 2]  726 	sbc	#0x07
+   038E C7r00r39      [ 4]  727 	sta	(_lastTime + 0x0005)
+   0391 CFr00r3A      [ 4]  728 	stx	((_lastTime + 0x0005) + 1)
+                            729 ;../time.c:146: days -= LEAP_YEAR(year) ? 366 : 365;
+   0394 4E*14*16      [ 5]  730 	mov	*_gmtime_sloc2_1_0,*_gmtime_sloc3_1_0
+   0397 4E*15*17      [ 5]  731 	mov	*(_gmtime_sloc2_1_0 + 1),*(_gmtime_sloc3_1_0 + 1)
+   039A B6*15         [ 3]  732 	lda	*(_gmtime_sloc2_1_0 + 1)
+   039C BA*14         [ 3]  733 	ora	*_gmtime_sloc2_1_0
+   039E 26 05         [ 3]  734 	bne	00120$
+   03A0 45 01 6E      [ 3]  735 	ldhx	#0x016E
+   03A3 20 03         [ 3]  736 	bra	00121$
+   03A5                     737 00120$:
+   03A5 45 01 6D      [ 3]  738 	ldhx	#0x016D
+   03A8                     739 00121$:
+   03A8 BF*0F         [ 3]  740 	stx	*(_gmtime_sloc0_1_0 + 3)
+   03AA 8B            [ 2]  741 	pshh
+   03AB 86            [ 2]  742 	pula
+   03AC B7*0E         [ 3]  743 	sta	*(_gmtime_sloc0_1_0 + 2)
+   03AE 49            [ 1]  744 	rola	
+   03AF 4F            [ 1]  745 	clra	
+   03B0 A2 00         [ 2]  746 	sbc	#0x00
+   03B2 B7*0D         [ 3]  747 	sta	*(_gmtime_sloc0_1_0 + 1)
+   03B4 B7*0C         [ 3]  748 	sta	*_gmtime_sloc0_1_0
+   03B6 45r00r44      [ 3]  749 	ldhx	#_gmtime_days_1_33
+   03B9 E6 03         [ 3]  750 	lda	3,x
+   03BB B0*0F         [ 3]  751 	sub	*(_gmtime_sloc0_1_0 + 3)
+   03BD E7 03         [ 3]  752 	sta	3,x
+   03BF E6 02         [ 3]  753 	lda	2,x
+   03C1 B2*0E         [ 3]  754 	sbc	*(_gmtime_sloc0_1_0 + 2)
+   03C3 E7 02         [ 3]  755 	sta	2,x
+   03C5 E6 01         [ 3]  756 	lda	1,x
+   03C7 B2*0D         [ 3]  757 	sbc	*(_gmtime_sloc0_1_0 + 1)
+   03C9 E7 01         [ 3]  758 	sta	1,x
+   03CB F6            [ 2]  759 	lda	,x
+   03CC B2*0C         [ 3]  760 	sbc	*_gmtime_sloc0_1_0
+   03CE F7            [ 2]  761 	sta	,x
+                            762 ;../time.c:147: epoch -= days; // now it is days in this year, starting at 0
+   03CF 45r00r44      [ 3]  763 	ldhx	#_gmtime_days_1_33
+   03D2 B6*13         [ 3]  764 	lda	*(_gmtime_sloc1_1_0 + 3)
+   03D4 E0 03         [ 3]  765 	sub	3,x
+   03D6 B7*13         [ 3]  766 	sta	*(_gmtime_sloc1_1_0 + 3)
+   03D8 B6*12         [ 3]  767 	lda	*(_gmtime_sloc1_1_0 + 2)
+   03DA E2 02         [ 3]  768 	sbc	2,x
+   03DC B7*12         [ 3]  769 	sta	*(_gmtime_sloc1_1_0 + 2)
+   03DE B6*11         [ 3]  770 	lda	*(_gmtime_sloc1_1_0 + 1)
+   03E0 E2 01         [ 3]  771 	sbc	1,x
+   03E2 B7*11         [ 3]  772 	sta	*(_gmtime_sloc1_1_0 + 1)
+   03E4 B6*10         [ 3]  773 	lda	*_gmtime_sloc1_1_0
+   03E6 F2            [ 2]  774 	sbc	,x
+   03E7 B7*10         [ 3]  775 	sta	*_gmtime_sloc1_1_0
+   03E9 45r00r40      [ 3]  776 	ldhx	#_gmtime_epoch_1_33
+   03EC 5E*10         [ 4]  777 	mov	*_gmtime_sloc1_1_0,x+
+   03EE 5E*11         [ 4]  778 	mov	*(_gmtime_sloc1_1_0 + 1),x+
+   03F0 5E*12         [ 4]  779 	mov	*(_gmtime_sloc1_1_0 + 2),x+
+   03F2 5E*13         [ 4]  780 	mov	*(_gmtime_sloc1_1_0 + 3),x+
+                            781 ;../time.c:148: lastTime.tm_yday=epoch;
+   03F4 B6*13         [ 3]  782 	lda	*(_gmtime_sloc1_1_0 + 3)
+   03F6 BE*12         [ 3]  783 	ldx	*(_gmtime_sloc1_1_0 + 2)
+   03F8 CFr00r3C      [ 4]  784 	stx	(_lastTime + 0x0008)
+   03FB C7r00r3D      [ 4]  785 	sta	((_lastTime + 0x0008) + 1)
+                            786 ;../time.c:153: for (month=0; month<12; month++) {
+   03FE 4F            [ 1]  787 	clra
+   03FF                     788 00114$:
+                            789 ;../time.c:154: if (month==1) { // februari
+   03FF A1 01         [ 2]  790 	cmp	#0x01
+   0401 26 10         [ 3]  791 	bne	00108$
+                            792 ;../time.c:155: if (LEAP_YEAR(year)) {
+   0403 3D*17         [ 3]  793 	tst	*(_gmtime_sloc3_1_0 + 1)
+   0405 26 02         [ 3]  794 	bne	00160$
+   0407 3D*16         [ 3]  795 	tst	*_gmtime_sloc3_1_0
+   0409                     796 00160$:
+   0409 26 04         [ 3]  797 	bne	00105$
+                            798 ;../time.c:156: monthLength=29;
+   040B AE 1D         [ 2]  799 	ldx	#0x1D
+   040D 20 09         [ 3]  800 	bra	00109$
+   040F                     801 00105$:
+                            802 ;../time.c:158: monthLength=28;
+   040F AE 1C         [ 2]  803 	ldx	#0x1C
+   0411 20 05         [ 3]  804 	bra	00109$
+   0413                     805 00108$:
+                            806 ;../time.c:161: monthLength = monthDays[month];
+   0413 97            [ 1]  807 	tax
+   0414 8C            [ 1]  808 	clrh
+   0415 DEr00r00      [ 4]  809 	ldx	(_monthDays),x
+   0418                     810 00109$:
+                            811 ;../time.c:164: if (epoch>=monthLength) {
+   0418 BF*13         [ 3]  812 	stx	*(_gmtime_sloc1_1_0 + 3)
+   041A 6E 00*12      [ 4]  813 	mov	#0x00,*(_gmtime_sloc1_1_0 + 2)
+   041D 6E 00*11      [ 4]  814 	mov	#0x00,*(_gmtime_sloc1_1_0 + 1)
+   0420 6E 00*10      [ 4]  815 	mov	#0x00,*_gmtime_sloc1_1_0
+   0423 87            [ 2]  816 	psha
+   0424 C6r00r43      [ 4]  817 	lda	(_gmtime_epoch_1_33 + 3)
+   0427 B0*13         [ 3]  818 	sub	*(_gmtime_sloc1_1_0 + 3)
+   0429 C6r00r42      [ 4]  819 	lda	(_gmtime_epoch_1_33 + 2)
+   042C B2*12         [ 3]  820 	sbc	*(_gmtime_sloc1_1_0 + 2)
+   042E C6r00r41      [ 4]  821 	lda	(_gmtime_epoch_1_33 + 1)
+   0431 B2*11         [ 3]  822 	sbc	*(_gmtime_sloc1_1_0 + 1)
+   0433 C6r00r40      [ 4]  823 	lda	_gmtime_epoch_1_33
+   0436 B2*10         [ 3]  824 	sbc	*_gmtime_sloc1_1_0
+   0438 86            [ 2]  825 	pula
+   0439 25 20         [ 3]  826 	bcs	00113$
+                            827 ;../time.c:165: epoch-=monthLength;
+   043B 45r00r40      [ 3]  828 	ldhx	#_gmtime_epoch_1_33
+   043E 87            [ 2]  829 	psha
+   043F E6 03         [ 3]  830 	lda	3,x
+   0441 B0*13         [ 3]  831 	sub	*(_gmtime_sloc1_1_0 + 3)
+   0443 E7 03         [ 3]  832 	sta	3,x
+   0445 E6 02         [ 3]  833 	lda	2,x
+   0447 B2*12         [ 3]  834 	sbc	*(_gmtime_sloc1_1_0 + 2)
+   0449 E7 02         [ 3]  835 	sta	2,x
+   044B E6 01         [ 3]  836 	lda	1,x
+   044D B2*11         [ 3]  837 	sbc	*(_gmtime_sloc1_1_0 + 1)
+   044F E7 01         [ 3]  838 	sta	1,x
+   0451 F6            [ 2]  839 	lda	,x
+   0452 B2*10         [ 3]  840 	sbc	*_gmtime_sloc1_1_0
+   0454 F7            [ 2]  841 	sta	,x
+   0455 86            [ 2]  842 	pula
+                            843 ;../time.c:153: for (month=0; month<12; month++) {
+   0456 4C            [ 1]  844 	inca
+   0457 A1 0C         [ 2]  845 	cmp	#0x0C
+   0459 25 A4         [ 3]  846 	bcs	00114$
+   045B                     847 00113$:
+                            848 ;../time.c:170: lastTime.tm_mon=month;
+   045B C7r00r38      [ 4]  849 	sta	(_lastTime + 0x0004)
+                            850 ;../time.c:171: lastTime.tm_mday=epoch+1;
+   045E C6r00r43      [ 4]  851 	lda	(_gmtime_epoch_1_33 + 3)
+   0461 4C            [ 1]  852 	inca
+   0462 C7r00r37      [ 4]  853 	sta	(_lastTime + 0x0003)
+                            854 ;../time.c:173: lastTime.tm_isdst=0;
+   0465 4F            [ 1]  855 	clra
+   0466 C7r00r3E      [ 4]  856 	sta	(_lastTime + 0x000a)
+                            857 ;../time.c:175: return &lastTime;
+   0469 AEs00         [ 2]  858 	ldx	#>_lastTime
+   046B A6r34         [ 2]  859 	lda	#_lastTime
+   046D 81            [ 4]  860 	rts
+                            861 ;------------------------------------------------------------
+                            862 ;Allocation info for local variables in function 'mktime'
+                            863 ;------------------------------------------------------------
+                            864 ;sloc0                     Allocated with name '_mktime_sloc0_1_0'
+                            865 ;sloc1                     Allocated with name '_mktime_sloc1_1_0'
+                            866 ;timeptr                   Allocated with name '_mktime_timeptr_1_42'
+                            867 ;year                      Allocated with name '_mktime_year_1_43'
+                            868 ;month                     Allocated with name '_mktime_month_1_43'
+                            869 ;i                         Allocated to registers 
+                            870 ;seconds                   Allocated with name '_mktime_seconds_1_43'
+                            871 ;------------------------------------------------------------
+                            872 ;../time.c:179: time_t mktime(struct tm *timeptr) {
+                            873 ;	-----------------------------------------
+                            874 ;	 function mktime
+                            875 ;	-----------------------------------------
+                            876 ;	Register assignment might be sub-optimal.
+                            877 ;	Stack space usage: 0 bytes.
+   046E                     878 _mktime:
+   046E C7r00r49      [ 4]  879 	sta	(_mktime_timeptr_1_42 + 1)
+   0471 CFr00r48      [ 4]  880 	stx	_mktime_timeptr_1_42
+                            881 ;../time.c:180: int year=timeptr->tm_year+1900, month=timeptr->tm_mon, i;
+   0474 C6r00r48      [ 4]  882 	lda	_mktime_timeptr_1_42
+   0477 87            [ 2]  883 	psha
+   0478 8A            [ 2]  884 	pulh
+   0479 CEr00r49      [ 4]  885 	ldx	(_mktime_timeptr_1_42 + 1)
+   047C E6 06         [ 3]  886 	lda	6,x
+   047E EE 05         [ 3]  887 	ldx	5,x
+   0480 AB 6C         [ 2]  888 	add	#0x6C
+   0482 C7r00r4B      [ 4]  889 	sta	(_mktime_year_1_43 + 1)
+   0485 9F            [ 1]  890 	txa
+   0486 A9 07         [ 2]  891 	adc	#0x07
+   0488 C7r00r4A      [ 4]  892 	sta	_mktime_year_1_43
+   048B C6r00r48      [ 4]  893 	lda	_mktime_timeptr_1_42
+   048E 87            [ 2]  894 	psha
+   048F 8A            [ 2]  895 	pulh
+   0490 CEr00r49      [ 4]  896 	ldx	(_mktime_timeptr_1_42 + 1)
+   0493 EE 04         [ 3]  897 	ldx	4,x
+   0495 CFr00r4D      [ 4]  898 	stx	(_mktime_month_1_43 + 1)
+   0498 4F            [ 1]  899 	clra
+   0499 C7r00r4C      [ 4]  900 	sta	_mktime_month_1_43
+                            901 ;../time.c:183: CheckTime(timeptr);
+   049C C6r00r49      [ 4]  902 	lda	(_mktime_timeptr_1_42 + 1)
+   049F CEr00r48      [ 4]  903 	ldx	_mktime_timeptr_1_42
+   04A2 CDr00r65      [ 5]  904 	jsr	_CheckTime
+                            905 ;../time.c:186: seconds= (year-1970)*(60*60*24L*365);
+   04A5 C6r00r4B      [ 4]  906 	lda	(_mktime_year_1_43 + 1)
+   04A8 A0 B2         [ 2]  907 	sub	#0xB2
+   04AA 87            [ 2]  908 	psha
+   04AB C6r00r4A      [ 4]  909 	lda	_mktime_year_1_43
+   04AE A2 07         [ 2]  910 	sbc	#0x07
+   04B0 97            [ 1]  911 	tax
+   04B1 86            [ 2]  912 	pula
+   04B2 C7r00r03      [ 4]  913 	sta	(__mullong_PARM_2 + 3)
+   04B5 9F            [ 1]  914 	txa
+   04B6 C7r00r02      [ 4]  915 	sta	(__mullong_PARM_2 + 2)
+   04B9 49            [ 1]  916 	rola	
+   04BA 4F            [ 1]  917 	clra	
+   04BB A2 00         [ 2]  918 	sbc	#0x00
+   04BD C7r00r01      [ 4]  919 	sta	(__mullong_PARM_2 + 1)
+   04C0 C7r00r00      [ 4]  920 	sta	__mullong_PARM_2
+   04C3 45r00r00      [ 3]  921 	ldhx	#__mullong_PARM_1
+   04C6 A6 01         [ 2]  922 	lda	#0x01
+   04C8 F7            [ 2]  923 	sta	,x
+   04C9 A6 E1         [ 2]  924 	lda	#0xE1
+   04CB E7 01         [ 3]  925 	sta	1,x
+   04CD A6 33         [ 2]  926 	lda	#0x33
+   04CF E7 02         [ 3]  927 	sta	2,x
+   04D1 A6 80         [ 2]  928 	lda	#0x80
+   04D3 E7 03         [ 3]  929 	sta	3,x
+                            930 ;../time.c:189: for (i=1970; i<year; i++) {
+   04D5 CDr00r00      [ 5]  931 	jsr	__mullong
+   04D8 B7*1D         [ 3]  932 	sta	*(_mktime_sloc0_1_0 + 3)
+   04DA BF*1C         [ 3]  933 	stx	*(_mktime_sloc0_1_0 + 2)
+   04DC 4E*00*1B      [ 5]  934 	mov	*___SDCC_hc08_ret2,*(_mktime_sloc0_1_0 + 1)
+   04DF 4E*00*1A      [ 5]  935 	mov	*___SDCC_hc08_ret3,*_mktime_sloc0_1_0
+   04E2 45 07 B2      [ 3]  936 	ldhx	#0x07B2
+   04E5                     937 00110$:
+   04E5 9F            [ 1]  938 	txa
+   04E6 C0r00r4B      [ 4]  939 	sub	(_mktime_year_1_43 + 1)
+   04E9 8B            [ 2]  940 	pshh
+   04EA 86            [ 2]  941 	pula
+   04EB C2r00r4A      [ 4]  942 	sbc	_mktime_year_1_43
+   04EE 90 39         [ 3]  943 	bge	00124$
+                            944 ;../time.c:190: if (LEAP_YEAR(i)) {
+   04F0 4F            [ 1]  945 	clra
+   04F1 C7r00r00      [ 4]  946 	sta	__modsint_PARM_2
+   04F4 A6 04         [ 2]  947 	lda	#0x04
+   04F6 C7r00r01      [ 4]  948 	sta	(__modsint_PARM_2 + 1)
+   04F9 89            [ 2]  949 	pshx
+   04FA 8B            [ 2]  950 	pshh
+   04FB 9F            [ 1]  951 	txa
+   04FC 8B            [ 2]  952 	pshh
+   04FD 88            [ 2]  953 	pulx
+   04FE CDr00r00      [ 5]  954 	jsr	__modsint
+   0501 B7*1F         [ 3]  955 	sta	*(_mktime_sloc1_1_0 + 1)
+   0503 BF*1E         [ 3]  956 	stx	*_mktime_sloc1_1_0
+   0505 8A            [ 2]  957 	pulh
+   0506 88            [ 2]  958 	pulx
+   0507 B6*1F         [ 3]  959 	lda	*(_mktime_sloc1_1_0 + 1)
+   0509 BA*1E         [ 3]  960 	ora	*_mktime_sloc1_1_0
+   050B 26 18         [ 3]  961 	bne	00111$
+                            962 ;../time.c:191: seconds+= 60*60*24L;
+   050D B6*1D         [ 3]  963 	lda	*(_mktime_sloc0_1_0 + 3)
+   050F AB 80         [ 2]  964 	add	#0x80
+   0511 B7*1D         [ 3]  965 	sta	*(_mktime_sloc0_1_0 + 3)
+   0513 B6*1C         [ 3]  966 	lda	*(_mktime_sloc0_1_0 + 2)
+   0515 A9 51         [ 2]  967 	adc	#0x51
+   0517 B7*1C         [ 3]  968 	sta	*(_mktime_sloc0_1_0 + 2)
+   0519 B6*1B         [ 3]  969 	lda	*(_mktime_sloc0_1_0 + 1)
+   051B A9 01         [ 2]  970 	adc	#0x01
+   051D B7*1B         [ 3]  971 	sta	*(_mktime_sloc0_1_0 + 1)
+   051F B6*1A         [ 3]  972 	lda	*_mktime_sloc0_1_0
+   0521 A9 00         [ 2]  973 	adc	#0x00
+   0523 B7*1A         [ 3]  974 	sta	*_mktime_sloc0_1_0
+   0525                     975 00111$:
+                            976 ;../time.c:189: for (i=1970; i<year; i++) {
+   0525 AF 01         [ 2]  977 	aix	#1
+   0527 20 BC         [ 3]  978 	bra	00110$
+   0529                     979 00124$:
+   0529 45r00r4E      [ 3]  980 	ldhx	#_mktime_seconds_1_43
+   052C 5E*1A         [ 4]  981 	mov	*_mktime_sloc0_1_0,x+
+   052E 5E*1B         [ 4]  982 	mov	*(_mktime_sloc0_1_0 + 1),x+
+   0530 5E*1C         [ 4]  983 	mov	*(_mktime_sloc0_1_0 + 2),x+
+   0532 5E*1D         [ 4]  984 	mov	*(_mktime_sloc0_1_0 + 3),x+
+                            985 ;../time.c:196: for (i=0; i<month; i++) {
+   0534 4F            [ 1]  986 	clra
+   0535 C7r00r00      [ 4]  987 	sta	__modsint_PARM_2
+   0538 A6 04         [ 2]  988 	lda	#0x04
+   053A C7r00r01      [ 4]  989 	sta	(__modsint_PARM_2 + 1)
+   053D C6r00r4B      [ 4]  990 	lda	(_mktime_year_1_43 + 1)
+   0540 CEr00r4A      [ 4]  991 	ldx	_mktime_year_1_43
+   0543 CDr00r00      [ 5]  992 	jsr	__modsint
+   0546 B7*1F         [ 3]  993 	sta	*(_mktime_sloc1_1_0 + 1)
+   0548 BF*1E         [ 3]  994 	stx	*_mktime_sloc1_1_0
+   054A 8C            [ 1]  995 	clrh
+   054B 5F            [ 1]  996 	clrx
+   054C                     997 00113$:
+   054C 9F            [ 1]  998 	txa
+   054D C0r00r4D      [ 4]  999 	sub	(_mktime_month_1_43 + 1)
+   0550 8B            [ 2] 1000 	pshh
+   0551 86            [ 2] 1001 	pula
+   0552 C2r00r4C      [ 4] 1002 	sbc	_mktime_month_1_43
+   0555 91 03         [ 3] 1003 	blt	00149$
+   0557 CCr05rF0      [ 3] 1004 	jmp	00108$
+   055A                    1005 00149$:
+                           1006 ;../time.c:197: if (i==1 && LEAP_YEAR(year)) { 
+   055A A3 01         [ 2] 1007 	cpx	#0x01
+   055C 26 05         [ 3] 1008 	bne	00150$
+   055E 8B            [ 2] 1009 	pshh
+   055F 86            [ 2] 1010 	pula
+   0560 41 00 02      [ 4] 1011 	cbeqa	#0x00,00151$
+   0563                    1012 00150$:
+   0563 20 28         [ 3] 1013 	bra	00105$
+   0565                    1014 00151$:
+   0565 B6*1F         [ 3] 1015 	lda	*(_mktime_sloc1_1_0 + 1)
+   0567 BA*1E         [ 3] 1016 	ora	*_mktime_sloc1_1_0
+   0569 26 22         [ 3] 1017 	bne	00105$
+                           1018 ;../time.c:198: seconds+= 60*60*24L*29;
+   056B C6r00r51      [ 4] 1019 	lda	(_mktime_seconds_1_43 + 3)
+   056E AB 80         [ 2] 1020 	add	#0x80
+   0570 C7r00r51      [ 4] 1021 	sta	(_mktime_seconds_1_43 + 3)
+   0573 C6r00r50      [ 4] 1022 	lda	(_mktime_seconds_1_43 + 2)
+   0576 A9 3B         [ 2] 1023 	adc	#0x3B
+   0578 C7r00r50      [ 4] 1024 	sta	(_mktime_seconds_1_43 + 2)
+   057B C6r00r4F      [ 4] 1025 	lda	(_mktime_seconds_1_43 + 1)
+   057E A9 26         [ 2] 1026 	adc	#0x26
+   0580 C7r00r4F      [ 4] 1027 	sta	(_mktime_seconds_1_43 + 1)
+   0583 C6r00r4E      [ 4] 1028 	lda	_mktime_seconds_1_43
+   0586 A9 00         [ 2] 1029 	adc	#0x00
+   0588 C7r00r4E      [ 4] 1030 	sta	_mktime_seconds_1_43
+   058B 20 5E         [ 3] 1031 	bra	00114$
+   058D                    1032 00105$:
+                           1033 ;../time.c:200: seconds+= 60*60*24L*monthDays[i];
+   058D 35*1A         [ 4] 1034 	sthx	*_mktime_sloc0_1_0
+   058F 89            [ 2] 1035 	pshx
+   0590 8B            [ 2] 1036 	pshh
+   0591 55*1A         [ 4] 1037 	ldhx	*_mktime_sloc0_1_0
+   0593 D6r00r00      [ 4] 1038 	lda	(_monthDays),x
+   0596 8A            [ 2] 1039 	pulh
+   0597 88            [ 2] 1040 	pulx
+   0598 C7r00r03      [ 4] 1041 	sta	(__mullong_PARM_2 + 3)
+   059B 49            [ 1] 1042 	rola	
+   059C 4F            [ 1] 1043 	clra	
+   059D A2 00         [ 2] 1044 	sbc	#0x00
+   059F C7r00r02      [ 4] 1045 	sta	(__mullong_PARM_2 + 2)
+   05A2 C7r00r01      [ 4] 1046 	sta	(__mullong_PARM_2 + 1)
+   05A5 C7r00r00      [ 4] 1047 	sta	__mullong_PARM_2
+   05A8 4F            [ 1] 1048 	clra
+   05A9 C7r00r00      [ 4] 1049 	sta	__mullong_PARM_1
+   05AC 4C            [ 1] 1050 	inca
+   05AD C7r00r01      [ 4] 1051 	sta	(__mullong_PARM_1 + 1)
+   05B0 A6 51         [ 2] 1052 	lda	#0x51
+   05B2 C7r00r02      [ 4] 1053 	sta	(__mullong_PARM_1 + 2)
+   05B5 A6 80         [ 2] 1054 	lda	#0x80
+   05B7 C7r00r03      [ 4] 1055 	sta	(__mullong_PARM_1 + 3)
+   05BA 89            [ 2] 1056 	pshx
+   05BB 8B            [ 2] 1057 	pshh
+   05BC CDr00r00      [ 5] 1058 	jsr	__mullong
+   05BF B7*1D         [ 3] 1059 	sta	*(_mktime_sloc0_1_0 + 3)
+   05C1 BF*1C         [ 3] 1060 	stx	*(_mktime_sloc0_1_0 + 2)
+   05C3 4E*00*1B      [ 5] 1061 	mov	*___SDCC_hc08_ret2,*(_mktime_sloc0_1_0 + 1)
+   05C6 4E*00*1A      [ 5] 1062 	mov	*___SDCC_hc08_ret3,*_mktime_sloc0_1_0
+   05C9 8A            [ 2] 1063 	pulh
+   05CA 88            [ 2] 1064 	pulx
+   05CB C6r00r51      [ 4] 1065 	lda	(_mktime_seconds_1_43 + 3)
+   05CE BB*1D         [ 3] 1066 	add	*(_mktime_sloc0_1_0 + 3)
+   05D0 C7r00r51      [ 4] 1067 	sta	(_mktime_seconds_1_43 + 3)
+   05D3 C6r00r50      [ 4] 1068 	lda	(_mktime_seconds_1_43 + 2)
+   05D6 B9*1C         [ 3] 1069 	adc	*(_mktime_sloc0_1_0 + 2)
+   05D8 C7r00r50      [ 4] 1070 	sta	(_mktime_seconds_1_43 + 2)
+   05DB C6r00r4F      [ 4] 1071 	lda	(_mktime_seconds_1_43 + 1)
+   05DE B9*1B         [ 3] 1072 	adc	*(_mktime_sloc0_1_0 + 1)
+   05E0 C7r00r4F      [ 4] 1073 	sta	(_mktime_seconds_1_43 + 1)
+   05E3 C6r00r4E      [ 4] 1074 	lda	_mktime_seconds_1_43
+   05E6 B9*1A         [ 3] 1075 	adc	*_mktime_sloc0_1_0
+   05E8 C7r00r4E      [ 4] 1076 	sta	_mktime_seconds_1_43
+   05EB                    1077 00114$:
+                           1078 ;../time.c:196: for (i=0; i<month; i++) {
+   05EB AF 01         [ 2] 1079 	aix	#1
+   05ED CCr05r4C      [ 3] 1080 	jmp	00113$
+   05F0                    1081 00108$:
+                           1082 ;../time.c:204: seconds+= (timeptr->tm_mday-1)*60*60*24L;
+   05F0 C6r00r48      [ 4] 1083 	lda	_mktime_timeptr_1_42
+   05F3 87            [ 2] 1084 	psha
+   05F4 8A            [ 2] 1085 	pulh
+   05F5 CEr00r49      [ 4] 1086 	ldx	(_mktime_timeptr_1_42 + 1)
+   05F8 EE 03         [ 3] 1087 	ldx	3,x
+   05FA 8C            [ 1] 1088 	clrh
+   05FB AF FF         [ 2] 1089 	aix	#-1
+   05FD CFr00r03      [ 4] 1090 	stx	(__mullong_PARM_2 + 3)
+   0600 8B            [ 2] 1091 	pshh
+   0601 86            [ 2] 1092 	pula
+   0602 C7r00r02      [ 4] 1093 	sta	(__mullong_PARM_2 + 2)
+   0605 49            [ 1] 1094 	rola	
+   0606 4F            [ 1] 1095 	clra	
+   0607 A2 00         [ 2] 1096 	sbc	#0x00
+   0609 C7r00r01      [ 4] 1097 	sta	(__mullong_PARM_2 + 1)
+   060C C7r00r00      [ 4] 1098 	sta	__mullong_PARM_2
+   060F 45r00r00      [ 3] 1099 	ldhx	#__mullong_PARM_1
+   0612 4F            [ 1] 1100 	clra
+   0613 F7            [ 2] 1101 	sta	,x
+   0614 4C            [ 1] 1102 	inca
+   0615 E7 01         [ 3] 1103 	sta	1,x
+   0617 A6 51         [ 2] 1104 	lda	#0x51
+   0619 E7 02         [ 3] 1105 	sta	2,x
+   061B A6 80         [ 2] 1106 	lda	#0x80
+   061D E7 03         [ 3] 1107 	sta	3,x
+   061F CDr00r00      [ 5] 1108 	jsr	__mullong
+   0622 B7*1D         [ 3] 1109 	sta	*(_mktime_sloc0_1_0 + 3)
+   0624 BF*1C         [ 3] 1110 	stx	*(_mktime_sloc0_1_0 + 2)
+   0626 4E*00*1B      [ 5] 1111 	mov	*___SDCC_hc08_ret2,*(_mktime_sloc0_1_0 + 1)
+   0629 4E*00*1A      [ 5] 1112 	mov	*___SDCC_hc08_ret3,*_mktime_sloc0_1_0
+   062C 45r00r4E      [ 3] 1113 	ldhx	#_mktime_seconds_1_43
+   062F E6 03         [ 3] 1114 	lda	3,x
+   0631 BB*1D         [ 3] 1115 	add	*(_mktime_sloc0_1_0 + 3)
+   0633 E7 03         [ 3] 1116 	sta	3,x
+   0635 E6 02         [ 3] 1117 	lda	2,x
+   0637 B9*1C         [ 3] 1118 	adc	*(_mktime_sloc0_1_0 + 2)
+   0639 E7 02         [ 3] 1119 	sta	2,x
+   063B E6 01         [ 3] 1120 	lda	1,x
+   063D B9*1B         [ 3] 1121 	adc	*(_mktime_sloc0_1_0 + 1)
+   063F E7 01         [ 3] 1122 	sta	1,x
+   0641 F6            [ 2] 1123 	lda	,x
+   0642 B9*1A         [ 3] 1124 	adc	*_mktime_sloc0_1_0
+   0644 F7            [ 2] 1125 	sta	,x
+                           1126 ;../time.c:205: seconds+= timeptr->tm_hour*60*60L;
+   0645 C6r00r48      [ 4] 1127 	lda	_mktime_timeptr_1_42
+   0648 87            [ 2] 1128 	psha
+   0649 8A            [ 2] 1129 	pulh
+   064A CEr00r49      [ 4] 1130 	ldx	(_mktime_timeptr_1_42 + 1)
+   064D EE 02         [ 3] 1131 	ldx	2,x
+   064F CFr00r03      [ 4] 1132 	stx	(__mullong_PARM_2 + 3)
+   0652 4F            [ 1] 1133 	clra
+   0653 C7r00r02      [ 4] 1134 	sta	(__mullong_PARM_2 + 2)
+   0656 C7r00r01      [ 4] 1135 	sta	(__mullong_PARM_2 + 1)
+   0659 C7r00r00      [ 4] 1136 	sta	__mullong_PARM_2
+   065C 45r00r00      [ 3] 1137 	ldhx	#__mullong_PARM_1
+   065F F7            [ 2] 1138 	sta	,x
+   0660 E7 01         [ 3] 1139 	sta	1,x
+   0662 A6 0E         [ 2] 1140 	lda	#0x0E
+   0664 E7 02         [ 3] 1141 	sta	2,x
+   0666 A6 10         [ 2] 1142 	lda	#0x10
+   0668 E7 03         [ 3] 1143 	sta	3,x
+   066A CDr00r00      [ 5] 1144 	jsr	__mullong
+   066D B7*1D         [ 3] 1145 	sta	*(_mktime_sloc0_1_0 + 3)
+   066F BF*1C         [ 3] 1146 	stx	*(_mktime_sloc0_1_0 + 2)
+   0671 4E*00*1B      [ 5] 1147 	mov	*___SDCC_hc08_ret2,*(_mktime_sloc0_1_0 + 1)
+   0674 4E*00*1A      [ 5] 1148 	mov	*___SDCC_hc08_ret3,*_mktime_sloc0_1_0
+   0677 45r00r4E      [ 3] 1149 	ldhx	#_mktime_seconds_1_43
+   067A E6 03         [ 3] 1150 	lda	3,x
+   067C BB*1D         [ 3] 1151 	add	*(_mktime_sloc0_1_0 + 3)
+   067E E7 03         [ 3] 1152 	sta	3,x
+   0680 E6 02         [ 3] 1153 	lda	2,x
+   0682 B9*1C         [ 3] 1154 	adc	*(_mktime_sloc0_1_0 + 2)
+   0684 E7 02         [ 3] 1155 	sta	2,x
+   0686 E6 01         [ 3] 1156 	lda	1,x
+   0688 B9*1B         [ 3] 1157 	adc	*(_mktime_sloc0_1_0 + 1)
+   068A E7 01         [ 3] 1158 	sta	1,x
+   068C F6            [ 2] 1159 	lda	,x
+   068D B9*1A         [ 3] 1160 	adc	*_mktime_sloc0_1_0
+   068F F7            [ 2] 1161 	sta	,x
+                           1162 ;../time.c:206: seconds+= timeptr->tm_min*60;
+   0690 C6r00r48      [ 4] 1163 	lda	_mktime_timeptr_1_42
+   0693 87            [ 2] 1164 	psha
+   0694 8A            [ 2] 1165 	pulh
+   0695 CEr00r49      [ 4] 1166 	ldx	(_mktime_timeptr_1_42 + 1)
+   0698 E6 01         [ 3] 1167 	lda	1,x
+   069A AE 3C         [ 2] 1168 	ldx	#0x3C
+   069C 42            [ 5] 1169 	mul
+   069D B7*1D         [ 3] 1170 	sta	*(_mktime_sloc0_1_0 + 3)
+   069F 9F            [ 1] 1171 	txa
+   06A0 B7*1C         [ 3] 1172 	sta	*(_mktime_sloc0_1_0 + 2)
+   06A2 49            [ 1] 1173 	rola	
+   06A3 4F            [ 1] 1174 	clra	
+   06A4 A2 00         [ 2] 1175 	sbc	#0x00
+   06A6 B7*1B         [ 3] 1176 	sta	*(_mktime_sloc0_1_0 + 1)
+   06A8 B7*1A         [ 3] 1177 	sta	*_mktime_sloc0_1_0
+   06AA 45r00r4E      [ 3] 1178 	ldhx	#_mktime_seconds_1_43
+   06AD E6 03         [ 3] 1179 	lda	3,x
+   06AF BB*1D         [ 3] 1180 	add	*(_mktime_sloc0_1_0 + 3)
+   06B1 E7 03         [ 3] 1181 	sta	3,x
+   06B3 E6 02         [ 3] 1182 	lda	2,x
+   06B5 B9*1C         [ 3] 1183 	adc	*(_mktime_sloc0_1_0 + 2)
+   06B7 E7 02         [ 3] 1184 	sta	2,x
+   06B9 E6 01         [ 3] 1185 	lda	1,x
+   06BB B9*1B         [ 3] 1186 	adc	*(_mktime_sloc0_1_0 + 1)
+   06BD E7 01         [ 3] 1187 	sta	1,x
+   06BF F6            [ 2] 1188 	lda	,x
+   06C0 B9*1A         [ 3] 1189 	adc	*_mktime_sloc0_1_0
+   06C2 F7            [ 2] 1190 	sta	,x
+                           1191 ;../time.c:207: seconds+= timeptr->tm_sec;
+   06C3 C6r00r48      [ 4] 1192 	lda	_mktime_timeptr_1_42
+   06C6 87            [ 2] 1193 	psha
+   06C7 8A            [ 2] 1194 	pulh
+   06C8 CEr00r49      [ 4] 1195 	ldx	(_mktime_timeptr_1_42 + 1)
+   06CB F6            [ 2] 1196 	lda	,x
+   06CC 5F            [ 1] 1197 	clrx
+   06CD B7*1D         [ 3] 1198 	sta	*(_mktime_sloc0_1_0 + 3)
+   06CF 9F            [ 1] 1199 	txa
+   06D0 B7*1C         [ 3] 1200 	sta	*(_mktime_sloc0_1_0 + 2)
+   06D2 49            [ 1] 1201 	rola	
+   06D3 4F            [ 1] 1202 	clra	
+   06D4 A2 00         [ 2] 1203 	sbc	#0x00
+   06D6 B7*1B         [ 3] 1204 	sta	*(_mktime_sloc0_1_0 + 1)
+   06D8 B7*1A         [ 3] 1205 	sta	*_mktime_sloc0_1_0
+   06DA 45r00r4E      [ 3] 1206 	ldhx	#_mktime_seconds_1_43
+   06DD E6 03         [ 3] 1207 	lda	3,x
+   06DF BB*1D         [ 3] 1208 	add	*(_mktime_sloc0_1_0 + 3)
+   06E1 E7 03         [ 3] 1209 	sta	3,x
+   06E3 E6 02         [ 3] 1210 	lda	2,x
+   06E5 B9*1C         [ 3] 1211 	adc	*(_mktime_sloc0_1_0 + 2)
+   06E7 E7 02         [ 3] 1212 	sta	2,x
+   06E9 E6 01         [ 3] 1213 	lda	1,x
+   06EB B9*1B         [ 3] 1214 	adc	*(_mktime_sloc0_1_0 + 1)
+   06ED E7 01         [ 3] 1215 	sta	1,x
+   06EF F6            [ 2] 1216 	lda	,x
+   06F0 B9*1A         [ 3] 1217 	adc	*_mktime_sloc0_1_0
+   06F2 F7            [ 2] 1218 	sta	,x
+                           1219 ;../time.c:208: return seconds;
+   06F3 C6r00r4E      [ 4] 1220 	lda	_mktime_seconds_1_43
+   06F6 B7*00         [ 3] 1221 	sta	*___SDCC_hc08_ret3
+   06F8 C6r00r4F      [ 4] 1222 	lda	(_mktime_seconds_1_43 + 1)
+   06FB B7*00         [ 3] 1223 	sta	*___SDCC_hc08_ret2
+   06FD CEr00r50      [ 4] 1224 	ldx	(_mktime_seconds_1_43 + 2)
+   0700 C6r00r51      [ 4] 1225 	lda	(_mktime_seconds_1_43 + 3)
+   0703 81            [ 4] 1226 	rts
+                           1227 	.area CSEG    (CODE)
+                           1228 	.area CONST   (CODE)
+   0000                    1229 _monthDays:
+   0000 1F                 1230 	.db #0x1F	;  31
+   0001 1C                 1231 	.db #0x1C	;  28
+   0002 1F                 1232 	.db #0x1F	;  31
+   0003 1E                 1233 	.db #0x1E	;  30
+   0004 1F                 1234 	.db #0x1F	;  31
+   0005 1E                 1235 	.db #0x1E	;  30
+   0006 1F                 1236 	.db #0x1F	;  31
+   0007 1F                 1237 	.db #0x1F	;  31
+   0008 1E                 1238 	.db #0x1E	;  30
+   0009 1F                 1239 	.db #0x1F	;  31
+   000A 1E                 1240 	.db #0x1E	;  30
+   000B 1F                 1241 	.db #0x1F	;  31
+   000C                    1242 ___month:
+   000Cr00r51              1243 	.dw __str_1
+   000Er00r55              1244 	.dw __str_2
+   0010r00r59              1245 	.dw __str_3
+   0012r00r5D              1246 	.dw __str_4
+   0014r00r61              1247 	.dw __str_5
+   0016r00r65              1248 	.dw __str_6
+   0018r00r69              1249 	.dw __str_7
+   001Ar00r6D              1250 	.dw __str_8
+   001Cr00r71              1251 	.dw __str_9
+   001Er00r75              1252 	.dw __str_10
+   0020r00r79              1253 	.dw __str_11
+   0022r00r7D              1254 	.dw __str_12
+   0024                    1255 ___day:
+   0024r00r81              1256 	.dw __str_13
+   0026r00r85              1257 	.dw __str_14
+   0028r00r89              1258 	.dw __str_15
+   002Ar00r8D              1259 	.dw __str_16
+   002Cr00r91              1260 	.dw __str_17
+   002Er00r95              1261 	.dw __str_18
+   0030r00r99              1262 	.dw __str_19
+   0032                    1263 ___str_0:
+   0032 25 73 20 25 73 20  1264 	.ascii "%s %s %2d %02d:%02d:%02d %04d"
+        25 32 64 20 25 30
+        32 64 3A 25 30 32
+        64 3A 25 30 32 64
+        20 25 30 34 64
+   004F 0A                 1265 	.db 0x0A
+   0050 00                 1266 	.db 0x00
+   0051                    1267 __str_1:
+   0051 4A 61 6E           1268 	.ascii "Jan"
+   0054 00                 1269 	.db 0x00
+   0055                    1270 __str_2:
+   0055 46 65 62           1271 	.ascii "Feb"
+   0058 00                 1272 	.db 0x00
+   0059                    1273 __str_3:
+   0059 4D 61 72           1274 	.ascii "Mar"
+   005C 00                 1275 	.db 0x00
+   005D                    1276 __str_4:
+   005D 41 70 72           1277 	.ascii "Apr"
+   0060 00                 1278 	.db 0x00
+   0061                    1279 __str_5:
+   0061 4D 61 79           1280 	.ascii "May"
+   0064 00                 1281 	.db 0x00
+   0065                    1282 __str_6:
+   0065 4A 75 6E           1283 	.ascii "Jun"
+   0068 00                 1284 	.db 0x00
+   0069                    1285 __str_7:
+   0069 4A 75 6C           1286 	.ascii "Jul"
+   006C 00                 1287 	.db 0x00
+   006D                    1288 __str_8:
+   006D 41 75 67           1289 	.ascii "Aug"
+   0070 00                 1290 	.db 0x00
+   0071                    1291 __str_9:
+   0071 53 65 70           1292 	.ascii "Sep"
+   0074 00                 1293 	.db 0x00
+   0075                    1294 __str_10:
+   0075 4F 63 74           1295 	.ascii "Oct"
+   0078 00                 1296 	.db 0x00
+   0079                    1297 __str_11:
+   0079 4E 6F 76           1298 	.ascii "Nov"
+   007C 00                 1299 	.db 0x00
+   007D                    1300 __str_12:
+   007D 44 65 63           1301 	.ascii "Dec"
+   0080 00                 1302 	.db 0x00
+   0081                    1303 __str_13:
+   0081 53 75 6E           1304 	.ascii "Sun"
+   0084 00                 1305 	.db 0x00
+   0085                    1306 __str_14:
+   0085 4D 6F 6E           1307 	.ascii "Mon"
+   0088 00                 1308 	.db 0x00
+   0089                    1309 __str_15:
+   0089 54 75 65           1310 	.ascii "Tue"
+   008C 00                 1311 	.db 0x00
+   008D                    1312 __str_16:
+   008D 57 65 64           1313 	.ascii "Wed"
+   0090 00                 1314 	.db 0x00
+   0091                    1315 __str_17:
+   0091 54 68 75           1316 	.ascii "Thu"
+   0094 00                 1317 	.db 0x00
+   0095                    1318 __str_18:
+   0095 46 72 69           1319 	.ascii "Fri"
+   0098 00                 1320 	.db 0x00
+   0099                    1321 __str_19:
+   0099 53 61 74           1322 	.ascii "Sat"
+   009C 00                 1323 	.db 0x00
+                           1324 	.area XINIT   (CODE)
+                           1325 	.area CABS    (ABS,CODE)

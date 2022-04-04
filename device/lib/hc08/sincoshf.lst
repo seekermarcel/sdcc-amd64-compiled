@@ -1,0 +1,593 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:32 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module sincoshf
+                              7 	.optsdcc -mhc08
+                              8 	
+                              9 	.area HOME    (CODE)
+                             10 	.area GSINIT0 (CODE)
+                             11 	.area GSINIT  (CODE)
+                             12 	.area GSFINAL (CODE)
+                             13 	.area CSEG    (CODE)
+                             14 	.area XINIT   (CODE)
+                             15 	.area CONST   (CODE)
+                             16 	.area DSEG    (PAG)
+                             17 	.area OSEG    (PAG, OVR)
+                             18 	.area XSEG
+                             19 	.area XISEG
+                             20 ;--------------------------------------------------------
+                             21 ; Public variables in this module
+                             22 ;--------------------------------------------------------
+                             23 	.globl _sincoshf
+                             24 	.globl _expf
+                             25 	.globl _sincoshf_PARM_2
+                             26 	.globl _sincoshf_PARM_1
+                             27 ;--------------------------------------------------------
+                             28 ; ram data
+                             29 ;--------------------------------------------------------
+                             30 	.area DSEG    (PAG)
+   0000                      31 _sincoshf_sloc0_1_0:
+   0000                      32 	.ds 4
+   0004                      33 _sincoshf_sloc1_1_0:
+   0004                      34 	.ds 1
+   0005                      35 _sincoshf_sloc2_1_0:
+   0005                      36 	.ds 4
+   0009                      37 _sincoshf_sloc3_1_0:
+   0009                      38 	.ds 4
+                             39 ;--------------------------------------------------------
+                             40 ; overlayable items in ram 
+                             41 ;--------------------------------------------------------
+                             42 ;--------------------------------------------------------
+                             43 ; absolute ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area IABS    (ABS)
+                             46 	.area IABS    (ABS)
+                             47 ;--------------------------------------------------------
+                             48 ; absolute external ram data
+                             49 ;--------------------------------------------------------
+                             50 	.area XABS    (ABS)
+                             51 ;--------------------------------------------------------
+                             52 ; external initialized ram data
+                             53 ;--------------------------------------------------------
+                             54 	.area XISEG
+                             55 ;--------------------------------------------------------
+                             56 ; extended address mode data
+                             57 ;--------------------------------------------------------
+                             58 	.area XSEG
+   0000                      59 _sincoshf_PARM_1:
+   0000                      60 	.ds 4
+   0004                      61 _sincoshf_PARM_2:
+   0004                      62 	.ds 1
+   0005                      63 _sincoshf_y_1_24:
+   0005                      64 	.ds 4
+   0009                      65 _sincoshf_w_1_24:
+   0009                      66 	.ds 4
+   000D                      67 _sincoshf_z_1_24:
+   000D                      68 	.ds 4
+   0011                      69 _sincoshf_sign_1_24:
+   0011                      70 	.ds 1
+                             71 ;--------------------------------------------------------
+                             72 ; global & static initialisations
+                             73 ;--------------------------------------------------------
+                             74 	.area HOME    (CODE)
+                             75 	.area GSINIT  (CODE)
+                             76 	.area GSFINAL (CODE)
+                             77 	.area GSINIT  (CODE)
+                             78 ;--------------------------------------------------------
+                             79 ; Home
+                             80 ;--------------------------------------------------------
+                             81 	.area HOME    (CODE)
+                             82 	.area HOME    (CODE)
+                             83 ;--------------------------------------------------------
+                             84 ; code
+                             85 ;--------------------------------------------------------
+                             86 	.area CSEG    (CODE)
+                             87 ;------------------------------------------------------------
+                             88 ;Allocation info for local variables in function 'sincoshf'
+                             89 ;------------------------------------------------------------
+                             90 ;sloc0                     Allocated with name '_sincoshf_sloc0_1_0'
+                             91 ;sloc1                     Allocated with name '_sincoshf_sloc1_1_0'
+                             92 ;sloc2                     Allocated with name '_sincoshf_sloc2_1_0'
+                             93 ;sloc3                     Allocated with name '_sincoshf_sloc3_1_0'
+                             94 ;x                         Allocated with name '_sincoshf_PARM_1'
+                             95 ;iscosh                    Allocated with name '_sincoshf_PARM_2'
+                             96 ;y                         Allocated with name '_sincoshf_y_1_24'
+                             97 ;w                         Allocated with name '_sincoshf_w_1_24'
+                             98 ;z                         Allocated with name '_sincoshf_z_1_24'
+                             99 ;sign                      Allocated with name '_sincoshf_sign_1_24'
+                            100 ;------------------------------------------------------------
+                            101 ;../sincoshf.c:56: float sincoshf(float x, bool iscosh)
+                            102 ;	-----------------------------------------
+                            103 ;	 function sincoshf
+                            104 ;	-----------------------------------------
+                            105 ;	Register assignment is optimal.
+                            106 ;	Stack space usage: 0 bytes.
+   0000                     107 _sincoshf:
+                            108 ;../sincoshf.c:62: else { y=x;  sign=0; }
+   0000 45r00r00      [ 3]  109 	ldhx	#_sincoshf_PARM_1
+   0003 7E*00         [ 4]  110 	mov	,x+,*_sincoshf_sloc0_1_0
+   0005 7E*01         [ 4]  111 	mov	,x+,*(_sincoshf_sloc0_1_0 + 1)
+   0007 7E*02         [ 4]  112 	mov	,x+,*(_sincoshf_sloc0_1_0 + 2)
+   0009 7E*03         [ 4]  113 	mov	,x+,*(_sincoshf_sloc0_1_0 + 3)
+                            114 ;../sincoshf.c:61: if (x<0.0) { y=-x; sign=1; }
+   000B 45r00r00      [ 3]  115 	ldhx	#___fslt_PARM_1
+   000E C6r00r00      [ 4]  116 	lda	_sincoshf_PARM_1
+   0011 F7            [ 2]  117 	sta	,x
+   0012 C6r00r01      [ 4]  118 	lda	(_sincoshf_PARM_1 + 1)
+   0015 E7 01         [ 3]  119 	sta	1,x
+   0017 C6r00r02      [ 4]  120 	lda	(_sincoshf_PARM_1 + 2)
+   001A E7 02         [ 3]  121 	sta	2,x
+   001C C6r00r03      [ 4]  122 	lda	(_sincoshf_PARM_1 + 3)
+   001F E7 03         [ 3]  123 	sta	3,x
+   0021 45r00r00      [ 3]  124 	ldhx	#___fslt_PARM_2
+   0024 4F            [ 1]  125 	clra
+   0025 F7            [ 2]  126 	sta	,x
+   0026 E7 01         [ 3]  127 	sta	1,x
+   0028 E7 02         [ 3]  128 	sta	2,x
+   002A E7 03         [ 3]  129 	sta	3,x
+   002C CDr00r00      [ 5]  130 	jsr	___fslt
+   002F 4D            [ 1]  131 	tsta
+   0030 27 21         [ 3]  132 	beq	00102$
+   0032 C6r00r03      [ 4]  133 	lda	(_sincoshf_PARM_1 + 3)
+   0035 C7r00r08      [ 4]  134 	sta	(_sincoshf_y_1_24 + 3)
+   0038 C6r00r02      [ 4]  135 	lda	(_sincoshf_PARM_1 + 2)
+   003B C7r00r07      [ 4]  136 	sta	(_sincoshf_y_1_24 + 2)
+   003E C6r00r01      [ 4]  137 	lda	(_sincoshf_PARM_1 + 1)
+   0041 C7r00r06      [ 4]  138 	sta	(_sincoshf_y_1_24 + 1)
+   0044 C6r00r00      [ 4]  139 	lda	_sincoshf_PARM_1
+   0047 A8 80         [ 2]  140 	eor	#0x80
+   0049 C7r00r05      [ 4]  141 	sta	_sincoshf_y_1_24
+   004C A6 01         [ 2]  142 	lda	#0x01
+   004E C7r00r11      [ 4]  143 	sta	_sincoshf_sign_1_24
+   0051 20 0F         [ 3]  144 	bra	00103$
+   0053                     145 00102$:
+                            146 ;../sincoshf.c:62: else { y=x;  sign=0; }
+   0053 45r00r05      [ 3]  147 	ldhx	#_sincoshf_y_1_24
+   0056 5E*00         [ 4]  148 	mov	*_sincoshf_sloc0_1_0,x+
+   0058 5E*01         [ 4]  149 	mov	*(_sincoshf_sloc0_1_0 + 1),x+
+   005A 5E*02         [ 4]  150 	mov	*(_sincoshf_sloc0_1_0 + 2),x+
+   005C 5E*03         [ 4]  151 	mov	*(_sincoshf_sloc0_1_0 + 3),x+
+   005E 4F            [ 1]  152 	clra
+   005F C7r00r11      [ 4]  153 	sta	_sincoshf_sign_1_24
+   0062                     154 00103$:
+                            155 ;../sincoshf.c:64: if ((y>1.0) || iscosh)
+   0062 45r00r00      [ 3]  156 	ldhx	#___fsgt_PARM_1
+   0065 C6r00r05      [ 4]  157 	lda	_sincoshf_y_1_24
+   0068 F7            [ 2]  158 	sta	,x
+   0069 C6r00r06      [ 4]  159 	lda	(_sincoshf_y_1_24 + 1)
+   006C E7 01         [ 3]  160 	sta	1,x
+   006E C6r00r07      [ 4]  161 	lda	(_sincoshf_y_1_24 + 2)
+   0071 E7 02         [ 3]  162 	sta	2,x
+   0073 C6r00r08      [ 4]  163 	lda	(_sincoshf_y_1_24 + 3)
+   0076 E7 03         [ 3]  164 	sta	3,x
+   0078 45r00r00      [ 3]  165 	ldhx	#___fsgt_PARM_2
+   007B A6 3F         [ 2]  166 	lda	#0x3F
+   007D F7            [ 2]  167 	sta	,x
+   007E A6 80         [ 2]  168 	lda	#0x80
+   0080 E7 01         [ 3]  169 	sta	1,x
+   0082 4F            [ 1]  170 	clra
+   0083 E7 02         [ 3]  171 	sta	2,x
+   0085 E7 03         [ 3]  172 	sta	3,x
+   0087 CDr00r00      [ 5]  173 	jsr	___fsgt
+   008A 4D            [ 1]  174 	tsta
+   008B 26 08         [ 3]  175 	bne	00117$
+   008D C6r00r04      [ 4]  176 	lda	_sincoshf_PARM_2
+   0090 26 03         [ 3]  177 	bne	00153$
+   0092 CCr02r76      [ 3]  178 	jmp	00118$
+   0095                     179 00153$:
+   0095                     180 00117$:
+                            181 ;../sincoshf.c:66: if(y>YBAR)
+   0095 45r00r00      [ 3]  182 	ldhx	#___fsgt_PARM_1
+   0098 C6r00r05      [ 4]  183 	lda	_sincoshf_y_1_24
+   009B F7            [ 2]  184 	sta	,x
+   009C C6r00r06      [ 4]  185 	lda	(_sincoshf_y_1_24 + 1)
+   009F E7 01         [ 3]  186 	sta	1,x
+   00A1 C6r00r07      [ 4]  187 	lda	(_sincoshf_y_1_24 + 2)
+   00A4 E7 02         [ 3]  188 	sta	2,x
+   00A6 C6r00r08      [ 4]  189 	lda	(_sincoshf_y_1_24 + 3)
+   00A9 E7 03         [ 3]  190 	sta	3,x
+   00AB 45r00r00      [ 3]  191 	ldhx	#___fsgt_PARM_2
+   00AE A6 41         [ 2]  192 	lda	#0x41
+   00B0 F7            [ 2]  193 	sta	,x
+   00B1 A6 10         [ 2]  194 	lda	#0x10
+   00B3 E7 01         [ 3]  195 	sta	1,x
+   00B5 4F            [ 1]  196 	clra
+   00B6 E7 02         [ 3]  197 	sta	2,x
+   00B8 E7 03         [ 3]  198 	sta	3,x
+   00BA CDr00r00      [ 5]  199 	jsr	___fsgt
+   00BD B7*04         [ 3]  200 	sta	*_sincoshf_sloc1_1_0
+   00BF 3D*04         [ 3]  201 	tst	*_sincoshf_sloc1_1_0
+   00C1 26 03         [ 3]  202 	bne	00154$
+   00C3 CCr01rA3      [ 3]  203 	jmp	00110$
+   00C6                     204 00154$:
+                            205 ;../sincoshf.c:68: w=y-K1;
+   00C6 45r00r00      [ 3]  206 	ldhx	#___fssub_PARM_1
+   00C9 C6r00r05      [ 4]  207 	lda	_sincoshf_y_1_24
+   00CC F7            [ 2]  208 	sta	,x
+   00CD C6r00r06      [ 4]  209 	lda	(_sincoshf_y_1_24 + 1)
+   00D0 E7 01         [ 3]  210 	sta	1,x
+   00D2 C6r00r07      [ 4]  211 	lda	(_sincoshf_y_1_24 + 2)
+   00D5 E7 02         [ 3]  212 	sta	2,x
+   00D7 C6r00r08      [ 4]  213 	lda	(_sincoshf_y_1_24 + 3)
+   00DA E7 03         [ 3]  214 	sta	3,x
+   00DC 45r00r00      [ 3]  215 	ldhx	#___fssub_PARM_2
+   00DF A6 3F         [ 2]  216 	lda	#0x3F
+   00E1 F7            [ 2]  217 	sta	,x
+   00E2 A6 31         [ 2]  218 	lda	#0x31
+   00E4 E7 01         [ 3]  219 	sta	1,x
+   00E6 A6 73         [ 2]  220 	lda	#0x73
+   00E8 E7 02         [ 3]  221 	sta	2,x
+   00EA 4F            [ 1]  222 	clra
+   00EB E7 03         [ 3]  223 	sta	3,x
+                            224 ;../sincoshf.c:69: if (w>WMAX)
+   00ED CDr00r00      [ 5]  225 	jsr	___fssub
+   00F0 B7*08         [ 3]  226 	sta	*(_sincoshf_sloc2_1_0 + 3)
+   00F2 BF*07         [ 3]  227 	stx	*(_sincoshf_sloc2_1_0 + 2)
+   00F4 4E*00*06      [ 5]  228 	mov	*___SDCC_hc08_ret2,*(_sincoshf_sloc2_1_0 + 1)
+   00F7 4E*00*05      [ 5]  229 	mov	*___SDCC_hc08_ret3,*_sincoshf_sloc2_1_0
+   00FA 45r00r00      [ 3]  230 	ldhx	#___fsgt_PARM_1
+   00FD 5E*05         [ 4]  231 	mov	*_sincoshf_sloc2_1_0,x+
+   00FF 5E*06         [ 4]  232 	mov	*(_sincoshf_sloc2_1_0 + 1),x+
+   0101 5E*07         [ 4]  233 	mov	*(_sincoshf_sloc2_1_0 + 2),x+
+   0103 5E*08         [ 4]  234 	mov	*(_sincoshf_sloc2_1_0 + 3),x+
+   0105 45r00r00      [ 3]  235 	ldhx	#___fsgt_PARM_2
+   0108 A6 42         [ 2]  236 	lda	#0x42
+   010A F7            [ 2]  237 	sta	,x
+   010B A6 33         [ 2]  238 	lda	#0x33
+   010D E7 01         [ 3]  239 	sta	1,x
+   010F A6 BD         [ 2]  240 	lda	#0xBD
+   0111 E7 02         [ 3]  241 	sta	2,x
+   0113 A6 CF         [ 2]  242 	lda	#0xCF
+   0115 E7 03         [ 3]  243 	sta	3,x
+   0117 CDr00r00      [ 5]  244 	jsr	___fsgt
+   011A 4D            [ 1]  245 	tsta
+   011B 27 1A         [ 3]  246 	beq	00105$
+                            247 ;../sincoshf.c:71: errno=ERANGE;
+   011D 4F            [ 1]  248 	clra
+   011E C7r00r00      [ 4]  249 	sta	_errno
+   0121 A6 22         [ 2]  250 	lda	#0x22
+   0123 C7r00r01      [ 4]  251 	sta	(_errno + 1)
+                            252 ;../sincoshf.c:72: z=HUGE_VALF;
+   0126 45r00r0D      [ 3]  253 	ldhx	#_sincoshf_z_1_24
+   0129 A6 7F         [ 2]  254 	lda	#0x7F
+   012B F7            [ 2]  255 	sta	,x
+   012C E7 01         [ 3]  256 	sta	1,x
+   012E A6 FF         [ 2]  257 	lda	#0xFF
+   0130 E7 02         [ 3]  258 	sta	2,x
+   0132 E7 03         [ 3]  259 	sta	3,x
+   0134 CCr02r63      [ 3]  260 	jmp	00111$
+   0137                     261 00105$:
+                            262 ;../sincoshf.c:76: z=expf(w);
+   0137 B6*08         [ 3]  263 	lda	*(_sincoshf_sloc2_1_0 + 3)
+   0139 87            [ 2]  264 	psha
+   013A B6*07         [ 3]  265 	lda	*(_sincoshf_sloc2_1_0 + 2)
+   013C 87            [ 2]  266 	psha
+   013D B6*06         [ 3]  267 	lda	*(_sincoshf_sloc2_1_0 + 1)
+   013F 87            [ 2]  268 	psha
+   0140 B6*05         [ 3]  269 	lda	*_sincoshf_sloc2_1_0
+   0142 87            [ 2]  270 	psha
+   0143 CDr00r00      [ 5]  271 	jsr	_expf
+   0146 B7*08         [ 3]  272 	sta	*(_sincoshf_sloc2_1_0 + 3)
+   0148 BF*07         [ 3]  273 	stx	*(_sincoshf_sloc2_1_0 + 2)
+   014A 4E*00*06      [ 5]  274 	mov	*___SDCC_hc08_ret2,*(_sincoshf_sloc2_1_0 + 1)
+   014D 4E*00*05      [ 5]  275 	mov	*___SDCC_hc08_ret3,*_sincoshf_sloc2_1_0
+   0150 A7 04         [ 2]  276 	ais	#4
+                            277 ;../sincoshf.c:77: z+=K3*z;
+   0152 45r00r00      [ 3]  278 	ldhx	#___fsmul_PARM_1
+   0155 A6 37         [ 2]  279 	lda	#0x37
+   0157 F7            [ 2]  280 	sta	,x
+   0158 A6 68         [ 2]  281 	lda	#0x68
+   015A E7 01         [ 3]  282 	sta	1,x
+   015C A6 08         [ 2]  283 	lda	#0x08
+   015E E7 02         [ 3]  284 	sta	2,x
+   0160 A6 97         [ 2]  285 	lda	#0x97
+   0162 E7 03         [ 3]  286 	sta	3,x
+   0164 45r00r00      [ 3]  287 	ldhx	#___fsmul_PARM_2
+   0167 5E*05         [ 4]  288 	mov	*_sincoshf_sloc2_1_0,x+
+   0169 5E*06         [ 4]  289 	mov	*(_sincoshf_sloc2_1_0 + 1),x+
+   016B 5E*07         [ 4]  290 	mov	*(_sincoshf_sloc2_1_0 + 2),x+
+   016D 5E*08         [ 4]  291 	mov	*(_sincoshf_sloc2_1_0 + 3),x+
+   016F CDr00r00      [ 5]  292 	jsr	___fsmul
+   0172 C7r00r03      [ 4]  293 	sta	(___fsadd_PARM_2 + 3)
+   0175 CFr00r02      [ 4]  294 	stx	(___fsadd_PARM_2 + 2)
+   0178 B6*00         [ 3]  295 	lda	*___SDCC_hc08_ret2
+   017A C7r00r01      [ 4]  296 	sta	(___fsadd_PARM_2 + 1)
+   017D B6*00         [ 3]  297 	lda	*___SDCC_hc08_ret3
+   017F C7r00r00      [ 4]  298 	sta	___fsadd_PARM_2
+   0182 45r00r00      [ 3]  299 	ldhx	#___fsadd_PARM_1
+   0185 5E*05         [ 4]  300 	mov	*_sincoshf_sloc2_1_0,x+
+   0187 5E*06         [ 4]  301 	mov	*(_sincoshf_sloc2_1_0 + 1),x+
+   0189 5E*07         [ 4]  302 	mov	*(_sincoshf_sloc2_1_0 + 2),x+
+   018B 5E*08         [ 4]  303 	mov	*(_sincoshf_sloc2_1_0 + 3),x+
+   018D CDr00r00      [ 5]  304 	jsr	___fsadd
+   0190 C7r00r10      [ 4]  305 	sta	(_sincoshf_z_1_24 + 3)
+   0193 CFr00r0F      [ 4]  306 	stx	(_sincoshf_z_1_24 + 2)
+   0196 B6*00         [ 3]  307 	lda	*___SDCC_hc08_ret2
+   0198 C7r00r0E      [ 4]  308 	sta	(_sincoshf_z_1_24 + 1)
+   019B B6*00         [ 3]  309 	lda	*___SDCC_hc08_ret3
+   019D C7r00r0D      [ 4]  310 	sta	_sincoshf_z_1_24
+   01A0 CCr02r63      [ 3]  311 	jmp	00111$
+   01A3                     312 00110$:
+                            313 ;../sincoshf.c:82: z=expf(y);
+   01A3 C6r00r08      [ 4]  314 	lda	(_sincoshf_y_1_24 + 3)
+   01A6 87            [ 2]  315 	psha
+   01A7 C6r00r07      [ 4]  316 	lda	(_sincoshf_y_1_24 + 2)
+   01AA 87            [ 2]  317 	psha
+   01AB C6r00r06      [ 4]  318 	lda	(_sincoshf_y_1_24 + 1)
+   01AE 87            [ 2]  319 	psha
+   01AF C6r00r05      [ 4]  320 	lda	_sincoshf_y_1_24
+   01B2 87            [ 2]  321 	psha
+   01B3 CDr00r00      [ 5]  322 	jsr	_expf
+   01B6 B7*08         [ 3]  323 	sta	*(_sincoshf_sloc2_1_0 + 3)
+   01B8 BF*07         [ 3]  324 	stx	*(_sincoshf_sloc2_1_0 + 2)
+   01BA 4E*00*06      [ 5]  325 	mov	*___SDCC_hc08_ret2,*(_sincoshf_sloc2_1_0 + 1)
+   01BD 4E*00*05      [ 5]  326 	mov	*___SDCC_hc08_ret3,*_sincoshf_sloc2_1_0
+   01C0 A7 04         [ 2]  327 	ais	#4
+                            328 ;../sincoshf.c:83: w=1.0/z;
+   01C2 45r00r00      [ 3]  329 	ldhx	#___fsdiv_PARM_1
+   01C5 A6 3F         [ 2]  330 	lda	#0x3F
+   01C7 F7            [ 2]  331 	sta	,x
+   01C8 A6 80         [ 2]  332 	lda	#0x80
+   01CA E7 01         [ 3]  333 	sta	1,x
+   01CC 4F            [ 1]  334 	clra
+   01CD E7 02         [ 3]  335 	sta	2,x
+   01CF E7 03         [ 3]  336 	sta	3,x
+   01D1 45r00r00      [ 3]  337 	ldhx	#___fsdiv_PARM_2
+   01D4 5E*05         [ 4]  338 	mov	*_sincoshf_sloc2_1_0,x+
+   01D6 5E*06         [ 4]  339 	mov	*(_sincoshf_sloc2_1_0 + 1),x+
+   01D8 5E*07         [ 4]  340 	mov	*(_sincoshf_sloc2_1_0 + 2),x+
+   01DA 5E*08         [ 4]  341 	mov	*(_sincoshf_sloc2_1_0 + 3),x+
+   01DC CDr00r00      [ 5]  342 	jsr	___fsdiv
+   01DF B7*0C         [ 3]  343 	sta	*(_sincoshf_sloc3_1_0 + 3)
+   01E1 BF*0B         [ 3]  344 	stx	*(_sincoshf_sloc3_1_0 + 2)
+   01E3 4E*00*0A      [ 5]  345 	mov	*___SDCC_hc08_ret2,*(_sincoshf_sloc3_1_0 + 1)
+   01E6 4E*00*09      [ 5]  346 	mov	*___SDCC_hc08_ret3,*_sincoshf_sloc3_1_0
+   01E9 45r00r09      [ 3]  347 	ldhx	#_sincoshf_w_1_24
+   01EC 5E*09         [ 4]  348 	mov	*_sincoshf_sloc3_1_0,x+
+   01EE 5E*0A         [ 4]  349 	mov	*(_sincoshf_sloc3_1_0 + 1),x+
+   01F0 5E*0B         [ 4]  350 	mov	*(_sincoshf_sloc3_1_0 + 2),x+
+   01F2 5E*0C         [ 4]  351 	mov	*(_sincoshf_sloc3_1_0 + 3),x+
+                            352 ;../sincoshf.c:84: if(!iscosh) w=-w;
+   01F4 C6r00r04      [ 4]  353 	lda	_sincoshf_PARM_2
+   01F7 26 16         [ 3]  354 	bne	00108$
+   01F9 B6*0C         [ 3]  355 	lda	*(_sincoshf_sloc3_1_0 + 3)
+   01FB C7r00r0C      [ 4]  356 	sta	(_sincoshf_w_1_24 + 3)
+   01FE B6*0B         [ 3]  357 	lda	*(_sincoshf_sloc3_1_0 + 2)
+   0200 C7r00r0B      [ 4]  358 	sta	(_sincoshf_w_1_24 + 2)
+   0203 B6*0A         [ 3]  359 	lda	*(_sincoshf_sloc3_1_0 + 1)
+   0205 C7r00r0A      [ 4]  360 	sta	(_sincoshf_w_1_24 + 1)
+   0208 B6*09         [ 3]  361 	lda	*_sincoshf_sloc3_1_0
+   020A A8 80         [ 2]  362 	eor	#0x80
+   020C C7r00r09      [ 4]  363 	sta	_sincoshf_w_1_24
+   020F                     364 00108$:
+                            365 ;../sincoshf.c:85: z=(z+w)*0.5;
+   020F 45r00r00      [ 3]  366 	ldhx	#___fsadd_PARM_1
+   0212 5E*05         [ 4]  367 	mov	*_sincoshf_sloc2_1_0,x+
+   0214 5E*06         [ 4]  368 	mov	*(_sincoshf_sloc2_1_0 + 1),x+
+   0216 5E*07         [ 4]  369 	mov	*(_sincoshf_sloc2_1_0 + 2),x+
+   0218 5E*08         [ 4]  370 	mov	*(_sincoshf_sloc2_1_0 + 3),x+
+   021A 45r00r00      [ 3]  371 	ldhx	#___fsadd_PARM_2
+   021D C6r00r09      [ 4]  372 	lda	_sincoshf_w_1_24
+   0220 F7            [ 2]  373 	sta	,x
+   0221 C6r00r0A      [ 4]  374 	lda	(_sincoshf_w_1_24 + 1)
+   0224 E7 01         [ 3]  375 	sta	1,x
+   0226 C6r00r0B      [ 4]  376 	lda	(_sincoshf_w_1_24 + 2)
+   0229 E7 02         [ 3]  377 	sta	2,x
+   022B C6r00r0C      [ 4]  378 	lda	(_sincoshf_w_1_24 + 3)
+   022E E7 03         [ 3]  379 	sta	3,x
+   0230 CDr00r00      [ 5]  380 	jsr	___fsadd
+   0233 C7r00r03      [ 4]  381 	sta	(___fsmul_PARM_2 + 3)
+   0236 CFr00r02      [ 4]  382 	stx	(___fsmul_PARM_2 + 2)
+   0239 B6*00         [ 3]  383 	lda	*___SDCC_hc08_ret2
+   023B C7r00r01      [ 4]  384 	sta	(___fsmul_PARM_2 + 1)
+   023E B6*00         [ 3]  385 	lda	*___SDCC_hc08_ret3
+   0240 C7r00r00      [ 4]  386 	sta	___fsmul_PARM_2
+   0243 45r00r00      [ 3]  387 	ldhx	#___fsmul_PARM_1
+   0246 A6 3F         [ 2]  388 	lda	#0x3F
+   0248 F7            [ 2]  389 	sta	,x
+   0249 4F            [ 1]  390 	clra
+   024A E7 01         [ 3]  391 	sta	1,x
+   024C E7 02         [ 3]  392 	sta	2,x
+   024E E7 03         [ 3]  393 	sta	3,x
+   0250 CDr00r00      [ 5]  394 	jsr	___fsmul
+   0253 C7r00r10      [ 4]  395 	sta	(_sincoshf_z_1_24 + 3)
+   0256 CFr00r0F      [ 4]  396 	stx	(_sincoshf_z_1_24 + 2)
+   0259 B6*00         [ 3]  397 	lda	*___SDCC_hc08_ret2
+   025B C7r00r0E      [ 4]  398 	sta	(_sincoshf_z_1_24 + 1)
+   025E B6*00         [ 3]  399 	lda	*___SDCC_hc08_ret3
+   0260 C7r00r0D      [ 4]  400 	sta	_sincoshf_z_1_24
+   0263                     401 00111$:
+                            402 ;../sincoshf.c:87: if(sign) z=-z;
+   0263 C6r00r11      [ 4]  403 	lda	_sincoshf_sign_1_24
+   0266 26 03         [ 3]  404 	bne	00157$
+   0268 CCr03rFA      [ 3]  405 	jmp	00119$
+   026B                     406 00157$:
+   026B C6r00r0D      [ 4]  407 	lda	_sincoshf_z_1_24
+   026E A8 80         [ 2]  408 	eor	#0x80
+   0270 C7r00r0D      [ 4]  409 	sta	_sincoshf_z_1_24
+   0273 CCr03rFA      [ 3]  410 	jmp	00119$
+   0276                     411 00118$:
+                            412 ;../sincoshf.c:91: if (y<EPS)
+   0276 45r00r00      [ 3]  413 	ldhx	#___fslt_PARM_1
+   0279 C6r00r05      [ 4]  414 	lda	_sincoshf_y_1_24
+   027C F7            [ 2]  415 	sta	,x
+   027D C6r00r06      [ 4]  416 	lda	(_sincoshf_y_1_24 + 1)
+   0280 E7 01         [ 3]  417 	sta	1,x
+   0282 C6r00r07      [ 4]  418 	lda	(_sincoshf_y_1_24 + 2)
+   0285 E7 02         [ 3]  419 	sta	2,x
+   0287 C6r00r08      [ 4]  420 	lda	(_sincoshf_y_1_24 + 3)
+   028A E7 03         [ 3]  421 	sta	3,x
+   028C 45r00r00      [ 3]  422 	ldhx	#___fslt_PARM_2
+   028F A6 39         [ 2]  423 	lda	#0x39
+   0291 F7            [ 2]  424 	sta	,x
+   0292 A6 80         [ 2]  425 	lda	#0x80
+   0294 E7 01         [ 3]  426 	sta	1,x
+   0296 4F            [ 1]  427 	clra
+   0297 E7 02         [ 3]  428 	sta	2,x
+   0299 E7 03         [ 3]  429 	sta	3,x
+   029B CDr00r00      [ 5]  430 	jsr	___fslt
+   029E 4D            [ 1]  431 	tsta
+   029F 27 0E         [ 3]  432 	beq	00115$
+                            433 ;../sincoshf.c:92: z=x;
+   02A1 45r00r0D      [ 3]  434 	ldhx	#_sincoshf_z_1_24
+   02A4 5E*00         [ 4]  435 	mov	*_sincoshf_sloc0_1_0,x+
+   02A6 5E*01         [ 4]  436 	mov	*(_sincoshf_sloc0_1_0 + 1),x+
+   02A8 5E*02         [ 4]  437 	mov	*(_sincoshf_sloc0_1_0 + 2),x+
+   02AA 5E*03         [ 4]  438 	mov	*(_sincoshf_sloc0_1_0 + 3),x+
+   02AC CCr03rFA      [ 3]  439 	jmp	00119$
+   02AF                     440 00115$:
+                            441 ;../sincoshf.c:95: z=x*x;
+   02AF 45r00r00      [ 3]  442 	ldhx	#___fsmul_PARM_1
+   02B2 C6r00r00      [ 4]  443 	lda	_sincoshf_PARM_1
+   02B5 F7            [ 2]  444 	sta	,x
+   02B6 C6r00r01      [ 4]  445 	lda	(_sincoshf_PARM_1 + 1)
+   02B9 E7 01         [ 3]  446 	sta	1,x
+   02BB C6r00r02      [ 4]  447 	lda	(_sincoshf_PARM_1 + 2)
+   02BE E7 02         [ 3]  448 	sta	2,x
+   02C0 C6r00r03      [ 4]  449 	lda	(_sincoshf_PARM_1 + 3)
+   02C3 E7 03         [ 3]  450 	sta	3,x
+   02C5 45r00r00      [ 3]  451 	ldhx	#___fsmul_PARM_2
+   02C8 C6r00r00      [ 4]  452 	lda	_sincoshf_PARM_1
+   02CB F7            [ 2]  453 	sta	,x
+   02CC C6r00r01      [ 4]  454 	lda	(_sincoshf_PARM_1 + 1)
+   02CF E7 01         [ 3]  455 	sta	1,x
+   02D1 C6r00r02      [ 4]  456 	lda	(_sincoshf_PARM_1 + 2)
+   02D4 E7 02         [ 3]  457 	sta	2,x
+   02D6 C6r00r03      [ 4]  458 	lda	(_sincoshf_PARM_1 + 3)
+   02D9 E7 03         [ 3]  459 	sta	3,x
+                            460 ;../sincoshf.c:96: z=x+x*z*P(z)/Q(z);
+   02DB CDr00r00      [ 5]  461 	jsr	___fsmul
+   02DE B7*0C         [ 3]  462 	sta	*(_sincoshf_sloc3_1_0 + 3)
+   02E0 BF*0B         [ 3]  463 	stx	*(_sincoshf_sloc3_1_0 + 2)
+   02E2 4E*00*0A      [ 5]  464 	mov	*___SDCC_hc08_ret2,*(_sincoshf_sloc3_1_0 + 1)
+   02E5 4E*00*09      [ 5]  465 	mov	*___SDCC_hc08_ret3,*_sincoshf_sloc3_1_0
+   02E8 45r00r00      [ 3]  466 	ldhx	#___fsmul_PARM_1
+   02EB C6r00r00      [ 4]  467 	lda	_sincoshf_PARM_1
+   02EE F7            [ 2]  468 	sta	,x
+   02EF C6r00r01      [ 4]  469 	lda	(_sincoshf_PARM_1 + 1)
+   02F2 E7 01         [ 3]  470 	sta	1,x
+   02F4 C6r00r02      [ 4]  471 	lda	(_sincoshf_PARM_1 + 2)
+   02F7 E7 02         [ 3]  472 	sta	2,x
+   02F9 C6r00r03      [ 4]  473 	lda	(_sincoshf_PARM_1 + 3)
+   02FC E7 03         [ 3]  474 	sta	3,x
+   02FE 45r00r00      [ 3]  475 	ldhx	#___fsmul_PARM_2
+   0301 5E*09         [ 4]  476 	mov	*_sincoshf_sloc3_1_0,x+
+   0303 5E*0A         [ 4]  477 	mov	*(_sincoshf_sloc3_1_0 + 1),x+
+   0305 5E*0B         [ 4]  478 	mov	*(_sincoshf_sloc3_1_0 + 2),x+
+   0307 5E*0C         [ 4]  479 	mov	*(_sincoshf_sloc3_1_0 + 3),x+
+   0309 CDr00r00      [ 5]  480 	jsr	___fsmul
+   030C B7*08         [ 3]  481 	sta	*(_sincoshf_sloc2_1_0 + 3)
+   030E BF*07         [ 3]  482 	stx	*(_sincoshf_sloc2_1_0 + 2)
+   0310 4E*00*06      [ 5]  483 	mov	*___SDCC_hc08_ret2,*(_sincoshf_sloc2_1_0 + 1)
+   0313 4E*00*05      [ 5]  484 	mov	*___SDCC_hc08_ret3,*_sincoshf_sloc2_1_0
+   0316 45r00r00      [ 3]  485 	ldhx	#___fsmul_PARM_1
+   0319 A6 BE         [ 2]  486 	lda	#0xBE
+   031B F7            [ 2]  487 	sta	,x
+   031C A6 42         [ 2]  488 	lda	#0x42
+   031E E7 01         [ 3]  489 	sta	1,x
+   0320 A6 E6         [ 2]  490 	lda	#0xE6
+   0322 E7 02         [ 3]  491 	sta	2,x
+   0324 A6 EA         [ 2]  492 	lda	#0xEA
+   0326 E7 03         [ 3]  493 	sta	3,x
+   0328 45r00r00      [ 3]  494 	ldhx	#___fsmul_PARM_2
+   032B 5E*09         [ 4]  495 	mov	*_sincoshf_sloc3_1_0,x+
+   032D 5E*0A         [ 4]  496 	mov	*(_sincoshf_sloc3_1_0 + 1),x+
+   032F 5E*0B         [ 4]  497 	mov	*(_sincoshf_sloc3_1_0 + 2),x+
+   0331 5E*0C         [ 4]  498 	mov	*(_sincoshf_sloc3_1_0 + 3),x+
+   0333 CDr00r00      [ 5]  499 	jsr	___fsmul
+   0336 C7r00r03      [ 4]  500 	sta	(___fsadd_PARM_1 + 3)
+   0339 CFr00r02      [ 4]  501 	stx	(___fsadd_PARM_1 + 2)
+   033C B6*00         [ 3]  502 	lda	*___SDCC_hc08_ret2
+   033E C7r00r01      [ 4]  503 	sta	(___fsadd_PARM_1 + 1)
+   0341 B6*00         [ 3]  504 	lda	*___SDCC_hc08_ret3
+   0343 C7r00r00      [ 4]  505 	sta	___fsadd_PARM_1
+   0346 45r00r00      [ 3]  506 	ldhx	#___fsadd_PARM_2
+   0349 A6 C0         [ 2]  507 	lda	#0xC0
+   034B F7            [ 2]  508 	sta	,x
+   034C A6 E4         [ 2]  509 	lda	#0xE4
+   034E E7 01         [ 3]  510 	sta	1,x
+   0350 A6 69         [ 2]  511 	lda	#0x69
+   0352 E7 02         [ 3]  512 	sta	2,x
+   0354 A6 F0         [ 2]  513 	lda	#0xF0
+   0356 E7 03         [ 3]  514 	sta	3,x
+   0358 CDr00r00      [ 5]  515 	jsr	___fsadd
+   035B C7r00r03      [ 4]  516 	sta	(___fsmul_PARM_2 + 3)
+   035E CFr00r02      [ 4]  517 	stx	(___fsmul_PARM_2 + 2)
+   0361 B6*00         [ 3]  518 	lda	*___SDCC_hc08_ret2
+   0363 C7r00r01      [ 4]  519 	sta	(___fsmul_PARM_2 + 1)
+   0366 B6*00         [ 3]  520 	lda	*___SDCC_hc08_ret3
+   0368 C7r00r00      [ 4]  521 	sta	___fsmul_PARM_2
+   036B 45r00r00      [ 3]  522 	ldhx	#___fsmul_PARM_1
+   036E 5E*05         [ 4]  523 	mov	*_sincoshf_sloc2_1_0,x+
+   0370 5E*06         [ 4]  524 	mov	*(_sincoshf_sloc2_1_0 + 1),x+
+   0372 5E*07         [ 4]  525 	mov	*(_sincoshf_sloc2_1_0 + 2),x+
+   0374 5E*08         [ 4]  526 	mov	*(_sincoshf_sloc2_1_0 + 3),x+
+   0376 CDr00r00      [ 5]  527 	jsr	___fsmul
+   0379 B7*08         [ 3]  528 	sta	*(_sincoshf_sloc2_1_0 + 3)
+   037B BF*07         [ 3]  529 	stx	*(_sincoshf_sloc2_1_0 + 2)
+   037D 4E*00*06      [ 5]  530 	mov	*___SDCC_hc08_ret2,*(_sincoshf_sloc2_1_0 + 1)
+   0380 4E*00*05      [ 5]  531 	mov	*___SDCC_hc08_ret3,*_sincoshf_sloc2_1_0
+   0383 45r00r00      [ 3]  532 	ldhx	#___fsadd_PARM_1
+   0386 5E*09         [ 4]  533 	mov	*_sincoshf_sloc3_1_0,x+
+   0388 5E*0A         [ 4]  534 	mov	*(_sincoshf_sloc3_1_0 + 1),x+
+   038A 5E*0B         [ 4]  535 	mov	*(_sincoshf_sloc3_1_0 + 2),x+
+   038C 5E*0C         [ 4]  536 	mov	*(_sincoshf_sloc3_1_0 + 3),x+
+   038E 45r00r00      [ 3]  537 	ldhx	#___fsadd_PARM_2
+   0391 A6 C2         [ 2]  538 	lda	#0xC2
+   0393 F7            [ 2]  539 	sta	,x
+   0394 A6 2B         [ 2]  540 	lda	#0x2B
+   0396 E7 01         [ 3]  541 	sta	1,x
+   0398 A6 4F         [ 2]  542 	lda	#0x4F
+   039A E7 02         [ 3]  543 	sta	2,x
+   039C A6 93         [ 2]  544 	lda	#0x93
+   039E E7 03         [ 3]  545 	sta	3,x
+   03A0 CDr00r00      [ 5]  546 	jsr	___fsadd
+   03A3 C7r00r03      [ 4]  547 	sta	(___fsdiv_PARM_2 + 3)
+   03A6 CFr00r02      [ 4]  548 	stx	(___fsdiv_PARM_2 + 2)
+   03A9 B6*00         [ 3]  549 	lda	*___SDCC_hc08_ret2
+   03AB C7r00r01      [ 4]  550 	sta	(___fsdiv_PARM_2 + 1)
+   03AE B6*00         [ 3]  551 	lda	*___SDCC_hc08_ret3
+   03B0 C7r00r00      [ 4]  552 	sta	___fsdiv_PARM_2
+   03B3 45r00r00      [ 3]  553 	ldhx	#___fsdiv_PARM_1
+   03B6 5E*05         [ 4]  554 	mov	*_sincoshf_sloc2_1_0,x+
+   03B8 5E*06         [ 4]  555 	mov	*(_sincoshf_sloc2_1_0 + 1),x+
+   03BA 5E*07         [ 4]  556 	mov	*(_sincoshf_sloc2_1_0 + 2),x+
+   03BC 5E*08         [ 4]  557 	mov	*(_sincoshf_sloc2_1_0 + 3),x+
+   03BE CDr00r00      [ 5]  558 	jsr	___fsdiv
+   03C1 C7r00r03      [ 4]  559 	sta	(___fsadd_PARM_2 + 3)
+   03C4 CFr00r02      [ 4]  560 	stx	(___fsadd_PARM_2 + 2)
+   03C7 B6*00         [ 3]  561 	lda	*___SDCC_hc08_ret2
+   03C9 C7r00r01      [ 4]  562 	sta	(___fsadd_PARM_2 + 1)
+   03CC B6*00         [ 3]  563 	lda	*___SDCC_hc08_ret3
+   03CE C7r00r00      [ 4]  564 	sta	___fsadd_PARM_2
+   03D1 45r00r00      [ 3]  565 	ldhx	#___fsadd_PARM_1
+   03D4 C6r00r00      [ 4]  566 	lda	_sincoshf_PARM_1
+   03D7 F7            [ 2]  567 	sta	,x
+   03D8 C6r00r01      [ 4]  568 	lda	(_sincoshf_PARM_1 + 1)
+   03DB E7 01         [ 3]  569 	sta	1,x
+   03DD C6r00r02      [ 4]  570 	lda	(_sincoshf_PARM_1 + 2)
+   03E0 E7 02         [ 3]  571 	sta	2,x
+   03E2 C6r00r03      [ 4]  572 	lda	(_sincoshf_PARM_1 + 3)
+   03E5 E7 03         [ 3]  573 	sta	3,x
+   03E7 CDr00r00      [ 5]  574 	jsr	___fsadd
+   03EA C7r00r10      [ 4]  575 	sta	(_sincoshf_z_1_24 + 3)
+   03ED CFr00r0F      [ 4]  576 	stx	(_sincoshf_z_1_24 + 2)
+   03F0 B6*00         [ 3]  577 	lda	*___SDCC_hc08_ret2
+   03F2 C7r00r0E      [ 4]  578 	sta	(_sincoshf_z_1_24 + 1)
+   03F5 B6*00         [ 3]  579 	lda	*___SDCC_hc08_ret3
+   03F7 C7r00r0D      [ 4]  580 	sta	_sincoshf_z_1_24
+   03FA                     581 00119$:
+                            582 ;../sincoshf.c:99: return z;
+   03FA C6r00r0D      [ 4]  583 	lda	_sincoshf_z_1_24
+   03FD B7*00         [ 3]  584 	sta	*___SDCC_hc08_ret3
+   03FF C6r00r0E      [ 4]  585 	lda	(_sincoshf_z_1_24 + 1)
+   0402 B7*00         [ 3]  586 	sta	*___SDCC_hc08_ret2
+   0404 CEr00r0F      [ 4]  587 	ldx	(_sincoshf_z_1_24 + 2)
+   0407 C6r00r10      [ 4]  588 	lda	(_sincoshf_z_1_24 + 3)
+   040A 81            [ 4]  589 	rts
+                            590 	.area CSEG    (CODE)
+                            591 	.area CONST   (CODE)
+                            592 	.area XINIT   (CODE)
+                            593 	.area CABS    (ABS,CODE)

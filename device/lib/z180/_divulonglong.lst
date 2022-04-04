@@ -1,0 +1,170 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:15:43 2022
+                              5 ;--------------------------------------------------------
+                              6 	.hd64
+                              7 	.module _divulonglong
+                              8 	.optsdcc -mz180
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl __divulonglong
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 ;../_divulonglong.c:39: _divulonglong (unsigned long long x, unsigned long long y)
+                             41 ;	---------------------------------
+                             42 ; Function _divulonglong
+                             43 ; ---------------------------------
+   0000                      44 __divulonglong::
+   0000 DD E5         [14]   45 	push	ix
+   0002 DD 21 00 00   [12]   46 	ld	ix,#0
+   0006 DD 39         [10]   47 	add	ix,sp
+   0008 21 F8 FF      [ 9]   48 	ld	hl,#-8
+   000B 39            [ 7]   49 	add	hl,sp
+   000C F9            [ 4]   50 	ld	sp,hl
+                             51 ;../_divulonglong.c:41: unsigned long long reste = 0L;
+   000D AF            [ 4]   52 	xor	a, a
+   000E DD 77 F8      [15]   53 	ld	-8 (ix),a
+   0011 DD 77 F9      [15]   54 	ld	-7 (ix),a
+   0014 DD 77 FA      [15]   55 	ld	-6 (ix),a
+   0017 DD 77 FB      [15]   56 	ld	-5 (ix),a
+   001A DD 77 FC      [15]   57 	ld	-4 (ix),a
+   001D DD 77 FD      [15]   58 	ld	-3 (ix),a
+   0020 DD 77 FE      [15]   59 	ld	-2 (ix),a
+   0023 DD 77 FF      [15]   60 	ld	-1 (ix),a
+                             61 ;../_divulonglong.c:42: unsigned char count = 64;
+   0026 16 40         [ 6]   62 	ld	d,#0x40
+                             63 ;../_divulonglong.c:45: do
+   0028                      64 00105$:
+                             65 ;../_divulonglong.c:48: c = MSB_SET(x);
+   0028 DD 7E 0D      [14]   66 	ld	a,13 (ix)
+   002B CB 07         [ 7]   67 	rlc	a
+   002D E6 01         [ 6]   68 	and	a,#0x01
+   002F 67            [ 4]   69 	ld	h,a
+                             70 ;../_divulonglong.c:49: x <<= 1;
+   0030 F5            [11]   71 	push	af
+   0031 F1            [ 9]   72 	pop	af
+   0032 DD CB 06 26   [19]   73 	sla	6 (ix)
+   0036 DD CB 07 16   [19]   74 	rl	7 (ix)
+   003A DD CB 08 16   [19]   75 	rl	8 (ix)
+   003E DD CB 09 16   [19]   76 	rl	9 (ix)
+   0042 DD CB 0A 16   [19]   77 	rl	10 (ix)
+   0046 DD CB 0B 16   [19]   78 	rl	11 (ix)
+   004A DD CB 0C 16   [19]   79 	rl	12 (ix)
+   004E DD CB 0D 16   [19]   80 	rl	13 (ix)
+                             81 ;../_divulonglong.c:50: reste <<= 1;
+   0052 F5            [11]   82 	push	af
+   0053 F1            [ 9]   83 	pop	af
+   0054 DD CB F8 26   [19]   84 	sla	-8 (ix)
+   0058 DD CB F9 16   [19]   85 	rl	-7 (ix)
+   005C DD CB FA 16   [19]   86 	rl	-6 (ix)
+   0060 DD CB FB 16   [19]   87 	rl	-5 (ix)
+   0064 DD CB FC 16   [19]   88 	rl	-4 (ix)
+   0068 DD CB FD 16   [19]   89 	rl	-3 (ix)
+   006C DD CB FE 16   [19]   90 	rl	-2 (ix)
+   0070 DD CB FF 16   [19]   91 	rl	-1 (ix)
+                             92 ;../_divulonglong.c:51: if (c)
+   0074 CB 44         [ 7]   93 	bit	0,h
+   0076 28 04         [ 8]   94 	jr	Z,00102$
+                             95 ;../_divulonglong.c:52: reste |= 1L;
+   0078 DD CB F8 C6   [19]   96 	set	0, -8 (ix)
+   007C                      97 00102$:
+                             98 ;../_divulonglong.c:54: if (reste >= y)
+   007C DD 7E F8      [14]   99 	ld	a,-8 (ix)
+   007F DD 96 0E      [14]  100 	sub	a, 14 (ix)
+   0082 DD 7E F9      [14]  101 	ld	a,-7 (ix)
+   0085 DD 9E 0F      [14]  102 	sbc	a, 15 (ix)
+   0088 DD 7E FA      [14]  103 	ld	a,-6 (ix)
+   008B DD 9E 10      [14]  104 	sbc	a, 16 (ix)
+   008E DD 7E FB      [14]  105 	ld	a,-5 (ix)
+   0091 DD 9E 11      [14]  106 	sbc	a, 17 (ix)
+   0094 DD 7E FC      [14]  107 	ld	a,-4 (ix)
+   0097 DD 9E 12      [14]  108 	sbc	a, 18 (ix)
+   009A DD 7E FD      [14]  109 	ld	a,-3 (ix)
+   009D DD 9E 13      [14]  110 	sbc	a, 19 (ix)
+   00A0 DD 7E FE      [14]  111 	ld	a,-2 (ix)
+   00A3 DD 9E 14      [14]  112 	sbc	a, 20 (ix)
+   00A6 DD 7E FF      [14]  113 	ld	a,-1 (ix)
+   00A9 DD 9E 15      [14]  114 	sbc	a, 21 (ix)
+   00AC 38 4C         [ 8]  115 	jr	C,00106$
+                            116 ;../_divulonglong.c:56: reste -= y;
+   00AE DD 7E F8      [14]  117 	ld	a,-8 (ix)
+   00B1 DD 96 0E      [14]  118 	sub	a, 14 (ix)
+   00B4 DD 77 F8      [15]  119 	ld	-8 (ix),a
+   00B7 DD 7E F9      [14]  120 	ld	a,-7 (ix)
+   00BA DD 9E 0F      [14]  121 	sbc	a, 15 (ix)
+   00BD DD 77 F9      [15]  122 	ld	-7 (ix),a
+   00C0 DD 7E FA      [14]  123 	ld	a,-6 (ix)
+   00C3 DD 9E 10      [14]  124 	sbc	a, 16 (ix)
+   00C6 DD 77 FA      [15]  125 	ld	-6 (ix),a
+   00C9 DD 7E FB      [14]  126 	ld	a,-5 (ix)
+   00CC DD 9E 11      [14]  127 	sbc	a, 17 (ix)
+   00CF DD 77 FB      [15]  128 	ld	-5 (ix),a
+   00D2 DD 7E FC      [14]  129 	ld	a,-4 (ix)
+   00D5 DD 9E 12      [14]  130 	sbc	a, 18 (ix)
+   00D8 DD 77 FC      [15]  131 	ld	-4 (ix),a
+   00DB DD 7E FD      [14]  132 	ld	a,-3 (ix)
+   00DE DD 9E 13      [14]  133 	sbc	a, 19 (ix)
+   00E1 DD 77 FD      [15]  134 	ld	-3 (ix),a
+   00E4 DD 7E FE      [14]  135 	ld	a,-2 (ix)
+   00E7 DD 9E 14      [14]  136 	sbc	a, 20 (ix)
+   00EA DD 77 FE      [15]  137 	ld	-2 (ix),a
+   00ED DD 7E FF      [14]  138 	ld	a,-1 (ix)
+   00F0 DD 9E 15      [14]  139 	sbc	a, 21 (ix)
+   00F3 DD 77 FF      [15]  140 	ld	-1 (ix),a
+                            141 ;../_divulonglong.c:58: x |= 1L;
+   00F6 DD CB 06 C6   [19]  142 	set	0, 6 (ix)
+   00FA                     143 00106$:
+                            144 ;../_divulonglong.c:61: while (--count);
+   00FA 7A            [ 4]  145 	ld	a,d
+   00FB C6 FF         [ 6]  146 	add	a,#0xFF
+   00FD 57            [ 4]  147 	ld	d,a
+   00FE B7            [ 4]  148 	or	a, a
+   00FF C2r28r00      [ 9]  149 	jp	NZ,00105$
+                            150 ;../_divulonglong.c:62: return x;
+   0102 21 0C 00      [ 9]  151 	ld	hl, #12
+   0105 39            [ 7]  152 	add	hl, sp
+   0106 5E            [ 6]  153 	ld	e, (hl)
+   0107 23            [ 4]  154 	inc	hl
+   0108 56            [ 6]  155 	ld	d, (hl)
+   0109 21 0E 00      [ 9]  156 	ld	hl, #14
+   010C 39            [ 7]  157 	add	hl, sp
+   010D 01 08 00      [ 9]  158 	ld	bc, #8
+   0110 ED B0         [14]  159 	ldir
+   0112 DD F9         [ 7]  160 	ld	sp, ix
+   0114 DD E1         [12]  161 	pop	ix
+   0116 C9            [ 9]  162 	ret
+                            163 	.area _HOME
+                            164 ;--------------------------------------------------------
+                            165 ; code
+                            166 ;--------------------------------------------------------
+                            167 	.area _CODE
+                            168 	.area _CODE
+                            169 	.area _INITIALIZER
+                            170 	.area _CABS (ABS)

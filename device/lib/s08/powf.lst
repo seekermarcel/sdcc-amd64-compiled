@@ -1,0 +1,189 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:36 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module powf
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _logf
+                             25 	.globl _expf
+                             26 	.globl _powf_PARM_2
+                             27 	.globl _powf_PARM_1
+                             28 	.globl _powf
+                             29 ;--------------------------------------------------------
+                             30 ; ram data
+                             31 ;--------------------------------------------------------
+                             32 	.area DSEG    (PAG)
+   0000                      33 _powf_sloc0_1_0:
+   0000                      34 	.ds 4
+                             35 ;--------------------------------------------------------
+                             36 ; overlayable items in ram 
+                             37 ;--------------------------------------------------------
+                             38 ;--------------------------------------------------------
+                             39 ; absolute ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area IABS    (ABS)
+                             42 	.area IABS    (ABS)
+                             43 ;--------------------------------------------------------
+                             44 ; absolute external ram data
+                             45 ;--------------------------------------------------------
+                             46 	.area XABS    (ABS)
+                             47 ;--------------------------------------------------------
+                             48 ; external initialized ram data
+                             49 ;--------------------------------------------------------
+                             50 	.area XISEG
+                             51 ;--------------------------------------------------------
+                             52 ; extended address mode data
+                             53 ;--------------------------------------------------------
+                             54 	.area XSEG
+   0000                      55 _powf_PARM_1:
+   0000                      56 	.ds 4
+   0004                      57 _powf_PARM_2:
+   0004                      58 	.ds 4
+                             59 ;--------------------------------------------------------
+                             60 ; global & static initialisations
+                             61 ;--------------------------------------------------------
+                             62 	.area HOME    (CODE)
+                             63 	.area GSINIT  (CODE)
+                             64 	.area GSFINAL (CODE)
+                             65 	.area GSINIT  (CODE)
+                             66 ;--------------------------------------------------------
+                             67 ; Home
+                             68 ;--------------------------------------------------------
+                             69 	.area HOME    (CODE)
+                             70 	.area HOME    (CODE)
+                             71 ;--------------------------------------------------------
+                             72 ; code
+                             73 ;--------------------------------------------------------
+                             74 	.area CSEG    (CODE)
+                             75 ;------------------------------------------------------------
+                             76 ;Allocation info for local variables in function 'powf'
+                             77 ;------------------------------------------------------------
+                             78 ;sloc0                     Allocated with name '_powf_sloc0_1_0'
+                             79 ;x                         Allocated with name '_powf_PARM_1'
+                             80 ;y                         Allocated with name '_powf_PARM_2'
+                             81 ;------------------------------------------------------------
+                             82 ;../powf.c:35: float powf(float x, float y)
+                             83 ;	-----------------------------------------
+                             84 ;	 function powf
+                             85 ;	-----------------------------------------
+                             86 ;	Register assignment is optimal.
+                             87 ;	Stack space usage: 0 bytes.
+   0000                      88 _powf:
+                             89 ;../powf.c:37: if(y == 0.0) return 1.0;
+   0000 C6r00r04      [ 4]   90 	lda	_powf_PARM_2
+   0003 A4 7F         [ 2]   91 	and	#0x7F
+   0005 CAr00r05      [ 4]   92 	ora	(_powf_PARM_2 + 1)
+   0008 CAr00r06      [ 4]   93 	ora	(_powf_PARM_2 + 2)
+   000B CAr00r07      [ 4]   94 	ora	(_powf_PARM_2 + 3)
+   000E 26 09         [ 3]   95 	bne	00102$
+   0010 4F            [ 1]   96 	clra
+   0011 97            [ 1]   97 	tax
+   0012 6E 80*00      [ 4]   98 	mov	#0x80,*___SDCC_hc08_ret2
+   0015 6E 3F*00      [ 4]   99 	mov	#0x3F,*___SDCC_hc08_ret3
+   0018 81            [ 6]  100 	rts
+   0019                     101 00102$:
+                            102 ;../powf.c:38: if(y == 1.0) return x;
+   0019 32r00r04      [ 5]  103 	ldhx	_powf_PARM_2
+   001C 96r00r00      [ 5]  104 	sthx	___fseq_PARM_1
+   001F 32r00r06      [ 5]  105 	ldhx	(_powf_PARM_2 + 2)
+   0022 96r00r02      [ 5]  106 	sthx	(___fseq_PARM_1 + 2)
+   0025 45 3F 80      [ 3]  107 	ldhx	#0x3F80
+   0028 96r00r00      [ 5]  108 	sthx	___fseq_PARM_2
+   002B 8C            [ 1]  109 	clrh
+   002C 5F            [ 1]  110 	clrx
+   002D 96r00r02      [ 5]  111 	sthx	(___fseq_PARM_2 + 2)
+   0030 CDr00r00      [ 6]  112 	jsr	___fseq
+   0033 4D            [ 1]  113 	tsta
+   0034 27 11         [ 3]  114 	beq	00104$
+   0036 C6r00r00      [ 4]  115 	lda	_powf_PARM_1
+   0039 B7*00         [ 3]  116 	sta	*___SDCC_hc08_ret3
+   003B C6r00r01      [ 4]  117 	lda	(_powf_PARM_1 + 1)
+   003E B7*00         [ 3]  118 	sta	*___SDCC_hc08_ret2
+   0040 CEr00r02      [ 4]  119 	ldx	(_powf_PARM_1 + 2)
+   0043 C6r00r03      [ 4]  120 	lda	(_powf_PARM_1 + 3)
+   0046 81            [ 6]  121 	rts
+   0047                     122 00104$:
+                            123 ;../powf.c:39: if(x <= 0.0) return 0.0;
+   0047 32r00r00      [ 5]  124 	ldhx	_powf_PARM_1
+   004A 96r00r00      [ 5]  125 	sthx	___fsgt_PARM_1
+   004D 32r00r02      [ 5]  126 	ldhx	(_powf_PARM_1 + 2)
+   0050 96r00r02      [ 5]  127 	sthx	(___fsgt_PARM_1 + 2)
+   0053 8C            [ 1]  128 	clrh
+   0054 5F            [ 1]  129 	clrx
+   0055 96r00r00      [ 5]  130 	sthx	___fsgt_PARM_2
+   0058 96r00r02      [ 5]  131 	sthx	(___fsgt_PARM_2 + 2)
+   005B CDr00r00      [ 6]  132 	jsr	___fsgt
+   005E 4D            [ 1]  133 	tsta
+   005F 26 07         [ 3]  134 	bne	00106$
+   0061 4F            [ 1]  135 	clra
+   0062 97            [ 1]  136 	tax
+   0063 B7*00         [ 3]  137 	sta	*___SDCC_hc08_ret2
+   0065 B7*00         [ 3]  138 	sta	*___SDCC_hc08_ret3
+   0067 81            [ 6]  139 	rts
+   0068                     140 00106$:
+                            141 ;../powf.c:40: return expf(logf(x) * y);
+   0068 C6r00r03      [ 4]  142 	lda	(_powf_PARM_1 + 3)
+   006B 87            [ 2]  143 	psha
+   006C C6r00r02      [ 4]  144 	lda	(_powf_PARM_1 + 2)
+   006F 87            [ 2]  145 	psha
+   0070 C6r00r01      [ 4]  146 	lda	(_powf_PARM_1 + 1)
+   0073 87            [ 2]  147 	psha
+   0074 C6r00r00      [ 4]  148 	lda	_powf_PARM_1
+   0077 87            [ 2]  149 	psha
+   0078 CDr00r00      [ 6]  150 	jsr	_logf
+   007B C7r00r03      [ 4]  151 	sta	(___fsmul_PARM_1 + 3)
+   007E CFr00r02      [ 4]  152 	stx	(___fsmul_PARM_1 + 2)
+   0081 B6*00         [ 3]  153 	lda	*___SDCC_hc08_ret2
+   0083 C7r00r01      [ 4]  154 	sta	(___fsmul_PARM_1 + 1)
+   0086 B6*00         [ 3]  155 	lda	*___SDCC_hc08_ret3
+   0088 C7r00r00      [ 4]  156 	sta	___fsmul_PARM_1
+   008B A7 04         [ 2]  157 	ais	#4
+   008D 32r00r04      [ 5]  158 	ldhx	_powf_PARM_2
+   0090 96r00r00      [ 5]  159 	sthx	___fsmul_PARM_2
+   0093 32r00r06      [ 5]  160 	ldhx	(_powf_PARM_2 + 2)
+   0096 96r00r02      [ 5]  161 	sthx	(___fsmul_PARM_2 + 2)
+   0099 CDr00r00      [ 6]  162 	jsr	___fsmul
+   009C B7*03         [ 3]  163 	sta	*(_powf_sloc0_1_0 + 3)
+   009E BF*02         [ 3]  164 	stx	*(_powf_sloc0_1_0 + 2)
+   00A0 4E*00*01      [ 6]  165 	mov	*___SDCC_hc08_ret2,*(_powf_sloc0_1_0 + 1)
+   00A3 4E*00*00      [ 6]  166 	mov	*___SDCC_hc08_ret3,*_powf_sloc0_1_0
+   00A6 B6*03         [ 3]  167 	lda	*(_powf_sloc0_1_0 + 3)
+   00A8 87            [ 2]  168 	psha
+   00A9 B6*02         [ 3]  169 	lda	*(_powf_sloc0_1_0 + 2)
+   00AB 87            [ 2]  170 	psha
+   00AC B6*01         [ 3]  171 	lda	*(_powf_sloc0_1_0 + 1)
+   00AE 87            [ 2]  172 	psha
+   00AF B6*00         [ 3]  173 	lda	*_powf_sloc0_1_0
+   00B1 87            [ 2]  174 	psha
+   00B2 CDr00r00      [ 6]  175 	jsr	_expf
+   00B5 B7*03         [ 3]  176 	sta	*(_powf_sloc0_1_0 + 3)
+   00B7 BF*02         [ 3]  177 	stx	*(_powf_sloc0_1_0 + 2)
+   00B9 4E*00*01      [ 6]  178 	mov	*___SDCC_hc08_ret2,*(_powf_sloc0_1_0 + 1)
+   00BC 4E*00*00      [ 6]  179 	mov	*___SDCC_hc08_ret3,*_powf_sloc0_1_0
+   00BF A7 04         [ 2]  180 	ais	#4
+   00C1 4E*00*00      [ 6]  181 	mov	*_powf_sloc0_1_0,*___SDCC_hc08_ret3
+   00C4 4E*01*00      [ 6]  182 	mov	*(_powf_sloc0_1_0 + 1),*___SDCC_hc08_ret2
+   00C7 BE*02         [ 3]  183 	ldx	*(_powf_sloc0_1_0 + 2)
+   00C9 B6*03         [ 3]  184 	lda	*(_powf_sloc0_1_0 + 3)
+   00CB 81            [ 6]  185 	rts
+                            186 	.area CSEG    (CODE)
+                            187 	.area CONST   (CODE)
+                            188 	.area XINIT   (CODE)
+                            189 	.area CABS    (ABS,CODE)

@@ -1,0 +1,204 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:32 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module atoi
+                              7 	.optsdcc -mhc08
+                              8 	
+                              9 	.area HOME    (CODE)
+                             10 	.area GSINIT0 (CODE)
+                             11 	.area GSINIT  (CODE)
+                             12 	.area GSFINAL (CODE)
+                             13 	.area CSEG    (CODE)
+                             14 	.area XINIT   (CODE)
+                             15 	.area CONST   (CODE)
+                             16 	.area DSEG    (PAG)
+                             17 	.area OSEG    (PAG, OVR)
+                             18 	.area XSEG
+                             19 	.area XISEG
+                             20 ;--------------------------------------------------------
+                             21 ; Public variables in this module
+                             22 ;--------------------------------------------------------
+                             23 	.globl _atoi
+                             24 ;--------------------------------------------------------
+                             25 ; ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area DSEG    (PAG)
+   0000                      28 _atoi_sloc0_1_0:
+   0000                      29 	.ds 1
+   0001                      30 _atoi_sloc1_1_0:
+   0001                      31 	.ds 2
+   0003                      32 _atoi_sloc2_1_0:
+   0003                      33 	.ds 2
+                             34 ;--------------------------------------------------------
+                             35 ; overlayable items in ram 
+                             36 ;--------------------------------------------------------
+                             37 ;--------------------------------------------------------
+                             38 ; absolute ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area IABS    (ABS)
+                             41 	.area IABS    (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; absolute external ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area XABS    (ABS)
+                             46 ;--------------------------------------------------------
+                             47 ; external initialized ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area XISEG
+                             50 ;--------------------------------------------------------
+                             51 ; extended address mode data
+                             52 ;--------------------------------------------------------
+                             53 	.area XSEG
+   0000                      54 _atoi_ret_1_37:
+   0000                      55 	.ds 2
+   0002                      56 _atoi_neg_1_37:
+   0002                      57 	.ds 1
+   0003                      58 _atoi___00020002_3_39:
+   0003                      59 	.ds 2
+                             60 ;--------------------------------------------------------
+                             61 ; global & static initialisations
+                             62 ;--------------------------------------------------------
+                             63 	.area HOME    (CODE)
+                             64 	.area GSINIT  (CODE)
+                             65 	.area GSFINAL (CODE)
+                             66 	.area GSINIT  (CODE)
+                             67 ;--------------------------------------------------------
+                             68 ; Home
+                             69 ;--------------------------------------------------------
+                             70 	.area HOME    (CODE)
+                             71 	.area HOME    (CODE)
+                             72 ;--------------------------------------------------------
+                             73 ; code
+                             74 ;--------------------------------------------------------
+                             75 	.area CSEG    (CODE)
+                             76 ;------------------------------------------------------------
+                             77 ;Allocation info for local variables in function 'atoi'
+                             78 ;------------------------------------------------------------
+                             79 ;sloc0                     Allocated with name '_atoi_sloc0_1_0'
+                             80 ;sloc1                     Allocated with name '_atoi_sloc1_1_0'
+                             81 ;sloc2                     Allocated with name '_atoi_sloc2_1_0'
+                             82 ;nptr                      Allocated to registers x h 
+                             83 ;__00010004                Allocated to registers 
+                             84 ;__00010001                Allocated to registers 
+                             85 ;ret                       Allocated with name '_atoi_ret_1_37'
+                             86 ;neg                       Allocated with name '_atoi_neg_1_37'
+                             87 ;__00020002                Allocated with name '_atoi___00020002_3_39'
+                             88 ;c                         Allocated to registers 
+                             89 ;__00020005                Allocated to registers x h 
+                             90 ;c                         Allocated to registers 
+                             91 ;------------------------------------------------------------
+                             92 ;../atoi.c:34: int atoi(const char *nptr)
+                             93 ;	-----------------------------------------
+                             94 ;	 function atoi
+                             95 ;	-----------------------------------------
+                             96 ;	Register assignment is optimal.
+                             97 ;	Stack space usage: 0 bytes.
+   0000                      98 _atoi:
+   0000 89            [ 2]   99 	pshx
+   0001 97            [ 1]  100 	tax
+   0002 8A            [ 2]  101 	pulh
+                            102 ;../atoi.c:36: int ret = 0;
+   0003 4F            [ 1]  103 	clra
+   0004 C7r00r00      [ 4]  104 	sta	_atoi_ret_1_37
+   0007 C7r00r01      [ 4]  105 	sta	(_atoi_ret_1_37 + 1)
+                            106 ;../atoi.c:39: while (isblank (*nptr))
+   000A                     107 00101$:
+   000A F6            [ 2]  108 	lda	,x
+   000B B7*00         [ 3]  109 	sta	*_atoi_sloc0_1_0
+   000D B6*00         [ 3]  110 	lda	*_atoi_sloc0_1_0
+   000F C7r00r04      [ 4]  111 	sta	(_atoi___00020002_3_39 + 1)
+   0012 49            [ 1]  112 	rola	
+   0013 4F            [ 1]  113 	clra	
+   0014 A2 00         [ 2]  114 	sbc	#0x00
+   0016 C7r00r03      [ 4]  115 	sta	_atoi___00020002_3_39
+                            116 ;./../../include/ctype.h:53: return ((unsigned char)c == ' ' || (unsigned char)c == '\t');
+   0019 C6r00r04      [ 4]  117 	lda	(_atoi___00020002_3_39 + 1)
+   001C 41 20 04      [ 4]  118 	cbeqa	#0x20,00115$
+   001F A1 09         [ 2]  119 	cmp	#0x09
+   0021 26 04         [ 3]  120 	bne	00131$
+   0023                     121 00115$:
+                            122 ;../atoi.c:40: nptr++;
+   0023 AF 01         [ 2]  123 	aix	#1
+   0025 20 E3         [ 3]  124 	bra	00101$
+   0027                     125 00131$:
+                            126 ;../atoi.c:42: neg = (*nptr == '-');
+   0027 B6*00         [ 3]  127 	lda	*_atoi_sloc0_1_0
+   0029 41 2D 03      [ 4]  128 	cbeqa	#0x2D,00157$
+   002C 4F            [ 1]  129 	clra
+   002D 20 02         [ 3]  130 	bra	00156$
+   002F                     131 00157$:
+   002F A6 01         [ 2]  132 	lda	#0x01
+   0031                     133 00156$:
+   0031 C7r00r02      [ 4]  134 	sta	_atoi_neg_1_37
+                            135 ;../atoi.c:44: if (*nptr == '-' || *nptr == '+')
+   0034 4D            [ 1]  136 	tsta
+   0035 26 06         [ 3]  137 	bne	00104$
+   0037 B6*00         [ 3]  138 	lda	*_atoi_sloc0_1_0
+   0039 A1 2B         [ 2]  139 	cmp	#0x2B
+   003B 26 02         [ 3]  140 	bne	00129$
+   003D                     141 00104$:
+                            142 ;../atoi.c:45: nptr++;
+   003D AF 01         [ 2]  143 	aix	#1
+                            144 ;../atoi.c:47: while (isdigit (*nptr))
+   003F                     145 00129$:
+   003F 35*01         [ 4]  146 	sthx	*_atoi_sloc1_1_0
+   0041                     147 00107$:
+   0041 55*01         [ 4]  148 	ldhx	*_atoi_sloc1_1_0
+   0043 F6            [ 2]  149 	lda	,x
+   0044 B7*04         [ 3]  150 	sta	*(_atoi_sloc2_1_0 + 1)
+   0046 49            [ 1]  151 	rola	
+   0047 4F            [ 1]  152 	clra	
+   0048 A2 00         [ 2]  153 	sbc	#0x00
+   004A B7*03         [ 3]  154 	sta	*_atoi_sloc2_1_0
+   004C 55*03         [ 4]  155 	ldhx	*_atoi_sloc2_1_0
+                            156 ;./../../include/ctype.h:62: return ((unsigned char)c >= '0' && (unsigned char)c <= '9');
+   004E A3 30         [ 2]  157 	cpx	#0x30
+   0050 25 33         [ 3]  158 	bcs	00109$
+   0052 A3 39         [ 2]  159 	cpx	#0x39
+   0054 22 2F         [ 3]  160 	bhi	00109$
+                            161 ;../atoi.c:48: ret = ret * 10 + (*(nptr++) - '0');
+   0056 C6r00r00      [ 4]  162 	lda	_atoi_ret_1_37
+   0059 C7r00r00      [ 4]  163 	sta	__mulint_PARM_2
+   005C C6r00r01      [ 4]  164 	lda	(_atoi_ret_1_37 + 1)
+   005F C7r00r01      [ 4]  165 	sta	(__mulint_PARM_2 + 1)
+   0062 A6 0A         [ 2]  166 	lda	#0x0A
+   0064 5F            [ 1]  167 	clrx
+   0065 CDr00r00      [ 5]  168 	jsr	__mulint
+   0068 89            [ 2]  169 	pshx
+   0069 55*01         [ 4]  170 	ldhx	*_atoi_sloc1_1_0
+   006B AF 01         [ 2]  171 	aix	#1
+   006D 35*01         [ 4]  172 	sthx	*_atoi_sloc1_1_0
+   006F 88            [ 2]  173 	pulx
+   0070 89            [ 2]  174 	pshx
+   0071 55*03         [ 4]  175 	ldhx	*_atoi_sloc2_1_0
+   0073 AF D0         [ 2]  176 	aix	#-48
+   0075 35*03         [ 4]  177 	sthx	*_atoi_sloc2_1_0
+   0077 88            [ 2]  178 	pulx
+   0078 BB*04         [ 3]  179 	add	*(_atoi_sloc2_1_0 + 1)
+   007A C7r00r01      [ 4]  180 	sta	(_atoi_ret_1_37 + 1)
+   007D 9F            [ 1]  181 	txa
+   007E B9*03         [ 3]  182 	adc	*_atoi_sloc2_1_0
+   0080 C7r00r00      [ 4]  183 	sta	_atoi_ret_1_37
+   0083 20 BC         [ 3]  184 	bra	00107$
+   0085                     185 00109$:
+                            186 ;../atoi.c:50: return (neg ? -ret : ret); // Since -INT_MIN is INT_MIN in sdcc, the result value always turns out ok.
+   0085 C6r00r02      [ 4]  187 	lda	_atoi_neg_1_37
+   0088 27 0C         [ 3]  188 	beq	00120$
+   008A 4F            [ 1]  189 	clra
+   008B C0r00r01      [ 4]  190 	sub	(_atoi_ret_1_37 + 1)
+   008E 87            [ 2]  191 	psha
+   008F 4F            [ 1]  192 	clra
+   0090 C2r00r00      [ 4]  193 	sbc	_atoi_ret_1_37
+   0093 97            [ 1]  194 	tax
+   0094 86            [ 2]  195 	pula
+   0095 81            [ 4]  196 	rts
+   0096                     197 00120$:
+   0096 CEr00r00      [ 4]  198 	ldx	_atoi_ret_1_37
+   0099 C6r00r01      [ 4]  199 	lda	(_atoi_ret_1_37 + 1)
+   009C 81            [ 4]  200 	rts
+                            201 	.area CSEG    (CODE)
+                            202 	.area CONST   (CODE)
+                            203 	.area XINIT   (CODE)
+                            204 	.area CABS    (ABS,CODE)

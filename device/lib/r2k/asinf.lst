@@ -1,0 +1,113 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:15:58 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module asinf
+                              7 	.optsdcc -mr2k
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _asincosf
+                             13 	.globl _asinf
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 	.area _HOME
+                             41 ;--------------------------------------------------------
+                             42 ; code
+                             43 ;--------------------------------------------------------
+                             44 	.area _CODE
+                             45 ;../asinf.c:36: float asinf(float x) _FLOAT_FUNC_REENTRANT
+                             46 ;	---------------------------------
+                             47 ; Function asinf
+                             48 ; ---------------------------------
+   0000                      49 _asinf::
+                             50 ;../asinf.c:38: if (x == 1.0) return  HALF_PI;
+   0000 21 80 3F             51 	ld	hl,#0x3F80
+   0003 E5                   52 	push	hl
+   0004 21 00 00             53 	ld	hl,#0x0000
+   0007 E5                   54 	push	hl
+   0008 C4 08                55 	ld	hl, 8 (sp)
+   000A E5                   56 	push	hl
+   000B C4 08                57 	ld	hl, 8 (sp)
+   000D E5                   58 	push	hl
+   000E CDr00r00             59 	call	___fseq
+   0011 27 08                60 	add	sp, #8
+   0013 7D                   61 	ld	a,l
+   0014 B7                   62 	or	a, a
+   0015 28 07                63 	jr	Z,00108$
+   0017 21 DB 0F             64 	ld	hl,#0x0FDB
+   001A 11 C9 3F             65 	ld	de,#0x3FC9
+   001D C9                   66 	ret
+   001E                      67 00108$:
+                             68 ;../asinf.c:39: else if (x ==-1.0) return -HALF_PI;
+   001E 21 80 BF             69 	ld	hl,#0xBF80
+   0021 E5                   70 	push	hl
+   0022 21 00 00             71 	ld	hl,#0x0000
+   0025 E5                   72 	push	hl
+   0026 C4 08                73 	ld	hl, 8 (sp)
+   0028 E5                   74 	push	hl
+   0029 C4 08                75 	ld	hl, 8 (sp)
+   002B E5                   76 	push	hl
+   002C CDr00r00             77 	call	___fseq
+   002F 27 08                78 	add	sp, #8
+   0031 7D                   79 	ld	a,l
+   0032 B7                   80 	or	a, a
+   0033 28 07                81 	jr	Z,00105$
+   0035 21 DB 0F             82 	ld	hl,#0x0FDB
+   0038 11 C9 BF             83 	ld	de,#0xBFC9
+   003B C9                   84 	ret
+   003C                      85 00105$:
+                             86 ;../asinf.c:40: else if (x == 0.0) return 0.0;
+   003C FD 21 02 00          87 	ld	iy,#2
+   0040 FD 39                88 	add	iy,sp
+   0042 FD 7E 03             89 	ld	a,3 (iy)
+   0045 CB BF                90 	res	7, a
+   0047 FD B6 02             91 	or	a, 2 (iy)
+   004A FD B6 01             92 	or	a, 1 (iy)
+   004D FD B6 00             93 	or	a,0 (iy)
+   0050 20 06                94 	jr	NZ,00102$
+   0052 21 00 00             95 	ld	hl,#0x0000
+   0055 5D                   96 	ld	e,l
+   0056 54                   97 	ld	d,h
+   0057 C9                   98 	ret
+   0058                      99 00102$:
+                            100 ;../asinf.c:41: else               return asincosf(x, false);
+   0058 AF                  101 	xor	a, a
+   0059 F5                  102 	push	af
+   005A 33                  103 	inc	sp
+   005B C4 05               104 	ld	hl, 5 (sp)
+   005D E5                  105 	push	hl
+   005E C4 05               106 	ld	hl, 5 (sp)
+   0060 E5                  107 	push	hl
+   0061 CDr00r00            108 	call	_asincosf
+   0064 27 05               109 	add	sp, #5
+   0066 C9                  110 	ret
+                            111 	.area _CODE
+                            112 	.area _INITIALIZER
+                            113 	.area _CABS (ABS)

@@ -1,0 +1,303 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:51 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _ltoa
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl __ltoa
+                             13 	.globl __ultoa
+                             14 ;--------------------------------------------------------
+                             15 ; ram data
+                             16 ;--------------------------------------------------------
+                             17 	.area _DATA
+                             18 ;--------------------------------------------------------
+                             19 ; absolute external ram data
+                             20 ;--------------------------------------------------------
+                             21 	.area _DABS (ABS)
+                             22 ;--------------------------------------------------------
+                             23 ; global & static initialisations
+                             24 ;--------------------------------------------------------
+                             25 	.area _HOME
+                             26 	.area _GSINIT
+                             27 	.area _GSFINAL
+                             28 	.area _GSINIT
+                             29 ;--------------------------------------------------------
+                             30 ; Home
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _HOME
+                             34 ;--------------------------------------------------------
+                             35 ; code
+                             36 ;--------------------------------------------------------
+                             37 	.area _CODE
+                             38 ;../_ltoa.c:56: void _ultoa(unsigned long value, char* string, unsigned char radix)
+                             39 ;	---------------------------------
+                             40 ; Function _ultoa
+                             41 ; ---------------------------------
+   0000                      42 __ultoa::
+   0000 E8 D7                43 	add	sp, #-41
+                             44 ;../_ltoa.c:61: do {
+   0002 F8 01                45 	ldhl	sp,#1
+   0004 7D                   46 	ld	a,l
+   0005 54                   47 	ld	d,h
+   0006 F8 25                48 	ldhl	sp,#37
+   0008 22                   49 	ld	(hl+),a
+   0009 72                   50 	ld	(hl),d
+   000A F8 00                51 	ldhl	sp,#0
+   000C 36 20                52 	ld	(hl),#0x20
+   000E                      53 00103$:
+                             54 ;../_ltoa.c:62: unsigned char c = '0' + (value % radix);
+   000E F8 31                55 	ldhl	sp,#49
+   0010 7E                   56 	ld	a,(hl)
+   0011 F8 21                57 	ldhl	sp,#33
+   0013 22                   58 	ld	(hl+),a
+   0014 36 00                59 	ld	(hl),#0x00
+   0016 23                   60 	inc	hl
+   0017 36 00                61 	ld	(hl),#0x00
+   0019 23                   62 	inc	hl
+   001A 36 00                63 	ld	(hl),#0x00
+   001C 2B                   64 	dec	hl
+   001D 2A                   65 	ld	a,(hl+)
+   001E 66                   66 	ld	h,(hl)
+   001F 6F                   67 	ld	l,a
+   0020 E5                   68 	push	hl
+   0021 F8 23                69 	ldhl	sp,#35
+   0023 2A                   70 	ld	a,(hl+)
+   0024 66                   71 	ld	h,(hl)
+   0025 6F                   72 	ld	l,a
+   0026 E5                   73 	push	hl
+   0027 F8 31                74 	ldhl	sp,#49
+   0029 2A                   75 	ld	a,(hl+)
+   002A 66                   76 	ld	h,(hl)
+   002B 6F                   77 	ld	l,a
+   002C E5                   78 	push	hl
+   002D F8 31                79 	ldhl	sp,#49
+   002F 2A                   80 	ld	a,(hl+)
+   0030 66                   81 	ld	h,(hl)
+   0031 6F                   82 	ld	l,a
+   0032 E5                   83 	push	hl
+   0033 CDr00r00             84 	call	__modulong
+   0036 E8 08                85 	add	sp, #8
+   0038 45                   86 	ld	b,l
+   0039 4C                   87 	ld	c,h
+   003A 7B                   88 	ld	a,e
+   003B C6 30                89 	add	a, #0x30
+   003D 47                   90 	ld	b,a
+                             91 ;../_ltoa.c:63: if (c > (unsigned char)'9')
+   003E 3E 39                92 	ld	a,#0x39
+   0040 90                   93 	sub	a, b
+   0041 30 04                94 	jr	NC,00102$
+                             95 ;../_ltoa.c:64: c += 'A' - '9' - 1;
+   0043 78                   96 	ld	a,b
+   0044 C6 07                97 	add	a, #0x07
+   0046 47                   98 	ld	b,a
+   0047                      99 00102$:
+                            100 ;../_ltoa.c:65: buffer[--index] = c;
+   0047 F8 00               101 	ldhl	sp,#0
+   0049 35                  102 	dec	(hl)
+   004A F8 26               103 	ldhl	sp,#38
+   004C 2B                  104 	dec	hl
+   004D 5E                  105 	ld	e,(hl)
+   004E 23                  106 	inc	hl
+   004F 56                  107 	ld	d,(hl)
+   0050 F8 00               108 	ldhl	sp,#0
+   0052 6E                  109 	ld	l,(hl)
+   0053 26 00               110 	ld	h,#0x00
+   0055 19                  111 	add	hl,de
+   0056 7D                  112 	ld	a,l
+   0057 54                  113 	ld	d,h
+   0058 F8 27               114 	ldhl	sp,#39
+   005A 22                  115 	ld	(hl+),a
+   005B 72                  116 	ld	(hl),d
+   005C 2B                  117 	dec	hl
+   005D 2A                  118 	ld	a,(hl+)
+   005E 66                  119 	ld	h,(hl)
+   005F 6F                  120 	ld	l,a
+   0060 70                  121 	ld	(hl),b
+                            122 ;../_ltoa.c:66: value /= radix;
+   0061 F8 23               123 	ldhl	sp,#35
+   0063 2A                  124 	ld	a,(hl+)
+   0064 66                  125 	ld	h,(hl)
+   0065 6F                  126 	ld	l,a
+   0066 E5                  127 	push	hl
+   0067 F8 23               128 	ldhl	sp,#35
+   0069 2A                  129 	ld	a,(hl+)
+   006A 66                  130 	ld	h,(hl)
+   006B 6F                  131 	ld	l,a
+   006C E5                  132 	push	hl
+   006D F8 31               133 	ldhl	sp,#49
+   006F 2A                  134 	ld	a,(hl+)
+   0070 66                  135 	ld	h,(hl)
+   0071 6F                  136 	ld	l,a
+   0072 E5                  137 	push	hl
+   0073 F8 31               138 	ldhl	sp,#49
+   0075 2A                  139 	ld	a,(hl+)
+   0076 66                  140 	ld	h,(hl)
+   0077 6F                  141 	ld	l,a
+   0078 E5                  142 	push	hl
+   0079 CDr00r00            143 	call	__divulong
+   007C E8 08               144 	add	sp, #8
+   007E 45                  145 	ld	b,l
+   007F 4C                  146 	ld	c,h
+   0080 F8 2B               147 	ldhl	sp,#43
+   0082 73                  148 	ld	(hl),e
+   0083 23                  149 	inc	hl
+   0084 72                  150 	ld	(hl),d
+   0085 23                  151 	inc	hl
+   0086 70                  152 	ld	(hl),b
+   0087 23                  153 	inc	hl
+   0088 71                  154 	ld	(hl),c
+                            155 ;../_ltoa.c:67: } while (value);
+   0089 3A                  156 	ld	a,(hl-)
+   008A B6                  157 	or	a, (hl)
+   008B 2B                  158 	dec	hl
+   008C B6                  159 	or	a, (hl)
+   008D 2B                  160 	dec	hl
+   008E B6                  161 	or	a,(hl)
+   008F C2r0Er00            162 	jp	NZ,00103$
+                            163 ;../_ltoa.c:69: do {
+   0092 F8 30               164 	ldhl	sp,#48
+   0094 2B                  165 	dec	hl
+   0095 4E                  166 	ld	c,(hl)
+   0096 23                  167 	inc	hl
+   0097 46                  168 	ld	b,(hl)
+   0098                     169 00106$:
+                            170 ;../_ltoa.c:70: *string++ = buffer[index];
+   0098 F8 26               171 	ldhl	sp,#38
+   009A 2B                  172 	dec	hl
+   009B 5E                  173 	ld	e,(hl)
+   009C 23                  174 	inc	hl
+   009D 56                  175 	ld	d,(hl)
+   009E F8 00               176 	ldhl	sp,#0
+   00A0 6E                  177 	ld	l,(hl)
+   00A1 26 00               178 	ld	h,#0x00
+   00A3 19                  179 	add	hl,de
+   00A4 7D                  180 	ld	a,l
+   00A5 54                  181 	ld	d,h
+   00A6 F8 27               182 	ldhl	sp,#39
+   00A8 22                  183 	ld	(hl+),a
+   00A9 72                  184 	ld	(hl),d
+   00AA 2B                  185 	dec	hl
+   00AB 5E                  186 	ld	e,(hl)
+   00AC 23                  187 	inc	hl
+   00AD 56                  188 	ld	d,(hl)
+   00AE 1A                  189 	ld	a,(de)
+   00AF 02                  190 	ld	(bc),a
+   00B0 03                  191 	inc	bc
+                            192 ;../_ltoa.c:71: } while ( ++index != NUMBER_OF_DIGITS );
+   00B1 F8 00               193 	ldhl	sp,#0
+   00B3 34                  194 	inc	(hl)
+   00B4 7E                  195 	ld	a,(hl)
+   00B5 D6 20               196 	sub	a, #0x20
+   00B7 20 DF               197 	jr	NZ,00106$
+                            198 ;../_ltoa.c:73: *string = 0;  /* string terminator */
+   00B9 AF                  199 	xor	a, a
+   00BA 02                  200 	ld	(bc),a
+   00BB E8 29               201 	add	sp, #41
+   00BD C9                  202 	ret
+                            203 ;../_ltoa.c:76: void _ltoa(long value, char* string, unsigned char radix)
+                            204 ;	---------------------------------
+                            205 ; Function _ltoa
+                            206 ; ---------------------------------
+   00BE                     207 __ltoa::
+                            208 ;../_ltoa.c:78: if (value < 0 && radix == 10) {
+   00BE F8 02               209 	ldhl	sp,#2
+   00C0 7E                  210 	ld	a, (hl)
+   00C1 D6 00               211 	sub	a, #0x00
+   00C3 23                  212 	inc	hl
+   00C4 7E                  213 	ld	a, (hl)
+   00C5 DE 00               214 	sbc	a, #0x00
+   00C7 23                  215 	inc	hl
+   00C8 7E                  216 	ld	a, (hl)
+   00C9 DE 00               217 	sbc	a, #0x00
+   00CB 23                  218 	inc	hl
+   00CC 7E                  219 	ld	a, (hl)
+   00CD DE 00               220 	sbc	a, #0x00
+   00CF 56                  221 	ld	d, (hl)
+   00D0 3E 00               222 	ld	a,#0x00
+   00D2 5F                  223 	ld	e, a
+   00D3 CB 7B               224 	bit	7, e
+   00D5 28 07               225 	jr	Z,00114$
+   00D7 CB 7A               226 	bit	7, d
+   00D9 20 08               227 	jr	NZ,00115$
+   00DB BF                  228 	cp	a, a
+   00DC 18 05               229 	jr	00115$
+   00DE                     230 00114$:
+   00DE CB 7A               231 	bit	7, d
+   00E0 28 01               232 	jr	Z,00115$
+   00E2 37                  233 	scf
+   00E3                     234 00115$:
+   00E3 D2r18r01            235 	jp	NC,00102$
+   00E6 F8 08               236 	ldhl	sp,#8
+   00E8 7E                  237 	ld	a,(hl)
+   00E9 D6 0A               238 	sub	a, #0x0A
+   00EB C2r18r01            239 	jp	NZ,00102$
+                            240 ;../_ltoa.c:79: *string++ = '-';
+   00EE F8 07               241 	ldhl	sp,#7
+   00F0 2B                  242 	dec	hl
+   00F1 4E                  243 	ld	c,(hl)
+   00F2 23                  244 	inc	hl
+   00F3 46                  245 	ld	b,(hl)
+   00F4 3E 2D               246 	ld	a,#0x2D
+   00F6 02                  247 	ld	(bc),a
+   00F7 03                  248 	inc	bc
+   00F8 2B                  249 	dec	hl
+   00F9 71                  250 	ld	(hl),c
+   00FA 23                  251 	inc	hl
+   00FB 70                  252 	ld	(hl),b
+                            253 ;../_ltoa.c:80: value = -value;
+   00FC 11 00 00            254 	ld	de,#0x0000
+   00FF 7B                  255 	ld	a,e
+   0100 F8 02               256 	ldhl	sp,#2
+   0102 96                  257 	sub	a, (hl)
+   0103 5F                  258 	ld	e,a
+   0104 7A                  259 	ld	a,d
+   0105 23                  260 	inc	hl
+   0106 9E                  261 	sbc	a, (hl)
+   0107 F5                  262 	push	af
+   0108 32                  263 	ld	(hl-),a
+   0109 73                  264 	ld	(hl),e
+   010A 11 00 00            265 	ld	de,#0x0000
+   010D 23                  266 	inc	hl
+   010E 23                  267 	inc	hl
+   010F F1                  268 	pop	af
+   0110 7B                  269 	ld	a,e
+   0111 9E                  270 	sbc	a, (hl)
+   0112 5F                  271 	ld	e,a
+   0113 7A                  272 	ld	a,d
+   0114 23                  273 	inc	hl
+   0115 9E                  274 	sbc	a, (hl)
+   0116 32                  275 	ld	(hl-),a
+   0117 73                  276 	ld	(hl),e
+   0118                     277 00102$:
+                            278 ;../_ltoa.c:82: _ultoa(value, string, radix);
+   0118 F8 08               279 	ldhl	sp,#8
+   011A 7E                  280 	ld	a,(hl)
+   011B F5                  281 	push	af
+   011C 33                  282 	inc	sp
+   011D 2B                  283 	dec	hl
+   011E 2B                  284 	dec	hl
+   011F 2A                  285 	ld	a,(hl+)
+   0120 66                  286 	ld	h,(hl)
+   0121 6F                  287 	ld	l,a
+   0122 E5                  288 	push	hl
+   0123 F8 07               289 	ldhl	sp,#7
+   0125 2A                  290 	ld	a,(hl+)
+   0126 66                  291 	ld	h,(hl)
+   0127 6F                  292 	ld	l,a
+   0128 E5                  293 	push	hl
+   0129 F8 07               294 	ldhl	sp,#7
+   012B 2A                  295 	ld	a,(hl+)
+   012C 66                  296 	ld	h,(hl)
+   012D 6F                  297 	ld	l,a
+   012E E5                  298 	push	hl
+   012F CDr00r00            299 	call	__ultoa
+   0132 E8 07               300 	add	sp, #7
+   0134 C9                  301 	ret
+                            302 	.area _CODE
+                            303 	.area _CABS (ABS)

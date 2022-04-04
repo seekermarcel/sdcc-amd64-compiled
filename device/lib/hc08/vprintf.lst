@@ -1,0 +1,149 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:35 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module vprintf
+                              7 	.optsdcc -mhc08
+                              8 	
+                              9 	.area HOME    (CODE)
+                             10 	.area GSINIT0 (CODE)
+                             11 	.area GSINIT  (CODE)
+                             12 	.area GSFINAL (CODE)
+                             13 	.area CSEG    (CODE)
+                             14 	.area XINIT   (CODE)
+                             15 	.area CONST   (CODE)
+                             16 	.area DSEG    (PAG)
+                             17 	.area OSEG    (PAG, OVR)
+                             18 	.area XSEG
+                             19 	.area XISEG
+                             20 ;--------------------------------------------------------
+                             21 ; Public variables in this module
+                             22 ;--------------------------------------------------------
+                             23 	.globl _putchar
+                             24 	.globl __print_format
+                             25 	.globl _vprintf_PARM_2
+                             26 	.globl _vprintf
+                             27 	.globl _printf
+                             28 ;--------------------------------------------------------
+                             29 ; ram data
+                             30 ;--------------------------------------------------------
+                             31 	.area DSEG    (PAG)
+                             32 ;--------------------------------------------------------
+                             33 ; overlayable items in ram 
+                             34 ;--------------------------------------------------------
+                             35 ;--------------------------------------------------------
+                             36 ; absolute ram data
+                             37 ;--------------------------------------------------------
+                             38 	.area IABS    (ABS)
+                             39 	.area IABS    (ABS)
+                             40 ;--------------------------------------------------------
+                             41 ; absolute external ram data
+                             42 ;--------------------------------------------------------
+                             43 	.area XABS    (ABS)
+                             44 ;--------------------------------------------------------
+                             45 ; external initialized ram data
+                             46 ;--------------------------------------------------------
+                             47 	.area XISEG
+                             48 ;--------------------------------------------------------
+                             49 ; extended address mode data
+                             50 ;--------------------------------------------------------
+                             51 	.area XSEG
+   0000                      52 _vprintf_PARM_2:
+   0000                      53 	.ds 2
+                             54 ;--------------------------------------------------------
+                             55 ; global & static initialisations
+                             56 ;--------------------------------------------------------
+                             57 	.area HOME    (CODE)
+                             58 	.area GSINIT  (CODE)
+                             59 	.area GSFINAL (CODE)
+                             60 	.area GSINIT  (CODE)
+                             61 ;--------------------------------------------------------
+                             62 ; Home
+                             63 ;--------------------------------------------------------
+                             64 	.area HOME    (CODE)
+                             65 	.area HOME    (CODE)
+                             66 ;--------------------------------------------------------
+                             67 ; code
+                             68 ;--------------------------------------------------------
+                             69 	.area CSEG    (CODE)
+                             70 ;------------------------------------------------------------
+                             71 ;Allocation info for local variables in function 'put_char_to_stdout'
+                             72 ;------------------------------------------------------------
+                             73 ;p                         Allocated to stack - sp +2
+                             74 ;c                         Allocated to registers a 
+                             75 ;------------------------------------------------------------
+                             76 ;../vprintf.c:34: put_char_to_stdout (char c, void* p) _REENTRANT
+                             77 ;	-----------------------------------------
+                             78 ;	 function put_char_to_stdout
+                             79 ;	-----------------------------------------
+                             80 ;	Register assignment is optimal.
+                             81 ;	Stack space usage: 0 bytes.
+   0000                      82 _put_char_to_stdout:
+                             83 ;../vprintf.c:37: putchar (c);
+   0000 CCr00r00      [ 3]   84 	jmp	_putchar
+                             85 ;------------------------------------------------------------
+                             86 ;Allocation info for local variables in function 'vprintf'
+                             87 ;------------------------------------------------------------
+                             88 ;ap                        Allocated with name '_vprintf_PARM_2'
+                             89 ;format                    Allocated to registers 
+                             90 ;------------------------------------------------------------
+                             91 ;../vprintf.c:41: vprintf (const char *format, va_list ap)
+                             92 ;	-----------------------------------------
+                             93 ;	 function vprintf
+                             94 ;	-----------------------------------------
+                             95 ;	Register assignment is optimal.
+                             96 ;	Stack space usage: 0 bytes.
+   0003                      97 _vprintf:
+   0003 C7r00r01      [ 4]   98 	sta	(__print_format_PARM_3 + 1)
+   0006 CFr00r00      [ 4]   99 	stx	__print_format_PARM_3
+                            100 ;../vprintf.c:43: return _print_format (put_char_to_stdout, NULL, format, ap);
+   0009 4F            [ 1]  101 	clra
+   000A C7r00r00      [ 4]  102 	sta	__print_format_PARM_2
+   000D C7r00r01      [ 4]  103 	sta	(__print_format_PARM_2 + 1)
+   0010 C6r00r00      [ 4]  104 	lda	_vprintf_PARM_2
+   0013 C7r00r00      [ 4]  105 	sta	__print_format_PARM_4
+   0016 C6r00r01      [ 4]  106 	lda	(_vprintf_PARM_2 + 1)
+   0019 C7r00r01      [ 4]  107 	sta	(__print_format_PARM_4 + 1)
+   001C A6r00         [ 2]  108 	lda	#_put_char_to_stdout
+   001E AEs00         [ 2]  109 	ldx	#>_put_char_to_stdout
+   0020 CCr00r00      [ 3]  110 	jmp	__print_format
+                            111 ;------------------------------------------------------------
+                            112 ;Allocation info for local variables in function 'printf'
+                            113 ;------------------------------------------------------------
+                            114 ;format                    Allocated to stack - sp +2
+                            115 ;arg                       Allocated to registers 
+                            116 ;i                         Allocated to registers a x 
+                            117 ;------------------------------------------------------------
+                            118 ;../vprintf.c:47: printf (const char *format, ...)
+                            119 ;	-----------------------------------------
+                            120 ;	 function printf
+                            121 ;	-----------------------------------------
+                            122 ;	Register assignment is optimal.
+                            123 ;	Stack space usage: 0 bytes.
+   0023                     124 _printf:
+                            125 ;../vprintf.c:52: va_start (arg, format);
+   0023 95            [ 2]  126 	tsx
+   0024 AF 02         [ 2]  127 	aix	#2
+   0026 AF 02         [ 2]  128 	aix	#2
+   0028 8B            [ 2]  129 	pshh
+   0029 86            [ 2]  130 	pula
+   002A C7r00r00      [ 4]  131 	sta	__print_format_PARM_4
+   002D CFr00r01      [ 4]  132 	stx	(__print_format_PARM_4 + 1)
+                            133 ;../vprintf.c:53: i = _print_format (put_char_to_stdout, NULL, format, arg);
+   0030 4F            [ 1]  134 	clra
+   0031 C7r00r00      [ 4]  135 	sta	__print_format_PARM_2
+   0034 C7r00r01      [ 4]  136 	sta	(__print_format_PARM_2 + 1)
+   0037 95            [ 2]  137 	tsx
+   0038 E6 02         [ 3]  138 	lda	2,x
+   003A C7r00r00      [ 4]  139 	sta	__print_format_PARM_3
+   003D E6 03         [ 3]  140 	lda	3,x
+   003F C7r00r01      [ 4]  141 	sta	(__print_format_PARM_3 + 1)
+   0042 A6r00         [ 2]  142 	lda	#_put_char_to_stdout
+   0044 AEs00         [ 2]  143 	ldx	#>_put_char_to_stdout
+                            144 ;../vprintf.c:56: return i;
+   0046 CCr00r00      [ 3]  145 	jmp	__print_format
+                            146 	.area CSEG    (CODE)
+                            147 	.area CONST   (CODE)
+                            148 	.area XINIT   (CODE)
+                            149 	.area CABS    (ABS,CODE)

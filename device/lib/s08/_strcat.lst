@@ -1,0 +1,124 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:37 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module _strcat
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _strcat_PARM_2
+                             25 	.globl _strcat
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area DSEG    (PAG)
+                             30 ;--------------------------------------------------------
+                             31 ; overlayable items in ram 
+                             32 ;--------------------------------------------------------
+                             33 	.area	OSEG    (PAG, OVR)
+   0000                      34 _strcat_sloc0_1_0:
+   0000                      35 	.ds 2
+                             36 ;--------------------------------------------------------
+                             37 ; absolute ram data
+                             38 ;--------------------------------------------------------
+                             39 	.area IABS    (ABS)
+                             40 	.area IABS    (ABS)
+                             41 ;--------------------------------------------------------
+                             42 ; absolute external ram data
+                             43 ;--------------------------------------------------------
+                             44 	.area XABS    (ABS)
+                             45 ;--------------------------------------------------------
+                             46 ; external initialized ram data
+                             47 ;--------------------------------------------------------
+                             48 	.area XISEG
+                             49 ;--------------------------------------------------------
+                             50 ; extended address mode data
+                             51 ;--------------------------------------------------------
+                             52 	.area XSEG
+   0000                      53 _strcat_PARM_2:
+   0000                      54 	.ds 2
+   0002                      55 _strcat_dst_1_21:
+   0002                      56 	.ds 2
+                             57 ;--------------------------------------------------------
+                             58 ; global & static initialisations
+                             59 ;--------------------------------------------------------
+                             60 	.area HOME    (CODE)
+                             61 	.area GSINIT  (CODE)
+                             62 	.area GSFINAL (CODE)
+                             63 	.area GSINIT  (CODE)
+                             64 ;--------------------------------------------------------
+                             65 ; Home
+                             66 ;--------------------------------------------------------
+                             67 	.area HOME    (CODE)
+                             68 	.area HOME    (CODE)
+                             69 ;--------------------------------------------------------
+                             70 ; code
+                             71 ;--------------------------------------------------------
+                             72 	.area CSEG    (CODE)
+                             73 ;------------------------------------------------------------
+                             74 ;Allocation info for local variables in function 'strcat'
+                             75 ;------------------------------------------------------------
+                             76 ;src                       Allocated with name '_strcat_PARM_2'
+                             77 ;dst                       Allocated with name '_strcat_dst_1_21'
+                             78 ;cp                        Allocated to registers 
+                             79 ;sloc0                     Allocated with name '_strcat_sloc0_1_0'
+                             80 ;------------------------------------------------------------
+                             81 ;../_strcat.c:31: char * strcat ( char * dst, const char * src )
+                             82 ;	-----------------------------------------
+                             83 ;	 function strcat
+                             84 ;	-----------------------------------------
+                             85 ;	Register assignment is optimal.
+                             86 ;	Stack space usage: 0 bytes.
+   0000                      87 _strcat:
+   0000 C7r00r03      [ 4]   88 	sta	(_strcat_dst_1_21 + 1)
+   0003 CFr00r02      [ 4]   89 	stx	_strcat_dst_1_21
+                             90 ;../_strcat.c:35: while( *cp )
+   0006 32r00r02      [ 5]   91 	ldhx	_strcat_dst_1_21
+   0009                      92 00101$:
+   0009 F6            [ 3]   93 	lda	,x
+   000A 27 04         [ 3]   94 	beq	00111$
+                             95 ;../_strcat.c:36: cp++;                   /* find end of dst */
+   000C AF 01         [ 2]   96 	aix	#1
+   000E 20 F9         [ 3]   97 	bra	00101$
+                             98 ;../_strcat.c:38: while( *cp++ = *src++ ) ;       /* Copy src to end of dst */
+   0010                      99 00111$:
+   0010 C6r00r00      [ 4]  100 	lda	_strcat_PARM_2
+   0013 B7*00         [ 3]  101 	sta	*_strcat_sloc0_1_0
+   0015 C6r00r01      [ 4]  102 	lda	(_strcat_PARM_2 + 1)
+   0018 B7*01         [ 3]  103 	sta	*(_strcat_sloc0_1_0 + 1)
+   001A                     104 00104$:
+   001A 89            [ 2]  105 	pshx
+   001B 8B            [ 2]  106 	pshh
+   001C 55*00         [ 4]  107 	ldhx	*_strcat_sloc0_1_0
+   001E F6            [ 3]  108 	lda	,x
+   001F AF 01         [ 2]  109 	aix	#1
+   0021 35*00         [ 4]  110 	sthx	*_strcat_sloc0_1_0
+   0023 8A            [ 3]  111 	pulh
+   0024 88            [ 3]  112 	pulx
+   0025 F7            [ 2]  113 	sta	,x
+   0026 AF 01         [ 2]  114 	aix	#1
+   0028 4D            [ 1]  115 	tsta
+   0029 26 EF         [ 3]  116 	bne	00104$
+                            117 ;../_strcat.c:40: return( dst );                  /* return dst */
+   002B CEr00r02      [ 4]  118 	ldx	_strcat_dst_1_21
+   002E C6r00r03      [ 4]  119 	lda	(_strcat_dst_1_21 + 1)
+   0031 81            [ 6]  120 	rts
+                            121 	.area CSEG    (CODE)
+                            122 	.area CONST   (CODE)
+                            123 	.area XINIT   (CODE)
+                            124 	.area CABS    (ABS,CODE)

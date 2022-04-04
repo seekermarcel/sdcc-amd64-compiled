@@ -1,0 +1,497 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:32 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module asincosf
+                              7 	.optsdcc -mtlcs90
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _asincosf
+                             13 	.globl _ldexpf
+                             14 	.globl _fabsf
+                             15 	.globl _sqrtf
+                             16 ;--------------------------------------------------------
+                             17 ; ram data
+                             18 ;--------------------------------------------------------
+                             19 	.area _DATA
+                             20 ;--------------------------------------------------------
+                             21 ; ram data
+                             22 ;--------------------------------------------------------
+                             23 	.area _INITIALIZED
+                             24 ;--------------------------------------------------------
+                             25 ; absolute external ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area _DABS (ABS)
+                             28 ;--------------------------------------------------------
+                             29 ; global & static initialisations
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _GSINIT
+                             33 	.area _GSFINAL
+                             34 	.area _GSINIT
+                             35 ;--------------------------------------------------------
+                             36 ; Home
+                             37 ;--------------------------------------------------------
+                             38 	.area _HOME
+                             39 	.area _HOME
+                             40 ;--------------------------------------------------------
+                             41 ; code
+                             42 ;--------------------------------------------------------
+                             43 	.area _CODE
+                             44 ;../asincosf.c:47: float asincosf(float x, bool isacos)
+                             45 ;	---------------------------------
+                             46 ; Function asincosf
+                             47 ; ---------------------------------
+   0000                      48 _asincosf::
+   0000 54            [ 4]   49 	push	ix
+   0001 3C 00 00      [ 4]   50 	ld	ix,#0
+   0004 FE 14         [ 7]   51 	add	ix,sp
+   0006 16 E5 FF      [ 7]   52 	add	sp, #-27
+                             53 ;../asincosf.c:51: bool quartPI = isacos;
+   0009 F0 08 2E      [11]   54 	ld	a,8 (ix)
+   000C F4 E5 26      [17]   55 	ld	-27 (ix),a
+                             56 ;../asincosf.c:56: y = fabsf(x);
+   000F F2 21 4A      [10]   57 	ld	hl, 33 (sp)
+   0012 52            [ 4]   58 	push	hl
+   0013 F2 21 4A      [10]   59 	ld	hl, 33 (sp)
+   0016 52            [ 4]   60 	push	hl
+   0017 1Cr00r00      [ 4]   61 	call	_fabsf
+   001A 16 04 00      [ 7]   62 	add	sp, #4
+   001D F4 FC 25      [17]   63 	ld	-4 (ix),l
+   0020 F4 FD 24      [17]   64 	ld	-3 (ix),h
+   0023 F4 FE 23      [17]   65 	ld	-2 (ix),e
+   0026 F4 FF 22      [17]   66 	ld	-1 (ix),d
+                             67 ;../asincosf.c:57: if (y < EPS)
+   0029 3A 80 39      [13]   68 	ld	hl,#0x3980
+   002C 52            [ 4]   69 	push	hl
+   002D 3A 00 00      [13]   70 	ld	hl,#0x0000
+   0030 52            [ 4]   71 	push	hl
+   0031 F2 1D 4A      [10]   72 	ld	hl, 29 (sp)
+   0034 52            [ 4]   73 	push	hl
+   0035 F2 1D 4A      [10]   74 	ld	hl, 29 (sp)
+   0038 52            [ 4]   75 	push	hl
+   0039 1Cr00r00      [ 4]   76 	call	___fslt
+   003C 16 08 00      [ 7]   77 	add	sp, #8
+   003F F4 FB 25      [17]   78 	ld	-5 (ix), l
+   0042 25            [ 4]   79 	ld	a, l
+   0043 FE 66         [ 7]   80 	or	a, a
+   0045 C6 0F         [ 7]   81 	jr	Z,00107$
+                             82 ;../asincosf.c:59: r = y;
+   0047 F0 FC 29      [11]   83 	ld	c,-4 (ix)
+   004A F0 FD 28      [11]   84 	ld	b,-3 (ix)
+   004D F0 FE 2B      [11]   85 	ld	e,-2 (ix)
+   0050 F0 FF 2A      [11]   86 	ld	d,-1 (ix)
+   0053 1Ar50r02      [ 7]   87 	jp	00108$
+   0056                      88 00107$:
+                             89 ;../asincosf.c:63: if (y > 0.5)
+   0056 3A 00 3F      [13]   90 	ld	hl,#0x3F00
+   0059 52            [ 4]   91 	push	hl
+   005A 3A 00 00      [13]   92 	ld	hl,#0x0000
+   005D 52            [ 4]   93 	push	hl
+   005E F2 1D 4A      [10]   94 	ld	hl, 29 (sp)
+   0061 52            [ 4]   95 	push	hl
+   0062 F2 1D 4A      [10]   96 	ld	hl, 29 (sp)
+   0065 52            [ 4]   97 	push	hl
+   0066 1Cr00r00      [ 4]   98 	call	___fsgt
+   0069 16 08 00      [ 7]   99 	add	sp, #8
+   006C 25            [ 4]  100 	ld	a,l
+   006D FE 66         [ 7]  101 	or	a, a
+   006F EBr6Fr01 C6   [ 4]  102 	jp	Z,00104$
+                            103 ;../asincosf.c:65: quartPI = !isacos;
+   0073 F0 E5 2E      [11]  104 	ld	a,-27 (ix)
+   0076 6D 01         [ 4]  105 	xor	a, #0x01
+   0078 F4 E5 26      [17]  106 	ld	-27 (ix),a
+                            107 ;../asincosf.c:66: if (y > 1.0)
+   007B 3A 80 3F      [13]  108 	ld	hl,#0x3F80
+   007E 52            [ 4]  109 	push	hl
+   007F 3A 00 00      [13]  110 	ld	hl,#0x0000
+   0082 52            [ 4]  111 	push	hl
+   0083 F2 1D 4A      [10]  112 	ld	hl, 29 (sp)
+   0086 52            [ 4]  113 	push	hl
+   0087 F2 1D 4A      [10]  114 	ld	hl, 29 (sp)
+   008A 52            [ 4]  115 	push	hl
+   008B 1Cr00r00      [ 4]  116 	call	___fsgt
+   008E 16 08 00      [ 7]  117 	add	sp, #8
+   0091 25            [ 4]  118 	ld	a,l
+   0092 FE 66         [ 7]  119 	or	a, a
+   0094 C6 11         [ 7]  120 	jr	Z,00102$
+                            121 ;../asincosf.c:68: errno = EDOM;
+   0096 3A 21 00      [13]  122 	ld	hl,#0x0021
+   0099 EBr00r00 42   [ 4]  123 	ld	(_errno),hl
+                            124 ;../asincosf.c:69: return 0.0;
+   009D 3A 00 00      [13]  125 	ld	hl,#0x0000
+   00A0 FD 33               126 	ld	e,l
+   00A2 FC 32         [17]  127 	ld	d,h
+   00A4 1Ar91r03      [ 7]  128 	jp	00117$
+   00A7                     129 00102$:
+                            130 ;../asincosf.c:71: g = (0.5 - y) + 0.5;
+   00A7 F2 19 4A      [10]  131 	ld	hl, 25 (sp)
+   00AA 52            [ 4]  132 	push	hl
+   00AB F2 19 4A      [10]  133 	ld	hl, 25 (sp)
+   00AE 52            [ 4]  134 	push	hl
+   00AF 3A 80 3F      [13]  135 	ld	hl,#0x3F80
+   00B2 52            [ 4]  136 	push	hl
+   00B3 3A 00 00      [13]  137 	ld	hl,#0x0000
+   00B6 52            [ 4]  138 	push	hl
+   00B7 1Cr00r00      [ 4]  139 	call	___fssub
+   00BA 16 08 00      [ 7]  140 	add	sp, #8
+   00BD F4 EE 22      [17]  141 	ld	-18 (ix),d
+   00C0 F4 ED 23      [17]  142 	ld	-19 (ix),e
+   00C3 F4 EC 24      [17]  143 	ld	-20 (ix),h
+   00C6 F4 EB 25      [17]  144 	ld	-21 (ix),l
+   00C9 3A 12 00      [13]  145 	ld	hl, #18
+   00CC FE 70         [ 7]  146 	add	hl, sp
+   00CE 08            [ 4]  147 	ex	de, hl
+   00CF 3A 06 00      [13]  148 	ld	hl, #6
+   00D2 FE 70         [ 7]  149 	add	hl, sp
+   00D4 38 04 00      [12]  150 	ld	bc, #4
+   00D7 FE 59         [ 7]  151 	ldir
+                            152 ;../asincosf.c:72: g = ldexpf(g, -1);
+   00D9 3A FF FF      [13]  153 	ld	hl,#0xFFFF
+   00DC 52            [ 4]  154 	push	hl
+   00DD F2 16 4A      [10]  155 	ld	hl, 22 (sp)
+   00E0 52            [ 4]  156 	push	hl
+   00E1 F2 16 4A      [10]  157 	ld	hl, 22 (sp)
+   00E4 52            [ 4]  158 	push	hl
+   00E5 1Cr00r00      [ 4]  159 	call	_ldexpf
+   00E8 16 06 00      [ 7]  160 	add	sp, #6
+   00EB F4 FA 22      [17]  161 	ld	-6 (ix),d
+   00EE F4 F9 23      [17]  162 	ld	-7 (ix),e
+   00F1 F4 F8 24      [17]  163 	ld	-8 (ix),h
+   00F4 F4 F7 25      [17]  164 	ld	-9 (ix),l
+   00F7 3A 06 00      [13]  165 	ld	hl, #6
+   00FA FE 70         [ 7]  166 	add	hl, sp
+   00FC 08            [ 4]  167 	ex	de, hl
+   00FD 3A 12 00      [13]  168 	ld	hl, #18
+   0100 FE 70         [ 7]  169 	add	hl, sp
+   0102 38 04 00      [12]  170 	ld	bc, #4
+   0105 FE 59         [ 7]  171 	ldir
+                            172 ;../asincosf.c:73: y = sqrtf(g);
+   0107 F2 08 4A      [10]  173 	ld	hl, 8 (sp)
+   010A 52            [ 4]  174 	push	hl
+   010B F2 08 4A      [10]  175 	ld	hl, 8 (sp)
+   010E 52            [ 4]  176 	push	hl
+   010F 1Cr00r00      [ 4]  177 	call	_sqrtf
+   0112 16 04 00      [ 7]  178 	add	sp, #4
+   0115 F4 FA 22      [17]  179 	ld	-6 (ix),d
+   0118 F4 F9 23      [17]  180 	ld	-7 (ix),e
+   011B F4 F8 24      [17]  181 	ld	-8 (ix),h
+   011E F4 F7 25      [17]  182 	ld	-9 (ix),l
+   0121 3A 0A 00      [13]  183 	ld	hl, #10
+   0124 FE 70         [ 7]  184 	add	hl, sp
+   0126 08            [ 4]  185 	ex	de, hl
+   0127 3A 12 00      [13]  186 	ld	hl, #18
+   012A FE 70         [ 7]  187 	add	hl, sp
+   012C 38 04 00      [12]  188 	ld	bc, #4
+   012F FE 59         [ 7]  189 	ldir
+                            190 ;../asincosf.c:74: y = -(y + y);
+   0131 F2 0C 4A      [10]  191 	ld	hl, 12 (sp)
+   0134 52            [ 4]  192 	push	hl
+   0135 F2 0C 4A      [10]  193 	ld	hl, 12 (sp)
+   0138 52            [ 4]  194 	push	hl
+   0139 F2 10 4A      [10]  195 	ld	hl, 16 (sp)
+   013C 52            [ 4]  196 	push	hl
+   013D F2 10 4A      [10]  197 	ld	hl, 16 (sp)
+   0140 52            [ 4]  198 	push	hl
+   0141 1Cr00r00      [ 4]  199 	call	___fsadd
+   0144 16 08 00      [ 7]  200 	add	sp, #8
+   0147 F4 FA 22      [17]  201 	ld	-6 (ix),d
+   014A F4 F9 23      [17]  202 	ld	-7 (ix),e
+   014D F4 F8 24      [17]  203 	ld	-8 (ix),h
+   0150 F4 F7 25      [17]  204 	ld	-9 (ix),l
+   0153 F0 FA 2E      [11]  205 	ld	a,-6 (ix)
+   0156 6D 80         [ 4]  206 	xor	a,#0x80
+   0158 F4 FF 26      [17]  207 	ld	-1 (ix),a
+   015B F0 F7 2E      [11]  208 	ld	a,-9 (ix)
+   015E F4 FC 26      [17]  209 	ld	-4 (ix),a
+   0161 F0 F8 2E      [11]  210 	ld	a,-8 (ix)
+   0164 F4 FD 26      [17]  211 	ld	-3 (ix),a
+   0167 F0 F9 2E      [11]  212 	ld	a,-7 (ix)
+   016A F4 FE 26      [17]  213 	ld	-2 (ix),a
+   016D C8 22         [11]  214 	jr	00105$
+   016F                     215 00104$:
+                            216 ;../asincosf.c:78: g = y * y;
+   016F F2 19 4A      [10]  217 	ld	hl, 25 (sp)
+   0172 52            [ 4]  218 	push	hl
+   0173 F2 19 4A      [10]  219 	ld	hl, 25 (sp)
+   0176 52            [ 4]  220 	push	hl
+   0177 F2 1D 4A      [10]  221 	ld	hl, 29 (sp)
+   017A 52            [ 4]  222 	push	hl
+   017B F2 1D 4A      [10]  223 	ld	hl, 29 (sp)
+   017E 52            [ 4]  224 	push	hl
+   017F 1Cr00r00      [ 4]  225 	call	___fsmul
+   0182 16 08 00      [ 7]  226 	add	sp, #8
+   0185 F4 EB 25      [17]  227 	ld	-21 (ix),l
+   0188 F4 EC 24      [17]  228 	ld	-20 (ix),h
+   018B F4 ED 23      [17]  229 	ld	-19 (ix),e
+   018E F4 EE 22      [17]  230 	ld	-18 (ix),d
+   0191                     231 00105$:
+                            232 ;../asincosf.c:80: r = y + y * ((P(g) * g) / Q(g));
+   0191 F2 08 4A      [10]  233 	ld	hl, 8 (sp)
+   0194 52            [ 4]  234 	push	hl
+   0195 F2 08 4A      [10]  235 	ld	hl, 8 (sp)
+   0198 52            [ 4]  236 	push	hl
+   0199 3A 01 BF      [13]  237 	ld	hl,#0xBF01
+   019C 52            [ 4]  238 	push	hl
+   019D 3A 65 20      [13]  239 	ld	hl,#0x2065
+   01A0 52            [ 4]  240 	push	hl
+   01A1 1Cr00r00      [ 4]  241 	call	___fsmul
+   01A4 16 08 00      [ 7]  242 	add	sp, #8
+   01A7 FD 31               243 	ld	c,l
+   01A9 FC 30         [17]  244 	ld	b,h
+   01AB 3A 6F 3F      [13]  245 	ld	hl,#0x3F6F
+   01AE 52            [ 4]  246 	push	hl
+   01AF 3A 6B 16      [13]  247 	ld	hl,#0x166B
+   01B2 52            [ 4]  248 	push	hl
+   01B3 51            [ 4]  249 	push	de
+   01B4 50            [ 4]  250 	push	bc
+   01B5 1Cr00r00      [ 4]  251 	call	___fsadd
+   01B8 16 08 00      [ 7]  252 	add	sp, #8
+   01BB FD 31               253 	ld	c,l
+   01BD FC 30         [17]  254 	ld	b,h
+   01BF F2 08 4A      [10]  255 	ld	hl, 8 (sp)
+   01C2 52            [ 4]  256 	push	hl
+   01C3 F2 08 4A      [10]  257 	ld	hl, 8 (sp)
+   01C6 52            [ 4]  258 	push	hl
+   01C7 51            [ 4]  259 	push	de
+   01C8 50            [ 4]  260 	push	bc
+   01C9 1Cr00r00      [ 4]  261 	call	___fsmul
+   01CC 16 08 00      [ 7]  262 	add	sp, #8
+   01CF F4 FA 22      [17]  263 	ld	-6 (ix),d
+   01D2 F4 F9 23      [17]  264 	ld	-7 (ix),e
+   01D5 F4 F8 24      [17]  265 	ld	-8 (ix),h
+   01D8 F4 F7 25      [17]  266 	ld	-9 (ix),l
+   01DB 3A B1 C0      [13]  267 	ld	hl,#0xC0B1
+   01DE 52            [ 4]  268 	push	hl
+   01DF 3A 0B 8D      [13]  269 	ld	hl,#0x8D0B
+   01E2 52            [ 4]  270 	push	hl
+   01E3 F2 0C 4A      [10]  271 	ld	hl, 12 (sp)
+   01E6 52            [ 4]  272 	push	hl
+   01E7 F2 0C 4A      [10]  273 	ld	hl, 12 (sp)
+   01EA 52            [ 4]  274 	push	hl
+   01EB 1Cr00r00      [ 4]  275 	call	___fsadd
+   01EE 16 08 00      [ 7]  276 	add	sp, #8
+   01F1 FD 31               277 	ld	c,l
+   01F3 FC 30         [17]  278 	ld	b,h
+   01F5 F2 08 4A      [10]  279 	ld	hl, 8 (sp)
+   01F8 52            [ 4]  280 	push	hl
+   01F9 F2 08 4A      [10]  281 	ld	hl, 8 (sp)
+   01FC 52            [ 4]  282 	push	hl
+   01FD 51            [ 4]  283 	push	de
+   01FE 50            [ 4]  284 	push	bc
+   01FF 1Cr00r00      [ 4]  285 	call	___fsmul
+   0202 16 08 00      [ 7]  286 	add	sp, #8
+   0205 FD 31               287 	ld	c,l
+   0207 FC 30         [17]  288 	ld	b,h
+   0209 3A B3 40      [13]  289 	ld	hl,#0x40B3
+   020C 52            [ 4]  290 	push	hl
+   020D 3A F0 50      [13]  291 	ld	hl,#0x50F0
+   0210 52            [ 4]  292 	push	hl
+   0211 51            [ 4]  293 	push	de
+   0212 50            [ 4]  294 	push	bc
+   0213 1Cr00r00      [ 4]  295 	call	___fsadd
+   0216 16 08 00      [ 7]  296 	add	sp, #8
+   0219 08            [ 4]  297 	ex	de, hl
+   021A 52            [ 4]  298 	push	hl
+   021B 51            [ 4]  299 	push	de
+   021C F2 18 4A      [10]  300 	ld	hl, 24 (sp)
+   021F 52            [ 4]  301 	push	hl
+   0220 F2 18 4A      [10]  302 	ld	hl, 24 (sp)
+   0223 52            [ 4]  303 	push	hl
+   0224 1Cr00r00      [ 4]  304 	call	___fsdiv
+   0227 16 08 00      [ 7]  305 	add	sp, #8
+   022A 08            [ 4]  306 	ex	de, hl
+   022B 52            [ 4]  307 	push	hl
+   022C 51            [ 4]  308 	push	de
+   022D F2 1D 4A      [10]  309 	ld	hl, 29 (sp)
+   0230 52            [ 4]  310 	push	hl
+   0231 F2 1D 4A      [10]  311 	ld	hl, 29 (sp)
+   0234 52            [ 4]  312 	push	hl
+   0235 1Cr00r00      [ 4]  313 	call	___fsmul
+   0238 16 08 00      [ 7]  314 	add	sp, #8
+   023B 08            [ 4]  315 	ex	de, hl
+   023C 52            [ 4]  316 	push	hl
+   023D 51            [ 4]  317 	push	de
+   023E F2 1D 4A      [10]  318 	ld	hl, 29 (sp)
+   0241 52            [ 4]  319 	push	hl
+   0242 F2 1D 4A      [10]  320 	ld	hl, 29 (sp)
+   0245 52            [ 4]  321 	push	hl
+   0246 1Cr00r00      [ 4]  322 	call	___fsadd
+   0249 16 08 00      [ 7]  323 	add	sp, #8
+   024C FD 31               324 	ld	c,l
+   024E FC 30         [17]  325 	ld	b,h
+   0250                     326 00108$:
+                            327 ;../asincosf.c:82: i = quartPI;
+   0250 F0 E5 2E      [11]  328 	ld	a,-27 (ix)
+   0253 F4 E6 26      [17]  329 	ld	-26 (ix),a
+                            330 ;../asincosf.c:85: if (x < 0.0)
+   0256 50            [ 4]  331 	push	bc
+   0257 51            [ 4]  332 	push	de
+   0258 3A 00 00      [13]  333 	ld	hl,#0x0000
+   025B 52            [ 4]  334 	push	hl
+   025C 3A 00 00      [13]  335 	ld	hl,#0x0000
+   025F 52            [ 4]  336 	push	hl
+   0260 F2 29 4A      [10]  337 	ld	hl, 41 (sp)
+   0263 52            [ 4]  338 	push	hl
+   0264 F2 29 4A      [10]  339 	ld	hl, 41 (sp)
+   0267 52            [ 4]  340 	push	hl
+                            341 ;../asincosf.c:86: r = (b[i] + r) + b[i];
+   0268 1Cr00r00      [ 4]  342 	call	___fslt
+   026B 16 08 00      [ 7]  343 	add	sp, #8
+   026E F4 F7 25      [17]  344 	ld	-9 (ix),l
+   0271 59            [ 4]  345 	pop	de
+   0272 58            [ 4]  346 	pop	bc
+   0273 F0 E6 2D      [11]  347 	ld	l,-26 (ix)
+   0276 34 00         [11]  348 	ld	h,#0x00
+   0278 FA 70         [10]  349 	add	hl, hl
+   027A FA 70         [10]  350 	add	hl, hl
+   027C F6 17 42      [ 7]  351 	ld	23 (sp), hl
+                            352 ;../asincosf.c:83: if (isacos)
+   027F F0 08 A8      [11]  353 	bit	0,8 (ix)
+   0282 EBr2Br03 C6   [ 4]  354 	jp	Z,00115$
+                            355 ;../asincosf.c:85: if (x < 0.0)
+   0286 F0 F7 2E      [11]  356 	ld	a,-9 (ix)
+   0289 FE 66         [ 7]  357 	or	a, a
+   028B EBrDDr02 C6   [ 4]  358 	jp	Z,00110$
+                            359 ;../asincosf.c:86: r = (b[i] + r) + b[i];
+   028F F0 FC 2E      [11]  360 	ld	a,-4 (ix)
+   0292 68 9D         [ 4]  361 	add	a, #<(_asincosf_b_1_24)
+   0294 2C            [ 4]  362 	ld	h,a
+   0295 F0 FD 2E      [11]  363 	ld	a,-3 (ix)
+   0298 69 9D         [ 4]  364 	adc	a, #>(_asincosf_b_1_24)
+   029A 2D            [ 4]  365 	ld	l,a
+   029B 51            [ 4]  366 	push	de
+   029C 50            [ 4]  367 	push	bc
+   029D FC 33         [17]  368 	ld	e, h
+   029F FD 32               369 	ld	d, l
+   02A1 3A 12 00      [13]  370 	ld	hl, #0x0012
+   02A4 FE 70         [ 7]  371 	add	hl, sp
+   02A6 08            [ 4]  372 	ex	de, hl
+   02A7 38 04 00      [12]  373 	ld	bc, #0x0004
+   02AA FE 59         [ 7]  374 	ldir
+   02AC F2 14 4A      [10]  375 	ld	hl, 20 (sp)
+   02AF 52            [ 4]  376 	push	hl
+   02B0 F2 14 4A      [10]  377 	ld	hl, 20 (sp)
+   02B3 52            [ 4]  378 	push	hl
+   02B4 1Cr00r00      [ 4]  379 	call	___fsadd
+   02B7 16 08 00      [ 7]  380 	add	sp, #8
+   02BA FD 31               381 	ld	c,l
+   02BC FC 30         [17]  382 	ld	b,h
+   02BE F2 10 4A      [10]  383 	ld	hl, 16 (sp)
+   02C1 52            [ 4]  384 	push	hl
+   02C2 F2 10 4A      [10]  385 	ld	hl, 16 (sp)
+   02C5 52            [ 4]  386 	push	hl
+   02C6 51            [ 4]  387 	push	de
+   02C7 50            [ 4]  388 	push	bc
+   02C8 1Cr00r00      [ 4]  389 	call	___fsadd
+   02CB 16 08 00      [ 7]  390 	add	sp, #8
+   02CE F4 E7 25      [17]  391 	ld	-25 (ix),l
+   02D1 F4 E8 24      [17]  392 	ld	-24 (ix),h
+   02D4 F4 E9 23      [17]  393 	ld	-23 (ix),e
+   02D7 F4 EA 22      [17]  394 	ld	-22 (ix),d
+   02DA 1Ar85r03      [ 7]  395 	jp	00116$
+   02DD                     396 00110$:
+                            397 ;../asincosf.c:88: r = (a[i] - r) + a[i];
+   02DD F0 FC 2E      [11]  398 	ld	a,-4 (ix)
+   02E0 68 95         [ 4]  399 	add	a, #<(_asincosf_a_1_24)
+   02E2 2C            [ 4]  400 	ld	h,a
+   02E3 F0 FD 2E      [11]  401 	ld	a,-3 (ix)
+   02E6 69 95         [ 4]  402 	adc	a, #>(_asincosf_a_1_24)
+   02E8 2D            [ 4]  403 	ld	l,a
+   02E9 51            [ 4]  404 	push	de
+   02EA 50            [ 4]  405 	push	bc
+   02EB FC 33         [17]  406 	ld	e, h
+   02ED FD 32               407 	ld	d, l
+   02EF 3A 12 00      [13]  408 	ld	hl, #0x0012
+   02F2 FE 70         [ 7]  409 	add	hl, sp
+   02F4 08            [ 4]  410 	ex	de, hl
+   02F5 38 04 00      [12]  411 	ld	bc, #0x0004
+   02F8 FE 59         [ 7]  412 	ldir
+   02FA F2 14 4A      [10]  413 	ld	hl, 20 (sp)
+   02FD 52            [ 4]  414 	push	hl
+   02FE F2 14 4A      [10]  415 	ld	hl, 20 (sp)
+   0301 52            [ 4]  416 	push	hl
+   0302 1Cr00r00      [ 4]  417 	call	___fssub
+   0305 16 08 00      [ 7]  418 	add	sp, #8
+   0308 FD 31               419 	ld	c,l
+   030A FC 30         [17]  420 	ld	b,h
+   030C F2 10 4A      [10]  421 	ld	hl, 16 (sp)
+   030F 52            [ 4]  422 	push	hl
+   0310 F2 10 4A      [10]  423 	ld	hl, 16 (sp)
+   0313 52            [ 4]  424 	push	hl
+   0314 51            [ 4]  425 	push	de
+   0315 50            [ 4]  426 	push	bc
+   0316 1Cr00r00      [ 4]  427 	call	___fsadd
+   0319 16 08 00      [ 7]  428 	add	sp, #8
+   031C F4 E7 25      [17]  429 	ld	-25 (ix),l
+   031F F4 E8 24      [17]  430 	ld	-24 (ix),h
+   0322 F4 E9 23      [17]  431 	ld	-23 (ix),e
+   0325 F4 EA 22      [17]  432 	ld	-22 (ix),d
+   0328 1Ar85r03      [ 7]  433 	jp	00116$
+   032B                     434 00115$:
+                            435 ;../asincosf.c:92: r = (a[i] + r) + a[i];
+   032B 36r95         [10]  436 	ld	a,#<(_asincosf_a_1_24)
+   032D F0 FC 60      [11]  437 	add	a, -4 (ix)
+   0330 2C            [ 4]  438 	ld	h,a
+   0331 36s03         [10]  439 	ld	a,#>(_asincosf_a_1_24)
+   0333 F0 FD 61      [11]  440 	adc	a, -3 (ix)
+   0336 2D            [ 4]  441 	ld	l,a
+   0337 51            [ 4]  442 	push	de
+   0338 50            [ 4]  443 	push	bc
+   0339 FC 33         [17]  444 	ld	e, h
+   033B FD 32               445 	ld	d, l
+   033D 3A 12 00      [13]  446 	ld	hl, #0x0012
+   0340 FE 70         [ 7]  447 	add	hl, sp
+   0342 08            [ 4]  448 	ex	de, hl
+   0343 38 04 00      [12]  449 	ld	bc, #0x0004
+   0346 FE 59         [ 7]  450 	ldir
+   0348 F2 14 4A      [10]  451 	ld	hl, 20 (sp)
+   034B 52            [ 4]  452 	push	hl
+   034C F2 14 4A      [10]  453 	ld	hl, 20 (sp)
+   034F 52            [ 4]  454 	push	hl
+   0350 1Cr00r00      [ 4]  455 	call	___fsadd
+   0353 16 08 00      [ 7]  456 	add	sp, #8
+   0356 FD 31               457 	ld	c,l
+   0358 FC 30         [17]  458 	ld	b,h
+   035A F2 10 4A      [10]  459 	ld	hl, 16 (sp)
+   035D 52            [ 4]  460 	push	hl
+   035E F2 10 4A      [10]  461 	ld	hl, 16 (sp)
+   0361 52            [ 4]  462 	push	hl
+   0362 51            [ 4]  463 	push	de
+   0363 50            [ 4]  464 	push	bc
+   0364 1Cr00r00      [ 4]  465 	call	___fsadd
+   0367 16 08 00      [ 7]  466 	add	sp, #8
+   036A F4 E7 25      [17]  467 	ld	-25 (ix),l
+   036D F4 E8 24      [17]  468 	ld	-24 (ix),h
+   0370 F4 E9 23      [17]  469 	ld	-23 (ix),e
+   0373 F4 EA 22      [17]  470 	ld	-22 (ix),d
+                            471 ;../asincosf.c:93: if (x < 0.0)
+   0376 F0 F7 2E      [11]  472 	ld	a,-9 (ix)
+   0379 FE 66         [ 7]  473 	or	a, a
+   037B C6 08         [ 7]  474 	jr	Z,00116$
+                            475 ;../asincosf.c:94: r = -r;
+   037D F0 EA 2E      [11]  476 	ld	a,-22 (ix)
+   0380 6D 80         [ 4]  477 	xor	a,#0x80
+   0382 F4 EA 26      [17]  478 	ld	-22 (ix),a
+   0385                     479 00116$:
+                            480 ;../asincosf.c:96: return r;
+   0385 F0 E7 2D      [11]  481 	ld	l,-25 (ix)
+   0388 F0 E8 2C      [11]  482 	ld	h,-24 (ix)
+   038B F0 E9 2B      [11]  483 	ld	e,-23 (ix)
+   038E F0 EA 2A      [11]  484 	ld	d,-22 (ix)
+   0391                     485 00117$:
+   0391 FC 3E         [17]  486 	ld	sp, ix
+   0393 5C            [ 4]  487 	pop	ix
+   0394 1E            [ 7]  488 	ret
+   0395                     489 _asincosf_a_1_24:
+   0395 00 00 00 00         490 	.byte #0x00,#0x00,#0x00,#0x00	;  0.000000e+00
+   0399 DB 0F 49 3F         491 	.byte #0xDB,#0x0F,#0x49,#0x3F	;  7.853982e-01
+   039D                     492 _asincosf_b_1_24:
+   039D DB 0F C9 3F         493 	.byte #0xDB,#0x0F,#0xC9,#0x3F	;  1.570796e+00
+   03A1 DB 0F 49 3F         494 	.byte #0xDB,#0x0F,#0x49,#0x3F	;  7.853982e-01
+                            495 	.area _CODE
+                            496 	.area _INITIALIZER
+                            497 	.area _CABS (ABS)

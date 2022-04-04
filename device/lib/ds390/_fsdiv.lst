@@ -1,0 +1,1036 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                                      4 ; This file was generated Mon Apr  4 14:10:25 2022
+                                      5 ;--------------------------------------------------------
+                                      6 	.module _fsdiv
+                                      7 	.optsdcc -mds390 --model-flat24
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; CPU specific extensions
+                                     11 ;--------------------------------------------------------
+                                     12 	.DS80C390
+                                     13 	.amode	2	; 24 bit flat addressing
+                           000082    14 dpl	=	0x82
+                           000083    15 dph	=	0x83
+                           000084    16 dpl1	=	0x84
+                           000085    17 dph1	=	0x85
+                           000086    18 dps	=	0x86
+                           000093    19 dpx	=	0x93
+                           000095    20 dpx1	=	0x95
+                           00009B    21 esp	=	0x9B
+                           00009C    22 ap	=	0x9C
+                           00009C    23 acc1	=	0x9C
+                           0000D1    24 mcnt0	=	0xD1
+                           0000D2    25 mcnt1	=	0xD2
+                           0000D3    26 ma	=	0xD3
+                           0000D4    27 mb	=	0xD4
+                           0000D5    28 mc	=	0xD5
+                           00009D    29 acon	=	0x9D
+                           0000D1    30 F1	=	0xD1	; user flag
+                                     31 ;--------------------------------------------------------
+                                     32 ; Public variables in this module
+                                     33 ;--------------------------------------------------------
+                                     34 	.globl ___fsdiv_PARM_2
+                                     35 	.globl ___fsdiv
+                                     36 ;--------------------------------------------------------
+                                     37 ; special function registers
+                                     38 ;--------------------------------------------------------
+                                     39 ;--------------------------------------------------------
+                                     40 ; special function bits
+                                     41 ;--------------------------------------------------------
+                                     42 ;--------------------------------------------------------
+                                     43 ; overlayable register banks
+                                     44 ;--------------------------------------------------------
+                                     45 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         46 	.ds 8
+                                     47 ;--------------------------------------------------------
+                                     48 ; internal ram data
+                                     49 ;--------------------------------------------------------
+                                     50 	.area DSEG    (DATA)
+                                     51 ;--------------------------------------------------------
+                                     52 ; overlayable items in internal ram 
+                                     53 ;--------------------------------------------------------
+                                     54 ;--------------------------------------------------------
+                                     55 ; indirectly addressable internal ram data
+                                     56 ;--------------------------------------------------------
+                                     57 	.area ISEG    (DATA)
+                                     58 ;--------------------------------------------------------
+                                     59 ; absolute internal ram data
+                                     60 ;--------------------------------------------------------
+                                     61 	.area IABS    (ABS,DATA)
+                                     62 	.area IABS    (ABS,DATA)
+                                     63 ;--------------------------------------------------------
+                                     64 ; bit data
+                                     65 ;--------------------------------------------------------
+                                     66 	.area BSEG    (BIT)
+                                     67 ;--------------------------------------------------------
+                                     68 ; paged external ram data
+                                     69 ;--------------------------------------------------------
+                                     70 	.area PSEG    (PAG,XDATA)
+                                     71 ;--------------------------------------------------------
+                                     72 ; external ram data
+                                     73 ;--------------------------------------------------------
+                                     74 	.area XSEG    (XDATA)
+      000000                         75 ___fsdiv_PARM_2:
+      000000                         76 	.ds 4
+      000004                         77 ___fsdiv_fl1_1_21:
+      000004                         78 	.ds 4
+      000008                         79 ___fsdiv_fl2_1_21:
+      000008                         80 	.ds 4
+      00000C                         81 ___fsdiv_result_1_21:
+      00000C                         82 	.ds 4
+      000010                         83 ___fsdiv_mask_1_21:
+      000010                         84 	.ds 4
+      000014                         85 ___fsdiv_mant1_1_21:
+      000014                         86 	.ds 4
+      000018                         87 ___fsdiv_mant2_1_21:
+      000018                         88 	.ds 4
+      00001C                         89 ___fsdiv_exp_1_21:
+      00001C                         90 	.ds 2
+                                     91 ;--------------------------------------------------------
+                                     92 ; absolute external ram data
+                                     93 ;--------------------------------------------------------
+                                     94 	.area XABS    (ABS,XDATA)
+                                     95 ;--------------------------------------------------------
+                                     96 ; external initialized ram data
+                                     97 ;--------------------------------------------------------
+                                     98 	.area XISEG   (XDATA)
+                                     99 ;--------------------------------------------------------
+                                    100 ; global & static initialisations
+                                    101 ;--------------------------------------------------------
+                                    102 	.area HOME    (CODE)
+                                    103 	.area GSINIT  (CODE)
+                                    104 	.area GSFINAL (CODE)
+                                    105 	.area GSINIT  (CODE)
+                                    106 ;--------------------------------------------------------
+                                    107 ; Home
+                                    108 ;--------------------------------------------------------
+                                    109 	.area HOME    (CODE)
+                                    110 	.area HOME    (CODE)
+                                    111 ;--------------------------------------------------------
+                                    112 ; code
+                                    113 ;--------------------------------------------------------
+                                    114 	.area CSEG    (CODE)
+                                    115 ;------------------------------------------------------------
+                                    116 ;Allocation info for local variables in function '__fsdiv'
+                                    117 ;------------------------------------------------------------
+                                    118 ;a2                        Allocated with name '___fsdiv_PARM_2'
+                                    119 ;a1                        Allocated to registers r2 r3 r4 r5 
+                                    120 ;fl1                       Allocated with name '___fsdiv_fl1_1_21'
+                                    121 ;fl2                       Allocated with name '___fsdiv_fl2_1_21'
+                                    122 ;result                    Allocated with name '___fsdiv_result_1_21'
+                                    123 ;mask                      Allocated with name '___fsdiv_mask_1_21'
+                                    124 ;mant1                     Allocated with name '___fsdiv_mant1_1_21'
+                                    125 ;mant2                     Allocated with name '___fsdiv_mant2_1_21'
+                                    126 ;exp                       Allocated with name '___fsdiv_exp_1_21'
+                                    127 ;sign                      Allocated to registers r2 
+                                    128 ;------------------------------------------------------------
+                                    129 ;	_fsdiv.c:274: float __fsdiv (float a1, float a2)
+                                    130 ;	-----------------------------------------
+                                    131 ;	 function __fsdiv
+                                    132 ;	-----------------------------------------
+      000000                        133 ___fsdiv:
+                           000002   134 	ar2 = 0x02
+                           000003   135 	ar3 = 0x03
+                           000004   136 	ar4 = 0x04
+                           000005   137 	ar5 = 0x05
+                           000006   138 	ar6 = 0x06
+                           000007   139 	ar7 = 0x07
+                           000000   140 	ar0 = 0x00
+                           000001   141 	ar1 = 0x01
+      000000 AA 82            [ 8]  142 	mov	r2,dpl
+      000002 AB 83            [ 8]  143 	mov	r3,dph
+      000004 AC 93            [ 8]  144 	mov	r4,dpx
+      000006 AD F0            [ 8]  145 	mov	r5,b
+                                    146 ;	_fsdiv.c:283: fl1.f = a1;
+      000008 90s00r00r04      [12]  147 	mov	dptr,#___fsdiv_fl1_1_21
+      00000C EA               [ 4]  148 	mov	a,r2
+      00000D F0               [ 8]  149 	movx	@dptr,a
+      00000E A3               [12]  150 	inc	dptr
+      00000F EB               [ 4]  151 	mov	a,r3
+      000010 F0               [ 8]  152 	movx	@dptr,a
+      000011 A3               [12]  153 	inc	dptr
+      000012 EC               [ 4]  154 	mov	a,r4
+      000013 F0               [ 8]  155 	movx	@dptr,a
+      000014 A3               [12]  156 	inc	dptr
+      000015 ED               [ 4]  157 	mov	a,r5
+      000016 F0               [ 8]  158 	movx	@dptr,a
+                                    159 ;	_fsdiv.c:284: fl2.f = a2;
+      000017 90s00r00r08      [12]  160 	mov	dptr,#___fsdiv_fl2_1_21
+      00001B 75 86 01         [12]  161 	mov     dps, #1
+      00001E 90s00r00r00      [12]  162 	mov     dptr, #___fsdiv_PARM_2
+      000022 E0               [ 8]  163 	movx	a,@dptr
+      000023 15 86            [ 8]  164 	dec	dps
+      000025 F0               [ 8]  165 	movx	@dptr,a
+      000026 A3               [12]  166 	inc	dptr
+      000027 05 86            [ 8]  167 	inc	dps
+      000029 A3               [12]  168 	inc	dptr
+      00002A E0               [ 8]  169 	movx	a,@dptr
+      00002B 15 86            [ 8]  170 	dec	dps
+      00002D F0               [ 8]  171 	movx	@dptr,a
+      00002E A3               [12]  172 	inc	dptr
+      00002F 05 86            [ 8]  173 	inc	dps
+      000031 A3               [12]  174 	inc	dptr
+      000032 E0               [ 8]  175 	movx	a,@dptr
+      000033 15 86            [ 8]  176 	dec	dps
+      000035 F0               [ 8]  177 	movx	@dptr,a
+      000036 A3               [12]  178 	inc	dptr
+      000037 05 86            [ 8]  179 	inc	dps
+      000039 A3               [12]  180 	inc	dptr
+      00003A E0               [ 8]  181 	movx	a,@dptr
+      00003B 15 86            [ 8]  182 	dec	dps
+      00003D F0               [ 8]  183 	movx	@dptr,a
+                                    184 ;	_fsdiv.c:287: exp = EXP (fl1.l) ;
+      00003E 90s00r00r04      [12]  185 	mov	dptr,#___fsdiv_fl1_1_21
+      000042 E0               [ 8]  186 	movx	a,@dptr
+      000043 A3               [12]  187 	inc	dptr
+      000044 FA               [ 4]  188 	mov	r2,a
+      000045 E0               [ 8]  189 	movx	a,@dptr
+      000046 A3               [12]  190 	inc	dptr
+      000047 FB               [ 4]  191 	mov	r3,a
+      000048 E0               [ 8]  192 	movx	a,@dptr
+      000049 A3               [12]  193 	inc	dptr
+      00004A FC               [ 4]  194 	mov	r4,a
+      00004B E0               [ 8]  195 	movx	a,@dptr
+      00004C FD               [ 4]  196 	mov	r5,a
+      00004D 8C 02            [ 8]  197 	mov	ar2,r4
+      00004F ED               [ 4]  198 	mov	a,r5
+      000050 A2 E7            [ 8]  199 	mov	c,acc[7]
+      000052 CA               [ 4]  200 	xch	a,r2
+      000053 33               [ 4]  201 	rlc	a
+      000054 CA               [ 4]  202 	xch	a,r2
+      000055 33               [ 4]  203 	rlc	a
+      000056 CA               [ 4]  204 	xch	a,r2
+      000057 54 01            [ 8]  205 	anl	a,#0x01
+      000059 FB               [ 4]  206 	mov	r3,a
+      00005A 7C 00            [ 8]  207 	mov	r4,#0x00
+      00005C 7D 00            [ 8]  208 	mov	r5,#0x00
+      00005E 7B 00            [ 8]  209 	mov	r3,#0x00
+      000060 7C 00            [ 8]  210 	mov	r4,#0x00
+      000062 7D 00            [ 8]  211 	mov	r5,#0x00
+      000064 90s00r00r1C      [12]  212 	mov	dptr,#___fsdiv_exp_1_21
+      000068 EA               [ 4]  213 	mov	a,r2
+      000069 F0               [ 8]  214 	movx	@dptr,a
+      00006A A3               [12]  215 	inc	dptr
+      00006B EB               [ 4]  216 	mov	a,r3
+      00006C F0               [ 8]  217 	movx	@dptr,a
+                                    218 ;	_fsdiv.c:288: exp -= EXP (fl2.l);
+      00006D 90s00r00r08      [12]  219 	mov	dptr,#___fsdiv_fl2_1_21
+      000071 E0               [ 8]  220 	movx	a,@dptr
+      000072 A3               [12]  221 	inc	dptr
+      000073 FA               [ 4]  222 	mov	r2,a
+      000074 E0               [ 8]  223 	movx	a,@dptr
+      000075 A3               [12]  224 	inc	dptr
+      000076 FB               [ 4]  225 	mov	r3,a
+      000077 E0               [ 8]  226 	movx	a,@dptr
+      000078 A3               [12]  227 	inc	dptr
+      000079 FC               [ 4]  228 	mov	r4,a
+      00007A E0               [ 8]  229 	movx	a,@dptr
+      00007B FD               [ 4]  230 	mov	r5,a
+      00007C 8C 02            [ 8]  231 	mov	ar2,r4
+      00007E ED               [ 4]  232 	mov	a,r5
+      00007F A2 E7            [ 8]  233 	mov	c,acc[7]
+      000081 CA               [ 4]  234 	xch	a,r2
+      000082 33               [ 4]  235 	rlc	a
+      000083 CA               [ 4]  236 	xch	a,r2
+      000084 33               [ 4]  237 	rlc	a
+      000085 CA               [ 4]  238 	xch	a,r2
+      000086 54 01            [ 8]  239 	anl	a,#0x01
+      000088 FB               [ 4]  240 	mov	r3,a
+      000089 7C 00            [ 8]  241 	mov	r4,#0x00
+      00008B 7D 00            [ 8]  242 	mov	r5,#0x00
+      00008D 7B 00            [ 8]  243 	mov	r3,#0x00
+      00008F 7C 00            [ 8]  244 	mov	r4,#0x00
+      000091 7D 00            [ 8]  245 	mov	r5,#0x00
+      000093 90s00r00r1C      [12]  246 	mov	dptr,#___fsdiv_exp_1_21
+      000097 E0               [ 8]  247 	movx	a,@dptr
+      000098 FE               [ 4]  248 	mov	r6,a
+      000099 A3               [12]  249 	inc	dptr
+      00009A E0               [ 8]  250 	movx	a,@dptr
+      00009B FF               [ 4]  251 	mov	r7,a
+      00009C E0               [ 8]  252 	movx	a,@dptr
+      00009D 33               [ 4]  253 	rlc	a
+      00009E 95 E0            [ 8]  254 	subb	a,acc
+      0000A0 F8               [ 4]  255 	mov	r0,a
+      0000A1 F9               [ 4]  256 	mov	r1,a
+      0000A2 C3               [ 4]  257 	clr	c
+      0000A3 EE               [ 4]  258 	mov	a,r6
+      0000A4 9A               [ 4]  259 	subb	a,r2
+      0000A5 FA               [ 4]  260 	mov	r2,a
+      0000A6 EF               [ 4]  261 	mov	a,r7
+      0000A7 9B               [ 4]  262 	subb	a,r3
+      0000A8 FB               [ 4]  263 	mov	r3,a
+      0000A9 E8               [ 4]  264 	mov	a,r0
+      0000AA 9C               [ 4]  265 	subb	a,r4
+      0000AB FC               [ 4]  266 	mov	r4,a
+      0000AC E9               [ 4]  267 	mov	a,r1
+      0000AD 9D               [ 4]  268 	subb	a,r5
+      0000AE FD               [ 4]  269 	mov	r5,a
+      0000AF 90s00r00r1C      [12]  270 	mov	dptr,#___fsdiv_exp_1_21
+      0000B3 EA               [ 4]  271 	mov	a,r2
+      0000B4 F0               [ 8]  272 	movx	@dptr,a
+      0000B5 A3               [12]  273 	inc	dptr
+      0000B6 EB               [ 4]  274 	mov	a,r3
+      0000B7 F0               [ 8]  275 	movx	@dptr,a
+                                    276 ;	_fsdiv.c:289: exp += EXCESS;
+      0000B8 90s00r00r1C      [12]  277 	mov	dptr,#___fsdiv_exp_1_21
+      0000BC E0               [ 8]  278 	movx	a,@dptr
+      0000BD 24 7E            [ 8]  279 	add	a,#0x7E
+      0000BF F0               [ 8]  280 	movx	@dptr,a
+      0000C0 A3               [12]  281 	inc	dptr
+      0000C1 E0               [ 8]  282 	movx	a,@dptr
+      0000C2 34 00            [ 8]  283 	addc	a,#0x00
+      0000C4 F0               [ 8]  284 	movx	@dptr,a
+                                    285 ;	_fsdiv.c:292: sign = SIGN (fl1.l) ^ SIGN (fl2.l);
+      0000C5 90s00r00r04      [12]  286 	mov	dptr,#___fsdiv_fl1_1_21
+      0000C9 E0               [ 8]  287 	movx	a,@dptr
+      0000CA A3               [12]  288 	inc	dptr
+      0000CB FA               [ 4]  289 	mov	r2,a
+      0000CC E0               [ 8]  290 	movx	a,@dptr
+      0000CD A3               [12]  291 	inc	dptr
+      0000CE FB               [ 4]  292 	mov	r3,a
+      0000CF E0               [ 8]  293 	movx	a,@dptr
+      0000D0 A3               [12]  294 	inc	dptr
+      0000D1 FC               [ 4]  295 	mov	r4,a
+      0000D2 E0               [ 8]  296 	movx	a,@dptr
+      0000D3 FD               [ 4]  297 	mov  r5,a
+      0000D4 23               [ 4]  298 	rl	a
+      0000D5 54 01            [ 8]  299 	anl	a,#0x01
+      0000D7 FA               [ 4]  300 	mov	r2,a
+      0000D8 90s00r00r08      [12]  301 	mov	dptr,#___fsdiv_fl2_1_21
+      0000DC E0               [ 8]  302 	movx	a,@dptr
+      0000DD A3               [12]  303 	inc	dptr
+      0000DE FB               [ 4]  304 	mov	r3,a
+      0000DF E0               [ 8]  305 	movx	a,@dptr
+      0000E0 A3               [12]  306 	inc	dptr
+      0000E1 FC               [ 4]  307 	mov	r4,a
+      0000E2 E0               [ 8]  308 	movx	a,@dptr
+      0000E3 A3               [12]  309 	inc	dptr
+      0000E4 FD               [ 4]  310 	mov	r5,a
+      0000E5 E0               [ 8]  311 	movx	a,@dptr
+      0000E6 FE               [ 4]  312 	mov  r6,a
+      0000E7 23               [ 4]  313 	rl	a
+      0000E8 54 01            [ 8]  314 	anl	a,#0x01
+      0000EA FB               [ 4]  315 	mov  r3,a
+      0000EB 62 02            [ 8]  316 	xrl	ar2,a
+                                    317 ;	_fsdiv.c:295: if (!fl2.l)
+      0000ED 90s00r00r08      [12]  318 	mov	dptr,#___fsdiv_fl2_1_21
+      0000F1 E0               [ 8]  319 	movx	a,@dptr
+      0000F2 A3               [12]  320 	inc	dptr
+      0000F3 FB               [ 4]  321 	mov	r3,a
+      0000F4 E0               [ 8]  322 	movx	a,@dptr
+      0000F5 A3               [12]  323 	inc	dptr
+      0000F6 FC               [ 4]  324 	mov	r4,a
+      0000F7 E0               [ 8]  325 	movx	a,@dptr
+      0000F8 A3               [12]  326 	inc	dptr
+      0000F9 FD               [ 4]  327 	mov	r5,a
+      0000FA E0               [ 8]  328 	movx	a,@dptr
+      0000FB FE               [ 4]  329 	mov	r6,a
+      0000FC EB               [ 4]  330 	mov	a,r3
+      0000FD 4C               [ 4]  331 	orl	a,r4
+      0000FE 4D               [ 4]  332 	orl	a,r5
+      0000FF 4E               [ 4]  333 	orl	a,r6
+      000100 70 2C            [12]  334 	jnz  00102$
+      000102                        335 00154$:
+                                    336 ;	_fsdiv.c:297: fl2.l = 0x7FC00000;
+      000102 90s00r00r08      [12]  337 	mov	dptr,#___fsdiv_fl2_1_21
+      000106 E4               [ 4]  338 	clr	a
+      000107 F0               [ 8]  339 	movx	@dptr,a
+      000108 A3               [12]  340 	inc	dptr
+      000109 E4               [ 4]  341 	clr	a
+      00010A F0               [ 8]  342 	movx	@dptr,a
+      00010B A3               [12]  343 	inc	dptr
+      00010C 74 C0            [ 8]  344 	mov	a,#0xC0
+      00010E F0               [ 8]  345 	movx	@dptr,a
+      00010F A3               [12]  346 	inc	dptr
+      000110 74 7F            [ 8]  347 	mov	a,#0x7F
+      000112 F0               [ 8]  348 	movx	@dptr,a
+                                    349 ;	_fsdiv.c:298: return (fl2.f);
+      000113 90s00r00r08      [12]  350 	mov	dptr,#___fsdiv_fl2_1_21
+      000117 E0               [ 8]  351 	movx	a,@dptr
+      000118 A3               [12]  352 	inc	dptr
+      000119 FB               [ 4]  353 	mov	r3,a
+      00011A E0               [ 8]  354 	movx	a,@dptr
+      00011B A3               [12]  355 	inc	dptr
+      00011C FC               [ 4]  356 	mov	r4,a
+      00011D E0               [ 8]  357 	movx	a,@dptr
+      00011E A3               [12]  358 	inc	dptr
+      00011F FD               [ 4]  359 	mov	r5,a
+      000120 E0               [ 8]  360 	movx	a,@dptr
+      000121 FE               [ 4]  361 	mov	r6,a
+      000122 8B 82            [ 8]  362 	mov	dpl,r3
+      000124 8C 83            [ 8]  363 	mov	dph,r4
+      000126 8D 93            [ 8]  364 	mov	dpx,r5
+      000128 8E F0            [ 8]  365 	mov	b,r6
+      00012A 02s00r04rD1      [16]  366 	ljmp	00118$
+      00012E                        367 00102$:
+                                    368 ;	_fsdiv.c:302: if (!fl1.l)
+      00012E 90s00r00r04      [12]  369 	mov	dptr,#___fsdiv_fl1_1_21
+      000132 E0               [ 8]  370 	movx	a,@dptr
+      000133 A3               [12]  371 	inc	dptr
+      000134 FB               [ 4]  372 	mov	r3,a
+      000135 E0               [ 8]  373 	movx	a,@dptr
+      000136 A3               [12]  374 	inc	dptr
+      000137 FC               [ 4]  375 	mov	r4,a
+      000138 E0               [ 8]  376 	movx	a,@dptr
+      000139 A3               [12]  377 	inc	dptr
+      00013A FD               [ 4]  378 	mov	r5,a
+      00013B E0               [ 8]  379 	movx	a,@dptr
+      00013C FE               [ 4]  380 	mov	r6,a
+      00013D EB               [ 4]  381 	mov	a,r3
+      00013E 4C               [ 4]  382 	orl	a,r4
+      00013F 4D               [ 4]  383 	orl	a,r5
+      000140 4E               [ 4]  384 	orl	a,r6
+      000141 70 0B            [12]  385 	jnz  00104$
+      000143                        386 00155$:
+                                    387 ;	_fsdiv.c:303: return (0);
+      000143 90 00 00 00      [12]  388 	mov  dptr,#0x0000
+      000147 75 F0 00         [12]  389 	mov	b,#0x00
+      00014A 02s00r04rD1      [16]  390 	ljmp	00118$
+      00014E                        391 00104$:
+                                    392 ;	_fsdiv.c:306: mant1 = MANT (fl1.l);
+      00014E 90s00r00r04      [12]  393 	mov	dptr,#___fsdiv_fl1_1_21
+      000152 E0               [ 8]  394 	movx	a,@dptr
+      000153 A3               [12]  395 	inc	dptr
+      000154 FB               [ 4]  396 	mov	r3,a
+      000155 E0               [ 8]  397 	movx	a,@dptr
+      000156 A3               [12]  398 	inc	dptr
+      000157 FC               [ 4]  399 	mov	r4,a
+      000158 E0               [ 8]  400 	movx	a,@dptr
+      000159 A3               [12]  401 	inc	dptr
+      00015A FD               [ 4]  402 	mov	r5,a
+      00015B E0               [ 8]  403 	movx	a,@dptr
+      00015C FE               [ 4]  404 	mov	r6,a
+      00015D 53 05 7F         [12]  405 	anl	ar5,#0x7F
+      000160 7E 00            [ 8]  406 	mov	r6,#0x00
+      000162 90s00r00r14      [12]  407 	mov	dptr,#___fsdiv_mant1_1_21
+      000166 EB               [ 4]  408 	mov	a,r3
+      000167 F0               [ 8]  409 	movx	@dptr,a
+      000168 A3               [12]  410 	inc	dptr
+      000169 EC               [ 4]  411 	mov	a,r4
+      00016A F0               [ 8]  412 	movx	@dptr,a
+      00016B 74 80            [ 8]  413 	mov	a,#0x80
+      00016D 4D               [ 4]  414 	orl	a,r5
+      00016E A3               [12]  415 	inc	dptr
+      00016F F0               [ 8]  416 	movx	@dptr,a
+      000170 A3               [12]  417 	inc	dptr
+      000171 EE               [ 4]  418 	mov	a,r6
+      000172 F0               [ 8]  419 	movx	@dptr,a
+                                    420 ;	_fsdiv.c:307: mant2 = MANT (fl2.l);
+      000173 90s00r00r08      [12]  421 	mov	dptr,#___fsdiv_fl2_1_21
+      000177 E0               [ 8]  422 	movx	a,@dptr
+      000178 A3               [12]  423 	inc	dptr
+      000179 FB               [ 4]  424 	mov	r3,a
+      00017A E0               [ 8]  425 	movx	a,@dptr
+      00017B A3               [12]  426 	inc	dptr
+      00017C FC               [ 4]  427 	mov	r4,a
+      00017D E0               [ 8]  428 	movx	a,@dptr
+      00017E A3               [12]  429 	inc	dptr
+      00017F FD               [ 4]  430 	mov	r5,a
+      000180 E0               [ 8]  431 	movx	a,@dptr
+      000181 FE               [ 4]  432 	mov	r6,a
+      000182 53 05 7F         [12]  433 	anl	ar5,#0x7F
+      000185 7E 00            [ 8]  434 	mov	r6,#0x00
+      000187 90s00r00r18      [12]  435 	mov	dptr,#___fsdiv_mant2_1_21
+      00018B EB               [ 4]  436 	mov	a,r3
+      00018C F0               [ 8]  437 	movx	@dptr,a
+      00018D A3               [12]  438 	inc	dptr
+      00018E EC               [ 4]  439 	mov	a,r4
+      00018F F0               [ 8]  440 	movx	@dptr,a
+      000190 74 80            [ 8]  441 	mov	a,#0x80
+      000192 4D               [ 4]  442 	orl	a,r5
+      000193 A3               [12]  443 	inc	dptr
+      000194 F0               [ 8]  444 	movx	@dptr,a
+      000195 A3               [12]  445 	inc	dptr
+      000196 EE               [ 4]  446 	mov	a,r6
+      000197 F0               [ 8]  447 	movx	@dptr,a
+                                    448 ;	_fsdiv.c:310: if (mant1 < mant2)
+      000198 90s00r00r18      [12]  449 	mov	dptr,#___fsdiv_mant2_1_21
+      00019C 75 86 01         [12]  450 	mov	dps, #1
+      00019F 90s00r00r14      [12]  451 	mov	dptr, #___fsdiv_mant1_1_21
+      0001A3 15 86            [ 8]  452 	dec	dps
+      0001A5 C3               [ 4]  453 	clr	c
+      0001A6 75 86 01         [12]  454 	mov	dps,#1
+      0001A9 E0               [ 8]  455 	movx	a,@dptr
+      0001AA 75 86 00         [12]  456 	mov	dps,#0
+      0001AD C5 F0            [ 8]  457 	xch	a, b
+      0001AF E0               [ 8]  458 	movx	a,@dptr
+      0001B0 C5 F0            [ 8]  459 	xch	a, b
+      0001B2 95 F0            [ 8]  460 	subb	a,b
+      0001B4 75 86 01         [12]  461 	mov	dps,#1
+      0001B7 A3               [12]  462 	inc	dptr
+      0001B8 E0               [ 8]  463 	movx	a,@dptr
+      0001B9 75 86 00         [12]  464 	mov	dps,#0
+      0001BC C5 F0            [ 8]  465 	xch	a, b
+      0001BE A3               [12]  466 	inc	dptr
+      0001BF E0               [ 8]  467 	movx	a,@dptr
+      0001C0 C5 F0            [ 8]  468 	xch	a, b
+      0001C2 95 F0            [ 8]  469 	subb	a,b
+      0001C4 75 86 01         [12]  470 	mov	dps,#1
+      0001C7 A3               [12]  471 	inc	dptr
+      0001C8 E0               [ 8]  472 	movx	a,@dptr
+      0001C9 75 86 00         [12]  473 	mov	dps,#0
+      0001CC C5 F0            [ 8]  474 	xch	a, b
+      0001CE A3               [12]  475 	inc	dptr
+      0001CF E0               [ 8]  476 	movx	a,@dptr
+      0001D0 C5 F0            [ 8]  477 	xch	a, b
+      0001D2 95 F0            [ 8]  478 	subb	a,b
+      0001D4 75 86 01         [12]  479 	mov	dps,#1
+      0001D7 A3               [12]  480 	inc	dptr
+      0001D8 E0               [ 8]  481 	movx	a,@dptr
+      0001D9 75 86 00         [12]  482 	mov	dps,#0
+      0001DC 64 80            [ 8]  483 	xrl	a,#0x80
+      0001DE C5 F0            [ 8]  484 	xch	a, b
+      0001E0 A3               [12]  485 	inc	dptr
+      0001E1 E0               [ 8]  486 	movx	a,@dptr
+      0001E2 C5 F0            [ 8]  487 	xch	a, b
+      0001E4 63 F0 80         [12]  488 	xrl	b,#0x80
+      0001E7 95 F0            [ 8]  489 	subb	a,b
+      0001E9 50 39            [12]  490 	jnc  00106$
+      0001EB                        491 00156$:
+                                    492 ;	_fsdiv.c:312: mant1 <<= 1;
+      0001EB 90s00r00r14      [12]  493 	mov	dptr,#___fsdiv_mant1_1_21
+      0001EF E0               [ 8]  494 	movx	a,@dptr
+      0001F0 25 E0            [ 8]  495 	add	a,acc
+      0001F2 FB               [ 4]  496 	mov	r3,a
+      0001F3 A3               [12]  497 	inc	dptr
+      0001F4 E0               [ 8]  498 	movx	a,@dptr
+      0001F5 33               [ 4]  499 	rlc	a
+      0001F6 FC               [ 4]  500 	mov	r4,a
+      0001F7 A3               [12]  501 	inc	dptr
+      0001F8 E0               [ 8]  502 	movx	a,@dptr
+      0001F9 33               [ 4]  503 	rlc	a
+      0001FA FD               [ 4]  504 	mov	r5,a
+      0001FB A3               [12]  505 	inc	dptr
+      0001FC E0               [ 8]  506 	movx	a,@dptr
+      0001FD 33               [ 4]  507 	rlc	a
+      0001FE FE               [ 4]  508 	mov	r6,a
+                                    509 ;	genAssign: resultIsFar = TRUE
+      0001FF 90s00r00r14      [12]  510 	mov	dptr,#___fsdiv_mant1_1_21
+      000203 EB               [ 4]  511 	mov	a,r3
+      000204 F0               [ 8]  512 	movx	@dptr,a
+      000205 A3               [12]  513 	inc	dptr
+      000206 EC               [ 4]  514 	mov	a,r4
+      000207 F0               [ 8]  515 	movx	@dptr,a
+      000208 A3               [12]  516 	inc	dptr
+      000209 ED               [ 4]  517 	mov	a,r5
+      00020A F0               [ 8]  518 	movx	@dptr,a
+      00020B A3               [12]  519 	inc	dptr
+      00020C EE               [ 4]  520 	mov	a,r6
+      00020D F0               [ 8]  521 	movx	@dptr,a
+                                    522 ;	_fsdiv.c:313: exp--;
+      00020E 90s00r00r1C      [12]  523 	mov	dptr,#___fsdiv_exp_1_21
+      000212 E0               [ 8]  524 	movx	a,@dptr
+      000213 24 FF            [ 8]  525 	add	a,#0xFF
+      000215 FB               [ 4]  526 	mov	r3,a
+      000216 A3               [12]  527 	inc	dptr
+      000217 E0               [ 8]  528 	movx	a,@dptr
+      000218 34 FF            [ 8]  529 	addc	a,#0xFF
+      00021A FC               [ 4]  530 	mov	r4,a
+                                    531 ;	genAssign: resultIsFar = TRUE
+      00021B 90s00r00r1C      [12]  532 	mov	dptr,#___fsdiv_exp_1_21
+      00021F EB               [ 4]  533 	mov	a,r3
+      000220 F0               [ 8]  534 	movx	@dptr,a
+      000221 A3               [12]  535 	inc	dptr
+      000222 EC               [ 4]  536 	mov	a,r4
+      000223 F0               [ 8]  537 	movx	@dptr,a
+      000224                        538 00106$:
+                                    539 ;	_fsdiv.c:317: mask = 0x1000000;
+                                    540 ;	genAssign: resultIsFar = TRUE
+      000224 90s00r00r10      [12]  541 	mov	dptr,#___fsdiv_mask_1_21
+      000228 E4               [ 4]  542 	clr	a
+      000229 F0               [ 8]  543 	movx	@dptr,a
+      00022A A3               [12]  544 	inc	dptr
+      00022B E4               [ 4]  545 	clr	a
+      00022C F0               [ 8]  546 	movx	@dptr,a
+      00022D A3               [12]  547 	inc	dptr
+      00022E E4               [ 4]  548 	clr	a
+      00022F F0               [ 8]  549 	movx	@dptr,a
+      000230 A3               [12]  550 	inc	dptr
+      000231 74 01            [ 8]  551 	mov	a,#0x01
+      000233 F0               [ 8]  552 	movx	@dptr,a
+                                    553 ;	_fsdiv.c:318: result = 0;
+                                    554 ;	genAssign: resultIsFar = TRUE
+      000234 90s00r00r0C      [12]  555 	mov	dptr,#___fsdiv_result_1_21
+      000238 E4               [ 4]  556 	clr	a
+      000239 F0               [ 8]  557 	movx	@dptr,a
+      00023A A3               [12]  558 	inc	dptr
+      00023B F0               [ 8]  559 	movx	@dptr,a
+      00023C A3               [12]  560 	inc	dptr
+      00023D F0               [ 8]  561 	movx	@dptr,a
+      00023E A3               [12]  562 	inc	dptr
+      00023F F0               [ 8]  563 	movx	@dptr,a
+                                    564 ;	_fsdiv.c:319: while (mask)
+      000240                        565 00109$:
+      000240 90s00r00r10      [12]  566 	mov	dptr,#___fsdiv_mask_1_21
+      000244 E0               [ 8]  567 	movx	a,@dptr
+      000245 F5 F0            [ 8]  568 	mov	b,a
+      000247 A3               [12]  569 	inc	dptr
+      000248 E0               [ 8]  570 	movx	a,@dptr
+      000249 42 F0            [ 8]  571 	orl	b,a
+      00024B A3               [12]  572 	inc	dptr
+      00024C E0               [ 8]  573 	movx	a,@dptr
+      00024D 42 F0            [ 8]  574 	orl	b,a
+      00024F A3               [12]  575 	inc	dptr
+      000250 E0               [ 8]  576 	movx	a,@dptr
+      000251 45 F0            [ 8]  577 	orl	a,b
+      000253 70 04            [12]  578 	jnz	00157$
+      000255 02s00r03r86      [16]  579 	ljmp	00111$
+      000259                        580 00157$:
+                                    581 ;	_fsdiv.c:321: if (mant1 >= mant2)
+      000259 90s00r00r18      [12]  582 	mov	dptr,#___fsdiv_mant2_1_21
+      00025D 75 86 01         [12]  583 	mov	dps, #1
+      000260 90s00r00r14      [12]  584 	mov	dptr, #___fsdiv_mant1_1_21
+      000264 15 86            [ 8]  585 	dec	dps
+      000266 C3               [ 4]  586 	clr	c
+      000267 75 86 01         [12]  587 	mov	dps,#1
+      00026A E0               [ 8]  588 	movx	a,@dptr
+      00026B 75 86 00         [12]  589 	mov	dps,#0
+      00026E C5 F0            [ 8]  590 	xch	a, b
+      000270 E0               [ 8]  591 	movx	a,@dptr
+      000271 C5 F0            [ 8]  592 	xch	a, b
+      000273 95 F0            [ 8]  593 	subb	a,b
+      000275 75 86 01         [12]  594 	mov	dps,#1
+      000278 A3               [12]  595 	inc	dptr
+      000279 E0               [ 8]  596 	movx	a,@dptr
+      00027A 75 86 00         [12]  597 	mov	dps,#0
+      00027D C5 F0            [ 8]  598 	xch	a, b
+      00027F A3               [12]  599 	inc	dptr
+      000280 E0               [ 8]  600 	movx	a,@dptr
+      000281 C5 F0            [ 8]  601 	xch	a, b
+      000283 95 F0            [ 8]  602 	subb	a,b
+      000285 75 86 01         [12]  603 	mov	dps,#1
+      000288 A3               [12]  604 	inc	dptr
+      000289 E0               [ 8]  605 	movx	a,@dptr
+      00028A 75 86 00         [12]  606 	mov	dps,#0
+      00028D C5 F0            [ 8]  607 	xch	a, b
+      00028F A3               [12]  608 	inc	dptr
+      000290 E0               [ 8]  609 	movx	a,@dptr
+      000291 C5 F0            [ 8]  610 	xch	a, b
+      000293 95 F0            [ 8]  611 	subb	a,b
+      000295 75 86 01         [12]  612 	mov	dps,#1
+      000298 A3               [12]  613 	inc	dptr
+      000299 E0               [ 8]  614 	movx	a,@dptr
+      00029A 75 86 00         [12]  615 	mov	dps,#0
+      00029D 64 80            [ 8]  616 	xrl	a,#0x80
+      00029F C5 F0            [ 8]  617 	xch	a, b
+      0002A1 A3               [12]  618 	inc	dptr
+      0002A2 E0               [ 8]  619 	movx	a,@dptr
+      0002A3 C5 F0            [ 8]  620 	xch	a, b
+      0002A5 63 F0 80         [12]  621 	xrl	b,#0x80
+      0002A8 95 F0            [ 8]  622 	subb	a,b
+      0002AA 50 04            [12]  623 	jnc	00158$
+      0002AC 02s00r03r31      [16]  624 	ljmp	00108$
+      0002B0                        625 00158$:
+                                    626 ;	_fsdiv.c:323: result |= mask;
+      0002B0 90s00r00r0C      [12]  627 	mov	dptr,#___fsdiv_result_1_21
+      0002B4 E0               [ 8]  628 	movx	a,@dptr
+      0002B5 FB               [ 4]  629 	mov	r3,a
+      0002B6 A3               [12]  630 	inc	dptr
+      0002B7 E0               [ 8]  631 	movx	a,@dptr
+      0002B8 FC               [ 4]  632 	mov	r4,a
+      0002B9 A3               [12]  633 	inc	dptr
+      0002BA E0               [ 8]  634 	movx	a,@dptr
+      0002BB FD               [ 4]  635 	mov	r5,a
+      0002BC A3               [12]  636 	inc	dptr
+      0002BD E0               [ 8]  637 	movx	a,@dptr
+      0002BE FE               [ 4]  638 	mov	r6,a
+      0002BF 90s00r00r10      [12]  639 	mov	dptr,#___fsdiv_mask_1_21
+      0002C3 E0               [ 8]  640 	movx	a,@dptr
+      0002C4 42 03            [ 8]  641 	orl	ar3,a
+      0002C6 A3               [12]  642 	inc	dptr
+      0002C7 E0               [ 8]  643 	movx	a,@dptr
+      0002C8 42 04            [ 8]  644 	orl	ar4,a
+      0002CA A3               [12]  645 	inc	dptr
+      0002CB E0               [ 8]  646 	movx	a,@dptr
+      0002CC 42 05            [ 8]  647 	orl	ar5,a
+      0002CE A3               [12]  648 	inc	dptr
+      0002CF E0               [ 8]  649 	movx	a,@dptr
+      0002D0 42 06            [ 8]  650 	orl	ar6,a
+                                    651 ;	genAssign: resultIsFar = TRUE
+      0002D2 90s00r00r0C      [12]  652 	mov	dptr,#___fsdiv_result_1_21
+      0002D6 EB               [ 4]  653 	mov	a,r3
+      0002D7 F0               [ 8]  654 	movx	@dptr,a
+      0002D8 A3               [12]  655 	inc	dptr
+      0002D9 EC               [ 4]  656 	mov	a,r4
+      0002DA F0               [ 8]  657 	movx	@dptr,a
+      0002DB A3               [12]  658 	inc	dptr
+      0002DC ED               [ 4]  659 	mov	a,r5
+      0002DD F0               [ 8]  660 	movx	@dptr,a
+      0002DE A3               [12]  661 	inc	dptr
+      0002DF EE               [ 4]  662 	mov	a,r6
+      0002E0 F0               [ 8]  663 	movx	@dptr,a
+                                    664 ;	_fsdiv.c:324: mant1 -= mant2;
+      0002E1 90s00r00r18      [12]  665 	mov	dptr,#___fsdiv_mant2_1_21
+      0002E5 75 86 01         [12]  666 	mov	dps, #1
+      0002E8 90s00r00r14      [12]  667 	mov	dptr, #___fsdiv_mant1_1_21
+      0002EC 15 86            [ 8]  668 	dec	dps
+      0002EE C3               [ 4]  669 	clr	c
+      0002EF E0               [ 8]  670 	movx	a,@dptr
+      0002F0 F5 F0            [ 8]  671 	mov	b,a
+      0002F2 05 86            [ 8]  672 	inc	dps
+      0002F4 E0               [ 8]  673 	movx	a,@dptr
+      0002F5 95 F0            [ 8]  674 	subb	a,b
+      0002F7 FB               [ 4]  675 	mov	r3,a
+      0002F8 15 86            [ 8]  676 	dec	dps
+      0002FA A3               [12]  677 	inc	dptr
+      0002FB E0               [ 8]  678 	movx	a,@dptr
+      0002FC F5 F0            [ 8]  679 	mov	b,a
+      0002FE 05 86            [ 8]  680 	inc	dps
+      000300 A3               [12]  681 	inc	dptr
+      000301 E0               [ 8]  682 	movx	a,@dptr
+      000302 95 F0            [ 8]  683 	subb	a,b
+      000304 FC               [ 4]  684 	mov	r4,a
+      000305 15 86            [ 8]  685 	dec	dps
+      000307 A3               [12]  686 	inc	dptr
+      000308 E0               [ 8]  687 	movx	a,@dptr
+      000309 F5 F0            [ 8]  688 	mov	b,a
+      00030B 05 86            [ 8]  689 	inc	dps
+      00030D A3               [12]  690 	inc	dptr
+      00030E E0               [ 8]  691 	movx	a,@dptr
+      00030F 95 F0            [ 8]  692 	subb	a,b
+      000311 FD               [ 4]  693 	mov	r5,a
+      000312 15 86            [ 8]  694 	dec	dps
+      000314 A3               [12]  695 	inc	dptr
+      000315 E0               [ 8]  696 	movx	a,@dptr
+      000316 F5 F0            [ 8]  697 	mov	b,a
+      000318 05 86            [ 8]  698 	inc	dps
+      00031A A3               [12]  699 	inc	dptr
+      00031B E0               [ 8]  700 	movx	a,@dptr
+      00031C 95 F0            [ 8]  701 	subb	a,b
+      00031E FE               [ 4]  702 	mov	r6,a
+      00031F 75 86 00         [12]  703 	mov	dps,#0
+                                    704 ;	genAssign: resultIsFar = TRUE
+      000322 90s00r00r14      [12]  705 	mov	dptr,#___fsdiv_mant1_1_21
+      000326 EB               [ 4]  706 	mov	a,r3
+      000327 F0               [ 8]  707 	movx	@dptr,a
+      000328 A3               [12]  708 	inc	dptr
+      000329 EC               [ 4]  709 	mov	a,r4
+      00032A F0               [ 8]  710 	movx	@dptr,a
+      00032B A3               [12]  711 	inc	dptr
+      00032C ED               [ 4]  712 	mov	a,r5
+      00032D F0               [ 8]  713 	movx	@dptr,a
+      00032E A3               [12]  714 	inc	dptr
+      00032F EE               [ 4]  715 	mov	a,r6
+      000330 F0               [ 8]  716 	movx	@dptr,a
+      000331                        717 00108$:
+                                    718 ;	_fsdiv.c:326: mant1 <<= 1;
+      000331 90s00r00r14      [12]  719 	mov	dptr,#___fsdiv_mant1_1_21
+      000335 E0               [ 8]  720 	movx	a,@dptr
+      000336 25 E0            [ 8]  721 	add	a,acc
+      000338 FB               [ 4]  722 	mov	r3,a
+      000339 A3               [12]  723 	inc	dptr
+      00033A E0               [ 8]  724 	movx	a,@dptr
+      00033B 33               [ 4]  725 	rlc	a
+      00033C FC               [ 4]  726 	mov	r4,a
+      00033D A3               [12]  727 	inc	dptr
+      00033E E0               [ 8]  728 	movx	a,@dptr
+      00033F 33               [ 4]  729 	rlc	a
+      000340 FD               [ 4]  730 	mov	r5,a
+      000341 A3               [12]  731 	inc	dptr
+      000342 E0               [ 8]  732 	movx	a,@dptr
+      000343 33               [ 4]  733 	rlc	a
+      000344 FE               [ 4]  734 	mov	r6,a
+                                    735 ;	genAssign: resultIsFar = TRUE
+      000345 90s00r00r14      [12]  736 	mov	dptr,#___fsdiv_mant1_1_21
+      000349 EB               [ 4]  737 	mov	a,r3
+      00034A F0               [ 8]  738 	movx	@dptr,a
+      00034B A3               [12]  739 	inc	dptr
+      00034C EC               [ 4]  740 	mov	a,r4
+      00034D F0               [ 8]  741 	movx	@dptr,a
+      00034E A3               [12]  742 	inc	dptr
+      00034F ED               [ 4]  743 	mov	a,r5
+      000350 F0               [ 8]  744 	movx	@dptr,a
+      000351 A3               [12]  745 	inc	dptr
+      000352 EE               [ 4]  746 	mov	a,r6
+      000353 F0               [ 8]  747 	movx	@dptr,a
+                                    748 ;	_fsdiv.c:327: mask >>= 1;
+      000354 90s00r00r10      [12]  749 	mov	dptr,#___fsdiv_mask_1_21
+      000358 A3               [12]  750 	inc	dptr
+      000359 A3               [12]  751 	inc	dptr
+      00035A A3               [12]  752 	inc	dptr
+      00035B E0               [ 8]  753 	movx	a,@dptr
+      00035C C3               [ 4]  754 	clr	c
+      00035D 13               [ 4]  755 	rrc	a
+      00035E FE               [ 4]  756 	mov	r6,a
+      00035F 12s00r00r00      [16]  757 	lcall	__decdptr
+      000363 E0               [ 8]  758 	movx	a,@dptr
+      000364 13               [ 4]  759 	rrc	a
+      000365 FD               [ 4]  760 	mov	r5,a
+      000366 12s00r00r00      [16]  761 	lcall	__decdptr
+      00036A E0               [ 8]  762 	movx	a,@dptr
+      00036B 13               [ 4]  763 	rrc	a
+      00036C FC               [ 4]  764 	mov	r4,a
+      00036D 12s00r00r00      [16]  765 	lcall	__decdptr
+      000371 E0               [ 8]  766 	movx	a,@dptr
+      000372 13               [ 4]  767 	rrc	a
+                                    768 ;	genAssign: resultIsFar = TRUE
+      000373 FB               [ 4]  769 	mov  r3,a
+      000374 90s00r00r10      [12]  770 	mov  dptr,#___fsdiv_mask_1_21
+      000378 F0               [ 8]  771 	movx @dptr,a
+      000379 A3               [12]  772 	inc	dptr
+      00037A EC               [ 4]  773 	mov	a,r4
+      00037B F0               [ 8]  774 	movx	@dptr,a
+      00037C A3               [12]  775 	inc	dptr
+      00037D ED               [ 4]  776 	mov	a,r5
+      00037E F0               [ 8]  777 	movx	@dptr,a
+      00037F A3               [12]  778 	inc	dptr
+      000380 EE               [ 4]  779 	mov	a,r6
+      000381 F0               [ 8]  780 	movx	@dptr,a
+      000382 02s00r02r40      [16]  781 	ljmp	00109$
+      000386                        782 00111$:
+                                    783 ;	_fsdiv.c:331: result += 1;
+      000386 90s00r00r0C      [12]  784 	mov	dptr,#___fsdiv_result_1_21
+      00038A E0               [ 8]  785 	movx	a,@dptr
+      00038B 24 01            [ 8]  786 	add	a,#0x01
+      00038D F0               [ 8]  787 	movx	@dptr,a
+      00038E A3               [12]  788 	inc	dptr
+      00038F E0               [ 8]  789 	movx	a,@dptr
+      000390 34 00            [ 8]  790 	addc	a,#0x00
+      000392 F0               [ 8]  791 	movx	@dptr,a
+      000393 A3               [12]  792 	inc	dptr
+      000394 E0               [ 8]  793 	movx	a,@dptr
+      000395 34 00            [ 8]  794 	addc	a,#0x00
+      000397 F0               [ 8]  795 	movx	@dptr,a
+      000398 A3               [12]  796 	inc	dptr
+      000399 E0               [ 8]  797 	movx	a,@dptr
+      00039A 34 00            [ 8]  798 	addc	a,#0x00
+      00039C F0               [ 8]  799 	movx	@dptr,a
+                                    800 ;	_fsdiv.c:334: exp++;
+      00039D 90s00r00r1C      [12]  801 	mov	dptr,#___fsdiv_exp_1_21
+      0003A1 E0               [ 8]  802 	movx	a,@dptr
+      0003A2 24 01            [ 8]  803 	add	a,#0x01
+      0003A4 F0               [ 8]  804 	movx	@dptr,a
+      0003A5 A3               [12]  805 	inc	dptr
+      0003A6 E0               [ 8]  806 	movx	a,@dptr
+      0003A7 34 00            [ 8]  807 	addc	a,#0x00
+      0003A9 F0               [ 8]  808 	movx	@dptr,a
+                                    809 ;	_fsdiv.c:335: result >>= 1;
+      0003AA 90s00r00r0C      [12]  810 	mov	dptr,#___fsdiv_result_1_21
+      0003AE A3               [12]  811 	inc	dptr
+      0003AF A3               [12]  812 	inc	dptr
+      0003B0 A3               [12]  813 	inc	dptr
+      0003B1 E0               [ 8]  814 	movx	a,@dptr
+      0003B2 A2 E7            [ 8]  815 	mov	c,acc[7]
+      0003B4 13               [ 4]  816 	rrc	a
+      0003B5 FE               [ 4]  817 	mov	r6,a
+      0003B6 12s00r00r00      [16]  818 	lcall	__decdptr
+      0003BA E0               [ 8]  819 	movx	a,@dptr
+      0003BB 13               [ 4]  820 	rrc	a
+      0003BC FD               [ 4]  821 	mov	r5,a
+      0003BD 12s00r00r00      [16]  822 	lcall	__decdptr
+      0003C1 E0               [ 8]  823 	movx	a,@dptr
+      0003C2 13               [ 4]  824 	rrc	a
+      0003C3 FC               [ 4]  825 	mov	r4,a
+      0003C4 12s00r00r00      [16]  826 	lcall	__decdptr
+      0003C8 E0               [ 8]  827 	movx	a,@dptr
+      0003C9 13               [ 4]  828 	rrc	a
+                                    829 ;	genAssign: resultIsFar = TRUE
+      0003CA FB               [ 4]  830 	mov  r3,a
+      0003CB 90s00r00r0C      [12]  831 	mov  dptr,#___fsdiv_result_1_21
+      0003CF F0               [ 8]  832 	movx @dptr,a
+      0003D0 A3               [12]  833 	inc	dptr
+      0003D1 EC               [ 4]  834 	mov	a,r4
+      0003D2 F0               [ 8]  835 	movx	@dptr,a
+      0003D3 A3               [12]  836 	inc	dptr
+      0003D4 ED               [ 4]  837 	mov	a,r5
+      0003D5 F0               [ 8]  838 	movx	@dptr,a
+      0003D6 A3               [12]  839 	inc	dptr
+      0003D7 EE               [ 4]  840 	mov	a,r6
+      0003D8 F0               [ 8]  841 	movx	@dptr,a
+                                    842 ;	_fsdiv.c:337: result &= ~HIDDEN;
+      0003D9 90s00r00r0C      [12]  843 	mov	dptr,#___fsdiv_result_1_21
+      0003DD E0               [ 8]  844 	movx	a,@dptr
+      0003DE FB               [ 4]  845 	mov	r3,a
+      0003DF A3               [12]  846 	inc	dptr
+      0003E0 E0               [ 8]  847 	movx	a,@dptr
+      0003E1 FC               [ 4]  848 	mov	r4,a
+      0003E2 A3               [12]  849 	inc	dptr
+      0003E3 E0               [ 8]  850 	movx	a,@dptr
+      0003E4 FD               [ 4]  851 	mov	r5,a
+      0003E5 A3               [12]  852 	inc	dptr
+      0003E6 E0               [ 8]  853 	movx	a,@dptr
+      0003E7 FE               [ 4]  854 	mov	r6,a
+      0003E8 90s00r00r0C      [12]  855 	mov	dptr,#___fsdiv_result_1_21
+      0003EC EB               [ 4]  856 	mov	a,r3
+      0003ED F0               [ 8]  857 	movx	@dptr,a
+      0003EE A3               [12]  858 	inc	dptr
+      0003EF EC               [ 4]  859 	mov	a,r4
+      0003F0 F0               [ 8]  860 	movx	@dptr,a
+      0003F1 74 7F            [ 8]  861 	mov	a,#0x7F
+      0003F3 5D               [ 4]  862 	anl	a,r5
+      0003F4 A3               [12]  863 	inc	dptr
+      0003F5 F0               [ 8]  864 	movx	@dptr,a
+      0003F6 A3               [12]  865 	inc	dptr
+      0003F7 EE               [ 4]  866 	mov	a,r6
+      0003F8 F0               [ 8]  867 	movx	@dptr,a
+                                    868 ;	_fsdiv.c:340: if (exp >= 0x100)
+      0003F9 90s00r00r1C      [12]  869 	mov	dptr,#___fsdiv_exp_1_21
+      0003FD C3               [ 4]  870 	clr	c
+      0003FE E0               [ 8]  871 	movx	a,@dptr
+      0003FF 94 00            [ 8]  872 	subb	a,#0x00
+      000401 A3               [12]  873 	inc	dptr
+      000402 E0               [ 8]  874 	movx	a,@dptr
+      000403 64 80            [ 8]  875 	xrl	a,#0x80
+      000405 94 81            [ 8]  876 	subb	a,#0x81
+      000407 40 2E            [12]  877 	jc   00116$
+      000409                        878 00159$:
+                                    879 ;	_fsdiv.c:341: fl1.l = (sign ? SIGNBIT : 0) | __INFINITY;
+      000409 EA               [ 4]  880 	mov	a,r2
+      00040A 60 0A            [12]  881 	jz  00120$
+      00040C                        882 00160$:
+                                    883 ;	genAssign: resultIsFar = FALSE
+      00040C 7B 00            [ 8]  884 	mov	r3,#0x00
+      00040E 7C 00            [ 8]  885 	mov	r4,#0x00
+      000410 7D 00            [ 8]  886 	mov	r5,#0x00
+      000412 7E 80            [ 8]  887 	mov	r6,#0x80
+      000414 80 08            [12]  888 	sjmp 00121$
+      000416                        889 00120$:
+                                    890 ;	genAssign: resultIsFar = FALSE
+      000416 7B 00            [ 8]  891 	mov	r3,#0x00
+      000418 7C 00            [ 8]  892 	mov	r4,#0x00
+      00041A 7D 00            [ 8]  893 	mov	r5,#0x00
+      00041C 7E 00            [ 8]  894 	mov	r6,#0x00
+      00041E                        895 00121$:
+      00041E 43 05 80         [12]  896 	orl	ar5,#0x80
+      000421 43 06 7F         [12]  897 	orl	ar6,#0x7F
+      000424 90s00r00r04      [12]  898 	mov	dptr,#___fsdiv_fl1_1_21
+      000428 EB               [ 4]  899 	mov	a,r3
+      000429 F0               [ 8]  900 	movx	@dptr,a
+      00042A A3               [12]  901 	inc	dptr
+      00042B EC               [ 4]  902 	mov	a,r4
+      00042C F0               [ 8]  903 	movx	@dptr,a
+      00042D A3               [12]  904 	inc	dptr
+      00042E ED               [ 4]  905 	mov	a,r5
+      00042F F0               [ 8]  906 	movx	@dptr,a
+      000430 A3               [12]  907 	inc	dptr
+      000431 EE               [ 4]  908 	mov	a,r6
+      000432 F0               [ 8]  909 	movx	@dptr,a
+      000433 02s00r04rBA      [16]  910 	ljmp	00117$
+      000437                        911 00116$:
+                                    912 ;	_fsdiv.c:342: else if (exp < 0)
+      000437 90s00r00r1C      [12]  913 	mov	dptr,#___fsdiv_exp_1_21
+      00043B A3               [12]  914 	inc	dptr
+      00043C E0               [ 8]  915 	movx	a,@dptr
+      00043D 30 E7 11         [12]  916 	jnb  acc[7],00113$
+      000440                        917 00161$:
+                                    918 ;	_fsdiv.c:343: fl1.l = 0;
+      000440 90s00r00r04      [12]  919 	mov	dptr,#___fsdiv_fl1_1_21
+      000444 E4               [ 4]  920 	clr	a
+      000445 F0               [ 8]  921 	movx	@dptr,a
+      000446 A3               [12]  922 	inc	dptr
+      000447 E4               [ 4]  923 	clr	a
+      000448 F0               [ 8]  924 	movx	@dptr,a
+      000449 A3               [12]  925 	inc	dptr
+      00044A E4               [ 4]  926 	clr	a
+      00044B F0               [ 8]  927 	movx	@dptr,a
+      00044C A3               [12]  928 	inc	dptr
+      00044D E4               [ 4]  929 	clr	a
+      00044E F0               [ 8]  930 	movx	@dptr,a
+      00044F 80 69            [12]  931 	sjmp 00117$
+      000451                        932 00113$:
+                                    933 ;	_fsdiv.c:345: fl1.l = PACK (sign ? SIGNBIT : 0 , exp, result);
+      000451 EA               [ 4]  934 	mov	a,r2
+      000452 60 0A            [12]  935 	jz  00122$
+      000454                        936 00162$:
+                                    937 ;	genAssign: resultIsFar = FALSE
+      000454 7A 00            [ 8]  938 	mov	r2,#0x00
+      000456 7B 00            [ 8]  939 	mov	r3,#0x00
+      000458 7C 00            [ 8]  940 	mov	r4,#0x00
+      00045A 7D 80            [ 8]  941 	mov	r5,#0x80
+      00045C 80 08            [12]  942 	sjmp 00123$
+      00045E                        943 00122$:
+                                    944 ;	genAssign: resultIsFar = FALSE
+      00045E 7A 00            [ 8]  945 	mov	r2,#0x00
+      000460 7B 00            [ 8]  946 	mov	r3,#0x00
+      000462 7C 00            [ 8]  947 	mov	r4,#0x00
+      000464 7D 00            [ 8]  948 	mov	r5,#0x00
+      000466                        949 00123$:
+      000466 90s00r00r1C      [12]  950 	mov	dptr,#___fsdiv_exp_1_21
+      00046A E0               [ 8]  951 	movx	a,@dptr
+      00046B FE               [ 4]  952 	mov	r6,a
+      00046C A3               [12]  953 	inc	dptr
+      00046D E0               [ 8]  954 	movx	a,@dptr
+      00046E FF               [ 4]  955 	mov	r7,a
+      00046F E0               [ 8]  956 	movx	a,@dptr
+      000470 33               [ 4]  957 	rlc	a
+      000471 95 E0            [ 8]  958 	subb	a,acc
+      000473 F8               [ 4]  959 	mov	r0,a
+      000474 F9               [ 4]  960 	mov	r1,a
+      000475 8E 00            [ 8]  961 	mov	ar0,r6
+      000477 EF               [ 4]  962 	mov	a,r7
+      000478 54 01            [ 8]  963 	anl	a,#0x01
+      00047A A2 E0            [ 8]  964 	mov	c,acc[0]
+      00047C C8               [ 4]  965 	xch	a,r0
+      00047D 13               [ 4]  966 	rrc	a
+      00047E C8               [ 4]  967 	xch	a,r0
+      00047F 13               [ 4]  968 	rrc	a
+      000480 C8               [ 4]  969 	xch	a,r0
+      000481 F9               [ 4]  970 	mov	r1,a
+      000482 E4               [ 4]  971 	clr  a
+      000483 FF               [ 4]  972 	mov  r7,a
+      000484 FE               [ 4]  973 	mov  r6,a
+      000485 42 02            [ 8]  974 	orl	ar2,a
+      000487 EF               [ 4]  975 	mov	a,r7
+      000488 42 03            [ 8]  976 	orl	ar3,a
+      00048A E8               [ 4]  977 	mov	a,r0
+      00048B 42 04            [ 8]  978 	orl	ar4,a
+      00048D E9               [ 4]  979 	mov	a,r1
+      00048E 42 05            [ 8]  980 	orl	ar5,a
+      000490 90s00r00r0C      [12]  981 	mov	dptr,#___fsdiv_result_1_21
+      000494 E0               [ 8]  982 	movx	a,@dptr
+      000495 FE               [ 4]  983 	mov	r6,a
+      000496 A3               [12]  984 	inc	dptr
+      000497 E0               [ 8]  985 	movx	a,@dptr
+      000498 FF               [ 4]  986 	mov	r7,a
+      000499 A3               [12]  987 	inc	dptr
+      00049A E0               [ 8]  988 	movx	a,@dptr
+      00049B F8               [ 4]  989 	mov	r0,a
+      00049C A3               [12]  990 	inc	dptr
+      00049D E0               [ 8]  991 	movx	a,@dptr
+      00049E F9               [ 4]  992 	mov	r1,a
+      00049F EE               [ 4]  993 	mov	a,r6
+      0004A0 42 02            [ 8]  994 	orl	ar2,a
+      0004A2 EF               [ 4]  995 	mov	a,r7
+      0004A3 42 03            [ 8]  996 	orl	ar3,a
+      0004A5 E8               [ 4]  997 	mov	a,r0
+      0004A6 42 04            [ 8]  998 	orl	ar4,a
+      0004A8 E9               [ 4]  999 	mov	a,r1
+      0004A9 42 05            [ 8] 1000 	orl	ar5,a
+      0004AB 90s00r00r04      [12] 1001 	mov	dptr,#___fsdiv_fl1_1_21
+      0004AF EA               [ 4] 1002 	mov	a,r2
+      0004B0 F0               [ 8] 1003 	movx	@dptr,a
+      0004B1 A3               [12] 1004 	inc	dptr
+      0004B2 EB               [ 4] 1005 	mov	a,r3
+      0004B3 F0               [ 8] 1006 	movx	@dptr,a
+      0004B4 A3               [12] 1007 	inc	dptr
+      0004B5 EC               [ 4] 1008 	mov	a,r4
+      0004B6 F0               [ 8] 1009 	movx	@dptr,a
+      0004B7 A3               [12] 1010 	inc	dptr
+      0004B8 ED               [ 4] 1011 	mov	a,r5
+      0004B9 F0               [ 8] 1012 	movx	@dptr,a
+      0004BA                       1013 00117$:
+                                   1014 ;	_fsdiv.c:346: return (fl1.f);
+      0004BA 90s00r00r04      [12] 1015 	mov	dptr,#___fsdiv_fl1_1_21
+      0004BE E0               [ 8] 1016 	movx	a,@dptr
+      0004BF A3               [12] 1017 	inc	dptr
+      0004C0 FA               [ 4] 1018 	mov	r2,a
+      0004C1 E0               [ 8] 1019 	movx	a,@dptr
+      0004C2 A3               [12] 1020 	inc	dptr
+      0004C3 FB               [ 4] 1021 	mov	r3,a
+      0004C4 E0               [ 8] 1022 	movx	a,@dptr
+      0004C5 A3               [12] 1023 	inc	dptr
+      0004C6 FC               [ 4] 1024 	mov	r4,a
+      0004C7 E0               [ 8] 1025 	movx	a,@dptr
+      0004C8 FD               [ 4] 1026 	mov	r5,a
+      0004C9 8A 82            [ 8] 1027 	mov	dpl,r2
+      0004CB 8B 83            [ 8] 1028 	mov	dph,r3
+      0004CD 8C 93            [ 8] 1029 	mov	dpx,r4
+      0004CF 8D F0            [ 8] 1030 	mov	b,r5
+      0004D1                       1031 00118$:
+      0004D1 22               [16] 1032 	ret
+                                   1033 	.area CSEG    (CODE)
+                                   1034 	.area CONST   (CODE)
+                                   1035 	.area XINIT   (CODE)
+                                   1036 	.area CABS    (ABS,CODE)

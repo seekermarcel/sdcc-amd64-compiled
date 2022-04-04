@@ -1,0 +1,335 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:15:41 2022
+                              5 ;--------------------------------------------------------
+                              6 	.hd64
+                              7 	.module atan2f
+                              8 	.optsdcc -mz180
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl _fabsf
+                             14 	.globl _atanf
+                             15 	.globl _atan2f
+                             16 ;--------------------------------------------------------
+                             17 ; special function registers
+                             18 ;--------------------------------------------------------
+                             19 ;--------------------------------------------------------
+                             20 ; ram data
+                             21 ;--------------------------------------------------------
+                             22 	.area _DATA
+                             23 ;--------------------------------------------------------
+                             24 ; ram data
+                             25 ;--------------------------------------------------------
+                             26 	.area _INITIALIZED
+                             27 ;--------------------------------------------------------
+                             28 ; absolute external ram data
+                             29 ;--------------------------------------------------------
+                             30 	.area _DABS (ABS)
+                             31 ;--------------------------------------------------------
+                             32 ; global & static initialisations
+                             33 ;--------------------------------------------------------
+                             34 	.area _HOME
+                             35 	.area _GSINIT
+                             36 	.area _GSFINAL
+                             37 	.area _GSINIT
+                             38 ;--------------------------------------------------------
+                             39 ; Home
+                             40 ;--------------------------------------------------------
+                             41 	.area _HOME
+                             42 	.area _HOME
+                             43 ;--------------------------------------------------------
+                             44 ; code
+                             45 ;--------------------------------------------------------
+                             46 	.area _CODE
+                             47 ;../atan2f.c:34: float atan2f(float x, float y)
+                             48 ;	---------------------------------
+                             49 ; Function atan2f
+                             50 ; ---------------------------------
+   0000                      51 _atan2f::
+   0000 DD E5         [14]   52 	push	ix
+   0002 DD 21 00 00   [12]   53 	ld	ix,#0
+   0006 DD 39         [10]   54 	add	ix,sp
+   0008 21 F4 FF      [ 9]   55 	ld	hl,#-12
+   000B 39            [ 7]   56 	add	hl,sp
+   000C F9            [ 4]   57 	ld	sp,hl
+                             58 ;../atan2f.c:38: if ((x==0.0) && (y==0.0))
+   000D DD 7E 07      [14]   59 	ld	a,7 (ix)
+   0010 CB BF         [ 7]   60 	res	7, a
+   0012 DD B6 06      [14]   61 	or	a, 6 (ix)
+   0015 DD B6 05      [14]   62 	or	a, 5 (ix)
+   0018 DD B6 04      [14]   63 	or	a,4 (ix)
+   001B 20 1E         [ 8]   64 	jr	NZ,00102$
+   001D DD 7E 0B      [14]   65 	ld	a,11 (ix)
+   0020 CB BF         [ 7]   66 	res	7, a
+   0022 DD B6 0A      [14]   67 	or	a, 10 (ix)
+   0025 DD B6 09      [14]   68 	or	a, 9 (ix)
+   0028 DD B6 08      [14]   69 	or	a,8 (ix)
+   002B 20 0E         [ 8]   70 	jr	NZ,00102$
+                             71 ;../atan2f.c:40: errno=EDOM;
+   002D 21 21 00      [ 9]   72 	ld	hl,#0x0021
+   0030 22r00r00      [16]   73 	ld	(_errno),hl
+                             74 ;../atan2f.c:41: return 0.0;
+   0033 21 00 00      [ 9]   75 	ld	hl,#0x0000
+   0036 5D            [ 4]   76 	ld	e,l
+   0037 54            [ 4]   77 	ld	d,h
+   0038 C3rF7r01      [ 9]   78 	jp	00109$
+   003B                      79 00102$:
+                             80 ;../atan2f.c:44: if(fabsf(y)>=fabsf(x))
+   003B DD 6E 0A      [14]   81 	ld	l,10 (ix)
+   003E DD 66 0B      [14]   82 	ld	h,11 (ix)
+   0041 E5            [11]   83 	push	hl
+   0042 DD 6E 08      [14]   84 	ld	l,8 (ix)
+   0045 DD 66 09      [14]   85 	ld	h,9 (ix)
+   0048 E5            [11]   86 	push	hl
+   0049 CDr00r00      [16]   87 	call	_fabsf
+   004C 33            [ 4]   88 	inc	sp
+   004D 33            [ 4]   89 	inc	sp
+   004E 33            [ 4]   90 	inc	sp
+   004F 33            [ 4]   91 	inc	sp
+   0050 DD 72 FB      [15]   92 	ld	-5 (ix),d
+   0053 DD 73 FA      [15]   93 	ld	-6 (ix),e
+   0056 DD 74 F9      [15]   94 	ld	-7 (ix),h
+   0059 DD 75 F8      [15]   95 	ld	-8 (ix),l
+   005C DD 6E 06      [14]   96 	ld	l,6 (ix)
+   005F DD 66 07      [14]   97 	ld	h,7 (ix)
+   0062 E5            [11]   98 	push	hl
+   0063 DD 6E 04      [14]   99 	ld	l,4 (ix)
+   0066 DD 66 05      [14]  100 	ld	h,5 (ix)
+   0069 E5            [11]  101 	push	hl
+   006A CDr00r00      [16]  102 	call	_fabsf
+   006D 33            [ 4]  103 	inc	sp
+   006E 33            [ 4]  104 	inc	sp
+   006F 33            [ 4]  105 	inc	sp
+   0070 33            [ 4]  106 	inc	sp
+   0071 DD 72 FF      [15]  107 	ld	-1 (ix),d
+   0074 DD 73 FE      [15]  108 	ld	-2 (ix),e
+   0077 DD 74 FD      [15]  109 	ld	-3 (ix),h
+   007A DD 75 FC      [15]  110 	ld	-4 (ix),l
+                            111 ;../atan2f.c:47: if(y<0.0) r+=(x>=0?PI:-PI);
+   007D 21 00 00      [ 9]  112 	ld	hl,#0x0000
+   0080 E5            [11]  113 	push	hl
+   0081 21 00 00      [ 9]  114 	ld	hl,#0x0000
+   0084 E5            [11]  115 	push	hl
+   0085 DD 6E 06      [14]  116 	ld	l,6 (ix)
+   0088 DD 66 07      [14]  117 	ld	h,7 (ix)
+   008B E5            [11]  118 	push	hl
+   008C DD 6E 04      [14]  119 	ld	l,4 (ix)
+   008F DD 66 05      [14]  120 	ld	h,5 (ix)
+   0092 E5            [11]  121 	push	hl
+                            122 ;../atan2f.c:44: if(fabsf(y)>=fabsf(x))
+   0093 CDr00r00      [16]  123 	call	___fslt
+   0096 33            [ 4]  124 	inc	sp
+   0097 33            [ 4]  125 	inc	sp
+   0098 33            [ 4]  126 	inc	sp
+   0099 33            [ 4]  127 	inc	sp
+   009A 33            [ 4]  128 	inc	sp
+   009B 33            [ 4]  129 	inc	sp
+   009C 33            [ 4]  130 	inc	sp
+   009D 33            [ 4]  131 	inc	sp
+   009E 4D            [ 4]  132 	ld	c,l
+   009F C5            [11]  133 	push	bc
+   00A0 DD 6E FE      [14]  134 	ld	l,-2 (ix)
+   00A3 DD 66 FF      [14]  135 	ld	h,-1 (ix)
+   00A6 E5            [11]  136 	push	hl
+   00A7 DD 6E FC      [14]  137 	ld	l,-4 (ix)
+   00AA DD 66 FD      [14]  138 	ld	h,-3 (ix)
+   00AD E5            [11]  139 	push	hl
+   00AE DD 6E FA      [14]  140 	ld	l,-6 (ix)
+   00B1 DD 66 FB      [14]  141 	ld	h,-5 (ix)
+   00B4 E5            [11]  142 	push	hl
+   00B5 DD 6E F8      [14]  143 	ld	l,-8 (ix)
+   00B8 DD 66 F9      [14]  144 	ld	h,-7 (ix)
+   00BB E5            [11]  145 	push	hl
+   00BC CDr00r00      [16]  146 	call	___fslt
+   00BF 33            [ 4]  147 	inc	sp
+   00C0 33            [ 4]  148 	inc	sp
+   00C1 33            [ 4]  149 	inc	sp
+   00C2 33            [ 4]  150 	inc	sp
+   00C3 33            [ 4]  151 	inc	sp
+   00C4 33            [ 4]  152 	inc	sp
+   00C5 33            [ 4]  153 	inc	sp
+   00C6 33            [ 4]  154 	inc	sp
+   00C7 7D            [ 4]  155 	ld	a, l
+   00C8 C1            [ 9]  156 	pop	bc
+   00C9 47            [ 4]  157 	ld	b,a
+   00CA B7            [ 4]  158 	or	a, a
+   00CB C2r70r01      [ 9]  159 	jp	NZ,00107$
+                            160 ;../atan2f.c:46: r=atanf(x/y);
+   00CE C5            [11]  161 	push	bc
+   00CF DD 6E 0A      [14]  162 	ld	l,10 (ix)
+   00D2 DD 66 0B      [14]  163 	ld	h,11 (ix)
+   00D5 E5            [11]  164 	push	hl
+   00D6 DD 6E 08      [14]  165 	ld	l,8 (ix)
+   00D9 DD 66 09      [14]  166 	ld	h,9 (ix)
+   00DC E5            [11]  167 	push	hl
+   00DD DD 6E 06      [14]  168 	ld	l,6 (ix)
+   00E0 DD 66 07      [14]  169 	ld	h,7 (ix)
+   00E3 E5            [11]  170 	push	hl
+   00E4 DD 6E 04      [14]  171 	ld	l,4 (ix)
+   00E7 DD 66 05      [14]  172 	ld	h,5 (ix)
+   00EA E5            [11]  173 	push	hl
+   00EB CDr00r00      [16]  174 	call	___fsdiv
+   00EE 33            [ 4]  175 	inc	sp
+   00EF 33            [ 4]  176 	inc	sp
+   00F0 33            [ 4]  177 	inc	sp
+   00F1 33            [ 4]  178 	inc	sp
+   00F2 33            [ 4]  179 	inc	sp
+   00F3 33            [ 4]  180 	inc	sp
+   00F4 33            [ 4]  181 	inc	sp
+   00F5 33            [ 4]  182 	inc	sp
+   00F6 D5            [11]  183 	push	de
+   00F7 E5            [11]  184 	push	hl
+   00F8 CDr00r00      [16]  185 	call	_atanf
+   00FB 33            [ 4]  186 	inc	sp
+   00FC 33            [ 4]  187 	inc	sp
+   00FD 33            [ 4]  188 	inc	sp
+   00FE 33            [ 4]  189 	inc	sp
+   00FF C1            [ 9]  190 	pop	bc
+   0100 DD 75 FC      [15]  191 	ld	-4 (ix),l
+   0103 DD 74 FD      [15]  192 	ld	-3 (ix),h
+   0106 DD 73 FE      [15]  193 	ld	-2 (ix),e
+   0109 DD 72 FF      [15]  194 	ld	-1 (ix),d
+                            195 ;../atan2f.c:47: if(y<0.0) r+=(x>=0?PI:-PI);
+   010C C5            [11]  196 	push	bc
+   010D 21 00 00      [ 9]  197 	ld	hl,#0x0000
+   0110 E5            [11]  198 	push	hl
+   0111 21 00 00      [ 9]  199 	ld	hl,#0x0000
+   0114 E5            [11]  200 	push	hl
+   0115 DD 6E 0A      [14]  201 	ld	l,10 (ix)
+   0118 DD 66 0B      [14]  202 	ld	h,11 (ix)
+   011B E5            [11]  203 	push	hl
+   011C DD 6E 08      [14]  204 	ld	l,8 (ix)
+   011F DD 66 09      [14]  205 	ld	h,9 (ix)
+   0122 E5            [11]  206 	push	hl
+   0123 CDr00r00      [16]  207 	call	___fslt
+   0126 33            [ 4]  208 	inc	sp
+   0127 33            [ 4]  209 	inc	sp
+   0128 33            [ 4]  210 	inc	sp
+   0129 33            [ 4]  211 	inc	sp
+   012A 33            [ 4]  212 	inc	sp
+   012B 33            [ 4]  213 	inc	sp
+   012C 33            [ 4]  214 	inc	sp
+   012D 33            [ 4]  215 	inc	sp
+   012E 7D            [ 4]  216 	ld	a,l
+   012F C1            [ 9]  217 	pop	bc
+   0130 B7            [ 4]  218 	or	a, a
+   0131 CArEBr01      [ 9]  219 	jp	Z,00108$
+   0134 79            [ 4]  220 	ld	a,c
+   0135 B7            [ 4]  221 	or	a, a
+   0136 20 08         [ 8]  222 	jr	NZ,00111$
+   0138 11 DB 0F      [ 9]  223 	ld	de,#0x0FDB
+   013B 21 49 40      [ 9]  224 	ld	hl,#0x4049
+   013E 18 06         [ 8]  225 	jr	00112$
+   0140                     226 00111$:
+   0140 11 DB 0F      [ 9]  227 	ld	de,#0x0FDB
+   0143 21 49 C0      [ 9]  228 	ld	hl,#0xC049
+   0146                     229 00112$:
+   0146 E5            [11]  230 	push	hl
+   0147 D5            [11]  231 	push	de
+   0148 DD 6E FE      [14]  232 	ld	l,-2 (ix)
+   014B DD 66 FF      [14]  233 	ld	h,-1 (ix)
+   014E E5            [11]  234 	push	hl
+   014F DD 6E FC      [14]  235 	ld	l,-4 (ix)
+   0152 DD 66 FD      [14]  236 	ld	h,-3 (ix)
+   0155 E5            [11]  237 	push	hl
+   0156 CDr00r00      [16]  238 	call	___fsadd
+   0159 33            [ 4]  239 	inc	sp
+   015A 33            [ 4]  240 	inc	sp
+   015B 33            [ 4]  241 	inc	sp
+   015C 33            [ 4]  242 	inc	sp
+   015D 33            [ 4]  243 	inc	sp
+   015E 33            [ 4]  244 	inc	sp
+   015F 33            [ 4]  245 	inc	sp
+   0160 33            [ 4]  246 	inc	sp
+   0161 DD 75 FC      [15]  247 	ld	-4 (ix),l
+   0164 DD 74 FD      [15]  248 	ld	-3 (ix),h
+   0167 DD 73 FE      [15]  249 	ld	-2 (ix),e
+   016A DD 72 FF      [15]  250 	ld	-1 (ix),d
+   016D C3rEBr01      [ 9]  251 	jp	00108$
+   0170                     252 00107$:
+                            253 ;../atan2f.c:51: r=-atanf(y/x);
+   0170 C5            [11]  254 	push	bc
+   0171 DD 6E 06      [14]  255 	ld	l,6 (ix)
+   0174 DD 66 07      [14]  256 	ld	h,7 (ix)
+   0177 E5            [11]  257 	push	hl
+   0178 DD 6E 04      [14]  258 	ld	l,4 (ix)
+   017B DD 66 05      [14]  259 	ld	h,5 (ix)
+   017E E5            [11]  260 	push	hl
+   017F DD 6E 0A      [14]  261 	ld	l,10 (ix)
+   0182 DD 66 0B      [14]  262 	ld	h,11 (ix)
+   0185 E5            [11]  263 	push	hl
+   0186 DD 6E 08      [14]  264 	ld	l,8 (ix)
+   0189 DD 66 09      [14]  265 	ld	h,9 (ix)
+   018C E5            [11]  266 	push	hl
+   018D CDr00r00      [16]  267 	call	___fsdiv
+   0190 33            [ 4]  268 	inc	sp
+   0191 33            [ 4]  269 	inc	sp
+   0192 33            [ 4]  270 	inc	sp
+   0193 33            [ 4]  271 	inc	sp
+   0194 33            [ 4]  272 	inc	sp
+   0195 33            [ 4]  273 	inc	sp
+   0196 33            [ 4]  274 	inc	sp
+   0197 33            [ 4]  275 	inc	sp
+   0198 D5            [11]  276 	push	de
+   0199 E5            [11]  277 	push	hl
+   019A CDr00r00      [16]  278 	call	_atanf
+   019D 33            [ 4]  279 	inc	sp
+   019E 33            [ 4]  280 	inc	sp
+   019F 33            [ 4]  281 	inc	sp
+   01A0 33            [ 4]  282 	inc	sp
+   01A1 C1            [ 9]  283 	pop	bc
+   01A2 7A            [ 4]  284 	ld	a,d
+   01A3 EE 80         [ 6]  285 	xor	a,#0x80
+   01A5 57            [ 4]  286 	ld	d,a
+   01A6 DD 75 F4      [15]  287 	ld	-12 (ix),l
+   01A9 DD 74 F5      [15]  288 	ld	-11 (ix),h
+   01AC DD 73 F6      [15]  289 	ld	-10 (ix),e
+   01AF DD 72 F7      [15]  290 	ld	-9 (ix),d
+                            291 ;../atan2f.c:52: r+=(x<0.0?-HALF_PI:HALF_PI);
+   01B2 79            [ 4]  292 	ld	a,c
+   01B3 B7            [ 4]  293 	or	a, a
+   01B4 28 08         [ 8]  294 	jr	Z,00113$
+   01B6 11 DB 0F      [ 9]  295 	ld	de,#0x0FDB
+   01B9 21 C9 BF      [ 9]  296 	ld	hl,#0xBFC9
+   01BC 18 06         [ 8]  297 	jr	00114$
+   01BE                     298 00113$:
+   01BE 11 DB 0F      [ 9]  299 	ld	de,#0x0FDB
+   01C1 21 C9 3F      [ 9]  300 	ld	hl,#0x3FC9
+   01C4                     301 00114$:
+   01C4 E5            [11]  302 	push	hl
+   01C5 D5            [11]  303 	push	de
+   01C6 DD 6E F6      [14]  304 	ld	l,-10 (ix)
+   01C9 DD 66 F7      [14]  305 	ld	h,-9 (ix)
+   01CC E5            [11]  306 	push	hl
+   01CD DD 6E F4      [14]  307 	ld	l,-12 (ix)
+   01D0 DD 66 F5      [14]  308 	ld	h,-11 (ix)
+   01D3 E5            [11]  309 	push	hl
+   01D4 CDr00r00      [16]  310 	call	___fsadd
+   01D7 33            [ 4]  311 	inc	sp
+   01D8 33            [ 4]  312 	inc	sp
+   01D9 33            [ 4]  313 	inc	sp
+   01DA 33            [ 4]  314 	inc	sp
+   01DB 33            [ 4]  315 	inc	sp
+   01DC 33            [ 4]  316 	inc	sp
+   01DD 33            [ 4]  317 	inc	sp
+   01DE 33            [ 4]  318 	inc	sp
+   01DF DD 75 FC      [15]  319 	ld	-4 (ix),l
+   01E2 DD 74 FD      [15]  320 	ld	-3 (ix),h
+   01E5 DD 73 FE      [15]  321 	ld	-2 (ix),e
+   01E8 DD 72 FF      [15]  322 	ld	-1 (ix),d
+   01EB                     323 00108$:
+                            324 ;../atan2f.c:54: return r;
+   01EB DD 6E FC      [14]  325 	ld	l,-4 (ix)
+   01EE DD 66 FD      [14]  326 	ld	h,-3 (ix)
+   01F1 DD 5E FE      [14]  327 	ld	e,-2 (ix)
+   01F4 DD 56 FF      [14]  328 	ld	d,-1 (ix)
+   01F7                     329 00109$:
+   01F7 DD F9         [ 7]  330 	ld	sp, ix
+   01F9 DD E1         [12]  331 	pop	ix
+   01FB C9            [ 9]  332 	ret
+                            333 	.area _CODE
+                            334 	.area _INITIALIZER
+                            335 	.area _CABS (ABS)

@@ -1,0 +1,155 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:18 2022
+                              5 ;--------------------------------------------------------
+                              6 	.r3k
+                              7 	.module atoi
+                              8 	.optsdcc -mr3ka
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl _atoi
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 	.area _HOME
+                             41 ;--------------------------------------------------------
+                             42 ; code
+                             43 ;--------------------------------------------------------
+                             44 	.area _CODE
+                             45 ;../atoi.c:34: int atoi(const char *nptr)
+                             46 ;	---------------------------------
+                             47 ; Function atoi
+                             48 ; ---------------------------------
+   0000                      49 _atoi::
+   0000 DD E5                50 	push	ix
+   0002 DD 21 00 00          51 	ld	ix,#0
+   0006 DD 39                52 	add	ix,sp
+   0008 27 FC                53 	add	sp, #-4
+                             54 ;../atoi.c:36: int ret = 0;
+   000A 01 00 00             55 	ld	bc,#0x0000
+                             56 ;../atoi.c:39: while (isblank (*nptr))
+   000D C4 08                57 	ld	hl, 8 (sp)
+   000F                      58 00101$:
+   000F 7E                   59 	ld	a,(hl)
+   0010 DD 77 FF             60 	ld	-1 (ix), a
+   0013 57                   61 	ld	d, a
+   0014 DD 7E FF             62 	ld	a,-1 (ix)
+   0017 17                   63 	rla
+   0018 9F                   64 	sbc	a, a
+   0019 5F                   65 	ld	e,a
+                             66 ;./../../include/ctype.h:53: return ((unsigned char)c == ' ' || (unsigned char)c == '\t');
+   001A 7A                   67 	ld	a,d
+   001B FE 20                68 	cp	a,#0x20
+   001D 28 04                69 	jr	Z,00115$
+   001F D6 09                70 	sub	a, #0x09
+   0021 20 03                71 	jr	NZ,00131$
+   0023                      72 00115$:
+                             73 ;../atoi.c:40: nptr++;
+   0023 23                   74 	inc	hl
+   0024 18 E9                75 	jr	00101$
+   0026                      76 00131$:
+   0026 D4 08                77 	ld	8 (sp), hl
+                             78 ;../atoi.c:42: neg = (*nptr == '-');
+   0028 DD 7E FF             79 	ld	a,-1 (ix)
+   002B D6 2D                80 	sub	a, #0x2D
+   002D 20 04                81 	jr	NZ,00157$
+   002F 3E 01                82 	ld	a,#0x01
+   0031 18 01                83 	jr	00158$
+   0033                      84 00157$:
+   0033 AF                   85 	xor	a,a
+   0034                      86 00158$:
+   0034 DD 77 FC             87 	ld	-4 (ix),a
+                             88 ;../atoi.c:44: if (*nptr == '-' || *nptr == '+')
+   0037 CB 47                89 	bit	0,a
+   0039 20 07                90 	jr	NZ,00104$
+   003B DD 7E FF             91 	ld	a,-1 (ix)
+   003E D6 2B                92 	sub	a, #0x2B
+   0040 20 03                93 	jr	NZ,00129$
+   0042                      94 00104$:
+                             95 ;../atoi.c:45: nptr++;
+   0042 23                   96 	inc	hl
+   0043 D4 08                97 	ld	8 (sp), hl
+                             98 ;../atoi.c:47: while (isdigit (*nptr))
+   0045                      99 00129$:
+   0045 EB                  100 	ex	de, hl
+   0046 C4 08               101 	ld	hl, 8 (sp)
+   0048 EB                  102 	ex	de, hl
+   0049                     103 00107$:
+   0049 1A                  104 	ld	a,(de)
+   004A DD 77 FD            105 	ld	-3 (ix),a
+   004D 17                  106 	rla
+   004E 9F                  107 	sbc	a, a
+   004F DD 77 FE            108 	ld	-2 (ix),a
+   0052 C4 01               109 	ld	hl, 1 (sp)
+                            110 ;./../../include/ctype.h:62: return ((unsigned char)c >= '0' && (unsigned char)c <= '9');
+   0054 7D                  111 	ld	a,l
+   0055 D6 30               112 	sub	a, #0x30
+   0057 38 1D               113 	jr	C,00109$
+   0059 3E 39               114 	ld	a,#0x39
+   005B 95                  115 	sub	a, l
+   005C 38 18               116 	jr	C,00109$
+                            117 ;../atoi.c:48: ret = ret * 10 + (*(nptr++) - '0');
+   005E 69                  118 	ld	l, c
+   005F 60                  119 	ld	h, b
+   0060 29                  120 	add	hl, hl
+   0061 29                  121 	add	hl, hl
+   0062 09                  122 	add	hl, bc
+   0063 29                  123 	add	hl, hl
+   0064 13                  124 	inc	de
+   0065 DD 7E FD            125 	ld	a,-3 (ix)
+   0068 C6 D0               126 	add	a,#0xD0
+   006A 4F                  127 	ld	c,a
+   006B DD 7E FE            128 	ld	a,-2 (ix)
+   006E CE FF               129 	adc	a,#0xFF
+   0070 47                  130 	ld	b,a
+   0071 09                  131 	add	hl,bc
+   0072 4D                  132 	ld	c, l
+   0073 44                  133 	ld	b, h
+   0074 18 D3               134 	jr	00107$
+   0076                     135 00109$:
+                            136 ;../atoi.c:50: return (neg ? -ret : ret); // Since -INT_MIN is INT_MIN in sdcc, the result value always turns out ok.
+   0076 DD CB FC 46         137 	bit	0,-4 (ix)
+   007A 28 09               138 	jr	Z,00120$
+   007C AF                  139 	xor	a, a
+   007D 91                  140 	sub	a, c
+   007E 6F                  141 	ld	l,a
+   007F 3E 00               142 	ld	a, #0x00
+   0081 98                  143 	sbc	a, b
+   0082 67                  144 	ld	h,a
+   0083 18 02               145 	jr	00121$
+   0085                     146 00120$:
+   0085 69                  147 	ld	l, c
+   0086 60                  148 	ld	h, b
+   0087                     149 00121$:
+   0087 DD F9               150 	ld	sp, ix
+   0089 DD E1               151 	pop	ix
+   008B C9                  152 	ret
+                            153 	.area _CODE
+                            154 	.area _INITIALIZER
+                            155 	.area _CABS (ABS)

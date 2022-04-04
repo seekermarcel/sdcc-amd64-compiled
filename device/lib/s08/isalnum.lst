@@ -1,0 +1,119 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:37 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module isalnum
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _isalpha
+                             25 	.globl _isalnum
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area DSEG    (PAG)
+   0000                      30 _isalnum_sloc0_1_0:
+   0000                      31 	.ds 2
+                             32 ;--------------------------------------------------------
+                             33 ; overlayable items in ram 
+                             34 ;--------------------------------------------------------
+                             35 ;--------------------------------------------------------
+                             36 ; absolute ram data
+                             37 ;--------------------------------------------------------
+                             38 	.area IABS    (ABS)
+                             39 	.area IABS    (ABS)
+                             40 ;--------------------------------------------------------
+                             41 ; absolute external ram data
+                             42 ;--------------------------------------------------------
+                             43 	.area XABS    (ABS)
+                             44 ;--------------------------------------------------------
+                             45 ; external initialized ram data
+                             46 ;--------------------------------------------------------
+                             47 	.area XISEG
+                             48 ;--------------------------------------------------------
+                             49 ; extended address mode data
+                             50 ;--------------------------------------------------------
+                             51 	.area XSEG
+                             52 ;--------------------------------------------------------
+                             53 ; global & static initialisations
+                             54 ;--------------------------------------------------------
+                             55 	.area HOME    (CODE)
+                             56 	.area GSINIT  (CODE)
+                             57 	.area GSFINAL (CODE)
+                             58 	.area GSINIT  (CODE)
+                             59 ;--------------------------------------------------------
+                             60 ; Home
+                             61 ;--------------------------------------------------------
+                             62 	.area HOME    (CODE)
+                             63 	.area HOME    (CODE)
+                             64 ;--------------------------------------------------------
+                             65 ; code
+                             66 ;--------------------------------------------------------
+                             67 	.area CSEG    (CODE)
+                             68 ;------------------------------------------------------------
+                             69 ;Allocation info for local variables in function 'isalnum'
+                             70 ;------------------------------------------------------------
+                             71 ;sloc0                     Allocated with name '_isalnum_sloc0_1_0'
+                             72 ;c                         Allocated to registers a x 
+                             73 ;__00010001                Allocated to registers 
+                             74 ;__00020002                Allocated to registers 
+                             75 ;c                         Allocated to registers 
+                             76 ;------------------------------------------------------------
+                             77 ;../isalnum.c:37: int isalnum (int c)
+                             78 ;	-----------------------------------------
+                             79 ;	 function isalnum
+                             80 ;	-----------------------------------------
+                             81 ;	Register assignment is optimal.
+                             82 ;	Stack space usage: 0 bytes.
+   0000                      83 _isalnum:
+                             84 ;../isalnum.c:39: return (isalpha (c) || isdigit (c));
+   0000 87            [ 2]   85 	psha
+   0001 89            [ 2]   86 	pshx
+   0002 CDr00r00      [ 6]   87 	jsr	_isalpha
+   0005 B7*01         [ 3]   88 	sta	*(_isalnum_sloc0_1_0 + 1)
+   0007 BF*00         [ 3]   89 	stx	*_isalnum_sloc0_1_0
+   0009 88            [ 3]   90 	pulx
+   000A 86            [ 3]   91 	pula
+   000B 3D*01         [ 4]   92 	tst	*(_isalnum_sloc0_1_0 + 1)
+   000D 26 02         [ 3]   93 	bne	00119$
+   000F 3D*00         [ 4]   94 	tst	*_isalnum_sloc0_1_0
+   0011                      95 00119$:
+   0011 26 0B         [ 3]   96 	bne	00105$
+                             97 ;./../../include/ctype.h:62: return ((unsigned char)c >= '0' && (unsigned char)c <= '9');
+   0013 A1 30         [ 2]   98 	cmp	#0x30
+   0015 25 04         [ 3]   99 	bcs	00109$
+   0017 A1 39         [ 2]  100 	cmp	#0x39
+   0019 23 03         [ 3]  101 	bls	00105$
+   001B                     102 00109$:
+                            103 ;../isalnum.c:39: return (isalpha (c) || isdigit (c));
+   001B 4F            [ 1]  104 	clra
+   001C 20 02         [ 3]  105 	bra	00106$
+   001E                     106 00105$:
+   001E A6 01         [ 2]  107 	lda	#0x01
+   0020                     108 00106$:
+   0020 87            [ 2]  109 	psha
+   0021 49            [ 1]  110 	rola	
+   0022 4F            [ 1]  111 	clra	
+   0023 A2 00         [ 2]  112 	sbc	#0x00
+   0025 97            [ 1]  113 	tax
+   0026 86            [ 3]  114 	pula
+   0027 81            [ 6]  115 	rts
+                            116 	.area CSEG    (CODE)
+                            117 	.area CONST   (CODE)
+                            118 	.area XINIT   (CODE)
+                            119 	.area CABS    (ABS,CODE)

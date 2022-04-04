@@ -1,0 +1,239 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:14 2022
+                              5 ;--------------------------------------------------------
+                              6 	.r3k
+                              7 	.module sqrtf
+                              8 	.optsdcc -mr3ka
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl _ldexpf
+                             14 	.globl _frexpf
+                             15 	.globl _sqrtf
+                             16 ;--------------------------------------------------------
+                             17 ; special function registers
+                             18 ;--------------------------------------------------------
+                             19 ;--------------------------------------------------------
+                             20 ; ram data
+                             21 ;--------------------------------------------------------
+                             22 	.area _DATA
+                             23 ;--------------------------------------------------------
+                             24 ; ram data
+                             25 ;--------------------------------------------------------
+                             26 	.area _INITIALIZED
+                             27 ;--------------------------------------------------------
+                             28 ; absolute external ram data
+                             29 ;--------------------------------------------------------
+                             30 	.area _DABS (ABS)
+                             31 ;--------------------------------------------------------
+                             32 ; global & static initialisations
+                             33 ;--------------------------------------------------------
+                             34 	.area _HOME
+                             35 	.area _GSINIT
+                             36 	.area _GSFINAL
+                             37 	.area _GSINIT
+                             38 ;--------------------------------------------------------
+                             39 ; Home
+                             40 ;--------------------------------------------------------
+                             41 	.area _HOME
+                             42 	.area _HOME
+                             43 ;--------------------------------------------------------
+                             44 ; code
+                             45 ;--------------------------------------------------------
+                             46 	.area _CODE
+                             47 ;../sqrtf.c:37: float sqrtf(float x) _FLOAT_FUNC_REENTRANT
+                             48 ;	---------------------------------
+                             49 ; Function sqrtf
+                             50 ; ---------------------------------
+   0000                      51 _sqrtf::
+   0000 DD E5                52 	push	ix
+   0002 DD 21 00 00          53 	ld	ix,#0
+   0006 DD 39                54 	add	ix,sp
+   0008 27 F6                55 	add	sp, #-10
+                             56 ;../sqrtf.c:42: if (x==0.0) return x;
+   000A DD 7E 07             57 	ld	a,7 (ix)
+   000D CB BF                58 	res	7, a
+   000F DD B6 06             59 	or	a, 6 (ix)
+   0012 DD B6 05             60 	or	a, 5 (ix)
+   0015 DD B6 04             61 	or	a,4 (ix)
+   0018 20 0F                62 	jr	NZ,00107$
+   001A DD 6E 04             63 	ld	l,4 (ix)
+   001D DD 66 05             64 	ld	h,5 (ix)
+   0020 DD 5E 06             65 	ld	e,6 (ix)
+   0023 DD 56 07             66 	ld	d,7 (ix)
+   0026 C3r40r01             67 	jp	00111$
+   0029                      68 00107$:
+                             69 ;../sqrtf.c:43: else if (x==1.0) return 1.0;
+   0029 21 80 3F             70 	ld	hl,#0x3F80
+   002C E5                   71 	push	hl
+   002D 21 00 00             72 	ld	hl,#0x0000
+   0030 E5                   73 	push	hl
+   0031 C4 14                74 	ld	hl, 20 (sp)
+   0033 E5                   75 	push	hl
+   0034 C4 14                76 	ld	hl, 20 (sp)
+   0036 E5                   77 	push	hl
+   0037 CDr00r00             78 	call	___fseq
+   003A 27 08                79 	add	sp, #8
+   003C 7D                   80 	ld	a,l
+   003D B7                   81 	or	a, a
+   003E 28 09                82 	jr	Z,00104$
+   0040 21 00 00             83 	ld	hl,#0x0000
+   0043 11 80 3F             84 	ld	de,#0x3F80
+   0046 C3r40r01             85 	jp	00111$
+   0049                      86 00104$:
+                             87 ;../sqrtf.c:44: else if (x<0.0)
+   0049 21 00 00             88 	ld	hl,#0x0000
+   004C E5                   89 	push	hl
+   004D 21 00 00             90 	ld	hl,#0x0000
+   0050 E5                   91 	push	hl
+   0051 C4 14                92 	ld	hl, 20 (sp)
+   0053 E5                   93 	push	hl
+   0054 C4 14                94 	ld	hl, 20 (sp)
+   0056 E5                   95 	push	hl
+   0057 CDr00r00             96 	call	___fslt
+   005A 27 08                97 	add	sp, #8
+   005C 7D                   98 	ld	a,l
+   005D B7                   99 	or	a, a
+   005E 28 0E               100 	jr	Z,00108$
+                            101 ;../sqrtf.c:46: errno=EDOM;
+   0060 21 21 00            102 	ld	hl,#0x0021
+   0063 22r00r00            103 	ld	(_errno),hl
+                            104 ;../sqrtf.c:47: return 0.0;
+   0066 21 00 00            105 	ld	hl,#0x0000
+   0069 5D                  106 	ld	e,l
+   006A 54                  107 	ld	d,h
+   006B C3r40r01            108 	jp	00111$
+   006E                     109 00108$:
+                            110 ;../sqrtf.c:49: f=frexpf(x, &n);
+   006E 21 00 00            111 	ld	hl,#0x0000
+   0071 39                  112 	add	hl,sp
+   0072 E5                  113 	push	hl
+   0073 C4 12               114 	ld	hl, 18 (sp)
+   0075 E5                  115 	push	hl
+   0076 C4 12               116 	ld	hl, 18 (sp)
+   0078 E5                  117 	push	hl
+   0079 CDr00r00            118 	call	_frexpf
+   007C 27 06               119 	add	sp, #6
+   007E DD 75 F8            120 	ld	-8 (ix),l
+   0081 DD 74 F9            121 	ld	-7 (ix),h
+   0084 DD 73 FA            122 	ld	-6 (ix),e
+   0087 DD 72 FB            123 	ld	-5 (ix),d
+                            124 ;../sqrtf.c:50: y=0.41731+0.59016*f; /*Educated guess*/
+   008A C4 04               125 	ld	hl, 4 (sp)
+   008C E5                  126 	push	hl
+   008D C4 04               127 	ld	hl, 4 (sp)
+   008F E5                  128 	push	hl
+   0090 21 17 3F            129 	ld	hl,#0x3F17
+   0093 E5                  130 	push	hl
+   0094 21 BA 14            131 	ld	hl,#0x14BA
+   0097 E5                  132 	push	hl
+   0098 CDr00r00            133 	call	___fsmul
+   009B 27 08               134 	add	sp, #8
+   009D 4D                  135 	ld	c,l
+   009E 44                  136 	ld	b,h
+   009F 21 D5 3E            137 	ld	hl,#0x3ED5
+   00A2 E5                  138 	push	hl
+   00A3 21 A8 A9            139 	ld	hl,#0xA9A8
+   00A6 E5                  140 	push	hl
+   00A7 D5                  141 	push	de
+   00A8 C5                  142 	push	bc
+   00A9 CDr00r00            143 	call	___fsadd
+   00AC 27 08               144 	add	sp, #8
+   00AE DD 75 FC            145 	ld	-4 (ix),l
+   00B1 DD 74 FD            146 	ld	-3 (ix),h
+   00B4 DD 73 FE            147 	ld	-2 (ix),e
+   00B7 DD 72 FF            148 	ld	-1 (ix),d
+                            149 ;../sqrtf.c:52: y+=f/y;
+   00BA C4 08               150 	ld	hl, 8 (sp)
+   00BC E5                  151 	push	hl
+   00BD C4 08               152 	ld	hl, 8 (sp)
+   00BF E5                  153 	push	hl
+   00C0 C4 08               154 	ld	hl, 8 (sp)
+   00C2 E5                  155 	push	hl
+   00C3 C4 08               156 	ld	hl, 8 (sp)
+   00C5 E5                  157 	push	hl
+   00C6 CDr00r00            158 	call	___fsdiv
+   00C9 27 08               159 	add	sp, #8
+   00CB EB                  160 	ex	de, hl
+   00CC E5                  161 	push	hl
+   00CD D5                  162 	push	de
+   00CE C4 0C               163 	ld	hl, 12 (sp)
+   00D0 E5                  164 	push	hl
+   00D1 C4 0C               165 	ld	hl, 12 (sp)
+   00D3 E5                  166 	push	hl
+   00D4 CDr00r00            167 	call	___fsadd
+   00D7 27 08               168 	add	sp, #8
+   00D9 EB                  169 	ex	de, hl
+                            170 ;../sqrtf.c:53: y=ldexpf(y, -2) + f/y; /*Faster version of 0.25 * y + f/y*/
+   00DA E5                  171 	push	hl
+   00DB D5                  172 	push	de
+   00DC 01 FE FF            173 	ld	bc,#0xFFFE
+   00DF C5                  174 	push	bc
+   00E0 E5                  175 	push	hl
+   00E1 D5                  176 	push	de
+   00E2 CDr00r00            177 	call	_ldexpf
+   00E5 27 06               178 	add	sp, #6
+   00E7 DD 72 FF            179 	ld	-1 (ix),d
+   00EA DD 73 FE            180 	ld	-2 (ix),e
+   00ED DD 74 FD            181 	ld	-3 (ix),h
+   00F0 DD 75 FC            182 	ld	-4 (ix),l
+   00F3 C4 08               183 	ld	hl, 8 (sp)
+   00F5 E5                  184 	push	hl
+   00F6 C4 08               185 	ld	hl, 8 (sp)
+   00F8 E5                  186 	push	hl
+   00F9 CDr00r00            187 	call	___fsdiv
+   00FC 27 08               188 	add	sp, #8
+   00FE EB                  189 	ex	de, hl
+   00FF E5                  190 	push	hl
+   0100 D5                  191 	push	de
+   0101 C4 0C               192 	ld	hl, 12 (sp)
+   0103 E5                  193 	push	hl
+   0104 C4 0C               194 	ld	hl, 12 (sp)
+   0106 E5                  195 	push	hl
+   0107 CDr00r00            196 	call	___fsadd
+   010A 27 08               197 	add	sp, #8
+   010C 4D                  198 	ld	c,l
+   010D 44                  199 	ld	b,h
+                            200 ;../sqrtf.c:55: if (n&1)
+   010E DD CB F6 46         201 	bit	0, -10 (ix)
+   0112 28 19               202 	jr	Z,00110$
+                            203 ;../sqrtf.c:57: y*=0.7071067812;
+   0114 D5                  204 	push	de
+   0115 C5                  205 	push	bc
+   0116 21 35 3F            206 	ld	hl,#0x3F35
+   0119 E5                  207 	push	hl
+   011A 21 F3 04            208 	ld	hl,#0x04F3
+   011D E5                  209 	push	hl
+   011E CDr00r00            210 	call	___fsmul
+   0121 27 08               211 	add	sp, #8
+   0123 4D                  212 	ld	c,l
+   0124 44                  213 	ld	b,h
+                            214 ;../sqrtf.c:58: ++n;
+   0125 DD 34 F6            215 	inc	-10 (ix)
+   0128 20 03               216 	jr	NZ,00135$
+   012A DD 34 F7            217 	inc	-9 (ix)
+   012D                     218 00135$:
+   012D                     219 00110$:
+                            220 ;../sqrtf.c:60: return ldexpf(y, n/2);
+   012D C4 00               221 	ld	hl, 0 (sp)
+   012F CB 7C               222 	bit	7, h
+   0131 28 01               223 	jr	Z,00113$
+   0133 23                  224 	inc	hl
+   0134                     225 00113$:
+   0134 CB 2C               226 	sra	h
+   0136 CB 1D               227 	rr	l
+   0138 E5                  228 	push	hl
+   0139 D5                  229 	push	de
+   013A C5                  230 	push	bc
+   013B CDr00r00            231 	call	_ldexpf
+   013E 27 06               232 	add	sp, #6
+   0140                     233 00111$:
+   0140 DD F9               234 	ld	sp, ix
+   0142 DD E1               235 	pop	ix
+   0144 C9                  236 	ret
+                            237 	.area _CODE
+                            238 	.area _INITIALIZER
+                            239 	.area _CABS (ABS)

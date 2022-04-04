@@ -1,0 +1,165 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:31 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _divuint
+                              7 	.optsdcc -mhc08
+                              8 	
+                              9 	.area HOME    (CODE)
+                             10 	.area GSINIT0 (CODE)
+                             11 	.area GSINIT  (CODE)
+                             12 	.area GSFINAL (CODE)
+                             13 	.area CSEG    (CODE)
+                             14 	.area XINIT   (CODE)
+                             15 	.area CONST   (CODE)
+                             16 	.area DSEG    (PAG)
+                             17 	.area OSEG    (PAG, OVR)
+                             18 	.area XSEG
+                             19 	.area XISEG
+                             20 ;--------------------------------------------------------
+                             21 ; Public variables in this module
+                             22 ;--------------------------------------------------------
+                             23 	.globl __divuint_PARM_2
+                             24 	.globl __divuint
+                             25 ;--------------------------------------------------------
+                             26 ; ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area DSEG    (PAG)
+                             29 ;--------------------------------------------------------
+                             30 ; overlayable items in ram 
+                             31 ;--------------------------------------------------------
+                             32 ;--------------------------------------------------------
+                             33 ; absolute ram data
+                             34 ;--------------------------------------------------------
+                             35 	.area IABS    (ABS)
+                             36 	.area IABS    (ABS)
+                             37 ;--------------------------------------------------------
+                             38 ; absolute external ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area XABS    (ABS)
+                             41 ;--------------------------------------------------------
+                             42 ; external initialized ram data
+                             43 ;--------------------------------------------------------
+                             44 	.area XISEG
+                             45 ;--------------------------------------------------------
+                             46 ; extended address mode data
+                             47 ;--------------------------------------------------------
+                             48 	.area XSEG
+   0000                      49 __divuint_PARM_2:
+   0000                      50 	.ds 2
+   0002                      51 __divuint_a_1_1:
+   0002                      52 	.ds 2
+   0004                      53 __divuint_count_1_2:
+   0004                      54 	.ds 1
+   0005                      55 __divuint_c_1_2:
+   0005                      56 	.ds 1
+                             57 ;--------------------------------------------------------
+                             58 ; global & static initialisations
+                             59 ;--------------------------------------------------------
+                             60 	.area HOME    (CODE)
+                             61 	.area GSINIT  (CODE)
+                             62 	.area GSFINAL (CODE)
+                             63 	.area GSINIT  (CODE)
+                             64 ;--------------------------------------------------------
+                             65 ; Home
+                             66 ;--------------------------------------------------------
+                             67 	.area HOME    (CODE)
+                             68 	.area HOME    (CODE)
+                             69 ;--------------------------------------------------------
+                             70 ; code
+                             71 ;--------------------------------------------------------
+                             72 	.area CSEG    (CODE)
+                             73 ;------------------------------------------------------------
+                             74 ;Allocation info for local variables in function '_divuint'
+                             75 ;------------------------------------------------------------
+                             76 ;b                         Allocated with name '__divuint_PARM_2'
+                             77 ;a                         Allocated with name '__divuint_a_1_1'
+                             78 ;reste                     Allocated to registers x h 
+                             79 ;count                     Allocated with name '__divuint_count_1_2'
+                             80 ;c                         Allocated with name '__divuint_c_1_2'
+                             81 ;------------------------------------------------------------
+                             82 ;_divuint.c:153: _divuint (unsigned int a, unsigned int b)
+                             83 ;	-----------------------------------------
+                             84 ;	 function _divuint
+                             85 ;	-----------------------------------------
+                             86 ;	Register assignment is optimal.
+                             87 ;	Stack space usage: 0 bytes.
+   0000                      88 __divuint:
+   0000 C7r00r03      [ 4]   89 	sta	(__divuint_a_1_1 + 1)
+   0003 CFr00r02      [ 4]   90 	stx	__divuint_a_1_1
+                             91 ;_divuint.c:155: unsigned int reste = 0;
+   0006 8C            [ 1]   92 	clrh
+   0007 5F            [ 1]   93 	clrx
+                             94 ;_divuint.c:156: unsigned char count = 16;
+   0008 A6 10         [ 2]   95 	lda	#0x10
+   000A C7r00r04      [ 4]   96 	sta	__divuint_count_1_2
+                             97 ;_divuint.c:159: do
+   000D                      98 00105$:
+                             99 ;_divuint.c:162: c = MSB_SET(a);
+   000D C6r00r02      [ 4]  100 	lda	__divuint_a_1_1
+   0010 49            [ 1]  101 	rola
+   0011 4F            [ 1]  102 	clra
+   0012 49            [ 1]  103 	rola
+   0013 C7r00r05      [ 4]  104 	sta	__divuint_c_1_2
+                            105 ;_divuint.c:163: a <<= 1;
+   0016 89            [ 2]  106 	pshx
+   0017 C6r00r03      [ 4]  107 	lda	(__divuint_a_1_1 + 1)
+   001A CEr00r02      [ 4]  108 	ldx	__divuint_a_1_1
+   001D 48            [ 1]  109 	lsla
+   001E 59            [ 1]  110 	rolx
+   001F C7r00r03      [ 4]  111 	sta	(__divuint_a_1_1 + 1)
+   0022 CFr00r02      [ 4]  112 	stx	__divuint_a_1_1
+   0025 88            [ 2]  113 	pulx
+                            114 ;_divuint.c:164: reste <<= 1;
+   0026 9F            [ 1]  115 	txa
+   0027 8B            [ 2]  116 	pshh
+   0028 88            [ 2]  117 	pulx
+   0029 48            [ 1]  118 	lsla
+   002A 59            [ 1]  119 	rolx
+   002B 89            [ 2]  120 	pshx
+   002C 8A            [ 2]  121 	pulh
+   002D 97            [ 1]  122 	tax
+                            123 ;_divuint.c:165: if (c)
+   002E C6r00r05      [ 4]  124 	lda	__divuint_c_1_2
+   0031 27 04         [ 3]  125 	beq	00102$
+                            126 ;_divuint.c:166: reste |= 1;
+   0033 9F            [ 1]  127 	txa
+   0034 AA 01         [ 2]  128 	ora	#0x01
+   0036 97            [ 1]  129 	tax
+   0037                     130 00102$:
+                            131 ;_divuint.c:168: if (reste >= b)
+   0037 9F            [ 1]  132 	txa
+   0038 C0r00r01      [ 4]  133 	sub	(__divuint_PARM_2 + 1)
+   003B 8B            [ 2]  134 	pshh
+   003C 86            [ 2]  135 	pula
+   003D C2r00r00      [ 4]  136 	sbc	__divuint_PARM_2
+   0040 25 14         [ 3]  137 	bcs	00106$
+                            138 ;_divuint.c:170: reste -= b;
+   0042 9F            [ 1]  139 	txa
+   0043 C0r00r01      [ 4]  140 	sub	(__divuint_PARM_2 + 1)
+   0046 97            [ 1]  141 	tax
+   0047 8B            [ 2]  142 	pshh
+   0048 86            [ 2]  143 	pula
+   0049 C2r00r00      [ 4]  144 	sbc	__divuint_PARM_2
+   004C 87            [ 2]  145 	psha
+   004D 8A            [ 2]  146 	pulh
+                            147 ;_divuint.c:172: a |= 1;
+   004E C6r00r03      [ 4]  148 	lda	(__divuint_a_1_1 + 1)
+   0051 AA 01         [ 2]  149 	ora	#0x01
+   0053 C7r00r03      [ 4]  150 	sta	(__divuint_a_1_1 + 1)
+   0056                     151 00106$:
+                            152 ;_divuint.c:175: while (--count);
+   0056 C6r00r04      [ 4]  153 	lda	__divuint_count_1_2
+   0059 A0 01         [ 2]  154 	sub	#0x01
+   005B C7r00r04      [ 4]  155 	sta	__divuint_count_1_2
+   005E 4D            [ 1]  156 	tsta
+   005F 26 AC         [ 3]  157 	bne	00105$
+                            158 ;_divuint.c:176: return a;
+   0061 CEr00r02      [ 4]  159 	ldx	__divuint_a_1_1
+   0064 C6r00r03      [ 4]  160 	lda	(__divuint_a_1_1 + 1)
+   0067 81            [ 4]  161 	rts
+                            162 	.area CSEG    (CODE)
+                            163 	.area CONST   (CODE)
+                            164 	.area XINIT   (CODE)
+                            165 	.area CABS    (ABS,CODE)

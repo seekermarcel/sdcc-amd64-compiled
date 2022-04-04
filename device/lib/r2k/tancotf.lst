@@ -1,0 +1,484 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:15:57 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module tancotf
+                              7 	.optsdcc -mr2k
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _tancotf
+                             13 	.globl _fabsf
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 	.area _HOME
+                             41 ;--------------------------------------------------------
+                             42 ; code
+                             43 ;--------------------------------------------------------
+                             44 	.area _CODE
+                             45 ;../tancotf.c:53: float tancotf(float x, bool iscotan)
+                             46 ;	---------------------------------
+                             47 ; Function tancotf
+                             48 ; ---------------------------------
+   0000                      49 _tancotf::
+   0000 DD E5                50 	push	ix
+   0002 DD 21 00 00          51 	ld	ix,#0
+   0006 DD 39                52 	add	ix,sp
+   0008 27 DD                53 	add	sp, #-35
+                             54 ;../tancotf.c:58: if (fabsf(x) > YMAX)
+   000A C4 29                55 	ld	hl, 41 (sp)
+   000C E5                   56 	push	hl
+   000D C4 29                57 	ld	hl, 41 (sp)
+   000F E5                   58 	push	hl
+   0010 CDr00r00             59 	call	_fabsf
+   0013 27 04                60 	add	sp, #4
+   0015 4D                   61 	ld	c,l
+   0016 44                   62 	ld	b,h
+   0017 21 C9 45             63 	ld	hl,#0x45C9
+   001A E5                   64 	push	hl
+   001B 21 00 08             65 	ld	hl,#0x0800
+   001E E5                   66 	push	hl
+   001F D5                   67 	push	de
+   0020 C5                   68 	push	bc
+   0021 CDr00r00             69 	call	___fsgt
+   0024 27 08                70 	add	sp, #8
+   0026 DD 75 F3             71 	ld	-13 (ix), l
+   0029 7D                   72 	ld	a, l
+   002A B7                   73 	or	a, a
+   002B 28 0E                74 	jr	Z,00102$
+                             75 ;../tancotf.c:60: errno = ERANGE;
+   002D 21 22 00             76 	ld	hl,#0x0022
+   0030 22r00r00             77 	ld	(_errno),hl
+                             78 ;../tancotf.c:61: return 0.0;
+   0033 21 00 00             79 	ld	hl,#0x0000
+   0036 5D                   80 	ld	e,l
+   0037 54                   81 	ld	d,h
+   0038 C3r44r03             82 	jp	00115$
+   003B                      83 00102$:
+                             84 ;../tancotf.c:65: n=(x*TWO_O_PI+(x>0.0?0.5:-0.5)); /*works for +-x*/
+   003B C4 29                85 	ld	hl, 41 (sp)
+   003D E5                   86 	push	hl
+   003E C4 29                87 	ld	hl, 41 (sp)
+   0040 E5                   88 	push	hl
+   0041 21 22 3F             89 	ld	hl,#0x3F22
+   0044 E5                   90 	push	hl
+   0045 21 83 F9             91 	ld	hl,#0xF983
+   0048 E5                   92 	push	hl
+   0049 CDr00r00             93 	call	___fsmul
+   004C 27 08                94 	add	sp, #8
+   004E DD 72 FB             95 	ld	-5 (ix),d
+   0051 DD 73 FA             96 	ld	-6 (ix),e
+   0054 DD 74 F9             97 	ld	-7 (ix),h
+   0057 DD 75 F8             98 	ld	-8 (ix),l
+   005A 21 00 00             99 	ld	hl,#0x0000
+   005D E5                  100 	push	hl
+   005E 21 00 00            101 	ld	hl,#0x0000
+   0061 E5                  102 	push	hl
+   0062 C4 2D               103 	ld	hl, 45 (sp)
+   0064 E5                  104 	push	hl
+   0065 C4 2D               105 	ld	hl, 45 (sp)
+   0067 E5                  106 	push	hl
+   0068 CDr00r00            107 	call	___fsgt
+   006B 27 08               108 	add	sp, #8
+   006D 7D                  109 	ld	a,l
+   006E B7                  110 	or	a, a
+   006F 28 08               111 	jr	Z,00117$
+   0071 01 00 00            112 	ld	bc,#0x0000
+   0074 21 00 3F            113 	ld	hl,#0x3F00
+   0077 18 06               114 	jr	00118$
+   0079                     115 00117$:
+   0079 01 00 00            116 	ld	bc,#0x0000
+   007C 21 00 BF            117 	ld	hl,#0xBF00
+   007F                     118 00118$:
+   007F E5                  119 	push	hl
+   0080 C5                  120 	push	bc
+   0081 C4 21               121 	ld	hl, 33 (sp)
+   0083 E5                  122 	push	hl
+   0084 C4 21               123 	ld	hl, 33 (sp)
+   0086 E5                  124 	push	hl
+   0087 CDr00r00            125 	call	___fsadd
+   008A 27 08               126 	add	sp, #8
+   008C D5                  127 	push	de
+   008D E5                  128 	push	hl
+   008E CDr00r00            129 	call	___fs2sint
+   0091 27 04               130 	add	sp, #4
+   0093 D4 00               131 	ld	0 (sp), hl
+                            132 ;../tancotf.c:66: xn=n;
+   0095 C4 00               133 	ld	hl, 0 (sp)
+   0097 E5                  134 	push	hl
+   0098 CDr00r00            135 	call	___sint2fs
+   009B 27 02               136 	add	sp, #2
+   009D DD 72 EA            137 	ld	-22 (ix),d
+   00A0 DD 73 E9            138 	ld	-23 (ix),e
+   00A3 DD 74 E8            139 	ld	-24 (ix),h
+   00A6 DD 75 E7            140 	ld	-25 (ix),l
+                            141 ;../tancotf.c:68: xnum=(int)x;
+   00A9 C4 29               142 	ld	hl, 41 (sp)
+   00AB E5                  143 	push	hl
+   00AC C4 29               144 	ld	hl, 41 (sp)
+   00AE E5                  145 	push	hl
+   00AF CDr00r00            146 	call	___fs2sint
+   00B2 27 04               147 	add	sp, #4
+   00B4 DD 74 F9            148 	ld	-7 (ix),h
+   00B7 DD 75 F8            149 	ld	-8 (ix),l
+   00BA C4 1B               150 	ld	hl, 27 (sp)
+   00BC E5                  151 	push	hl
+   00BD CDr00r00            152 	call	___sint2fs
+   00C0 27 02               153 	add	sp, #2
+   00C2 DD 72 E6            154 	ld	-26 (ix),d
+   00C5 DD 73 E5            155 	ld	-27 (ix),e
+   00C8 DD 74 E4            156 	ld	-28 (ix),h
+   00CB DD 75 E3            157 	ld	-29 (ix),l
+   00CE 21 1B 00            158 	ld	hl, #27
+   00D1 39                  159 	add	hl, sp
+   00D2 EB                  160 	ex	de, hl
+   00D3 21 06 00            161 	ld	hl, #6
+   00D6 39                  162 	add	hl, sp
+   00D7 01 04 00            163 	ld	bc, #4
+   00DA ED B0               164 	ldir
+                            165 ;../tancotf.c:69: xden=x-xnum;
+   00DC C4 1D               166 	ld	hl, 29 (sp)
+   00DE E5                  167 	push	hl
+   00DF C4 1D               168 	ld	hl, 29 (sp)
+   00E1 E5                  169 	push	hl
+   00E2 C4 2D               170 	ld	hl, 45 (sp)
+   00E4 E5                  171 	push	hl
+   00E5 C4 2D               172 	ld	hl, 45 (sp)
+   00E7 E5                  173 	push	hl
+   00E8 CDr00r00            174 	call	___fssub
+   00EB 27 08               175 	add	sp, #8
+   00ED DD 72 E2            176 	ld	-30 (ix),d
+   00F0 DD 73 E1            177 	ld	-31 (ix),e
+   00F3 DD 74 E0            178 	ld	-32 (ix),h
+   00F6 DD 75 DF            179 	ld	-33 (ix),l
+   00F9 21 17 00            180 	ld	hl, #23
+   00FC 39                  181 	add	hl, sp
+   00FD EB                  182 	ex	de, hl
+   00FE 21 02 00            183 	ld	hl, #2
+   0101 39                  184 	add	hl, sp
+   0102 01 04 00            185 	ld	bc, #4
+   0105 ED B0               186 	ldir
+                            187 ;../tancotf.c:70: f=((xnum-xn*C1)+xden)-xn*C2;
+   0107 C4 0C               188 	ld	hl, 12 (sp)
+   0109 E5                  189 	push	hl
+   010A C4 0C               190 	ld	hl, 12 (sp)
+   010C E5                  191 	push	hl
+   010D 21 C9 3F            192 	ld	hl,#0x3FC9
+   0110 E5                  193 	push	hl
+   0111 21 00 00            194 	ld	hl,#0x0000
+   0114 E5                  195 	push	hl
+   0115 CDr00r00            196 	call	___fsmul
+   0118 27 08               197 	add	sp, #8
+   011A DD 72 FF            198 	ld	-1 (ix),d
+   011D DD 73 FE            199 	ld	-2 (ix),e
+   0120 DD 74 FD            200 	ld	-3 (ix),h
+   0123 DD 75 FC            201 	ld	-4 (ix),l
+   0126 C4 21               202 	ld	hl, 33 (sp)
+   0128 E5                  203 	push	hl
+   0129 C4 21               204 	ld	hl, 33 (sp)
+   012B E5                  205 	push	hl
+   012C C4 21               206 	ld	hl, 33 (sp)
+   012E E5                  207 	push	hl
+   012F C4 21               208 	ld	hl, 33 (sp)
+   0131 E5                  209 	push	hl
+   0132 CDr00r00            210 	call	___fssub
+   0135 27 08               211 	add	sp, #8
+   0137 DD 72 FF            212 	ld	-1 (ix),d
+   013A DD 73 FE            213 	ld	-2 (ix),e
+   013D DD 74 FD            214 	ld	-3 (ix),h
+   0140 DD 75 FC            215 	ld	-4 (ix),l
+   0143 C4 19               216 	ld	hl, 25 (sp)
+   0145 E5                  217 	push	hl
+   0146 C4 19               218 	ld	hl, 25 (sp)
+   0148 E5                  219 	push	hl
+   0149 C4 25               220 	ld	hl, 37 (sp)
+   014B E5                  221 	push	hl
+   014C C4 25               222 	ld	hl, 37 (sp)
+   014E E5                  223 	push	hl
+   014F CDr00r00            224 	call	___fsadd
+   0152 27 08               225 	add	sp, #8
+   0154 DD 72 FF            226 	ld	-1 (ix),d
+   0157 DD 73 FE            227 	ld	-2 (ix),e
+   015A DD 74 FD            228 	ld	-3 (ix),h
+   015D DD 75 FC            229 	ld	-4 (ix),l
+   0160 C4 0C               230 	ld	hl, 12 (sp)
+   0162 E5                  231 	push	hl
+   0163 C4 0C               232 	ld	hl, 12 (sp)
+   0165 E5                  233 	push	hl
+   0166 21 FD 39            234 	ld	hl,#0x39FD
+   0169 E5                  235 	push	hl
+   016A 21 22 AA            236 	ld	hl,#0xAA22
+   016D E5                  237 	push	hl
+   016E CDr00r00            238 	call	___fsmul
+   0171 27 08               239 	add	sp, #8
+   0173 DD 72 F7            240 	ld	-9 (ix),d
+   0176 DD 73 F6            241 	ld	-10 (ix),e
+   0179 DD 74 F5            242 	ld	-11 (ix),h
+   017C DD 75 F4            243 	ld	-12 (ix),l
+   017F C4 19               244 	ld	hl, 25 (sp)
+   0181 E5                  245 	push	hl
+   0182 C4 19               246 	ld	hl, 25 (sp)
+   0184 E5                  247 	push	hl
+   0185 C4 25               248 	ld	hl, 37 (sp)
+   0187 E5                  249 	push	hl
+   0188 C4 25               250 	ld	hl, 37 (sp)
+   018A E5                  251 	push	hl
+   018B CDr00r00            252 	call	___fssub
+   018E 27 08               253 	add	sp, #8
+   0190 DD 72 F2            254 	ld	-14 (ix),d
+   0193 DD 73 F1            255 	ld	-15 (ix),e
+   0196 DD 74 F0            256 	ld	-16 (ix),h
+   0199 DD 75 EF            257 	ld	-17 (ix),l
+                            258 ;../tancotf.c:72: if (fabsf(f) < EPS)
+   019C C4 14               259 	ld	hl, 20 (sp)
+   019E E5                  260 	push	hl
+   019F C4 14               261 	ld	hl, 20 (sp)
+   01A1 E5                  262 	push	hl
+   01A2 CDr00r00            263 	call	_fabsf
+   01A5 27 04               264 	add	sp, #4
+   01A7 DD 72 FF            265 	ld	-1 (ix),d
+   01AA DD 73 FE            266 	ld	-2 (ix),e
+   01AD DD 74 FD            267 	ld	-3 (ix),h
+   01B0 DD 75 FC            268 	ld	-4 (ix),l
+   01B3 21 80 39            269 	ld	hl,#0x3980
+   01B6 E5                  270 	push	hl
+   01B7 21 00 00            271 	ld	hl,#0x0000
+   01BA E5                  272 	push	hl
+   01BB C4 25               273 	ld	hl, 37 (sp)
+   01BD E5                  274 	push	hl
+   01BE C4 25               275 	ld	hl, 37 (sp)
+   01C0 E5                  276 	push	hl
+   01C1 CDr00r00            277 	call	___fslt
+   01C4 27 08               278 	add	sp, #8
+   01C6 DD 75 FC            279 	ld	-4 (ix), l
+   01C9 7D                  280 	ld	a, l
+   01CA B7                  281 	or	a, a
+   01CB 28 21               282 	jr	Z,00104$
+                            283 ;../tancotf.c:74: xnum = f;
+   01CD 21 06 00            284 	ld	hl, #6
+   01D0 39                  285 	add	hl, sp
+   01D1 EB                  286 	ex	de, hl
+   01D2 21 12 00            287 	ld	hl, #18
+   01D5 39                  288 	add	hl, sp
+   01D6 01 04 00            289 	ld	bc, #4
+   01D9 ED B0               290 	ldir
+                            291 ;../tancotf.c:75: xden = 1.0;
+   01DB DD 36 DF 00         292 	ld	-33 (ix),#0x00
+   01DF DD 36 E0 00         293 	ld	-32 (ix),#0x00
+   01E3 DD 36 E1 80         294 	ld	-31 (ix),#0x80
+   01E7 DD 36 E2 3F         295 	ld	-30 (ix),#0x3F
+   01EB C3r98r02            296 	jp	00105$
+   01EE                     297 00104$:
+                            298 ;../tancotf.c:79: g = f*f;
+   01EE C4 14               299 	ld	hl, 20 (sp)
+   01F0 E5                  300 	push	hl
+   01F1 C4 14               301 	ld	hl, 20 (sp)
+   01F3 E5                  302 	push	hl
+   01F4 C4 18               303 	ld	hl, 24 (sp)
+   01F6 E5                  304 	push	hl
+   01F7 C4 18               305 	ld	hl, 24 (sp)
+   01F9 E5                  306 	push	hl
+   01FA CDr00r00            307 	call	___fsmul
+   01FD 27 08               308 	add	sp, #8
+   01FF DD 75 EB            309 	ld	-21 (ix),l
+   0202 DD 74 EC            310 	ld	-20 (ix),h
+   0205 DD 73 ED            311 	ld	-19 (ix),e
+   0208 DD 72 EE            312 	ld	-18 (ix),d
+                            313 ;../tancotf.c:80: xnum = P(f,g);
+   020B C4 10               314 	ld	hl, 16 (sp)
+   020D E5                  315 	push	hl
+   020E C4 10               316 	ld	hl, 16 (sp)
+   0210 E5                  317 	push	hl
+   0211 21 C4 BD            318 	ld	hl,#0xBDC4
+   0214 E5                  319 	push	hl
+   0215 21 B8 33            320 	ld	hl,#0x33B8
+   0218 E5                  321 	push	hl
+   0219 CDr00r00            322 	call	___fsmul
+   021C 27 08               323 	add	sp, #8
+   021E 4D                  324 	ld	c,l
+   021F 44                  325 	ld	b,h
+   0220 C4 14               326 	ld	hl, 20 (sp)
+   0222 E5                  327 	push	hl
+   0223 C4 14               328 	ld	hl, 20 (sp)
+   0225 E5                  329 	push	hl
+   0226 D5                  330 	push	de
+   0227 C5                  331 	push	bc
+   0228 CDr00r00            332 	call	___fsmul
+   022B 27 08               333 	add	sp, #8
+   022D 4D                  334 	ld	c,l
+   022E 44                  335 	ld	b,h
+   022F C4 14               336 	ld	hl, 20 (sp)
+   0231 E5                  337 	push	hl
+   0232 C4 14               338 	ld	hl, 20 (sp)
+   0234 E5                  339 	push	hl
+   0235 D5                  340 	push	de
+   0236 C5                  341 	push	bc
+   0237 CDr00r00            342 	call	___fsadd
+   023A 27 08               343 	add	sp, #8
+   023C DD 75 E3            344 	ld	-29 (ix),l
+   023F DD 74 E4            345 	ld	-28 (ix),h
+   0242 DD 73 E5            346 	ld	-27 (ix),e
+   0245 DD 72 E6            347 	ld	-26 (ix),d
+                            348 ;../tancotf.c:81: xden = Q(g);
+   0248 C4 10               349 	ld	hl, 16 (sp)
+   024A E5                  350 	push	hl
+   024B C4 10               351 	ld	hl, 16 (sp)
+   024D E5                  352 	push	hl
+   024E 21 1F 3C            353 	ld	hl,#0x3C1F
+   0251 E5                  354 	push	hl
+   0252 21 75 33            355 	ld	hl,#0x3375
+   0255 E5                  356 	push	hl
+   0256 CDr00r00            357 	call	___fsmul
+   0259 27 08               358 	add	sp, #8
+   025B 4D                  359 	ld	c,l
+   025C 44                  360 	ld	b,h
+   025D 21 DB BE            361 	ld	hl,#0xBEDB
+   0260 E5                  362 	push	hl
+   0261 21 AF B7            363 	ld	hl,#0xB7AF
+   0264 E5                  364 	push	hl
+   0265 D5                  365 	push	de
+   0266 C5                  366 	push	bc
+   0267 CDr00r00            367 	call	___fsadd
+   026A 27 08               368 	add	sp, #8
+   026C 4D                  369 	ld	c,l
+   026D 44                  370 	ld	b,h
+   026E C4 10               371 	ld	hl, 16 (sp)
+   0270 E5                  372 	push	hl
+   0271 C4 10               373 	ld	hl, 16 (sp)
+   0273 E5                  374 	push	hl
+   0274 D5                  375 	push	de
+   0275 C5                  376 	push	bc
+   0276 CDr00r00            377 	call	___fsmul
+   0279 27 08               378 	add	sp, #8
+   027B 4D                  379 	ld	c,l
+   027C 44                  380 	ld	b,h
+   027D 21 80 3F            381 	ld	hl,#0x3F80
+   0280 E5                  382 	push	hl
+   0281 21 00 00            383 	ld	hl,#0x0000
+   0284 E5                  384 	push	hl
+   0285 D5                  385 	push	de
+   0286 C5                  386 	push	bc
+   0287 CDr00r00            387 	call	___fsadd
+   028A 27 08               388 	add	sp, #8
+   028C DD 75 DF            389 	ld	-33 (ix),l
+   028F DD 74 E0            390 	ld	-32 (ix),h
+   0292 DD 73 E1            391 	ld	-31 (ix),e
+   0295 DD 72 E2            392 	ld	-30 (ix),d
+   0298                     393 00105$:
+                            394 ;../tancotf.c:84: if(n&1)
+   0298 DD CB DD 46         395 	bit	0, -35 (ix)
+   029C 28 67               396 	jr	Z,00113$
+                            397 ;../tancotf.c:87: if(iscotan) return (-xnum/xden);
+   029E DD CB 08 46         398 	bit	0,8 (ix)
+   02A2 28 1F               399 	jr	Z,00107$
+   02A4 DD 7E E6            400 	ld	a,-26 (ix)
+   02A7 EE 80               401 	xor	a,#0x80
+   02A9 47                  402 	ld	b,a
+   02AA DD 5E E3            403 	ld	e,-29 (ix)
+   02AD DD 56 E4            404 	ld	d,-28 (ix)
+   02B0 DD 4E E5            405 	ld	c,-27 (ix)
+   02B3 C4 04               406 	ld	hl, 4 (sp)
+   02B5 E5                  407 	push	hl
+   02B6 C4 04               408 	ld	hl, 4 (sp)
+   02B8 E5                  409 	push	hl
+   02B9 C5                  410 	push	bc
+   02BA D5                  411 	push	de
+   02BB CDr00r00            412 	call	___fsdiv
+   02BE 27 08               413 	add	sp, #8
+   02C0 C3r44r03            414 	jp	00115$
+   02C3                     415 00107$:
+                            416 ;../tancotf.c:88: else return (-xden/xnum);
+   02C3 DD 7E E2            417 	ld	a,-30 (ix)
+   02C6 EE 80               418 	xor	a,#0x80
+   02C8 DD 77 FF            419 	ld	-1 (ix),a
+   02CB DD 7E DF            420 	ld	a,-33 (ix)
+   02CE DD 77 FC            421 	ld	-4 (ix),a
+   02D1 DD 7E E0            422 	ld	a,-32 (ix)
+   02D4 DD 77 FD            423 	ld	-3 (ix),a
+   02D7 DD 7E E1            424 	ld	a,-31 (ix)
+   02DA DD 77 FE            425 	ld	-2 (ix),a
+   02DD C4 08               426 	ld	hl, 8 (sp)
+   02DF E5                  427 	push	hl
+   02E0 C4 08               428 	ld	hl, 8 (sp)
+   02E2 E5                  429 	push	hl
+   02E3 C4 25               430 	ld	hl, 37 (sp)
+   02E5 E5                  431 	push	hl
+   02E6 C4 25               432 	ld	hl, 37 (sp)
+   02E8 E5                  433 	push	hl
+   02E9 CDr00r00            434 	call	___fsdiv
+   02EC 27 08               435 	add	sp, #8
+   02EE DD 72 FF            436 	ld	-1 (ix),d
+   02F1 DD 73 FE            437 	ld	-2 (ix),e
+   02F4 DD 74 FD            438 	ld	-3 (ix),h
+   02F7 DD 75 FC            439 	ld	-4 (ix), l
+   02FA DD 66 FD            440 	ld	h,-3 (ix)
+   02FD DD 5E FE            441 	ld	e,-2 (ix)
+   0300 DD 56 FF            442 	ld	d,-1 (ix)
+   0303 18 3F               443 	jr	00115$
+   0305                     444 00113$:
+                            445 ;../tancotf.c:92: if(iscotan) return (xden/xnum);
+   0305 DD CB 08 46         446 	bit	0,8 (ix)
+   0309 28 13               447 	jr	Z,00110$
+   030B C4 08               448 	ld	hl, 8 (sp)
+   030D E5                  449 	push	hl
+   030E C4 08               450 	ld	hl, 8 (sp)
+   0310 E5                  451 	push	hl
+   0311 C4 08               452 	ld	hl, 8 (sp)
+   0313 E5                  453 	push	hl
+   0314 C4 08               454 	ld	hl, 8 (sp)
+   0316 E5                  455 	push	hl
+   0317 CDr00r00            456 	call	___fsdiv
+   031A 27 08               457 	add	sp, #8
+   031C 18 26               458 	jr	00115$
+   031E                     459 00110$:
+                            460 ;../tancotf.c:93: else return (xnum/xden);
+   031E C4 04               461 	ld	hl, 4 (sp)
+   0320 E5                  462 	push	hl
+   0321 C4 04               463 	ld	hl, 4 (sp)
+   0323 E5                  464 	push	hl
+   0324 C4 0C               465 	ld	hl, 12 (sp)
+   0326 E5                  466 	push	hl
+   0327 C4 0C               467 	ld	hl, 12 (sp)
+   0329 E5                  468 	push	hl
+   032A CDr00r00            469 	call	___fsdiv
+   032D 27 08               470 	add	sp, #8
+   032F DD 72 FF            471 	ld	-1 (ix),d
+   0332 DD 73 FE            472 	ld	-2 (ix),e
+   0335 DD 74 FD            473 	ld	-3 (ix),h
+   0338 DD 75 FC            474 	ld	-4 (ix), l
+   033B DD 66 FD            475 	ld	h,-3 (ix)
+   033E DD 5E FE            476 	ld	e,-2 (ix)
+   0341 DD 56 FF            477 	ld	d,-1 (ix)
+   0344                     478 00115$:
+   0344 DD F9               479 	ld	sp, ix
+   0346 DD E1               480 	pop	ix
+   0348 C9                  481 	ret
+                            482 	.area _CODE
+                            483 	.area _INITIALIZER
+                            484 	.area _CABS (ABS)

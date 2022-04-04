@@ -1,0 +1,374 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:09 2022
+                              5 ;--------------------------------------------------------
+                              6 	.r3k
+                              7 	.module _atof
+                              8 	.optsdcc -mr3ka
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl _atoi
+                             14 	.globl _toupper
+                             15 	.globl _isspace
+                             16 	.globl _atof
+                             17 ;--------------------------------------------------------
+                             18 ; special function registers
+                             19 ;--------------------------------------------------------
+                             20 ;--------------------------------------------------------
+                             21 ; ram data
+                             22 ;--------------------------------------------------------
+                             23 	.area _DATA
+                             24 ;--------------------------------------------------------
+                             25 ; ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area _INITIALIZED
+                             28 ;--------------------------------------------------------
+                             29 ; absolute external ram data
+                             30 ;--------------------------------------------------------
+                             31 	.area _DABS (ABS)
+                             32 ;--------------------------------------------------------
+                             33 ; global & static initialisations
+                             34 ;--------------------------------------------------------
+                             35 	.area _HOME
+                             36 	.area _GSINIT
+                             37 	.area _GSFINAL
+                             38 	.area _GSINIT
+                             39 ;--------------------------------------------------------
+                             40 ; Home
+                             41 ;--------------------------------------------------------
+                             42 	.area _HOME
+                             43 	.area _HOME
+                             44 ;--------------------------------------------------------
+                             45 ; code
+                             46 ;--------------------------------------------------------
+                             47 	.area _CODE
+                             48 ;../_atof.c:33: float atof(const char * s)
+                             49 ;	---------------------------------
+                             50 ; Function atof
+                             51 ; ---------------------------------
+   0000                      52 _atof::
+   0000 DD E5                53 	push	ix
+   0002 DD 21 00 00          54 	ld	ix,#0
+   0006 DD 39                55 	add	ix,sp
+   0008 27 F0                56 	add	sp, #-16
+                             57 ;../_atof.c:40: while (isspace(*s)) s++;
+   000A C4 14                58 	ld	hl, 20 (sp)
+   000C                      59 00101$:
+   000C 7E                   60 	ld	a,(hl)
+   000D 5F                   61 	ld	e,a
+   000E 17                   62 	rla
+   000F 9F                   63 	sbc	a, a
+   0010 57                   64 	ld	d,a
+   0011 E5                   65 	push	hl
+   0012 D5                   66 	push	de
+   0013 CDr00r00             67 	call	_isspace
+   0016 27 02                68 	add	sp, #2
+   0018 4D                   69 	ld	c,l
+   0019 44                   70 	ld	b,h
+   001A E1                   71 	pop	hl
+   001B 5D                   72 	ld	e, l
+   001C 54                   73 	ld	d, h
+   001D 13                   74 	inc	de
+   001E 78                   75 	ld	a,b
+   001F B1                   76 	or	a,c
+   0020 28 03                77 	jr	Z,00145$
+   0022 EB                   78 	ex	de,hl
+   0023 18 E7                79 	jr	00101$
+   0025                      80 00145$:
+   0025 D4 14                81 	ld	20 (sp), hl
+                             82 ;../_atof.c:43: if (*s == '-')
+   0027 66                   83 	ld	h,(hl)
+   0028 7C                   84 	ld	a,h
+   0029 D6 2D                85 	sub	a, #0x2D
+   002B 20 0C                86 	jr	NZ,00107$
+                             87 ;../_atof.c:45: sign=1;
+   002D DD 36 F0 01          88 	ld	-16 (ix),#0x01
+                             89 ;../_atof.c:46: s++;
+   0031 DD 73 04             90 	ld	4 (ix),e
+   0034 DD 72 05             91 	ld	5 (ix),d
+   0037 18 0F                92 	jr	00108$
+   0039                      93 00107$:
+                             94 ;../_atof.c:50: sign=0;
+   0039 DD 36 F0 00          95 	ld	-16 (ix),#0x00
+                             96 ;../_atof.c:51: if (*s == '+') s++;
+   003D 7C                   97 	ld	a,h
+   003E D6 2B                98 	sub	a, #0x2B
+   0040 20 06                99 	jr	NZ,00108$
+   0042 DD 73 04            100 	ld	4 (ix),e
+   0045 DD 72 05            101 	ld	5 (ix),d
+   0048                     102 00108$:
+                            103 ;../_atof.c:55: for (value=0.0; isdigit(*s); s++)
+   0048 DD 36 F5 00         104 	ld	-11 (ix),#0x00
+   004C DD 36 F6 00         105 	ld	-10 (ix),#0x00
+   0050 DD 36 F7 00         106 	ld	-9 (ix),#0x00
+   0054 DD 36 F8 00         107 	ld	-8 (ix),#0x00
+   0058 EB                  108 	ex	de, hl
+   0059 C4 14               109 	ld	hl, 20 (sp)
+   005B EB                  110 	ex	de, hl
+   005C                     111 00124$:
+   005C 1A                  112 	ld	a,(de)
+   005D 6F                  113 	ld	l,a
+   005E 17                  114 	rla
+   005F 9F                  115 	sbc	a, a
+   0060 67                  116 	ld	h,a
+   0061 D5                  117 	push	de
+   0062 E5                  118 	push	hl
+   0063 CDr00r00            119 	call	_isdigit
+   0066 27 02               120 	add	sp, #2
+   0068 4D                  121 	ld	c,l
+   0069 44                  122 	ld	b,h
+   006A D1                  123 	pop	de
+   006B 1A                  124 	ld	a,(de)
+   006C DD 77 F9            125 	ld	-7 (ix),a
+   006F 21 01 00            126 	ld	hl,#0x0001
+   0072 19                  127 	add	hl,de
+   0073 D4 0E               128 	ld	14 (sp), hl
+   0075 78                  129 	ld	a,b
+   0076 B1                  130 	or	a,c
+   0077 28 56               131 	jr	Z,00146$
+                            132 ;../_atof.c:57: value=10.0*value+(*s-'0');
+   0079 C4 07               133 	ld	hl, 7 (sp)
+   007B E5                  134 	push	hl
+   007C C4 07               135 	ld	hl, 7 (sp)
+   007E E5                  136 	push	hl
+   007F 21 20 41            137 	ld	hl,#0x4120
+   0082 E5                  138 	push	hl
+   0083 21 00 00            139 	ld	hl,#0x0000
+   0086 E5                  140 	push	hl
+   0087 CDr00r00            141 	call	___fsmul
+   008A 27 08               142 	add	sp, #8
+   008C DD 72 FD            143 	ld	-3 (ix),d
+   008F DD 73 FC            144 	ld	-4 (ix),e
+   0092 DD 74 FB            145 	ld	-5 (ix),h
+   0095 DD 75 FA            146 	ld	-6 (ix),l
+   0098 DD 66 F9            147 	ld	h,-7 (ix)
+   009B DD 7E F9            148 	ld	a,-7 (ix)
+   009E 17                  149 	rla
+   009F 9F                  150 	sbc	a, a
+   00A0 57                  151 	ld	d,a
+   00A1 7C                  152 	ld	a,h
+   00A2 C6 D0               153 	add	a,#0xD0
+   00A4 6F                  154 	ld	l,a
+   00A5 7A                  155 	ld	a,d
+   00A6 CE FF               156 	adc	a,#0xFF
+   00A8 67                  157 	ld	h,a
+   00A9 E5                  158 	push	hl
+   00AA CDr00r00            159 	call	___sint2fs
+   00AD 27 02               160 	add	sp, #2
+   00AF EB                  161 	ex	de, hl
+   00B0 E5                  162 	push	hl
+   00B1 D5                  163 	push	de
+   00B2 C4 10               164 	ld	hl, 16 (sp)
+   00B4 E5                  165 	push	hl
+   00B5 C4 10               166 	ld	hl, 16 (sp)
+   00B7 E5                  167 	push	hl
+   00B8 CDr00r00            168 	call	___fsadd
+   00BB 27 08               169 	add	sp, #8
+   00BD DD 75 F5            170 	ld	-11 (ix),l
+   00C0 DD 74 F6            171 	ld	-10 (ix),h
+   00C3 DD 73 F7            172 	ld	-9 (ix),e
+   00C6 DD 72 F8            173 	ld	-8 (ix),d
+                            174 ;../_atof.c:55: for (value=0.0; isdigit(*s); s++)
+   00C9 EB                  175 	ex	de, hl
+   00CA C4 0E               176 	ld	hl, 14 (sp)
+   00CC EB                  177 	ex	de, hl
+   00CD 18 8D               178 	jr	00124$
+   00CF                     179 00146$:
+   00CF DD 73 04            180 	ld	4 (ix),e
+   00D2 DD 72 05            181 	ld	5 (ix),d
+                            182 ;../_atof.c:61: if (*s == '.')
+   00D5 DD 7E F9            183 	ld	a,-7 (ix)
+   00D8 D6 2E               184 	sub	a, #0x2E
+   00DA C2r88r01            185 	jp	NZ,00112$
+                            186 ;../_atof.c:64: for (fraction=0.1; isdigit(*s); s++)
+   00DD DD 36 F1 CD         187 	ld	-15 (ix),#0xCD
+   00E1 DD 36 F2 CC         188 	ld	-14 (ix),#0xCC
+   00E5 DD 36 F3 CC         189 	ld	-13 (ix),#0xCC
+   00E9 DD 36 F4 3D         190 	ld	-12 (ix),#0x3D
+   00ED DD 7E FE            191 	ld	a,-2 (ix)
+   00F0 DD 77 FA            192 	ld	-6 (ix),a
+   00F3 DD 7E FF            193 	ld	a,-1 (ix)
+   00F6 DD 77 FB            194 	ld	-5 (ix),a
+   00F9                     195 00127$:
+   00F9 C4 0A               196 	ld	hl, 10 (sp)
+   00FB 7E                  197 	ld	a,(hl)
+   00FC DD 77 FE            198 	ld	-2 (ix), a
+   00FF DD 77 FE            199 	ld	-2 (ix), a
+   0102 17                  200 	rla
+   0103 9F                  201 	sbc	a, a
+   0104 DD 77 FF            202 	ld	-1 (ix),a
+   0107 C4 0E               203 	ld	hl, 14 (sp)
+   0109 E5                  204 	push	hl
+   010A CDr00r00            205 	call	_isdigit
+   010D 27 02               206 	add	sp, #2
+   010F 7C                  207 	ld	a,h
+   0110 B5                  208 	or	a,l
+   0111 28 69               209 	jr	Z,00147$
+                            210 ;../_atof.c:66: value+=(*s-'0')*fraction;
+   0113 C4 0A               211 	ld	hl, 10 (sp)
+   0115 7E                  212 	ld	a,(hl)
+   0116 67                  213 	ld	h,a
+   0117 17                  214 	rla
+   0118 9F                  215 	sbc	a, a
+   0119 6F                  216 	ld	l,a
+   011A 7C                  217 	ld	a,h
+   011B C6 D0               218 	add	a,#0xD0
+   011D 5F                  219 	ld	e,a
+   011E 7D                  220 	ld	a,l
+   011F CE FF               221 	adc	a,#0xFF
+   0121 57                  222 	ld	d,a
+   0122 D5                  223 	push	de
+   0123 CDr00r00            224 	call	___sint2fs
+   0126 27 02               225 	add	sp, #2
+   0128 4D                  226 	ld	c,l
+   0129 44                  227 	ld	b,h
+   012A C4 03               228 	ld	hl, 3 (sp)
+   012C E5                  229 	push	hl
+   012D C4 03               230 	ld	hl, 3 (sp)
+   012F E5                  231 	push	hl
+   0130 D5                  232 	push	de
+   0131 C5                  233 	push	bc
+   0132 CDr00r00            234 	call	___fsmul
+   0135 27 08               235 	add	sp, #8
+   0137 EB                  236 	ex	de, hl
+   0138 E5                  237 	push	hl
+   0139 D5                  238 	push	de
+   013A C4 0B               239 	ld	hl, 11 (sp)
+   013C E5                  240 	push	hl
+   013D C4 0B               241 	ld	hl, 11 (sp)
+   013F E5                  242 	push	hl
+   0140 CDr00r00            243 	call	___fsadd
+   0143 27 08               244 	add	sp, #8
+   0145 DD 75 F5            245 	ld	-11 (ix),l
+   0148 DD 74 F6            246 	ld	-10 (ix),h
+   014B DD 73 F7            247 	ld	-9 (ix),e
+   014E DD 72 F8            248 	ld	-8 (ix),d
+                            249 ;../_atof.c:67: fraction*=0.1;
+   0151 C4 03               250 	ld	hl, 3 (sp)
+   0153 E5                  251 	push	hl
+   0154 C4 03               252 	ld	hl, 3 (sp)
+   0156 E5                  253 	push	hl
+   0157 21 CC 3D            254 	ld	hl,#0x3DCC
+   015A E5                  255 	push	hl
+   015B 21 CD CC            256 	ld	hl,#0xCCCD
+   015E E5                  257 	push	hl
+   015F CDr00r00            258 	call	___fsmul
+   0162 27 08               259 	add	sp, #8
+   0164 DD 75 F1            260 	ld	-15 (ix),l
+   0167 DD 74 F2            261 	ld	-14 (ix),h
+   016A DD 73 F3            262 	ld	-13 (ix),e
+   016D DD 72 F4            263 	ld	-12 (ix),d
+                            264 ;../_atof.c:64: for (fraction=0.1; isdigit(*s); s++)
+   0170 DD 34 FA            265 	inc	-6 (ix)
+   0173 C2rF9r00            266 	jp	NZ,00127$
+   0176 DD 34 FB            267 	inc	-5 (ix)
+   0179 C3rF9r00            268 	jp	00127$
+   017C                     269 00147$:
+   017C DD 7E FA            270 	ld	a,-6 (ix)
+   017F DD 77 04            271 	ld	4 (ix),a
+   0182 DD 7E FB            272 	ld	a,-5 (ix)
+   0185 DD 77 05            273 	ld	5 (ix),a
+   0188                     274 00112$:
+                            275 ;../_atof.c:72: if (toupper(*s)=='E')
+   0188 DD 7E 04            276 	ld	a,4 (ix)
+   018B DD 77 FA            277 	ld	-6 (ix),a
+   018E DD 7E 05            278 	ld	a,5 (ix)
+   0191 DD 77 FB            279 	ld	-5 (ix),a
+   0194 C4 0A               280 	ld	hl, 10 (sp)
+   0196 7E                  281 	ld	a,(hl)
+   0197 6F                  282 	ld	l,a
+   0198 17                  283 	rla
+   0199 9F                  284 	sbc	a, a
+   019A 67                  285 	ld	h,a
+   019B E5                  286 	push	hl
+   019C CDr00r00            287 	call	_toupper
+   019F 27 02               288 	add	sp, #2
+   01A1 7D                  289 	ld	a,l
+   01A2 D6 45               290 	sub	a,#0x45
+   01A4 20 6C               291 	jr	NZ,00120$
+   01A6 B4                  292 	or	a,h
+   01A7 20 69               293 	jr	NZ,00120$
+                            294 ;../_atof.c:74: s++;
+   01A9 DD 7E FA            295 	ld	a,-6 (ix)
+   01AC C6 01               296 	add	a, #0x01
+   01AE DD 77 04            297 	ld	4 (ix),a
+   01B1 DD 7E FB            298 	ld	a,-5 (ix)
+   01B4 CE 00               299 	adc	a, #0x00
+   01B6 DD 77 05            300 	ld	5 (ix),a
+                            301 ;../_atof.c:75: iexp=(signed char)atoi(s);
+   01B9 C4 14               302 	ld	hl, 20 (sp)
+   01BB E5                  303 	push	hl
+   01BC CDr00r00            304 	call	_atoi
+   01BF 27 02               305 	add	sp, #2
+   01C1 45                  306 	ld	b,l
+                            307 ;../_atof.c:77: while(iexp!=0)
+   01C2                     308 00116$:
+   01C2 78                  309 	ld	a,b
+   01C3 B7                  310 	or	a, a
+   01C4 28 4C               311 	jr	Z,00120$
+                            312 ;../_atof.c:79: if(iexp<0)
+   01C6 CB 78               313 	bit	7, b
+   01C8 28 24               314 	jr	Z,00114$
+                            315 ;../_atof.c:81: value*=0.1;
+   01CA C5                  316 	push	bc
+   01CB C4 09               317 	ld	hl, 9 (sp)
+   01CD E5                  318 	push	hl
+   01CE C4 09               319 	ld	hl, 9 (sp)
+   01D0 E5                  320 	push	hl
+   01D1 21 CC 3D            321 	ld	hl,#0x3DCC
+   01D4 E5                  322 	push	hl
+   01D5 21 CD CC            323 	ld	hl,#0xCCCD
+   01D8 E5                  324 	push	hl
+   01D9 CDr00r00            325 	call	___fsmul
+   01DC 27 08               326 	add	sp, #8
+   01DE C1                  327 	pop	bc
+   01DF DD 75 F5            328 	ld	-11 (ix),l
+   01E2 DD 74 F6            329 	ld	-10 (ix),h
+   01E5 DD 73 F7            330 	ld	-9 (ix),e
+   01E8 DD 72 F8            331 	ld	-8 (ix),d
+                            332 ;../_atof.c:82: iexp++;
+   01EB 04                  333 	inc	b
+   01EC 18 D4               334 	jr	00116$
+   01EE                     335 00114$:
+                            336 ;../_atof.c:86: value*=10.0;
+   01EE C5                  337 	push	bc
+   01EF C4 09               338 	ld	hl, 9 (sp)
+   01F1 E5                  339 	push	hl
+   01F2 C4 09               340 	ld	hl, 9 (sp)
+   01F4 E5                  341 	push	hl
+   01F5 21 20 41            342 	ld	hl,#0x4120
+   01F8 E5                  343 	push	hl
+   01F9 21 00 00            344 	ld	hl,#0x0000
+   01FC E5                  345 	push	hl
+   01FD CDr00r00            346 	call	___fsmul
+   0200 27 08               347 	add	sp, #8
+   0202 C1                  348 	pop	bc
+   0203 DD 75 F5            349 	ld	-11 (ix),l
+   0206 DD 74 F6            350 	ld	-10 (ix),h
+   0209 DD 73 F7            351 	ld	-9 (ix),e
+   020C DD 72 F8            352 	ld	-8 (ix),d
+                            353 ;../_atof.c:87: iexp--;
+   020F 05                  354 	dec	b
+   0210 18 B0               355 	jr	00116$
+   0212                     356 00120$:
+                            357 ;../_atof.c:93: if(sign) value*=-1.0;
+   0212 DD CB F0 46         358 	bit	0,-16 (ix)
+   0216 28 08               359 	jr	Z,00122$
+   0218 DD 7E F8            360 	ld	a,-8 (ix)
+   021B EE 80               361 	xor	a,#0x80
+   021D DD 77 F8            362 	ld	-8 (ix),a
+   0220                     363 00122$:
+                            364 ;../_atof.c:94: return (value);
+   0220 DD 6E F5            365 	ld	l,-11 (ix)
+   0223 DD 66 F6            366 	ld	h,-10 (ix)
+   0226 DD 5E F7            367 	ld	e,-9 (ix)
+   0229 DD 56 F8            368 	ld	d,-8 (ix)
+   022C DD F9               369 	ld	sp, ix
+   022E DD E1               370 	pop	ix
+   0230 C9                  371 	ret
+                            372 	.area _CODE
+                            373 	.area _INITIALIZER
+                            374 	.area _CABS (ABS)

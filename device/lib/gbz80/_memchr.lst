@@ -1,0 +1,115 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:48 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _memchr
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _memchr
+                             13 ;--------------------------------------------------------
+                             14 ; ram data
+                             15 ;--------------------------------------------------------
+                             16 	.area _DATA
+                             17 ;--------------------------------------------------------
+                             18 ; absolute external ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DABS (ABS)
+                             21 ;--------------------------------------------------------
+                             22 ; global & static initialisations
+                             23 ;--------------------------------------------------------
+                             24 	.area _HOME
+                             25 	.area _GSINIT
+                             26 	.area _GSFINAL
+                             27 	.area _GSINIT
+                             28 ;--------------------------------------------------------
+                             29 ; Home
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _HOME
+                             33 ;--------------------------------------------------------
+                             34 ; code
+                             35 ;--------------------------------------------------------
+                             36 	.area _CODE
+                             37 ;../_memchr.c:31: void *memchr(const void *s, int c, size_t n)
+                             38 ;	---------------------------------
+                             39 ; Function memchr
+                             40 ; ---------------------------------
+   0000                      41 _memchr::
+   0000 E8 FC                42 	add	sp, #-4
+                             43 ;../_memchr.c:33: unsigned char *p = (unsigned char *)s;
+   0002 F8 06                44 	ldhl	sp,#6
+   0004 2A                   45 	ld	a,(hl+)
+   0005 5E                   46 	ld	e, (hl)
+   0006 F8 02                47 	ldhl	sp,#2
+   0008 22                   48 	ld	(hl+),a
+   0009 73                   49 	ld	(hl),e
+                             50 ;../_memchr.c:34: unsigned char *end = p + n;
+   000A 2B                   51 	dec	hl
+   000B 5E                   52 	ld	e,(hl)
+   000C 23                   53 	inc	hl
+   000D 56                   54 	ld	d,(hl)
+   000E F8 0A                55 	ldhl	sp,#10
+   0010 2A                   56 	ld	a,(hl+)
+   0011 66                   57 	ld	h,(hl)
+   0012 6F                   58 	ld	l,a
+   0013 19                   59 	add	hl,de
+   0014 45                   60 	ld	b,l
+   0015 4C                   61 	ld	c,h
+   0016 F8 00                62 	ldhl	sp,#0
+   0018 70                   63 	ld	(hl),b
+   0019 23                   64 	inc	hl
+   001A 71                   65 	ld	(hl),c
+                             66 ;../_memchr.c:38: return(0);
+   001B D1                   67 	pop	de
+   001C C1                   68 	pop	bc
+   001D C5                   69 	push	bc
+   001E D5                   70 	push	de
+   001F                      71 00105$:
+                             72 ;../_memchr.c:35: for(; p != end; p++)
+   001F F8 00                73 	ldhl	sp,#0
+   0021 7E                   74 	ld	a,(hl)
+   0022 91                   75 	sub	a, c
+   0023 20 05                76 	jr	NZ,00121$
+   0025 23                   77 	inc	hl
+   0026 7E                   78 	ld	a,(hl)
+   0027 90                   79 	sub	a, b
+   0028 28 1D                80 	jr	Z,00103$
+   002A                      81 00121$:
+                             82 ;../_memchr.c:36: if(*p == c)
+   002A 0A                   83 	ld	a,(bc)
+   002B 57                   84 	ld	d,a
+   002C 1E 00                85 	ld	e,#0x00
+   002E F8 08                86 	ldhl	sp,#8
+   0030 7E                   87 	ld	a,(hl)
+   0031 92                   88 	sub	a, d
+   0032 20 0B                89 	jr	NZ,00106$
+   0034 23                   90 	inc	hl
+   0035 7E                   91 	ld	a,(hl)
+   0036 93                   92 	sub	a, e
+   0037 20 06                93 	jr	NZ,00106$
+                             94 ;../_memchr.c:37: return((void *)p);
+   0039 C1                   95 	pop	bc
+   003A D1                   96 	pop	de
+   003B D5                   97 	push	de
+   003C C5                   98 	push	bc
+   003D 18 0B                99 	jr	00107$
+   003F                     100 00106$:
+                            101 ;../_memchr.c:35: for(; p != end; p++)
+   003F 03                  102 	inc	bc
+   0040 F8 02               103 	ldhl	sp,#2
+   0042 71                  104 	ld	(hl),c
+   0043 23                  105 	inc	hl
+   0044 70                  106 	ld	(hl),b
+   0045 18 D8               107 	jr	00105$
+   0047                     108 00103$:
+                            109 ;../_memchr.c:38: return(0);
+   0047 11 00 00            110 	ld	de,#0x0000
+   004A                     111 00107$:
+   004A E8 04               112 	add	sp, #4
+   004C C9                  113 	ret
+                            114 	.area _CODE
+                            115 	.area _CABS (ABS)

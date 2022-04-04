@@ -1,0 +1,195 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:35 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module atol
+                              7 	.optsdcc -mtlcs90
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _atol
+                             13 ;--------------------------------------------------------
+                             14 ; ram data
+                             15 ;--------------------------------------------------------
+                             16 	.area _DATA
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _INITIALIZED
+                             21 ;--------------------------------------------------------
+                             22 ; absolute external ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _DABS (ABS)
+                             25 ;--------------------------------------------------------
+                             26 ; global & static initialisations
+                             27 ;--------------------------------------------------------
+                             28 	.area _HOME
+                             29 	.area _GSINIT
+                             30 	.area _GSFINAL
+                             31 	.area _GSINIT
+                             32 ;--------------------------------------------------------
+                             33 ; Home
+                             34 ;--------------------------------------------------------
+                             35 	.area _HOME
+                             36 	.area _HOME
+                             37 ;--------------------------------------------------------
+                             38 ; code
+                             39 ;--------------------------------------------------------
+                             40 	.area _CODE
+                             41 ;../atol.c:34: long int atol(const char *nptr)
+                             42 ;	---------------------------------
+                             43 ; Function atol
+                             44 ; ---------------------------------
+   0000                      45 _atol::
+   0000 54            [ 4]   46 	push	ix
+   0001 3C 00 00      [ 4]   47 	ld	ix,#0
+   0004 FE 14         [ 7]   48 	add	ix,sp
+   0006 16 F6 FF      [ 7]   49 	add	sp, #-10
+                             50 ;../atol.c:36: long int ret = 0;
+   0009 FE 65         [ 7]   51 	xor	a, a
+   000B F4 F7 26      [17]   52 	ld	-9 (ix),a
+   000E F4 F8 26      [17]   53 	ld	-8 (ix),a
+   0011 F4 F9 26      [17]   54 	ld	-7 (ix),a
+   0014 F4 FA 26      [17]   55 	ld	-6 (ix),a
+                             56 ;../atol.c:39: while (isblank (*nptr))
+   0017 08            [ 4]   57 	ex	de, hl
+   0018 F2 0E 4A      [10]   58 	ld	hl, 14 (sp)
+   001B 08            [ 4]   59 	ex	de, hl
+   001C                      60 00101$:
+   001C E1 2E         [10]   61 	ld	a,(de)
+   001E 29            [11]   62 	ld	c,a
+   001F 2C            [ 4]   63 	ld	h,a
+   0020 A2            [ 4]   64 	rla
+   0021 FE 63         [ 7]   65 	sbc	a, a
+                             66 ;./../../include/ctype.h:53: return ((unsigned char)c == ' ' || (unsigned char)c == '\t');
+   0023 24            [ 4]   67 	ld	a,h
+   0024 6F 20         [ 4]   68 	cp	a,#0x20
+   0026 C6 04         [ 7]   69 	jr	Z,00115$
+   0028 6A 09         [ 4]   70 	sub	a, #0x09
+   002A CE 03         [ 7]   71 	jr	NZ,00131$
+   002C                      72 00115$:
+                             73 ;../atol.c:40: nptr++;
+   002C 91            [ 4]   74 	inc	de
+   002D C8 ED         [11]   75 	jr	00101$
+   002F                      76 00131$:
+   002F F4 04 23      [17]   77 	ld	4 (ix),e
+   0032 F4 05 22      [17]   78 	ld	5 (ix),d
+                             79 ;../atol.c:42: neg = (*nptr == '-');
+   0035 FB 35         [ 4]   80 	ld	l, e
+   0037 FA 34         [10]   81 	ld	h, d
+   0039 21            [10]   82 	ld	a,c
+   003A 6A 2D         [ 4]   83 	sub	a, #0x2D
+   003C CE 04         [ 7]   84 	jr	NZ,00157$
+   003E 36 01         [10]   85 	ld	a,#0x01
+   0040 C8 02         [11]   86 	jr	00158$
+   0042                      87 00157$:
+   0042 FE 65         [ 7]   88 	xor	a,a
+   0044                      89 00158$:
+   0044 F4 F6 26      [17]   90 	ld	-10 (ix),a
+                             91 ;../atol.c:44: if (*nptr == '-' || *nptr == '+')
+   0047 FE A8         [ 7]   92 	bit	0,a
+   0049 CE 05         [ 7]   93 	jr	NZ,00104$
+   004B 21            [10]   94 	ld	a,c
+   004C 6A 2B         [ 4]   95 	sub	a, #0x2B
+   004E CE 04         [ 7]   96 	jr	NZ,00129$
+   0050                      97 00104$:
+                             98 ;../atol.c:45: nptr++;
+   0050 92            [ 4]   99 	inc	hl
+   0051 F6 0E 42      [ 7]  100 	ld	14 (sp), hl
+                            101 ;../atol.c:47: while (isdigit (*nptr))
+   0054                     102 00129$:
+   0054 08            [ 4]  103 	ex	de, hl
+   0055 F2 0E 4A      [10]  104 	ld	hl, 14 (sp)
+   0058 08            [ 4]  105 	ex	de, hl
+   0059                     106 00107$:
+   0059 E1 2E         [10]  107 	ld	a,(de)
+   005B 29            [11]  108 	ld	c,a
+   005C A2            [ 4]  109 	rla
+   005D FE 63         [ 7]  110 	sbc	a, a
+   005F 28            [12]  111 	ld	b,a
+   0060 F9 35         [ 6]  112 	ld	l, c
+                            113 ;./../../include/ctype.h:62: return ((unsigned char)c >= '0' && (unsigned char)c <= '9');
+   0062 25            [ 4]  114 	ld	a,l
+   0063 6A 30         [ 4]  115 	sub	a, #0x30
+   0065 EBrCCr00 C7   [ 4]  116 	jp	C,00109$
+   0069 36 39         [10]  117 	ld	a,#0x39
+   006B FD 62               118 	sub	a, l
+   006D EBrCCr00 C7   [ 4]  119 	jp	C,00109$
+                            120 ;../atol.c:48: ret = ret * 10 + (*(nptr++) - '0');
+   0071 50            [ 4]  121 	push	bc
+   0072 51            [ 4]  122 	push	de
+   0073 F2 07 4A      [10]  123 	ld	hl, 7 (sp)
+   0076 52            [ 4]  124 	push	hl
+   0077 F2 07 4A      [10]  125 	ld	hl, 7 (sp)
+   007A 52            [ 4]  126 	push	hl
+   007B 3A 00 00      [13]  127 	ld	hl,#0x0000
+   007E 52            [ 4]  128 	push	hl
+   007F 3A 0A 00      [13]  129 	ld	hl,#0x000A
+   0082 52            [ 4]  130 	push	hl
+   0083 1Cr00r00      [ 4]  131 	call	__mullong
+   0086 16 08 00      [ 7]  132 	add	sp, #8
+   0089 F4 FF 22      [17]  133 	ld	-1 (ix),d
+   008C F4 FE 23      [17]  134 	ld	-2 (ix),e
+   008F F4 FD 24      [17]  135 	ld	-3 (ix),h
+   0092 F4 FC 25      [17]  136 	ld	-4 (ix),l
+   0095 59            [ 4]  137 	pop	de
+   0096 58            [ 4]  138 	pop	bc
+   0097 91            [ 4]  139 	inc	de
+   0098 21            [10]  140 	ld	a,c
+   0099 68 D0         [ 4]  141 	add	a,#0xD0
+   009B 2D            [ 4]  142 	ld	l,a
+   009C 20            [12]  143 	ld	a,b
+   009D 69 FF         [ 4]  144 	adc	a,#0xFF
+   009F 2C            [ 4]  145 	ld	h,a
+   00A0 A2            [ 4]  146 	rla
+   00A1 FE 63         [ 7]  147 	sbc	a, a
+   00A3 29            [11]  148 	ld	c,a
+   00A4 28            [12]  149 	ld	b,a
+   00A5 F0 FC 2E      [11]  150 	ld	a,-4 (ix)
+   00A8 FD 60               151 	add	a, l
+   00AA 2D            [ 4]  152 	ld	l,a
+   00AB F0 FD 2E      [11]  153 	ld	a,-3 (ix)
+   00AE FC 61         [17]  154 	adc	a, h
+   00B0 2C            [ 4]  155 	ld	h,a
+   00B1 F0 FE 2E      [11]  156 	ld	a,-2 (ix)
+   00B4 F9 61         [ 6]  157 	adc	a, c
+   00B6 29            [11]  158 	ld	c,a
+   00B7 F0 FF 2E      [11]  159 	ld	a,-1 (ix)
+   00BA F8 61         [11]  160 	adc	a, b
+   00BC 28            [12]  161 	ld	b,a
+   00BD F4 F7 25      [17]  162 	ld	-9 (ix),l
+   00C0 F4 F8 24      [17]  163 	ld	-8 (ix),h
+   00C3 F4 F9 21      [17]  164 	ld	-7 (ix),c
+   00C6 F4 FA 20      [17]  165 	ld	-6 (ix),b
+   00C9 1Ar59r00      [ 7]  166 	jp	00107$
+   00CC                     167 00109$:
+                            168 ;../atol.c:50: return (neg ? -ret : ret); // Since -LONG_MIN is LONG_MIN in sdcc, the result value always turns out ok.
+   00CC F0 F6 A8      [11]  169 	bit	0,-10 (ix)
+   00CF C6 1A         [ 7]  170 	jr	Z,00120$
+   00D1 FE 65         [ 7]  171 	xor	a, a
+   00D3 F0 F7 62      [11]  172 	sub	a, -9 (ix)
+   00D6 2D            [ 4]  173 	ld	l,a
+   00D7 36 00         [10]  174 	ld	a, #0x00
+   00D9 F0 F8 63      [11]  175 	sbc	a, -8 (ix)
+   00DC 2C            [ 4]  176 	ld	h,a
+   00DD 36 00         [10]  177 	ld	a, #0x00
+   00DF F0 F9 63      [11]  178 	sbc	a, -7 (ix)
+   00E2 2B            [ 6]  179 	ld	e,a
+   00E3 36 00         [10]  180 	ld	a, #0x00
+   00E5 F0 FA 63      [11]  181 	sbc	a, -6 (ix)
+   00E8 2A            [16]  182 	ld	d,a
+   00E9 C8 0C         [11]  183 	jr	00121$
+   00EB                     184 00120$:
+   00EB F0 F7 2D      [11]  185 	ld	l,-9 (ix)
+   00EE F0 F8 2C      [11]  186 	ld	h,-8 (ix)
+   00F1 F0 F9 2B      [11]  187 	ld	e,-7 (ix)
+   00F4 F0 FA 2A      [11]  188 	ld	d,-6 (ix)
+   00F7                     189 00121$:
+   00F7 FC 3E         [17]  190 	ld	sp, ix
+   00F9 5C            [ 4]  191 	pop	ix
+   00FA 1E            [ 7]  192 	ret
+                            193 	.area _CODE
+                            194 	.area _INITIALIZER
+                            195 	.area _CABS (ABS)

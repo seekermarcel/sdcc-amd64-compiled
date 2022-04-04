@@ -1,0 +1,137 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:37 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module _calloc
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _memset
+                             25 	.globl _malloc
+                             26 	.globl _calloc_PARM_2
+                             27 	.globl _calloc
+                             28 ;--------------------------------------------------------
+                             29 ; ram data
+                             30 ;--------------------------------------------------------
+                             31 	.area DSEG    (PAG)
+   0000                      32 _calloc_sloc0_1_0:
+   0000                      33 	.ds 2
+                             34 ;--------------------------------------------------------
+                             35 ; overlayable items in ram 
+                             36 ;--------------------------------------------------------
+                             37 ;--------------------------------------------------------
+                             38 ; absolute ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area IABS    (ABS)
+                             41 	.area IABS    (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; absolute external ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area XABS    (ABS)
+                             46 ;--------------------------------------------------------
+                             47 ; external initialized ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area XISEG
+                             50 ;--------------------------------------------------------
+                             51 ; extended address mode data
+                             52 ;--------------------------------------------------------
+                             53 	.area XSEG
+   0000                      54 _calloc_PARM_2:
+   0000                      55 	.ds 2
+   0002                      56 _calloc_nmemb_1_25:
+   0002                      57 	.ds 2
+   0004                      58 _calloc_ptr_1_26:
+   0004                      59 	.ds 2
+                             60 ;--------------------------------------------------------
+                             61 ; global & static initialisations
+                             62 ;--------------------------------------------------------
+                             63 	.area HOME    (CODE)
+                             64 	.area GSINIT  (CODE)
+                             65 	.area GSFINAL (CODE)
+                             66 	.area GSINIT  (CODE)
+                             67 ;--------------------------------------------------------
+                             68 ; Home
+                             69 ;--------------------------------------------------------
+                             70 	.area HOME    (CODE)
+                             71 	.area HOME    (CODE)
+                             72 ;--------------------------------------------------------
+                             73 ; code
+                             74 ;--------------------------------------------------------
+                             75 	.area CSEG    (CODE)
+                             76 ;------------------------------------------------------------
+                             77 ;Allocation info for local variables in function 'calloc'
+                             78 ;------------------------------------------------------------
+                             79 ;sloc0                     Allocated with name '_calloc_sloc0_1_0'
+                             80 ;size                      Allocated with name '_calloc_PARM_2'
+                             81 ;nmemb                     Allocated with name '_calloc_nmemb_1_25'
+                             82 ;ptr                       Allocated with name '_calloc_ptr_1_26'
+                             83 ;------------------------------------------------------------
+                             84 ;../_calloc.c:45: void __xdata * calloc (size_t nmemb, size_t size)
+                             85 ;	-----------------------------------------
+                             86 ;	 function calloc
+                             87 ;	-----------------------------------------
+                             88 ;	Register assignment is optimal.
+                             89 ;	Stack space usage: 0 bytes.
+   0000                      90 _calloc:
+   0000 C7r00r03      [ 4]   91 	sta	(_calloc_nmemb_1_25 + 1)
+   0003 CFr00r02      [ 4]   92 	stx	_calloc_nmemb_1_25
+                             93 ;../_calloc.c:49: ptr = malloc(nmemb * size);
+   0006 32r00r00      [ 5]   94 	ldhx	_calloc_PARM_2
+   0009 96r00r00      [ 5]   95 	sthx	__mulint_PARM_2
+   000C C6r00r03      [ 4]   96 	lda	(_calloc_nmemb_1_25 + 1)
+   000F CEr00r02      [ 4]   97 	ldx	_calloc_nmemb_1_25
+   0012 CDr00r00      [ 6]   98 	jsr	__mulint
+   0015 87            [ 2]   99 	psha
+   0016 89            [ 2]  100 	pshx
+   0017 8A            [ 3]  101 	pulh
+   0018 88            [ 3]  102 	pulx
+   0019 89            [ 2]  103 	pshx
+   001A 8B            [ 2]  104 	pshh
+   001B 9F            [ 1]  105 	txa
+   001C 8B            [ 2]  106 	pshh
+   001D 88            [ 3]  107 	pulx
+   001E CDr00r00      [ 6]  108 	jsr	_malloc
+   0021 C7r00r05      [ 4]  109 	sta	(_calloc_ptr_1_26 + 1)
+   0024 CFr00r04      [ 4]  110 	stx	_calloc_ptr_1_26
+   0027 8A            [ 3]  111 	pulh
+   0028 88            [ 3]  112 	pulx
+                            113 ;../_calloc.c:50: if (ptr)
+   0029 C6r00r04      [ 4]  114 	lda	_calloc_ptr_1_26
+   002C CAr00r05      [ 4]  115 	ora	(_calloc_ptr_1_26 + 1)
+   002F 27 1B         [ 3]  116 	beq	00102$
+                            117 ;../_calloc.c:52: memset(ptr, 0, nmemb * size);
+   0031 C6r00r05      [ 4]  118 	lda	(_calloc_ptr_1_26 + 1)
+   0034 B7*01         [ 3]  119 	sta	*(_calloc_sloc0_1_0 + 1)
+   0036 C6r00r04      [ 4]  120 	lda	_calloc_ptr_1_26
+   0039 B7*00         [ 3]  121 	sta	*_calloc_sloc0_1_0
+   003B 4F            [ 1]  122 	clra
+   003C C7r00r00      [ 4]  123 	sta	_memset_PARM_2
+   003F C7r00r01      [ 4]  124 	sta	(_memset_PARM_2 + 1)
+   0042 96r00r00      [ 5]  125 	sthx	_memset_PARM_3
+   0045 B6*01         [ 3]  126 	lda	*(_calloc_sloc0_1_0 + 1)
+   0047 BE*00         [ 3]  127 	ldx	*_calloc_sloc0_1_0
+   0049 CDr00r00      [ 6]  128 	jsr	_memset
+   004C                     129 00102$:
+                            130 ;../_calloc.c:54: return ptr;
+   004C CEr00r04      [ 4]  131 	ldx	_calloc_ptr_1_26
+   004F C6r00r05      [ 4]  132 	lda	(_calloc_ptr_1_26 + 1)
+   0052 81            [ 6]  133 	rts
+                            134 	.area CSEG    (CODE)
+                            135 	.area CONST   (CODE)
+                            136 	.area XINIT   (CODE)
+                            137 	.area CABS    (ABS,CODE)

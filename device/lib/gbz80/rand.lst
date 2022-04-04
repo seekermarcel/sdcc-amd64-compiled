@@ -1,0 +1,148 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:48 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module rand
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _rand
+                             13 	.globl _srand
+                             14 ;--------------------------------------------------------
+                             15 ; ram data
+                             16 ;--------------------------------------------------------
+                             17 	.area _DATA
+   0000                      18 _next:
+   0000                      19 	.ds 4
+                             20 ;--------------------------------------------------------
+                             21 ; absolute external ram data
+                             22 ;--------------------------------------------------------
+                             23 	.area _DABS (ABS)
+                             24 ;--------------------------------------------------------
+                             25 ; global & static initialisations
+                             26 ;--------------------------------------------------------
+                             27 	.area _HOME
+                             28 	.area _GSINIT
+                             29 	.area _GSFINAL
+                             30 	.area _GSINIT
+                             31 ;../rand.c:31: static unsigned long int next = 1;
+   0000 21r00r00             32 	ld	hl,#_next
+   0003 36 01                33 	ld	(hl),#0x01
+   0005 AF                   34 	xor	a, a
+   0006 23                   35 	inc	hl
+   0007 22                   36 	ld	(hl+),a
+   0008 22                   37 	ld	(hl+),a
+   0009 77                   38 	ld	(hl),a
+                             39 ;--------------------------------------------------------
+                             40 ; Home
+                             41 ;--------------------------------------------------------
+                             42 	.area _HOME
+                             43 	.area _HOME
+                             44 ;--------------------------------------------------------
+                             45 ; code
+                             46 ;--------------------------------------------------------
+                             47 	.area _CODE
+                             48 ;../rand.c:33: int rand(void)
+                             49 ;	---------------------------------
+                             50 ; Function rand
+                             51 ; ---------------------------------
+   0000                      52 _rand::
+   0000 E8 FC                53 	add	sp, #-4
+                             54 ;../rand.c:35: next = next * 1103515245UL + 12345;
+   0002 21r02r00             55 	ld	hl,#_next + 2
+   0005 2A                   56 	ld	a,(hl+)
+   0006 66                   57 	ld	h,(hl)
+   0007 6F                   58 	ld	l,a
+   0008 E5                   59 	push	hl
+   0009 21r00r00             60 	ld	hl,#_next
+   000C 2A                   61 	ld	a,(hl+)
+   000D 66                   62 	ld	h,(hl)
+   000E 6F                   63 	ld	l,a
+   000F E5                   64 	push	hl
+   0010 21 C6 41             65 	ld	hl,#0x41C6
+   0013 E5                   66 	push	hl
+   0014 21 6D 4E             67 	ld	hl,#0x4E6D
+   0017 E5                   68 	push	hl
+   0018 CDr00r00             69 	call	__mullong
+   001B E8 08                70 	add	sp, #8
+   001D E5                   71 	push	hl
+   001E F8 02                72 	ldhl	sp,#2
+   0020 73                   73 	ld	(hl),e
+   0021 23                   74 	inc	hl
+   0022 72                   75 	ld	(hl),d
+   0023 D1                   76 	pop	de
+   0024 23                   77 	inc	hl
+   0025 73                   78 	ld	(hl),e
+   0026 23                   79 	inc	hl
+   0027 72                   80 	ld	(hl),d
+   0028 D1                   81 	pop	de
+   0029 D5                   82 	push	de
+   002A 7B                   83 	ld	a,e
+   002B C6 39                84 	add	a, #0x39
+   002D 5F                   85 	ld	e,a
+   002E 7A                   86 	ld	a,d
+   002F CE 30                87 	adc	a, #0x30
+   0031 F5                   88 	push	af
+   0032 21r01r00             89 	ld	hl,#_next + 1
+   0035 32                   90 	ld	(hl-),a
+   0036 73                   91 	ld	(hl),e
+   0037 F8 05                92 	ldhl	sp,#5
+   0039 2B                   93 	dec	hl
+   003A 5E                   94 	ld	e,(hl)
+   003B 23                   95 	inc	hl
+   003C 56                   96 	ld	d,(hl)
+   003D F1                   97 	pop	af
+   003E 7B                   98 	ld	a,e
+   003F CE 00                99 	adc	a, #0x00
+   0041 5F                  100 	ld	e,a
+   0042 7A                  101 	ld	a,d
+   0043 CE 00               102 	adc	a, #0x00
+   0045 21r03r00            103 	ld	hl,#_next + 3
+   0048 32                  104 	ld	(hl-),a
+   0049 73                  105 	ld	(hl),e
+                            106 ;../rand.c:36: return (unsigned int)(next/65536) % (RAND_MAX + 1U);
+   004A F5                  107 	push	af
+   004B 2B                  108 	dec	hl
+   004C 2B                  109 	dec	hl
+   004D 5E                  110 	ld	e,(hl)
+   004E 23                  111 	inc	hl
+   004F 56                  112 	ld	d,(hl)
+   0050 23                  113 	inc	hl
+   0051 46                  114 	ld	b,(hl)
+   0052 23                  115 	inc	hl
+   0053 4E                  116 	ld	c,(hl)
+   0054 F1                  117 	pop	af
+   0055 3E 10               118 	ld	a,#0x10
+   0057                     119 00103$:
+   0057 CB 39               120 	srl	c
+   0059 CB 18               121 	rr	b
+   005B CB 1A               122 	rr	d
+   005D CB 1B               123 	rr	e
+   005F 3D                  124 	dec	a
+   0060 20 F5               125 	jr	NZ,00103$
+   0062 CB BA               126 	res	7, d
+   0064 E8 04               127 	add	sp, #4
+   0066 C9                  128 	ret
+                            129 ;../rand.c:39: void srand(unsigned int seed)
+                            130 ;	---------------------------------
+                            131 ; Function srand
+                            132 ; ---------------------------------
+   0067                     133 _srand::
+                            134 ;../rand.c:41: next = seed;
+   0067 F8 02               135 	ldhl	sp,#2
+   0069 7E                  136 	ld	a,(hl)
+   006A 21r00r00            137 	ld	hl,#_next
+   006D 77                  138 	ld	(hl),a
+   006E F8 03               139 	ldhl	sp,#3
+   0070 7E                  140 	ld	a,(hl)
+   0071 21r01r00            141 	ld	hl,#_next + 1
+   0074 22                  142 	ld	(hl+),a
+   0075 36 00               143 	ld	(hl),#0x00
+   0077 23                  144 	inc	hl
+   0078 36 00               145 	ld	(hl),#0x00
+   007A C9                  146 	ret
+                            147 	.area _CODE
+                            148 	.area _CABS (ABS)

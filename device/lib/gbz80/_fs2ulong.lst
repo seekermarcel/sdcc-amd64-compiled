@@ -1,0 +1,272 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:43 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _fs2ulong
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl ___fs2ulong
+                             13 ;--------------------------------------------------------
+                             14 ; ram data
+                             15 ;--------------------------------------------------------
+                             16 	.area _DATA
+                             17 ;--------------------------------------------------------
+                             18 ; absolute external ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DABS (ABS)
+                             21 ;--------------------------------------------------------
+                             22 ; global & static initialisations
+                             23 ;--------------------------------------------------------
+                             24 	.area _HOME
+                             25 	.area _GSINIT
+                             26 	.area _GSFINAL
+                             27 	.area _GSINIT
+                             28 ;--------------------------------------------------------
+                             29 ; Home
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 ;../_fs2ulong.c:103: __fs2ulong (float a1)
+                             33 ;	---------------------------------
+                             34 ; Function __fs2ulong
+                             35 ; ---------------------------------
+   0000                      36 ___fs2ulong::
+   0000 E8 F2                37 	add	sp, #-14
+                             38 ;../_fs2ulong.c:109: fl1.f = a1;
+   0002 F8 06                39 	ldhl	sp,#6
+   0004 5D                   40 	ld	e,l
+   0005 54                   41 	ld	d,h
+   0006 F8 10                42 	ldhl	sp,#16
+   0008 7E                   43 	ld	a,(hl)
+   0009 12                   44 	ld	(de),a
+   000A 13                   45 	inc	de
+   000B 23                   46 	inc	hl
+   000C 7E                   47 	ld	a,(hl)
+   000D 12                   48 	ld	(de),a
+   000E 13                   49 	inc	de
+   000F 23                   50 	inc	hl
+   0010 7E                   51 	ld	a,(hl)
+   0011 12                   52 	ld	(de),a
+   0012 13                   53 	inc	de
+   0013 23                   54 	inc	hl
+   0014 7E                   55 	ld	a,(hl)
+   0015 12                   56 	ld	(de),a
+                             57 ;../_fs2ulong.c:111: if (!fl1.l || SIGN(fl1.l))
+   0016 F8 06                58 	ldhl	sp,#6
+   0018 45                   59 	ld	b,l
+   0019 4C                   60 	ld	c,h
+   001A 58                   61 	ld	e, b
+   001B 51                   62 	ld	d, c
+   001C 1A                   63 	ld	a,(de)
+   001D F8 0A                64 	ldhl	sp,#10
+   001F 22                   65 	ld	(hl+),a
+   0020 13                   66 	inc	de
+   0021 1A                   67 	ld	a,(de)
+   0022 22                   68 	ld	(hl+),a
+   0023 13                   69 	inc	de
+   0024 1A                   70 	ld	a,(de)
+   0025 22                   71 	ld	(hl+),a
+   0026 13                   72 	inc	de
+   0027 1A                   73 	ld	a,(de)
+   0028 77                   74 	ld	(hl),a
+   0029 3A                   75 	ld	a,(hl-)
+   002A B6                   76 	or	a, (hl)
+   002B 2B                   77 	dec	hl
+   002C B6                   78 	or	a, (hl)
+   002D 2B                   79 	dec	hl
+   002E B6                   80 	or	a,(hl)
+   002F CAr55r00             81 	jp	Z,00101$
+   0032 F8 06                82 	ldhl	sp,#6
+   0034 45                   83 	ld	b,l
+   0035 4C                   84 	ld	c,h
+   0036 58                   85 	ld	e, b
+   0037 51                   86 	ld	d, c
+   0038 1A                   87 	ld	a,(de)
+   0039 F8 0A                88 	ldhl	sp,#10
+   003B 22                   89 	ld	(hl+),a
+   003C 13                   90 	inc	de
+   003D 1A                   91 	ld	a,(de)
+   003E 22                   92 	ld	(hl+),a
+   003F 13                   93 	inc	de
+   0040 1A                   94 	ld	a,(de)
+   0041 22                   95 	ld	(hl+),a
+   0042 13                   96 	inc	de
+   0043 1A                   97 	ld	a,(de)
+   0044 77                   98 	ld	(hl),a
+   0045 F8 0A                99 	ldhl	sp,#10
+   0047 56                  100 	ld	d,(hl)
+   0048 23                  101 	inc	hl
+   0049 5E                  102 	ld	e,(hl)
+   004A 23                  103 	inc	hl
+   004B 46                  104 	ld	b,(hl)
+   004C 23                  105 	inc	hl
+   004D 4E                  106 	ld	c,(hl)
+   004E 79                  107 	ld	a,c
+   004F CB 07               108 	rlc	a
+   0051 E6 01               109 	and	a,#0x01
+   0053 28 09               110 	jr	Z,00102$
+   0055                     111 00101$:
+                            112 ;../_fs2ulong.c:112: return (0);
+   0055 11 00 00            113 	ld	de,#0x0000
+   0058 21 00 00            114 	ld	hl,#0x0000
+   005B C3r0Br01            115 	jp	00104$
+   005E                     116 00102$:
+                            117 ;../_fs2ulong.c:114: exp = EXP (fl1.l) - EXCESS - 24;
+   005E F8 06               118 	ldhl	sp,#6
+   0060 45                  119 	ld	b,l
+   0061 4C                  120 	ld	c,h
+   0062 58                  121 	ld	e, b
+   0063 51                  122 	ld	d, c
+   0064 1A                  123 	ld	a,(de)
+   0065 F8 0A               124 	ldhl	sp,#10
+   0067 22                  125 	ld	(hl+),a
+   0068 13                  126 	inc	de
+   0069 1A                  127 	ld	a,(de)
+   006A 22                  128 	ld	(hl+),a
+   006B 13                  129 	inc	de
+   006C 1A                  130 	ld	a,(de)
+   006D 22                  131 	ld	(hl+),a
+   006E 13                  132 	inc	de
+   006F 1A                  133 	ld	a,(de)
+   0070 77                  134 	ld	(hl),a
+   0071 F8 0A               135 	ldhl	sp,#10
+   0073 56                  136 	ld	d,(hl)
+   0074 23                  137 	inc	hl
+   0075 5E                  138 	ld	e,(hl)
+   0076 23                  139 	inc	hl
+   0077 4E                  140 	ld	c,(hl)
+   0078 23                  141 	inc	hl
+   0079 46                  142 	ld	b,(hl)
+   007A 3E 17               143 	ld	a,#0x17
+   007C                     144 00110$:
+   007C CB 38               145 	srl	b
+   007E CB 19               146 	rr	c
+   0080 CB 1B               147 	rr	e
+   0082 CB 1A               148 	rr	d
+   0084 3D                  149 	dec	a
+   0085 20 F5               150 	jr	NZ,00110$
+   0087 F8 0A               151 	ldhl	sp,#10
+   0089 72                  152 	ld	(hl),d
+   008A 23                  153 	inc	hl
+   008B 36 00               154 	ld	(hl),#0x00
+   008D 23                  155 	inc	hl
+   008E 36 00               156 	ld	(hl),#0x00
+   0090 23                  157 	inc	hl
+   0091 36 00               158 	ld	(hl),#0x00
+   0093 2B                  159 	dec	hl
+   0094 2B                  160 	dec	hl
+   0095 2B                  161 	dec	hl
+   0096 5E                  162 	ld	e,(hl)
+   0097 23                  163 	inc	hl
+   0098 56                  164 	ld	d,(hl)
+   0099 7B                  165 	ld	a,e
+   009A D6 96               166 	sub	a, #0x96
+   009C 5F                  167 	ld	e,a
+   009D 7A                  168 	ld	a,d
+   009E DE 00               169 	sbc	a, #0x00
+   00A0 F5                  170 	push	af
+   00A1 32                  171 	ld	(hl-),a
+   00A2 73                  172 	ld	(hl),e
+   00A3 F8 0F               173 	ldhl	sp,#15
+   00A5 2B                  174 	dec	hl
+   00A6 5E                  175 	ld	e,(hl)
+   00A7 23                  176 	inc	hl
+   00A8 56                  177 	ld	d,(hl)
+   00A9 F1                  178 	pop	af
+   00AA 7B                  179 	ld	a,e
+   00AB DE 00               180 	sbc	a, #0x00
+   00AD 5F                  181 	ld	e,a
+   00AE 7A                  182 	ld	a,d
+   00AF DE 00               183 	sbc	a, #0x00
+   00B1 32                  184 	ld	(hl-),a
+   00B2 73                  185 	ld	(hl),e
+   00B3 2B                  186 	dec	hl
+   00B4 2B                  187 	dec	hl
+   00B5 2A                  188 	ld	a,(hl+)
+   00B6 5E                  189 	ld	e, (hl)
+   00B7 F8 04               190 	ldhl	sp,#4
+   00B9 22                  191 	ld	(hl+),a
+   00BA 73                  192 	ld	(hl),e
+                            193 ;../_fs2ulong.c:115: l = MANT (fl1.l);
+   00BB F8 06               194 	ldhl	sp,#6
+   00BD 45                  195 	ld	b,l
+   00BE 4C                  196 	ld	c,h
+   00BF 58                  197 	ld	e, b
+   00C0 51                  198 	ld	d, c
+   00C1 1A                  199 	ld	a,(de)
+   00C2 F8 0A               200 	ldhl	sp,#10
+   00C4 22                  201 	ld	(hl+),a
+   00C5 13                  202 	inc	de
+   00C6 1A                  203 	ld	a,(de)
+   00C7 22                  204 	ld	(hl+),a
+   00C8 13                  205 	inc	de
+   00C9 1A                  206 	ld	a,(de)
+   00CA 22                  207 	ld	(hl+),a
+   00CB 13                  208 	inc	de
+   00CC 1A                  209 	ld	a,(de)
+   00CD 77                  210 	ld	(hl),a
+   00CE F8 0A               211 	ldhl	sp,#10
+   00D0 56                  212 	ld	d,(hl)
+   00D1 23                  213 	inc	hl
+   00D2 5E                  214 	ld	e,(hl)
+   00D3 23                  215 	inc	hl
+   00D4 46                  216 	ld	b,(hl)
+   00D5 23                  217 	inc	hl
+   00D6 4E                  218 	ld	c,(hl)
+   00D7 CB B8               219 	res	7, b
+   00D9 0E 00               220 	ld	c,#0x00
+   00DB F8 00               221 	ldhl	sp,#0
+   00DD 72                  222 	ld	(hl),d
+   00DE 23                  223 	inc	hl
+   00DF 73                  224 	ld	(hl),e
+   00E0 78                  225 	ld	a,b
+   00E1 CB FF               226 	set	7, a
+   00E3 23                  227 	inc	hl
+   00E4 22                  228 	ld	(hl+),a
+   00E5 71                  229 	ld	(hl),c
+                            230 ;../_fs2ulong.c:117: l >>= -exp;
+   00E6 AF                  231 	xor	a, a
+   00E7 23                  232 	inc	hl
+   00E8 96                  233 	sub	a, (hl)
+   00E9 47                  234 	ld	b,a
+   00EA 3E 00               235 	ld	a, #0x00
+   00EC 23                  236 	inc	hl
+   00ED 9E                  237 	sbc	a, (hl)
+   00EE 4F                  238 	ld	c,a
+   00EF F5                  239 	push	af
+   00F0 F1                  240 	pop	af
+   00F1 04                  241 	inc	b
+   00F2 18 0D               242 	jr	00113$
+   00F4                     243 00112$:
+   00F4 F8 03               244 	ldhl	sp,#3
+   00F6 CB 2E               245 	sra	(hl)
+   00F8 2B                  246 	dec	hl
+   00F9 CB 1E               247 	rr	(hl)
+   00FB 2B                  248 	dec	hl
+   00FC CB 1E               249 	rr	(hl)
+   00FE 2B                  250 	dec	hl
+   00FF CB 1E               251 	rr	(hl)
+   0101                     252 00113$:
+   0101 05                  253 	dec	b
+   0102 20 F0               254 	jr	NZ,00112$
+                            255 ;../_fs2ulong.c:119: return l;
+   0104 D1                  256 	pop	de
+   0105 D5                  257 	push	de
+   0106 23                  258 	inc	hl
+   0107 23                  259 	inc	hl
+   0108 2A                  260 	ld	a,(hl+)
+   0109 66                  261 	ld	h,(hl)
+   010A 6F                  262 	ld	l,a
+   010B                     263 00104$:
+   010B E8 0E               264 	add	sp, #14
+   010D C9                  265 	ret
+                            266 	.area _HOME
+                            267 ;--------------------------------------------------------
+                            268 ; code
+                            269 ;--------------------------------------------------------
+                            270 	.area _CODE
+                            271 	.area _CODE
+                            272 	.area _CABS (ABS)

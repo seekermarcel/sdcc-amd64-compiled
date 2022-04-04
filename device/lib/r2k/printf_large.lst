@@ -1,0 +1,1481 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:07 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module printf_large
+                              7 	.optsdcc -mr2k
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _strlen
+                             13 	.globl __print_format
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 	.area _HOME
+                             41 ;--------------------------------------------------------
+                             42 ; code
+                             43 ;--------------------------------------------------------
+                             44 	.area _CODE
+                             45 ;../printf_large.c:116: output_digit (unsigned char n, bool lower_case, pfn_outputchar output_char, void* p)
+                             46 ;	---------------------------------
+                             47 ; Function output_digit
+                             48 ; ---------------------------------
+   0000                      49 _output_digit:
+                             50 ;../printf_large.c:118: register unsigned char c = n + (unsigned char)'0';
+   0000 21 02 00             51 	ld	hl, #2+0
+   0003 39                   52 	add	hl, sp
+   0004 7E                   53 	ld	a, (hl)
+   0005 C6 30                54 	add	a, #0x30
+   0007 57                   55 	ld	d,a
+                             56 ;../printf_large.c:120: if (c > (unsigned char)'9')
+   0008 3E 39                57 	ld	a,#0x39
+   000A 92                   58 	sub	a, d
+   000B 30 10                59 	jr	NC,00104$
+                             60 ;../printf_large.c:122: c += (unsigned char)('A' - '0' - 10);
+   000D 7A                   61 	ld	a,d
+   000E C6 07                62 	add	a, #0x07
+   0010 57                   63 	ld	d,a
+                             64 ;../printf_large.c:123: if (lower_case)
+   0011 21 03 00             65 	ld	hl, #3+0
+   0014 39                   66 	add	hl, sp
+   0015 CB 46                67 	bit	0, (hl)
+   0017 28 04                68 	jr	Z,00104$
+                             69 ;../printf_large.c:124: c += (unsigned char)('a' - 'A');
+   0019 7A                   70 	ld	a,d
+   001A C6 20                71 	add	a, #0x20
+   001C 57                   72 	ld	d,a
+   001D                      73 00104$:
+                             74 ;../printf_large.c:126: output_char( c, p );
+   001D C4 06                75 	ld	hl, 6 (sp)
+   001F E5                   76 	push	hl
+   0020 D5                   77 	push	de
+   0021 33                   78 	inc	sp
+   0022 C4 07                79 	ld	hl, 7 (sp)
+   0024 CDr00r00             80 	call	___sdcc_call_hl
+   0027 27 03                81 	add	sp, #3
+   0029 C9                   82 	ret
+                             83 ;../printf_large.c:149: output_2digits (unsigned char b, bool lower_case, pfn_outputchar output_char, void* p)
+                             84 ;	---------------------------------
+                             85 ; Function output_2digits
+                             86 ; ---------------------------------
+   002A                      87 _output_2digits:
+   002A DD E5                88 	push	ix
+   002C DD 21 00 00          89 	ld	ix,#0
+   0030 DD 39                90 	add	ix,sp
+                             91 ;../printf_large.c:151: output_digit( b>>4,   lower_case, output_char, p );
+   0032 DD 7E 04             92 	ld	a,4 (ix)
+   0035 07                   93 	rlca
+   0036 07                   94 	rlca
+   0037 07                   95 	rlca
+   0038 07                   96 	rlca
+   0039 E6 0F                97 	and	a,#0x0F
+   003B 57                   98 	ld	d,a
+   003C C4 08                99 	ld	hl, 8 (sp)
+   003E E5                  100 	push	hl
+   003F C4 08               101 	ld	hl, 8 (sp)
+   0041 E5                  102 	push	hl
+   0042 DD 7E 05            103 	ld	a,5 (ix)
+   0045 F5                  104 	push	af
+   0046 33                  105 	inc	sp
+   0047 D5                  106 	push	de
+   0048 33                  107 	inc	sp
+   0049 CDr00r00            108 	call	_output_digit
+   004C 27 06               109 	add	sp, #6
+                            110 ;../printf_large.c:152: output_digit( b&0x0F, lower_case, output_char, p );
+   004E DD 7E 04            111 	ld	a,4 (ix)
+   0051 E6 0F               112 	and	a, #0x0F
+   0053 57                  113 	ld	d,a
+   0054 C4 08               114 	ld	hl, 8 (sp)
+   0056 E5                  115 	push	hl
+   0057 C4 08               116 	ld	hl, 8 (sp)
+   0059 E5                  117 	push	hl
+   005A DD 7E 05            118 	ld	a,5 (ix)
+   005D F5                  119 	push	af
+   005E 33                  120 	inc	sp
+   005F D5                  121 	push	de
+   0060 33                  122 	inc	sp
+   0061 CDr00r00            123 	call	_output_digit
+   0064 27 06               124 	add	sp, #6
+   0066 DD E1               125 	pop	ix
+   0068 C9                  126 	ret
+                            127 ;../printf_large.c:168: calculate_digit (value_t _AUTOMEM * value, unsigned char radix)
+                            128 ;	---------------------------------
+                            129 ; Function calculate_digit
+                            130 ; ---------------------------------
+   0069                     131 _calculate_digit:
+   0069 DD E5               132 	push	ix
+   006B DD 21 00 00         133 	ld	ix,#0
+   006F DD 39               134 	add	ix,sp
+   0071 27 FA               135 	add	sp, #-6
+                            136 ;../printf_large.c:170: unsigned long ul = value->ul;
+   0073 EB                  137 	ex	de, hl
+   0074 C4 0A               138 	ld	hl, 10 (sp)
+   0076 EB                  139 	ex	de, hl
+   0077 D5                  140 	push	de
+   0078 21 04 00            141 	ld	hl, #0x0004
+   007B 39                  142 	add	hl, sp
+   007C EB                  143 	ex	de, hl
+   007D 01 04 00            144 	ld	bc, #0x0004
+   0080 ED B0               145 	ldir
+   0082 D1                  146 	pop	de
+                            147 ;../printf_large.c:171: unsigned char _AUTOMEM * pb4 = &value->byte[4];
+   0083 21 04 00            148 	ld	hl,#0x0004
+   0086 19                  149 	add	hl,de
+   0087 D4 00               150 	ld	0 (sp), hl
+                            151 ;../printf_large.c:172: unsigned char i = 32;
+   0089 06 20               152 	ld	b,#0x20
+                            153 ;../printf_large.c:174: do
+   008B                     154 00103$:
+                            155 ;../printf_large.c:176: *pb4 = (*pb4 << 1) | ((ul >> 31) & 0x01);
+   008B C4 00               156 	ld	hl, 0 (sp)
+   008D 7E                  157 	ld	a,(hl)
+   008E 87                  158 	add	a, a
+   008F 4F                  159 	ld	c,a
+   0090 DD 7E FF            160 	ld	a,-1 (ix)
+   0093 CB 07               161 	rlc	a
+   0095 E6 01               162 	and	a,#0x01
+   0097 B1                  163 	or	a, c
+   0098 C4 00               164 	ld	hl, 0 (sp)
+   009A 77                  165 	ld	(hl),a
+                            166 ;../printf_large.c:177: ul <<= 1;
+   009B F5                  167 	push	af
+   009C F1                  168 	pop	af
+   009D DD CB FC 26         169 	sla	-4 (ix)
+   00A1 DD CB FD 16         170 	rl	-3 (ix)
+   00A5 DD CB FE 16         171 	rl	-2 (ix)
+   00A9 DD CB FF 16         172 	rl	-1 (ix)
+                            173 ;../printf_large.c:179: if (radix <= *pb4 )
+   00AD C4 00               174 	ld	hl, 0 (sp)
+   00AF 66                  175 	ld	h,(hl)
+   00B0 7C                  176 	ld	a,h
+   00B1 DD 96 06            177 	sub	a, 6 (ix)
+   00B4 38 0B               178 	jr	C,00104$
+                            179 ;../printf_large.c:181: *pb4 -= radix;
+   00B6 7C                  180 	ld	a,h
+   00B7 DD 96 06            181 	sub	a, 6 (ix)
+   00BA C4 00               182 	ld	hl, 0 (sp)
+   00BC 77                  183 	ld	(hl),a
+                            184 ;../printf_large.c:182: ul |= 1;
+   00BD DD CB FC C6         185 	set	0, -4 (ix)
+   00C1                     186 00104$:
+                            187 ;../printf_large.c:184: } while (--i);
+   00C1 78                  188 	ld	a,b
+   00C2 C6 FF               189 	add	a,#0xFF
+   00C4 47                  190 	ld	b,a
+   00C5 B7                  191 	or	a, a
+   00C6 20 C3               192 	jr	NZ,00103$
+                            193 ;../printf_large.c:185: value->ul = ul;
+   00C8 21 02 00            194 	ld	hl, #0x0002
+   00CB 39                  195 	add	hl, sp
+   00CC 01 04 00            196 	ld	bc, #0x0004
+   00CF ED B0               197 	ldir
+   00D1 DD F9               198 	ld	sp, ix
+   00D3 DD E1               199 	pop	ix
+   00D5 C9                  200 	ret
+                            201 ;../printf_large.c:434: _print_format (pfn_outputchar pfn, void* pvoid, const char *format, va_list ap)
+                            202 ;	---------------------------------
+                            203 ; Function _print_format
+                            204 ; ---------------------------------
+   00D6                     205 __print_format::
+   00D6 DD E5               206 	push	ix
+   00D8 DD 21 00 00         207 	ld	ix,#0
+   00DC DD 39               208 	add	ix,sp
+   00DE 27 CA               209 	add	sp, #-54
+                            210 ;../printf_large.c:466: charsOutputted = 0;
+   00E0 21 00 00            211 	ld	hl,#0x0000
+   00E3 D4 18               212 	ld	24 (sp), hl
+                            213 ;../printf_large.c:475: while( c=*format++ )
+   00E5 21 13 00            214 	ld	hl,#0x0013
+   00E8 39                  215 	add	hl,sp
+   00E9 D4 1A               216 	ld	26 (sp), hl
+   00EB 21 05 00            217 	ld	hl,#0x0005
+   00EE 39                  218 	add	hl,sp
+   00EF D4 2B               219 	ld	43 (sp), hl
+   00F1 21 13 00            220 	ld	hl,#0x0013
+   00F4 39                  221 	add	hl,sp
+   00F5 D4 32               222 	ld	50 (sp), hl
+   00F7 DD 7E FC            223 	ld	a,-4 (ix)
+   00FA C6 04               224 	add	a, #0x04
+   00FC DD 77 FE            225 	ld	-2 (ix),a
+   00FF DD 7E FD            226 	ld	a,-3 (ix)
+   0102 CE 00               227 	adc	a, #0x00
+   0104 DD 77 FF            228 	ld	-1 (ix),a
+   0107                     229 00231$:
+   0107 C4 3E               230 	ld	hl, 62 (sp)
+   0109 56                  231 	ld	d,(hl)
+   010A 23                  232 	inc	hl
+   010B D4 3E               233 	ld	62 (sp), hl
+   010D DD 72 E7            234 	ld	-25 (ix),d
+   0110 7A                  235 	ld	a,d
+   0111 B7                  236 	or	a, a
+   0112 CAr6Er09            237 	jp	Z,00233$
+                            238 ;../printf_large.c:477: if ( c=='%' )
+   0115 DD 7E E7            239 	ld	a,-25 (ix)
+   0118 D6 25               240 	sub	a, #0x25
+   011A C2r53r09            241 	jp	NZ,00229$
+                            242 ;../printf_large.c:479: left_justify    = 0;
+   011D DD 36 DC 00         243 	ld	-36 (ix),#0x00
+                            244 ;../printf_large.c:480: zero_padding    = 0;
+   0121 DD 36 DA 00         245 	ld	-38 (ix),#0x00
+                            246 ;../printf_large.c:481: prefix_sign     = 0;
+   0125 DD 36 D8 00         247 	ld	-40 (ix),#0x00
+                            248 ;../printf_large.c:482: prefix_space    = 0;
+   0129 DD 36 D9 00         249 	ld	-39 (ix),#0x00
+                            250 ;../printf_large.c:483: signed_argument = 0;
+   012D DD 36 D1 00         251 	ld	-47 (ix),#0x00
+                            252 ;../printf_large.c:484: char_argument   = 0;
+   0131 DD 36 D3 00         253 	ld	-45 (ix),#0x00
+                            254 ;../printf_large.c:485: long_argument   = 0;
+   0135 DD 36 D4 00         255 	ld	-44 (ix),#0x00
+                            256 ;../printf_large.c:486: float_argument  = 0;
+   0139 DD 36 D6 00         257 	ld	-42 (ix),#0x00
+                            258 ;../printf_large.c:487: radix           = 0;
+   013D DD 36 D2 00         259 	ld	-46 (ix),#0x00
+                            260 ;../printf_large.c:488: width           = 0;
+   0141 DD 36 EE 00         261 	ld	-18 (ix),#0x00
+                            262 ;../printf_large.c:489: decimals        = -1;
+   0145 DD 36 D0 FF         263 	ld	-48 (ix),#0xFF
+                            264 ;../printf_large.c:491: get_conversion_spec:
+   0149 DD 7E 08            265 	ld	a,8 (ix)
+   014C DD 77 F3            266 	ld	-13 (ix),a
+   014F DD 7E 09            267 	ld	a,9 (ix)
+   0152 DD 77 F4            268 	ld	-12 (ix),a
+   0155                     269 00101$:
+                            270 ;../printf_large.c:493: c = *format++;
+   0155 C4 29               271 	ld	hl, 41 (sp)
+   0157 7E                  272 	ld	a,(hl)
+   0158 DD 77 FB            273 	ld	-5 (ix),a
+   015B DD 34 F3            274 	inc	-13 (ix)
+   015E 20 03               275 	jr	NZ,00552$
+   0160 DD 34 F4            276 	inc	-12 (ix)
+   0163                     277 00552$:
+   0163 DD 7E F3            278 	ld	a,-13 (ix)
+   0166 DD 77 08            279 	ld	8 (ix),a
+   0169 DD 7E F4            280 	ld	a,-12 (ix)
+   016C DD 77 09            281 	ld	9 (ix),a
+                            282 ;../printf_large.c:495: if (c=='%')
+   016F DD 7E FB            283 	ld	a,-5 (ix)
+   0172 D6 25               284 	sub	a, #0x25
+   0174 20 1B               285 	jr	NZ,00103$
+                            286 ;../printf_large.c:497: OUTPUT_CHAR(c, p);
+   0176 C4 3C               287 	ld	hl, 60 (sp)
+   0178 E5                  288 	push	hl
+   0179 DD 7E FB            289 	ld	a,-5 (ix)
+   017C F5                  290 	push	af
+   017D 33                  291 	inc	sp
+   017E C4 3D               292 	ld	hl, 61 (sp)
+   0180 CDr00r00            293 	call	___sdcc_call_hl
+   0183 27 03               294 	add	sp, #3
+   0185 DD 34 E2            295 	inc	-30 (ix)
+   0188 C2r07r01            296 	jp	NZ,00231$
+   018B DD 34 E3            297 	inc	-29 (ix)
+                            298 ;../printf_large.c:498: continue;
+   018E C3r07r01            299 	jp	00231$
+   0191                     300 00103$:
+                            301 ;../printf_large.c:501: if (isdigit(c))
+   0191 DD 66 FB            302 	ld	h,-5 (ix)
+   0194 7C                  303 	ld	a,h
+   0195 D6 30               304 	sub	a, #0x30
+   0197 38 3B               305 	jr	C,00110$
+   0199 3E 39               306 	ld	a,#0x39
+   019B 94                  307 	sub	a, h
+   019C 38 36               308 	jr	C,00110$
+                            309 ;../printf_large.c:503: if (decimals==-1)
+   019E DD 7E D0            310 	ld	a,-48 (ix)
+   01A1 3C                  311 	inc	a
+   01A2 20 1C               312 	jr	NZ,00107$
+                            313 ;../printf_large.c:505: width = 10*width + c - '0';
+   01A4 DD 7E EE            314 	ld	a,-18 (ix)
+   01A7 4F                  315 	ld	c,a
+   01A8 87                  316 	add	a, a
+   01A9 87                  317 	add	a, a
+   01AA 81                  318 	add	a, c
+   01AB 87                  319 	add	a, a
+   01AC DD 77 E6            320 	ld	-26 (ix), a
+   01AF DD 86 FB            321 	add	a, -5 (ix)
+   01B2 C6 D0               322 	add	a,#0xD0
+                            323 ;../printf_large.c:506: if (width == 0)
+   01B4 DD 77 EE            324 	ld	-18 (ix), a
+   01B7 B7                  325 	or	a, a
+   01B8 20 9B               326 	jr	NZ,00101$
+                            327 ;../printf_large.c:509: zero_padding = 1;
+   01BA DD 36 DA 01         328 	ld	-38 (ix),#0x01
+   01BE 18 95               329 	jr	00101$
+   01C0                     330 00107$:
+                            331 ;../printf_large.c:514: decimals = 10*decimals + c - '0';
+   01C0 DD 6E D0            332 	ld	l,-48 (ix)
+   01C3 4D                  333 	ld	c,l
+   01C4 29                  334 	add	hl, hl
+   01C5 29                  335 	add	hl, hl
+   01C6 09                  336 	add	hl, bc
+   01C7 29                  337 	add	hl, hl
+   01C8 7D                  338 	ld	a,l
+   01C9 DD 86 FB            339 	add	a, -5 (ix)
+   01CC C6 D0               340 	add	a,#0xD0
+   01CE DD 77 D0            341 	ld	-48 (ix),a
+                            342 ;../printf_large.c:516: goto get_conversion_spec;
+   01D1 C3r55r01            343 	jp	00101$
+   01D4                     344 00110$:
+                            345 ;../printf_large.c:519: if (c=='.')
+   01D4 DD 7E FB            346 	ld	a,-5 (ix)
+   01D7 D6 2E               347 	sub	a, #0x2E
+   01D9 20 0E               348 	jr	NZ,00115$
+                            349 ;../printf_large.c:521: if (decimals==-1)
+   01DB DD 7E D0            350 	ld	a,-48 (ix)
+   01DE 3C                  351 	inc	a
+   01DF C2r55r01            352 	jp	NZ,00101$
+                            353 ;../printf_large.c:522: decimals=0;
+   01E2 DD 36 D0 00         354 	ld	-48 (ix),#0x00
+                            355 ;../printf_large.c:525: goto get_conversion_spec;
+   01E6 C3r55r01            356 	jp	00101$
+   01E9                     357 00115$:
+                            358 ;../printf_large.c:528: if (islower(c))
+   01E9 DD 6E FB            359 	ld	l,-5 (ix)
+   01EC 7D                  360 	ld	a,l
+   01ED D6 61               361 	sub	a, #0x61
+   01EF 38 0F               362 	jr	C,00117$
+   01F1 3E 7A               363 	ld	a,#0x7A
+   01F3 95                  364 	sub	a, l
+   01F4 38 0A               365 	jr	C,00117$
+                            366 ;../printf_large.c:530: c = toupper(c);
+   01F6 DD CB FB AE         367 	res	5, -5 (ix)
+                            368 ;../printf_large.c:531: lower_case = 1;
+   01FA DD 36 D5 01         369 	ld	-43 (ix),#0x01
+   01FE 18 04               370 	jr	00118$
+   0200                     371 00117$:
+                            372 ;../printf_large.c:534: lower_case = 0;
+   0200 DD 36 D5 00         373 	ld	-43 (ix),#0x00
+   0204                     374 00118$:
+                            375 ;../printf_large.c:536: switch( c )
+   0204 DD 7E FB            376 	ld	a,-5 (ix)
+   0207 D6 20               377 	sub	a, #0x20
+   0209 CArA2r02            378 	jp	Z,00122$
+   020C DD 7E FB            379 	ld	a,-5 (ix)
+   020F D6 2B               380 	sub	a, #0x2B
+   0211 CAr9Br02            381 	jp	Z,00121$
+   0214 DD 7E FB            382 	ld	a,-5 (ix)
+   0217 D6 2D               383 	sub	a, #0x2D
+   0219 28 79               384 	jr	Z,00120$
+   021B DD 7E FB            385 	ld	a,-5 (ix)
+   021E D6 42               386 	sub	a, #0x42
+   0220 CArA9r02            387 	jp	Z,00123$
+   0223 DD 7E FB            388 	ld	a,-5 (ix)
+   0226 D6 43               389 	sub	a, #0x43
+   0228 CArB7r02            390 	jp	Z,00129$
+   022B DD 7E FB            391 	ld	a,-5 (ix)
+   022E D6 44               392 	sub	a, #0x44
+   0230 CAr47r04            393 	jp	Z,00154$
+   0233 DD 7E FB            394 	ld	a,-5 (ix)
+   0236 D6 46               395 	sub	a, #0x46
+   0238 CAr63r04            396 	jp	Z,00158$
+   023B DD 7E FB            397 	ld	a,-5 (ix)
+   023E D6 48               398 	sub	a, #0x48
+   0240 CAr55r01            399 	jp	Z,00101$
+   0243 DD 7E FB            400 	ld	a,-5 (ix)
+   0246 D6 49               401 	sub	a, #0x49
+   0248 CAr47r04            402 	jp	Z,00154$
+   024B DD 7E FB            403 	ld	a,-5 (ix)
+   024E D6 4A               404 	sub	a, #0x4A
+   0250 CAr55r01            405 	jp	Z,00101$
+   0253 DD 7E FB            406 	ld	a,-5 (ix)
+   0256 D6 4C               407 	sub	a, #0x4C
+   0258 28 56               408 	jr	Z,00128$
+   025A DD 7E FB            409 	ld	a,-5 (ix)
+   025D D6 4F               410 	sub	a, #0x4F
+   025F CAr51r04            411 	jp	Z,00155$
+   0262 DD 7E FB            412 	ld	a,-5 (ix)
+   0265 D6 50               413 	sub	a, #0x50
+   0267 CArD2r03            414 	jp	Z,00152$
+   026A DD 7E FB            415 	ld	a,-5 (ix)
+   026D D6 53               416 	sub	a, #0x53
+   026F 28 78               417 	jr	Z,00133$
+   0271 DD 7E FB            418 	ld	a,-5 (ix)
+   0274 D6 54               419 	sub	a, #0x54
+   0276 CAr55r01            420 	jp	Z,00101$
+   0279 DD 7E FB            421 	ld	a,-5 (ix)
+   027C D6 55               422 	sub	a, #0x55
+   027E CAr57r04            423 	jp	Z,00156$
+   0281 DD 7E FB            424 	ld	a,-5 (ix)
+   0284 D6 58               425 	sub	a, #0x58
+   0286 CAr5Dr04            426 	jp	Z,00157$
+   0289 DD 7E FB            427 	ld	a,-5 (ix)
+   028C D6 5A               428 	sub	a, #0x5A
+   028E CAr55r01            429 	jp	Z,00101$
+   0291 C3r69r04            430 	jp	00159$
+                            431 ;../printf_large.c:538: case '-':
+   0294                     432 00120$:
+                            433 ;../printf_large.c:539: left_justify = 1;
+   0294 DD 36 DC 01         434 	ld	-36 (ix),#0x01
+                            435 ;../printf_large.c:540: goto get_conversion_spec;
+   0298 C3r55r01            436 	jp	00101$
+                            437 ;../printf_large.c:541: case '+':
+   029B                     438 00121$:
+                            439 ;../printf_large.c:542: prefix_sign = 1;
+   029B DD 36 D8 01         440 	ld	-40 (ix),#0x01
+                            441 ;../printf_large.c:543: goto get_conversion_spec;
+   029F C3r55r01            442 	jp	00101$
+                            443 ;../printf_large.c:544: case ' ':
+   02A2                     444 00122$:
+                            445 ;../printf_large.c:545: prefix_space = 1;
+   02A2 DD 36 D9 01         446 	ld	-39 (ix),#0x01
+                            447 ;../printf_large.c:546: goto get_conversion_spec;
+   02A6 C3r55r01            448 	jp	00101$
+                            449 ;../printf_large.c:547: case 'B': /* byte */
+   02A9                     450 00123$:
+                            451 ;../printf_large.c:548: char_argument = 1;
+   02A9 DD 36 D3 01         452 	ld	-45 (ix),#0x01
+                            453 ;../printf_large.c:549: goto get_conversion_spec;
+   02AD C3r55r01            454 	jp	00101$
+                            455 ;../printf_large.c:556: case 'L': /* long */
+   02B0                     456 00128$:
+                            457 ;../printf_large.c:557: long_argument = 1;
+   02B0 DD 36 D4 01         458 	ld	-44 (ix),#0x01
+                            459 ;../printf_large.c:558: goto get_conversion_spec;
+   02B4 C3r55r01            460 	jp	00101$
+                            461 ;../printf_large.c:560: case 'C':
+   02B7                     462 00129$:
+                            463 ;../printf_large.c:561: if( char_argument )
+   02B7 DD CB D3 46         464 	bit	0,-45 (ix)
+   02BB 28 09               465 	jr	Z,00131$
+                            466 ;../printf_large.c:562: c = va_arg(ap,char);
+   02BD C4 40               467 	ld	hl, 64 (sp)
+   02BF 23                  468 	inc	hl
+   02C0 D4 40               469 	ld	64 (sp), hl
+   02C2 2B                  470 	dec	hl
+   02C3 56                  471 	ld	d,(hl)
+   02C4 18 0B               472 	jr	00132$
+   02C6                     473 00131$:
+                            474 ;../printf_large.c:564: c = va_arg(ap,int);
+   02C6 C4 40               475 	ld	hl, 64 (sp)
+   02C8 23                  476 	inc	hl
+   02C9 23                  477 	inc	hl
+   02CA D4 40               478 	ld	64 (sp), hl
+   02CC 2B                  479 	dec	hl
+   02CD 2B                  480 	dec	hl
+   02CE 56                  481 	ld	d,(hl)
+   02CF 23                  482 	inc	hl
+   02D0 66                  483 	ld	h,(hl)
+   02D1                     484 00132$:
+                            485 ;../printf_large.c:565: OUTPUT_CHAR( c, p );
+   02D1 C4 3C               486 	ld	hl, 60 (sp)
+   02D3 E5                  487 	push	hl
+   02D4 D5                  488 	push	de
+   02D5 33                  489 	inc	sp
+   02D6 C4 3D               490 	ld	hl, 61 (sp)
+   02D8 CDr00r00            491 	call	___sdcc_call_hl
+   02DB 27 03               492 	add	sp, #3
+   02DD DD 34 E2            493 	inc	-30 (ix)
+   02E0 C2r8Br04            494 	jp	NZ,00160$
+   02E3 DD 34 E3            495 	inc	-29 (ix)
+                            496 ;../printf_large.c:566: break;
+   02E6 C3r8Br04            497 	jp	00160$
+                            498 ;../printf_large.c:568: case 'S':
+   02E9                     499 00133$:
+                            500 ;../printf_large.c:569: PTR = va_arg(ap,ptr_t);
+   02E9 21 13 00            501 	ld	hl,#0x0013
+   02EC 39                  502 	add	hl,sp
+   02ED D4 29               503 	ld	41 (sp), hl
+   02EF C4 40               504 	ld	hl, 64 (sp)
+   02F1 23                  505 	inc	hl
+   02F2 23                  506 	inc	hl
+   02F3 D4 40               507 	ld	64 (sp), hl
+   02F5 2B                  508 	dec	hl
+   02F6 2B                  509 	dec	hl
+   02F7 5E                  510 	ld	e,(hl)
+   02F8 23                  511 	inc	hl
+   02F9 56                  512 	ld	d,(hl)
+   02FA C4 29               513 	ld	hl, 41 (sp)
+   02FC 73                  514 	ld	(hl),e
+   02FD 23                  515 	inc	hl
+   02FE 72                  516 	ld	(hl),d
+                            517 ;../printf_large.c:582: length = strlen(PTR);
+   02FF D5                  518 	push	de
+   0300 CDr00r00            519 	call	_strlen
+   0303 27 02               520 	add	sp, #2
+   0305 5D                  521 	ld	e,l
+                            522 ;../printf_large.c:584: if ( decimals == -1 )
+   0306 DD 7E D0            523 	ld	a,-48 (ix)
+   0309 3C                  524 	inc	a
+   030A 20 03               525 	jr	NZ,00135$
+                            526 ;../printf_large.c:586: decimals = length;
+   030C DD 73 D0            527 	ld	-48 (ix),e
+   030F                     528 00135$:
+                            529 ;../printf_large.c:588: if ( ( !left_justify ) && (length < width) )
+   030F DD CB DC 46         530 	bit	0,-36 (ix)
+   0313 20 3E               531 	jr	NZ,00277$
+   0315 7B                  532 	ld	a,e
+   0316 DD 96 EE            533 	sub	a, -18 (ix)
+   0319 30 38               534 	jr	NC,00277$
+                            535 ;../printf_large.c:590: width -= length;
+   031B DD 7E EE            536 	ld	a,-18 (ix)
+   031E 93                  537 	sub	a, e
+   031F DD 77 E6            538 	ld	-26 (ix),a
+                            539 ;../printf_large.c:591: while( width-- != 0 )
+   0322 DD 4E E2            540 	ld	c,-30 (ix)
+   0325 DD 46 E3            541 	ld	b,-29 (ix)
+   0328                     542 00136$:
+   0328 DD 66 E6            543 	ld	h,-26 (ix)
+   032B DD 35 E6            544 	dec	-26 (ix)
+   032E 7C                  545 	ld	a,h
+   032F B7                  546 	or	a, a
+   0330 28 15               547 	jr	Z,00312$
+                            548 ;../printf_large.c:593: OUTPUT_CHAR( ' ', p );
+   0332 C5                  549 	push	bc
+   0333 D5                  550 	push	de
+   0334 C4 40               551 	ld	hl, 64 (sp)
+   0336 E5                  552 	push	hl
+   0337 3E 20               553 	ld	a,#0x20
+   0339 F5                  554 	push	af
+   033A 33                  555 	inc	sp
+   033B C4 41               556 	ld	hl, 65 (sp)
+   033D CDr00r00            557 	call	___sdcc_call_hl
+   0340 27 03               558 	add	sp, #3
+   0342 D1                  559 	pop	de
+   0343 C1                  560 	pop	bc
+   0344 03                  561 	inc	bc
+   0345 18 E1               562 	jr	00136$
+                            563 ;../printf_large.c:597: while ( (c = *PTR)  && (decimals-- > 0))
+   0347                     564 00312$:
+   0347 DD 71 E2            565 	ld	-30 (ix),c
+   034A DD 70 E3            566 	ld	-29 (ix),b
+   034D DD 7E E6            567 	ld	a,-26 (ix)
+   0350 DD 77 EE            568 	ld	-18 (ix),a
+   0353                     569 00277$:
+   0353 DD 56 D0            570 	ld	d,-48 (ix)
+   0356 DD 4E E2            571 	ld	c,-30 (ix)
+   0359 DD 46 E3            572 	ld	b,-29 (ix)
+   035C                     573 00143$:
+   035C C4 29               574 	ld	hl, 41 (sp)
+   035E DD E4 00            575 	ld	hl, 0 (hl)
+   0361 7E                  576 	ld	a,(hl)
+   0362 DD 77 E6            577 	ld	-26 (ix),a
+   0365 B7                  578 	or	a, a
+   0366 28 35               579 	jr	Z,00313$
+   0368 62                  580 	ld	h,d
+   0369 15                  581 	dec	d
+   036A AF                  582 	xor	a, a
+   036B 94                  583 	sub	a, h
+   036C E2r71r03            584 	jp	PO, 00583$
+   036F EE 80               585 	xor	a, #0x80
+   0371                     586 00583$:
+   0371 F2r9Dr03            587 	jp	P,00313$
+                            588 ;../printf_large.c:599: OUTPUT_CHAR( c, p );
+   0374 C5                  589 	push	bc
+   0375 D5                  590 	push	de
+   0376 C4 40               591 	ld	hl, 64 (sp)
+   0378 E5                  592 	push	hl
+   0379 DD 7E E6            593 	ld	a,-26 (ix)
+   037C F5                  594 	push	af
+   037D 33                  595 	inc	sp
+   037E C4 41               596 	ld	hl, 65 (sp)
+   0380 CDr00r00            597 	call	___sdcc_call_hl
+   0383 27 03               598 	add	sp, #3
+   0385 D1                  599 	pop	de
+   0386 C1                  600 	pop	bc
+   0387 03                  601 	inc	bc
+                            602 ;../printf_large.c:600: PTR++;
+   0388 C4 29               603 	ld	hl, 41 (sp)
+   038A DD E4 00            604 	ld	hl, 0 (hl)
+   038D 23                  605 	inc	hl
+   038E D4 1E               606 	ld	30 (sp), hl
+   0390 C4 29               607 	ld	hl, 41 (sp)
+   0392 DD 7E E8            608 	ld	a,-24 (ix)
+   0395 77                  609 	ld	(hl),a
+   0396 23                  610 	inc	hl
+   0397 DD 7E E9            611 	ld	a,-23 (ix)
+   039A 77                  612 	ld	(hl),a
+   039B 18 BF               613 	jr	00143$
+   039D                     614 00313$:
+   039D DD 71 E2            615 	ld	-30 (ix),c
+   03A0 DD 70 E3            616 	ld	-29 (ix),b
+                            617 ;../printf_large.c:603: if ( left_justify && (length < width))
+   03A3 DD CB DC 46         618 	bit	0,-36 (ix)
+   03A7 CAr8Br04            619 	jp	Z,00160$
+   03AA 7B                  620 	ld	a,e
+   03AB DD 96 EE            621 	sub	a, -18 (ix)
+   03AE D2r8Br04            622 	jp	NC,00160$
+                            623 ;../printf_large.c:605: width -= length;
+   03B1 DD 7E EE            624 	ld	a,-18 (ix)
+   03B4 93                  625 	sub	a, e
+   03B5 5F                  626 	ld	e,a
+                            627 ;../printf_large.c:606: while( width-- != 0 )
+   03B6                     628 00146$:
+   03B6 63                  629 	ld	h,e
+   03B7 1D                  630 	dec	e
+   03B8 7C                  631 	ld	a,h
+   03B9 B7                  632 	or	a, a
+   03BA CAr82r04            633 	jp	Z,00314$
+                            634 ;../printf_large.c:608: OUTPUT_CHAR( ' ', p );
+   03BD C5                  635 	push	bc
+   03BE D5                  636 	push	de
+   03BF C4 40               637 	ld	hl, 64 (sp)
+   03C1 E5                  638 	push	hl
+   03C2 3E 20               639 	ld	a,#0x20
+   03C4 F5                  640 	push	af
+   03C5 33                  641 	inc	sp
+   03C6 C4 41               642 	ld	hl, 65 (sp)
+   03C8 CDr00r00            643 	call	___sdcc_call_hl
+   03CB 27 03               644 	add	sp, #3
+   03CD D1                  645 	pop	de
+   03CE C1                  646 	pop	bc
+   03CF 03                  647 	inc	bc
+   03D0 18 E4               648 	jr	00146$
+                            649 ;../printf_large.c:613: case 'P':
+   03D2                     650 00152$:
+                            651 ;../printf_large.c:614: PTR = va_arg(ap,ptr_t);
+   03D2 21 13 00            652 	ld	hl,#0x0013
+   03D5 39                  653 	add	hl,sp
+   03D6 EB                  654 	ex	de,hl
+   03D7 C4 40               655 	ld	hl, 64 (sp)
+   03D9 23                  656 	inc	hl
+   03DA 23                  657 	inc	hl
+   03DB D4 40               658 	ld	64 (sp), hl
+   03DD 2B                  659 	dec	hl
+   03DE 2B                  660 	dec	hl
+   03DF 4E                  661 	ld	c,(hl)
+   03E0 23                  662 	inc	hl
+   03E1 46                  663 	ld	b,(hl)
+   03E2 79                  664 	ld	a,c
+   03E3 12                  665 	ld	(de),a
+   03E4 13                  666 	inc	de
+   03E5 78                  667 	ld	a,b
+   03E6 12                  668 	ld	(de),a
+                            669 ;../printf_large.c:658: OUTPUT_CHAR('0', p);
+   03E7 C4 3C               670 	ld	hl, 60 (sp)
+   03E9 E5                  671 	push	hl
+   03EA 3E 30               672 	ld	a,#0x30
+   03EC F5                  673 	push	af
+   03ED 33                  674 	inc	sp
+   03EE C4 3D               675 	ld	hl, 61 (sp)
+   03F0 CDr00r00            676 	call	___sdcc_call_hl
+   03F3 27 03               677 	add	sp, #3
+   03F5 EB                  678 	ex	de, hl
+   03F6 C4 18               679 	ld	hl, 24 (sp)
+   03F8 EB                  680 	ex	de, hl
+   03F9 13                  681 	inc	de
+                            682 ;../printf_large.c:659: OUTPUT_CHAR('x', p);
+   03FA D5                  683 	push	de
+   03FB C4 3E               684 	ld	hl, 62 (sp)
+   03FD E5                  685 	push	hl
+   03FE 3E 78               686 	ld	a,#0x78
+   0400 F5                  687 	push	af
+   0401 33                  688 	inc	sp
+   0402 C4 3F               689 	ld	hl, 63 (sp)
+   0404 CDr00r00            690 	call	___sdcc_call_hl
+   0407 27 03               691 	add	sp, #3
+   0409 D1                  692 	pop	de
+   040A 13                  693 	inc	de
+                            694 ;../printf_large.c:660: OUTPUT_2DIGITS( value.byte[1] );
+   040B 21 14 00            695 	ld	hl,#0x0014
+   040E 39                  696 	add	hl,sp
+   040F 46                  697 	ld	b,(hl)
+   0410 D5                  698 	push	de
+   0411 C4 3E               699 	ld	hl, 62 (sp)
+   0413 E5                  700 	push	hl
+   0414 C4 3E               701 	ld	hl, 62 (sp)
+   0416 E5                  702 	push	hl
+   0417 DD 7E D5            703 	ld	a,-43 (ix)
+   041A F5                  704 	push	af
+   041B 33                  705 	inc	sp
+   041C C5                  706 	push	bc
+   041D 33                  707 	inc	sp
+   041E CDr2Ar00            708 	call	_output_2digits
+   0421 27 06               709 	add	sp, #6
+   0423 D1                  710 	pop	de
+   0424 13                  711 	inc	de
+   0425 13                  712 	inc	de
+                            713 ;../printf_large.c:661: OUTPUT_2DIGITS( value.byte[0] );
+   0426 C4 1A               714 	ld	hl, 26 (sp)
+   0428 46                  715 	ld	b,(hl)
+   0429 D5                  716 	push	de
+   042A C4 3E               717 	ld	hl, 62 (sp)
+   042C E5                  718 	push	hl
+   042D C4 3E               719 	ld	hl, 62 (sp)
+   042F E5                  720 	push	hl
+   0430 DD 7E D5            721 	ld	a,-43 (ix)
+   0433 F5                  722 	push	af
+   0434 33                  723 	inc	sp
+   0435 C5                  724 	push	bc
+   0436 33                  725 	inc	sp
+   0437 CDr2Ar00            726 	call	_output_2digits
+   043A 27 06               727 	add	sp, #6
+   043C D1                  728 	pop	de
+   043D 13                  729 	inc	de
+   043E 13                  730 	inc	de
+   043F DD 73 E2            731 	ld	-30 (ix),e
+   0442 DD 72 E3            732 	ld	-29 (ix),d
+                            733 ;../printf_large.c:663: break;
+   0445 18 44               734 	jr	00160$
+                            735 ;../printf_large.c:666: case 'I':
+   0447                     736 00154$:
+                            737 ;../printf_large.c:667: signed_argument = 1;
+   0447 DD 36 D1 01         738 	ld	-47 (ix),#0x01
+                            739 ;../printf_large.c:668: radix = 10;
+   044B DD 36 D2 0A         740 	ld	-46 (ix),#0x0A
+                            741 ;../printf_large.c:669: break;
+   044F 18 3A               742 	jr	00160$
+                            743 ;../printf_large.c:671: case 'O':
+   0451                     744 00155$:
+                            745 ;../printf_large.c:672: radix = 8;
+   0451 DD 36 D2 08         746 	ld	-46 (ix),#0x08
+                            747 ;../printf_large.c:673: break;
+   0455 18 34               748 	jr	00160$
+                            749 ;../printf_large.c:675: case 'U':
+   0457                     750 00156$:
+                            751 ;../printf_large.c:676: radix = 10;
+   0457 DD 36 D2 0A         752 	ld	-46 (ix),#0x0A
+                            753 ;../printf_large.c:677: break;
+   045B 18 2E               754 	jr	00160$
+                            755 ;../printf_large.c:679: case 'X':
+   045D                     756 00157$:
+                            757 ;../printf_large.c:680: radix = 16;
+   045D DD 36 D2 10         758 	ld	-46 (ix),#0x10
+                            759 ;../printf_large.c:681: break;
+   0461 18 28               760 	jr	00160$
+                            761 ;../printf_large.c:683: case 'F':
+   0463                     762 00158$:
+                            763 ;../printf_large.c:684: float_argument=1;
+   0463 DD 36 D6 01         764 	ld	-42 (ix),#0x01
+                            765 ;../printf_large.c:685: break;
+   0467 18 22               766 	jr	00160$
+                            767 ;../printf_large.c:687: default:
+   0469                     768 00159$:
+                            769 ;../printf_large.c:689: OUTPUT_CHAR( c, p );
+   0469 C4 3C               770 	ld	hl, 60 (sp)
+   046B E5                  771 	push	hl
+   046C DD 7E FB            772 	ld	a,-5 (ix)
+   046F F5                  773 	push	af
+   0470 33                  774 	inc	sp
+   0471 C4 3D               775 	ld	hl, 61 (sp)
+   0473 CDr00r00            776 	call	___sdcc_call_hl
+   0476 27 03               777 	add	sp, #3
+   0478 DD 34 E2            778 	inc	-30 (ix)
+   047B 20 0E               779 	jr	NZ,00160$
+   047D DD 34 E3            780 	inc	-29 (ix)
+                            781 ;../printf_large.c:872: return charsOutputted;
+   0480 18 09               782 	jr	00160$
+                            783 ;../printf_large.c:691: }
+   0482                     784 00314$:
+   0482 DD 71 E2            785 	ld	-30 (ix),c
+   0485 DD 70 E3            786 	ld	-29 (ix),b
+   0488 DD 73 EE            787 	ld	-18 (ix),e
+   048B                     788 00160$:
+                            789 ;../printf_large.c:693: if (float_argument)
+   048B DD CB D6 46         790 	bit	0,-42 (ix)
+   048F CAr2Dr05            791 	jp	Z,00226$
+                            792 ;../printf_large.c:695: value.f = va_arg(ap, float);
+   0492 21 13 00            793 	ld	hl,#0x0013
+   0495 39                  794 	add	hl,sp
+   0496 D4 1E               795 	ld	30 (sp), hl
+   0498 DD 7E 0A            796 	ld	a,10 (ix)
+   049B C6 04               797 	add	a, #0x04
+   049D DD 77 F3            798 	ld	-13 (ix),a
+   04A0 DD 7E 0B            799 	ld	a,11 (ix)
+   04A3 CE 00               800 	adc	a, #0x00
+   04A5 DD 77 F4            801 	ld	-12 (ix),a
+   04A8 DD 7E F3            802 	ld	a,-13 (ix)
+   04AB DD 77 0A            803 	ld	10 (ix),a
+   04AE DD 7E F4            804 	ld	a,-12 (ix)
+   04B1 DD 77 0B            805 	ld	11 (ix),a
+   04B4 DD 7E F3            806 	ld	a,-13 (ix)
+   04B7 C6 FC               807 	add	a,#0xFC
+   04B9 DD 77 F3            808 	ld	-13 (ix),a
+   04BC DD 7E F4            809 	ld	a,-12 (ix)
+   04BF CE FF               810 	adc	a,#0xFF
+   04C1 DD 77 F4            811 	ld	-12 (ix),a
+   04C4 EB                  812 	ex	de, hl
+   04C5 C4 29               813 	ld	hl, 41 (sp)
+   04C7 EB                  814 	ex	de, hl
+   04C8 21 20 00            815 	ld	hl, #0x0020
+   04CB 39                  816 	add	hl, sp
+   04CC EB                  817 	ex	de, hl
+   04CD 01 04 00            818 	ld	bc, #0x0004
+   04D0 ED B0               819 	ldir
+   04D2 EB                  820 	ex	de, hl
+   04D3 C4 1E               821 	ld	hl, 30 (sp)
+   04D5 EB                  822 	ex	de, hl
+   04D6 21 20 00            823 	ld	hl, #0x0020
+   04D9 39                  824 	add	hl, sp
+   04DA 01 04 00            825 	ld	bc, #0x0004
+   04DD ED B0               826 	ldir
+                            827 ;../printf_large.c:697: PTR="<NO FLOAT>";
+   04DF 21 13 00            828 	ld	hl,#0x0013
+   04E2 39                  829 	add	hl,sp
+   04E3 D4 20               830 	ld	32 (sp), hl
+   04E5 C4 20               831 	ld	hl, 32 (sp)
+   04E7 36r75               832 	ld	(hl),#<(___str_0)
+   04E9 23                  833 	inc	hl
+   04EA 36s09               834 	ld	(hl),#>(___str_0)
+                            835 ;../printf_large.c:698: while (c=*PTR++)
+   04EC DD 7E E2            836 	ld	a,-30 (ix)
+   04EF DD 77 E8            837 	ld	-24 (ix),a
+   04F2 DD 7E E3            838 	ld	a,-29 (ix)
+   04F5 DD 77 E9            839 	ld	-23 (ix),a
+   04F8                     840 00161$:
+   04F8 C4 20               841 	ld	hl, 32 (sp)
+   04FA 5E                  842 	ld	e,(hl)
+   04FB 23                  843 	inc	hl
+   04FC 56                  844 	ld	d,(hl)
+   04FD 4B                  845 	ld	c, e
+   04FE 42                  846 	ld	b, d
+   04FF 03                  847 	inc	bc
+   0500 C4 20               848 	ld	hl, 32 (sp)
+   0502 71                  849 	ld	(hl),c
+   0503 23                  850 	inc	hl
+   0504 70                  851 	ld	(hl),b
+   0505 1A                  852 	ld	a,(de)
+   0506 57                  853 	ld	d,a
+   0507 B7                  854 	or	a, a
+   0508 CAr07r01            855 	jp	Z,00231$
+                            856 ;../printf_large.c:700: OUTPUT_CHAR (c, p);
+   050B C4 3C               857 	ld	hl, 60 (sp)
+   050D E5                  858 	push	hl
+   050E D5                  859 	push	de
+   050F 33                  860 	inc	sp
+   0510 C4 3D               861 	ld	hl, 61 (sp)
+   0512 CDr00r00            862 	call	___sdcc_call_hl
+   0515 27 03               863 	add	sp, #3
+   0517 DD 34 E8            864 	inc	-24 (ix)
+   051A 20 03               865 	jr	NZ,00585$
+   051C DD 34 E9            866 	inc	-23 (ix)
+   051F                     867 00585$:
+   051F DD 7E E8            868 	ld	a,-24 (ix)
+   0522 DD 77 E2            869 	ld	-30 (ix),a
+   0525 DD 7E E9            870 	ld	a,-23 (ix)
+   0528 DD 77 E3            871 	ld	-29 (ix),a
+   052B 18 CB               872 	jr	00161$
+   052D                     873 00226$:
+                            874 ;../printf_large.c:718: else if (radix != 0)
+   052D DD 7E D2            875 	ld	a,-46 (ix)
+   0530 B7                  876 	or	a, a
+   0531 CAr07r01            877 	jp	Z,00231$
+                            878 ;../printf_large.c:723: unsigned char MEM_SPACE_BUF_PP *pstore = &store[5];
+   0534 DD 7E F5            879 	ld	a,-11 (ix)
+   0537 DD 77 EA            880 	ld	-22 (ix),a
+   053A DD 7E F6            881 	ld	a,-10 (ix)
+   053D DD 77 EB            882 	ld	-21 (ix),a
+                            883 ;../printf_large.c:726: if (char_argument)
+   0540 DD CB D3 46         884 	bit	0,-45 (ix)
+   0544 CArC3r05            885 	jp	Z,00172$
+                            886 ;../printf_large.c:728: value.l = va_arg(ap, char);
+   0547 21 13 00            887 	ld	hl,#0x0013
+   054A 39                  888 	add	hl,sp
+   054B D4 1E               889 	ld	30 (sp), hl
+   054D DD 7E 0A            890 	ld	a,10 (ix)
+   0550 C6 01               891 	add	a, #0x01
+   0552 DD 77 F3            892 	ld	-13 (ix),a
+   0555 DD 7E 0B            893 	ld	a,11 (ix)
+   0558 CE 00               894 	adc	a, #0x00
+   055A DD 77 F4            895 	ld	-12 (ix),a
+   055D DD 7E F3            896 	ld	a,-13 (ix)
+   0560 DD 77 0A            897 	ld	10 (ix),a
+   0563 DD 7E F4            898 	ld	a,-12 (ix)
+   0566 DD 77 0B            899 	ld	11 (ix),a
+   0569 C4 29               900 	ld	hl, 41 (sp)
+   056B 2B                  901 	dec	hl
+   056C D4 29               902 	ld	41 (sp), hl
+   056E C4 29               903 	ld	hl, 41 (sp)
+   0570 7E                  904 	ld	a,(hl)
+   0571 DD 77 E6            905 	ld	-26 (ix), a
+   0574 DD 77 F7            906 	ld	-9 (ix),a
+   0577 DD 7E E6            907 	ld	a,-26 (ix)
+   057A 17                  908 	rla
+   057B 9F                  909 	sbc	a, a
+   057C DD 77 F8            910 	ld	-8 (ix),a
+   057F DD 77 F9            911 	ld	-7 (ix),a
+   0582 DD 77 FA            912 	ld	-6 (ix),a
+   0585 EB                  913 	ex	de, hl
+   0586 C4 1E               914 	ld	hl, 30 (sp)
+   0588 EB                  915 	ex	de, hl
+   0589 21 2D 00            916 	ld	hl, #0x002D
+   058C 39                  917 	add	hl, sp
+   058D 01 04 00            918 	ld	bc, #0x0004
+   0590 ED B0               919 	ldir
+                            920 ;../printf_large.c:729: if (!signed_argument)
+   0592 DD CB D1 46         921 	bit	0,-47 (ix)
+   0596 C2rACr06            922 	jp	NZ,00173$
+                            923 ;../printf_large.c:731: value.l &= 0xFF;
+   0599 EB                  924 	ex	de, hl
+   059A C4 1E               925 	ld	hl, 30 (sp)
+   059C EB                  926 	ex	de, hl
+   059D 21 2D 00            927 	ld	hl, #0x002D
+   05A0 39                  928 	add	hl, sp
+   05A1 EB                  929 	ex	de, hl
+   05A2 01 04 00            930 	ld	bc, #0x0004
+   05A5 ED B0               931 	ldir
+   05A7 DD 36 F8 00         932 	ld	-8 (ix),#0x00
+   05AB DD 36 F9 00         933 	ld	-7 (ix),#0x00
+   05AF DD 36 FA 00         934 	ld	-6 (ix),#0x00
+   05B3 EB                  935 	ex	de, hl
+   05B4 C4 1E               936 	ld	hl, 30 (sp)
+   05B6 EB                  937 	ex	de, hl
+   05B7 21 2D 00            938 	ld	hl, #0x002D
+   05BA 39                  939 	add	hl, sp
+   05BB 01 04 00            940 	ld	bc, #0x0004
+   05BE ED B0               941 	ldir
+   05C0 C3rACr06            942 	jp	00173$
+   05C3                     943 00172$:
+                            944 ;../printf_large.c:734: else if (long_argument)
+   05C3 DD CB D4 46         945 	bit	0,-44 (ix)
+   05C7 28 50               946 	jr	Z,00169$
+                            947 ;../printf_large.c:736: value.l = va_arg(ap, long);
+   05C9 21 13 00            948 	ld	hl,#0x0013
+   05CC 39                  949 	add	hl,sp
+   05CD D4 2D               950 	ld	45 (sp), hl
+   05CF DD 7E 0A            951 	ld	a,10 (ix)
+   05D2 C6 04               952 	add	a, #0x04
+   05D4 DD 77 E8            953 	ld	-24 (ix),a
+   05D7 DD 7E 0B            954 	ld	a,11 (ix)
+   05DA CE 00               955 	adc	a, #0x00
+   05DC DD 77 E9            956 	ld	-23 (ix),a
+   05DF DD 7E E8            957 	ld	a,-24 (ix)
+   05E2 DD 77 0A            958 	ld	10 (ix),a
+   05E5 DD 7E E9            959 	ld	a,-23 (ix)
+   05E8 DD 77 0B            960 	ld	11 (ix),a
+   05EB DD 7E E8            961 	ld	a,-24 (ix)
+   05EE C6 FC               962 	add	a,#0xFC
+   05F0 DD 77 E8            963 	ld	-24 (ix),a
+   05F3 DD 7E E9            964 	ld	a,-23 (ix)
+   05F6 CE FF               965 	adc	a,#0xFF
+   05F8 DD 77 E9            966 	ld	-23 (ix),a
+   05FB EB                  967 	ex	de, hl
+   05FC C4 1E               968 	ld	hl, 30 (sp)
+   05FE EB                  969 	ex	de, hl
+   05FF 21 25 00            970 	ld	hl, #0x0025
+   0602 39                  971 	add	hl, sp
+   0603 EB                  972 	ex	de, hl
+   0604 01 04 00            973 	ld	bc, #0x0004
+   0607 ED B0               974 	ldir
+   0609 EB                  975 	ex	de, hl
+   060A C4 2D               976 	ld	hl, 45 (sp)
+   060C EB                  977 	ex	de, hl
+   060D 21 25 00            978 	ld	hl, #0x0025
+   0610 39                  979 	add	hl, sp
+   0611 01 04 00            980 	ld	bc, #0x0004
+   0614 ED B0               981 	ldir
+   0616 C3rACr06            982 	jp	00173$
+   0619                     983 00169$:
+                            984 ;../printf_large.c:740: value.l = va_arg(ap, int);
+   0619 21 13 00            985 	ld	hl,#0x0013
+   061C 39                  986 	add	hl,sp
+   061D D4 25               987 	ld	37 (sp), hl
+   061F DD 7E 0A            988 	ld	a,10 (ix)
+   0622 C6 02               989 	add	a, #0x02
+   0624 DD 77 F7            990 	ld	-9 (ix),a
+   0627 DD 7E 0B            991 	ld	a,11 (ix)
+   062A CE 00               992 	adc	a, #0x00
+   062C DD 77 F8            993 	ld	-8 (ix),a
+   062F DD 7E F7            994 	ld	a,-9 (ix)
+   0632 DD 77 0A            995 	ld	10 (ix),a
+   0635 DD 7E F8            996 	ld	a,-8 (ix)
+   0638 DD 77 0B            997 	ld	11 (ix),a
+   063B DD 7E F7            998 	ld	a,-9 (ix)
+   063E C6 FE               999 	add	a,#0xFE
+   0640 DD 77 F7           1000 	ld	-9 (ix),a
+   0643 DD 7E F8           1001 	ld	a,-8 (ix)
+   0646 CE FF              1002 	adc	a,#0xFF
+   0648 DD 77 F8           1003 	ld	-8 (ix),a
+   064B DD 7E F7           1004 	ld	a,-9 (ix)
+   064E DD 77 F7           1005 	ld	-9 (ix),a
+   0651 DD 7E F8           1006 	ld	a,-8 (ix)
+   0654 DD 77 F8           1007 	ld	-8 (ix),a
+   0657 C4 2D              1008 	ld	hl, 45 (sp)
+   0659 7E                 1009 	ld	a,(hl)
+   065A DD 77 F7           1010 	ld	-9 (ix),a
+   065D 23                 1011 	inc	hl
+   065E 7E                 1012 	ld	a,(hl)
+   065F DD 77 F8           1013 	ld	-8 (ix),a
+   0662 DD 7E F7           1014 	ld	a,-9 (ix)
+   0665 DD 77 F7           1015 	ld	-9 (ix),a
+   0668 DD 7E F8           1016 	ld	a,-8 (ix)
+   066B DD 77 F8           1017 	ld	-8 (ix), a
+   066E 17                 1018 	rla
+   066F 9F                 1019 	sbc	a, a
+   0670 DD 77 F9           1020 	ld	-7 (ix),a
+   0673 DD 77 FA           1021 	ld	-6 (ix),a
+   0676 EB                 1022 	ex	de, hl
+   0677 C4 25              1023 	ld	hl, 37 (sp)
+   0679 EB                 1024 	ex	de, hl
+   067A 21 2D 00           1025 	ld	hl, #0x002D
+   067D 39                 1026 	add	hl, sp
+   067E 01 04 00           1027 	ld	bc, #0x0004
+   0681 ED B0              1028 	ldir
+                           1029 ;../printf_large.c:741: if (!signed_argument)
+   0683 DD CB D1 46        1030 	bit	0,-47 (ix)
+   0687 20 23              1031 	jr	NZ,00173$
+                           1032 ;../printf_large.c:743: value.l &= 0xFFFF;
+   0689 EB                 1033 	ex	de, hl
+   068A C4 25              1034 	ld	hl, 37 (sp)
+   068C EB                 1035 	ex	de, hl
+   068D 21 2D 00           1036 	ld	hl, #0x002D
+   0690 39                 1037 	add	hl, sp
+   0691 EB                 1038 	ex	de, hl
+   0692 01 04 00           1039 	ld	bc, #0x0004
+   0695 ED B0              1040 	ldir
+   0697 DD 36 F9 00        1041 	ld	-7 (ix),#0x00
+   069B DD 36 FA 00        1042 	ld	-6 (ix),#0x00
+   069F EB                 1043 	ex	de, hl
+   06A0 C4 25              1044 	ld	hl, 37 (sp)
+   06A2 EB                 1045 	ex	de, hl
+   06A3 21 2D 00           1046 	ld	hl, #0x002D
+   06A6 39                 1047 	add	hl, sp
+   06A7 01 04 00           1048 	ld	bc, #0x0004
+   06AA ED B0              1049 	ldir
+   06AC                    1050 00173$:
+                           1051 ;../printf_large.c:747: if ( signed_argument )
+   06AC DD CB D1 46        1052 	bit	0,-47 (ix)
+   06B0 28 41              1053 	jr	Z,00178$
+                           1054 ;../printf_large.c:749: if (value.l < 0)
+   06B2 21 13 00           1055 	ld	hl,#0x0013
+   06B5 39                 1056 	add	hl,sp
+   06B6 D4 25              1057 	ld	37 (sp), hl
+   06B8 EB                 1058 	ex	de, hl
+   06B9 C4 25              1059 	ld	hl, 37 (sp)
+   06BB EB                 1060 	ex	de, hl
+   06BC 21 2D 00           1061 	ld	hl, #0x002D
+   06BF 39                 1062 	add	hl, sp
+   06C0 EB                 1063 	ex	de, hl
+   06C1 01 04 00           1064 	ld	bc, #0x0004
+   06C4 ED B0              1065 	ldir
+   06C6 DD CB FA 7E        1066 	bit	7, -6 (ix)
+   06CA 28 23              1067 	jr	Z,00175$
+                           1068 ;../printf_large.c:750: value.l = -value.l;
+   06CC C4 25              1069 	ld	hl, 37 (sp)
+   06CE 5E                 1070 	ld	e,(hl)
+   06CF 23                 1071 	inc	hl
+   06D0 56                 1072 	ld	d,(hl)
+   06D1 23                 1073 	inc	hl
+   06D2 4E                 1074 	ld	c,(hl)
+   06D3 23                 1075 	inc	hl
+   06D4 46                 1076 	ld	b,(hl)
+   06D5 AF                 1077 	xor	a, a
+   06D6 93                 1078 	sub	a, e
+   06D7 5F                 1079 	ld	e,a
+   06D8 3E 00              1080 	ld	a, #0x00
+   06DA 9A                 1081 	sbc	a, d
+   06DB 57                 1082 	ld	d,a
+   06DC 3E 00              1083 	ld	a, #0x00
+   06DE 99                 1084 	sbc	a, c
+   06DF 4F                 1085 	ld	c,a
+   06E0 3E 00              1086 	ld	a, #0x00
+   06E2 98                 1087 	sbc	a, b
+   06E3 47                 1088 	ld	b,a
+   06E4 C4 25              1089 	ld	hl, 37 (sp)
+   06E6 73                 1090 	ld	(hl),e
+   06E7 23                 1091 	inc	hl
+   06E8 72                 1092 	ld	(hl),d
+   06E9 23                 1093 	inc	hl
+   06EA 71                 1094 	ld	(hl),c
+   06EB 23                 1095 	inc	hl
+   06EC 70                 1096 	ld	(hl),b
+   06ED 18 04              1097 	jr	00178$
+   06EF                    1098 00175$:
+                           1099 ;../printf_large.c:752: signed_argument = 0;
+   06EF DD 36 D1 00        1100 	ld	-47 (ix),#0x00
+   06F3                    1101 00178$:
+                           1102 ;../printf_large.c:756: lsd = 1;
+   06F3 DD 36 D7 01        1103 	ld	-41 (ix),#0x01
+                           1104 ;../printf_large.c:758: do {
+   06F7 DD 4E EA           1105 	ld	c,-22 (ix)
+   06FA DD 46 EB           1106 	ld	b,-21 (ix)
+   06FD DD 36 DB 00        1107 	ld	-37 (ix),#0x00
+   0701                    1108 00182$:
+                           1109 ;../printf_large.c:759: value.byte[4] = 0;
+   0701 21 17 00           1110 	ld	hl,#0x0017
+   0704 39                 1111 	add	hl,sp
+   0705 36 00              1112 	ld	(hl),#0x00
+                           1113 ;../printf_large.c:761: calculate_digit(&value, radix);
+   0707 FD C4 32           1114 	ld	iy, 50 (sp)
+   070A C5                 1115 	push	bc
+   070B DD 7E D2           1116 	ld	a,-46 (ix)
+   070E F5                 1117 	push	af
+   070F 33                 1118 	inc	sp
+   0710 FD E5              1119 	push	iy
+   0712 CDr69r00           1120 	call	_calculate_digit
+   0715 27 03              1121 	add	sp, #3
+   0717 C1                 1122 	pop	bc
+                           1123 ;../printf_large.c:765: if (!lsd)
+   0718 DD CB D7 46        1124 	bit	0,-41 (ix)
+   071C 20 1B              1125 	jr	NZ,00180$
+                           1126 ;../printf_large.c:767: *pstore = (value.byte[4] << 4) | (value.byte[4] >> 4) | *pstore;
+   071E C4 34              1127 	ld	hl, 52 (sp)
+   0720 7E                 1128 	ld	a,(hl)
+   0721 07                 1129 	rlca
+   0722 07                 1130 	rlca
+   0723 07                 1131 	rlca
+   0724 07                 1132 	rlca
+   0725 E6 F0              1133 	and	a,#0xF0
+   0727 57                 1134 	ld	d,a
+   0728 C4 34              1135 	ld	hl, 52 (sp)
+   072A 7E                 1136 	ld	a,(hl)
+   072B 07                 1137 	rlca
+   072C 07                 1138 	rlca
+   072D 07                 1139 	rlca
+   072E 07                 1140 	rlca
+   072F E6 0F              1141 	and	a,#0x0F
+   0731 B2                 1142 	or	a, d
+   0732 57                 1143 	ld	d,a
+   0733 0A                 1144 	ld	a,(bc)
+   0734 B2                 1145 	or	a, d
+   0735 02                 1146 	ld	(bc),a
+                           1147 ;../printf_large.c:768: pstore--;
+   0736 0B                 1148 	dec	bc
+   0737 18 04              1149 	jr	00181$
+   0739                    1150 00180$:
+                           1151 ;../printf_large.c:772: *pstore = value.byte[4];
+   0739 C4 34              1152 	ld	hl, 52 (sp)
+   073B 7E                 1153 	ld	a,(hl)
+   073C 02                 1154 	ld	(bc),a
+   073D                    1155 00181$:
+                           1156 ;../printf_large.c:774: length++;
+   073D DD 34 DB           1157 	inc	-37 (ix)
+                           1158 ;../printf_large.c:775: lsd = !lsd;
+   0740 DD 7E D7           1159 	ld	a,-41 (ix)
+   0743 EE 01              1160 	xor	a, #0x01
+   0745 DD 77 D7           1161 	ld	-41 (ix),a
+                           1162 ;../printf_large.c:776: } while( value.ul );
+   0748 C4 32              1163 	ld	hl, 50 (sp)
+   074A 5E                 1164 	ld	e,(hl)
+   074B 23                 1165 	inc	hl
+   074C 56                 1166 	ld	d,(hl)
+   074D 23                 1167 	inc	hl
+   074E 23                 1168 	inc	hl
+   074F 7E                 1169 	ld	a,(hl)
+   0750 2B                 1170 	dec	hl
+   0751 66                 1171 	ld	h,(hl)
+   0752 6F                 1172 	ld	l,a
+   0753 B4                 1173 	or	a, h
+   0754 B2                 1174 	or	a, d
+   0755 B3                 1175 	or	a,e
+   0756 20 A9              1176 	jr	NZ,00182$
+                           1177 ;../printf_large.c:778: if (width == 0)
+   0758 DD 71 EF           1178 	ld	-17 (ix),c
+   075B DD 70 F0           1179 	ld	-16 (ix),b
+   075E DD 7E DB           1180 	ld	a,-37 (ix)
+   0761 DD 77 F7           1181 	ld	-9 (ix),a
+   0764 DD 7E EE           1182 	ld	a,-18 (ix)
+   0767 B7                 1183 	or	a, a
+   0768 20 04              1184 	jr	NZ,00186$
+                           1185 ;../printf_large.c:783: width = 1;
+   076A DD 36 EE 01        1186 	ld	-18 (ix),#0x01
+   076E                    1187 00186$:
+                           1188 ;../printf_large.c:787: if (!zero_padding && !left_justify)
+   076E DD CB DA 46        1189 	bit	0,-38 (ix)
+   0772 20 4C              1190 	jr	NZ,00191$
+   0774 DD CB DC 46        1191 	bit	0,-36 (ix)
+   0778 20 46              1192 	jr	NZ,00191$
+                           1193 ;../printf_large.c:789: while ( width > (unsigned char) (length+1) )
+   077A DD 7E F7           1194 	ld	a,-9 (ix)
+   077D 3C                 1195 	inc	a
+   077E DD 77 EA           1196 	ld	-22 (ix),a
+   0781 DD 7E E2           1197 	ld	a,-30 (ix)
+   0784 DD 77 E8           1198 	ld	-24 (ix),a
+   0787 DD 7E E3           1199 	ld	a,-29 (ix)
+   078A DD 77 E9           1200 	ld	-23 (ix),a
+   078D DD 56 EE           1201 	ld	d,-18 (ix)
+   0790                    1202 00187$:
+   0790 DD 7E EA           1203 	ld	a,-22 (ix)
+   0793 92                 1204 	sub	a, d
+   0794 30 1B              1205 	jr	NC,00316$
+                           1206 ;../printf_large.c:791: OUTPUT_CHAR( ' ', p );
+   0796 D5                 1207 	push	de
+   0797 C4 3E              1208 	ld	hl, 62 (sp)
+   0799 E5                 1209 	push	hl
+   079A 3E 20              1210 	ld	a,#0x20
+   079C F5                 1211 	push	af
+   079D 33                 1212 	inc	sp
+   079E C4 3F              1213 	ld	hl, 63 (sp)
+   07A0 CDr00r00           1214 	call	___sdcc_call_hl
+   07A3 27 03              1215 	add	sp, #3
+   07A5 D1                 1216 	pop	de
+   07A6 DD 34 E8           1217 	inc	-24 (ix)
+   07A9 20 03              1218 	jr	NZ,00586$
+   07AB DD 34 E9           1219 	inc	-23 (ix)
+   07AE                    1220 00586$:
+                           1221 ;../printf_large.c:792: width--;
+   07AE 15                 1222 	dec	d
+   07AF 18 DF              1223 	jr	00187$
+   07B1                    1224 00316$:
+   07B1 DD 7E E8           1225 	ld	a,-24 (ix)
+   07B4 DD 77 E2           1226 	ld	-30 (ix),a
+   07B7 DD 7E E9           1227 	ld	a,-23 (ix)
+   07BA DD 77 E3           1228 	ld	-29 (ix),a
+   07BD DD 72 EE           1229 	ld	-18 (ix),d
+   07C0                    1230 00191$:
+                           1231 ;../printf_large.c:796: if (signed_argument) // this now means the original value was negative
+   07C0 DD CB D1 46        1232 	bit	0,-47 (ix)
+   07C4 28 1B              1233 	jr	Z,00201$
+                           1234 ;../printf_large.c:798: OUTPUT_CHAR( '-', p );
+   07C6 C4 3C              1235 	ld	hl, 60 (sp)
+   07C8 E5                 1236 	push	hl
+   07C9 3E 2D              1237 	ld	a,#0x2D
+   07CB F5                 1238 	push	af
+   07CC 33                 1239 	inc	sp
+   07CD C4 3D              1240 	ld	hl, 61 (sp)
+   07CF CDr00r00           1241 	call	___sdcc_call_hl
+   07D2 27 03              1242 	add	sp, #3
+   07D4 DD 34 E2           1243 	inc	-30 (ix)
+   07D7 20 03              1244 	jr	NZ,00587$
+   07D9 DD 34 E3           1245 	inc	-29 (ix)
+   07DC                    1246 00587$:
+                           1247 ;../printf_large.c:800: width--;
+   07DC DD 35 EE           1248 	dec	-18 (ix)
+   07DF 18 46              1249 	jr	00202$
+   07E1                    1250 00201$:
+                           1251 ;../printf_large.c:802: else if (length != 0)
+   07E1 DD 7E F7           1252 	ld	a,-9 (ix)
+   07E4 B7                 1253 	or	a, a
+   07E5 28 40              1254 	jr	Z,00202$
+                           1255 ;../printf_large.c:805: if (prefix_sign)
+   07E7 DD CB D8 46        1256 	bit	0,-40 (ix)
+   07EB 28 1B              1257 	jr	Z,00196$
+                           1258 ;../printf_large.c:807: OUTPUT_CHAR( '+', p );
+   07ED C4 3C              1259 	ld	hl, 60 (sp)
+   07EF E5                 1260 	push	hl
+   07F0 3E 2B              1261 	ld	a,#0x2B
+   07F2 F5                 1262 	push	af
+   07F3 33                 1263 	inc	sp
+   07F4 C4 3D              1264 	ld	hl, 61 (sp)
+   07F6 CDr00r00           1265 	call	___sdcc_call_hl
+   07F9 27 03              1266 	add	sp, #3
+   07FB DD 34 E2           1267 	inc	-30 (ix)
+   07FE 20 03              1268 	jr	NZ,00588$
+   0800 DD 34 E3           1269 	inc	-29 (ix)
+   0803                    1270 00588$:
+                           1271 ;../printf_large.c:809: width--;
+   0803 DD 35 EE           1272 	dec	-18 (ix)
+   0806 18 1F              1273 	jr	00202$
+   0808                    1274 00196$:
+                           1275 ;../printf_large.c:811: else if (prefix_space)
+   0808 DD CB D9 46        1276 	bit	0,-39 (ix)
+   080C 28 19              1277 	jr	Z,00202$
+                           1278 ;../printf_large.c:813: OUTPUT_CHAR( ' ', p );
+   080E C4 3C              1279 	ld	hl, 60 (sp)
+   0810 E5                 1280 	push	hl
+   0811 3E 20              1281 	ld	a,#0x20
+   0813 F5                 1282 	push	af
+   0814 33                 1283 	inc	sp
+   0815 C4 3D              1284 	ld	hl, 61 (sp)
+   0817 CDr00r00           1285 	call	___sdcc_call_hl
+   081A 27 03              1286 	add	sp, #3
+   081C DD 34 E2           1287 	inc	-30 (ix)
+   081F 20 03              1288 	jr	NZ,00589$
+   0821 DD 34 E3           1289 	inc	-29 (ix)
+   0824                    1290 00589$:
+                           1291 ;../printf_large.c:815: width--;
+   0824 DD 35 EE           1292 	dec	-18 (ix)
+   0827                    1293 00202$:
+                           1294 ;../printf_large.c:820: if (!left_justify)
+   0827 DD CB DC 46        1295 	bit	0,-36 (ix)
+   082B 20 47              1296 	jr	NZ,00210$
+                           1297 ;../printf_large.c:822: while ( width-- > length )
+   082D DD 7E E2           1298 	ld	a,-30 (ix)
+   0830 DD 77 EA           1299 	ld	-22 (ix),a
+   0833 DD 7E E3           1300 	ld	a,-29 (ix)
+   0836 DD 77 EB           1301 	ld	-21 (ix),a
+   0839 DD 7E EE           1302 	ld	a,-18 (ix)
+   083C DD 77 E8           1303 	ld	-24 (ix),a
+   083F                    1304 00203$:
+   083F DD 66 E8           1305 	ld	h,-24 (ix)
+   0842 DD 35 E8           1306 	dec	-24 (ix)
+   0845 DD 7E F7           1307 	ld	a,-9 (ix)
+   0848 94                 1308 	sub	a, h
+   0849 30 42              1309 	jr	NC,00317$
+                           1310 ;../printf_large.c:824: OUTPUT_CHAR( zero_padding ? '0' : ' ', p );
+   084B DD CB DA 46        1311 	bit	0,-38 (ix)
+   084F 28 06              1312 	jr	Z,00236$
+   0851 DD 36 E6 30        1313 	ld	-26 (ix),#0x30
+   0855 18 04              1314 	jr	00237$
+   0857                    1315 00236$:
+   0857 DD 36 E6 20        1316 	ld	-26 (ix),#0x20
+   085B                    1317 00237$:
+   085B C4 3C              1318 	ld	hl, 60 (sp)
+   085D E5                 1319 	push	hl
+   085E DD 7E E6           1320 	ld	a,-26 (ix)
+   0861 F5                 1321 	push	af
+   0862 33                 1322 	inc	sp
+   0863 C4 3D              1323 	ld	hl, 61 (sp)
+   0865 CDr00r00           1324 	call	___sdcc_call_hl
+   0868 27 03              1325 	add	sp, #3
+   086A DD 34 EA           1326 	inc	-22 (ix)
+   086D 20 D0              1327 	jr	NZ,00203$
+   086F DD 34 EB           1328 	inc	-21 (ix)
+   0872 18 CB              1329 	jr	00203$
+   0874                    1330 00210$:
+                           1331 ;../printf_large.c:830: if (width > length)
+   0874 DD 7E F7           1332 	ld	a,-9 (ix)
+   0877 DD 96 EE           1333 	sub	a, -18 (ix)
+   087A 30 0B              1334 	jr	NC,00207$
+                           1335 ;../printf_large.c:831: width -= length;
+   087C DD 7E EE           1336 	ld	a,-18 (ix)
+   087F DD 96 F7           1337 	sub	a, -9 (ix)
+   0882 DD 77 E6           1338 	ld	-26 (ix),a
+   0885 18 18              1339 	jr	00309$
+   0887                    1340 00207$:
+                           1341 ;../printf_large.c:833: width = 0;
+   0887 DD 36 E6 00        1342 	ld	-26 (ix),#0x00
+                           1343 ;../printf_large.c:872: return charsOutputted;
+   088B 18 12              1344 	jr	00309$
+                           1345 ;../printf_large.c:837: while( length-- )
+   088D                    1346 00317$:
+   088D DD 7E EA           1347 	ld	a,-22 (ix)
+   0890 DD 77 E2           1348 	ld	-30 (ix),a
+   0893 DD 7E EB           1349 	ld	a,-21 (ix)
+   0896 DD 77 E3           1350 	ld	-29 (ix),a
+   0899 DD 7E E8           1351 	ld	a,-24 (ix)
+   089C DD 77 E6           1352 	ld	-26 (ix),a
+   089F                    1353 00309$:
+   089F DD 7E EF           1354 	ld	a,-17 (ix)
+   08A2 DD 77 EF           1355 	ld	-17 (ix),a
+   08A5 DD 7E F0           1356 	ld	a,-16 (ix)
+   08A8 DD 77 F0           1357 	ld	-16 (ix),a
+   08AB DD 7E E2           1358 	ld	a,-30 (ix)
+   08AE DD 77 EA           1359 	ld	-22 (ix),a
+   08B1 DD 7E E3           1360 	ld	a,-29 (ix)
+   08B4 DD 77 EB           1361 	ld	-21 (ix),a
+   08B7 DD 7E F7           1362 	ld	a,-9 (ix)
+   08BA DD 77 F7           1363 	ld	-9 (ix),a
+   08BD                    1364 00215$:
+   08BD DD 66 F7           1365 	ld	h,-9 (ix)
+   08C0 DD 35 F7           1366 	dec	-9 (ix)
+   08C3 7C                 1367 	ld	a,h
+   08C4 B7                 1368 	or	a, a
+   08C5 28 4B              1369 	jr	Z,00318$
+                           1370 ;../printf_large.c:839: lsd = !lsd;
+   08C7 DD 7E D7           1371 	ld	a,-41 (ix)
+   08CA EE 01              1372 	xor	a, #0x01
+   08CC DD 77 D7           1373 	ld	-41 (ix),a
+                           1374 ;../printf_large.c:840: if (!lsd)
+   08CF DD CB D7 46        1375 	bit	0,-41 (ix)
+   08D3 20 16              1376 	jr	NZ,00213$
+                           1377 ;../printf_large.c:842: pstore++;
+   08D5 DD 34 EF           1378 	inc	-17 (ix)
+   08D8 20 03              1379 	jr	NZ,00591$
+   08DA DD 34 F0           1380 	inc	-16 (ix)
+   08DD                    1381 00591$:
+                           1382 ;../printf_large.c:843: value.byte[4] = *pstore >> 4;
+   08DD C4 25              1383 	ld	hl, 37 (sp)
+   08DF 7E                 1384 	ld	a,(hl)
+   08E0 07                 1385 	rlca
+   08E1 07                 1386 	rlca
+   08E2 07                 1387 	rlca
+   08E3 07                 1388 	rlca
+   08E4 E6 0F              1389 	and	a,#0x0F
+   08E6 C4 34              1390 	ld	hl, 52 (sp)
+   08E8 77                 1391 	ld	(hl),a
+   08E9 18 08              1392 	jr	00214$
+   08EB                    1393 00213$:
+                           1394 ;../printf_large.c:847: value.byte[4] = *pstore & 0x0F;
+   08EB C4 25              1395 	ld	hl, 37 (sp)
+   08ED 7E                 1396 	ld	a,(hl)
+   08EE E6 0F              1397 	and	a, #0x0F
+   08F0 C4 34              1398 	ld	hl, 52 (sp)
+   08F2 77                 1399 	ld	(hl),a
+   08F3                    1400 00214$:
+                           1401 ;../printf_large.c:850: output_digit( value.byte[4], lower_case, output_char, p );
+   08F3 C4 34              1402 	ld	hl, 52 (sp)
+   08F5 56                 1403 	ld	d,(hl)
+   08F6 C4 3C              1404 	ld	hl, 60 (sp)
+   08F8 E5                 1405 	push	hl
+   08F9 C4 3C              1406 	ld	hl, 60 (sp)
+   08FB E5                 1407 	push	hl
+   08FC DD 7E D5           1408 	ld	a,-43 (ix)
+   08FF F5                 1409 	push	af
+   0900 33                 1410 	inc	sp
+   0901 D5                 1411 	push	de
+   0902 33                 1412 	inc	sp
+   0903 CDr00r00           1413 	call	_output_digit
+   0906 27 06              1414 	add	sp, #6
+                           1415 ;../printf_large.c:851: charsOutputted++;
+   0908 DD 34 EA           1416 	inc	-22 (ix)
+   090B 20 B0              1417 	jr	NZ,00215$
+   090D DD 34 EB           1418 	inc	-21 (ix)
+   0910 18 AB              1419 	jr	00215$
+   0912                    1420 00318$:
+   0912 DD 7E EA           1421 	ld	a,-22 (ix)
+   0915 DD 77 E2           1422 	ld	-30 (ix),a
+   0918 DD 7E EB           1423 	ld	a,-21 (ix)
+   091B DD 77 E3           1424 	ld	-29 (ix),a
+                           1425 ;../printf_large.c:856: if (left_justify)
+   091E DD CB DC 46        1426 	bit	0,-36 (ix)
+   0922 CAr07r01           1427 	jp	Z,00231$
+                           1428 ;../printf_large.c:858: while (width-- > 0)
+   0925 EB                 1429 	ex	de, hl
+   0926 C4 20              1430 	ld	hl, 32 (sp)
+   0928 EB                 1431 	ex	de, hl
+   0929 DD 7E E6           1432 	ld	a,-26 (ix)
+   092C DD 77 EF           1433 	ld	-17 (ix),a
+   092F                    1434 00218$:
+   092F DD 66 EF           1435 	ld	h,-17 (ix)
+   0932 DD 35 EF           1436 	dec	-17 (ix)
+   0935 7C                 1437 	ld	a,h
+   0936 B7                 1438 	or	a, a
+   0937 CAr07r01           1439 	jp	Z,00231$
+                           1440 ;../printf_large.c:860: OUTPUT_CHAR(' ', p);
+   093A D5                 1441 	push	de
+   093B C4 3E              1442 	ld	hl, 62 (sp)
+   093D E5                 1443 	push	hl
+   093E 3E 20              1444 	ld	a,#0x20
+   0940 F5                 1445 	push	af
+   0941 33                 1446 	inc	sp
+   0942 C4 3F              1447 	ld	hl, 63 (sp)
+   0944 CDr00r00           1448 	call	___sdcc_call_hl
+   0947 27 03              1449 	add	sp, #3
+   0949 D1                 1450 	pop	de
+   094A 13                 1451 	inc	de
+   094B DD 73 E2           1452 	ld	-30 (ix),e
+   094E DD 72 E3           1453 	ld	-29 (ix),d
+   0951 18 DC              1454 	jr	00218$
+   0953                    1455 00229$:
+                           1456 ;../printf_large.c:868: OUTPUT_CHAR( c, p );
+   0953 C4 3C              1457 	ld	hl, 60 (sp)
+   0955 E5                 1458 	push	hl
+   0956 DD 7E E7           1459 	ld	a,-25 (ix)
+   0959 F5                 1460 	push	af
+   095A 33                 1461 	inc	sp
+   095B C4 3D              1462 	ld	hl, 61 (sp)
+   095D CDr00r00           1463 	call	___sdcc_call_hl
+   0960 27 03              1464 	add	sp, #3
+   0962 DD 34 E2           1465 	inc	-30 (ix)
+   0965 C2r07r01           1466 	jp	NZ,00231$
+   0968 DD 34 E3           1467 	inc	-29 (ix)
+   096B C3r07r01           1468 	jp	00231$
+   096E                    1469 00233$:
+                           1470 ;../printf_large.c:872: return charsOutputted;
+   096E C4 18              1471 	ld	hl, 24 (sp)
+   0970 DD F9              1472 	ld	sp, ix
+   0972 DD E1              1473 	pop	ix
+   0974 C9                 1474 	ret
+   0975                    1475 ___str_0:
+   0975 3C 4E 4F 20 46 4C  1476 	.ascii "<NO FLOAT>"
+        4F 41 54 3E
+   097F 00                 1477 	.db 0x00
+                           1478 	.area _CODE
+                           1479 	.area _INITIALIZER
+                           1480 	.area _CABS (ABS)

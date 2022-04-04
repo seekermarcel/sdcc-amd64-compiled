@@ -1,0 +1,205 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                                      4 ; This file was generated Mon Apr  4 14:10:27 2022
+                                      5 ;--------------------------------------------------------
+                                      6 	.module _calloc
+                                      7 	.optsdcc -mds390 --model-flat24
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; CPU specific extensions
+                                     11 ;--------------------------------------------------------
+                                     12 	.DS80C390
+                                     13 	.amode	2	; 24 bit flat addressing
+                           000082    14 dpl	=	0x82
+                           000083    15 dph	=	0x83
+                           000084    16 dpl1	=	0x84
+                           000085    17 dph1	=	0x85
+                           000086    18 dps	=	0x86
+                           000093    19 dpx	=	0x93
+                           000095    20 dpx1	=	0x95
+                           00009B    21 esp	=	0x9B
+                           00009C    22 ap	=	0x9C
+                           00009C    23 acc1	=	0x9C
+                           0000D1    24 mcnt0	=	0xD1
+                           0000D2    25 mcnt1	=	0xD2
+                           0000D3    26 ma	=	0xD3
+                           0000D4    27 mb	=	0xD4
+                           0000D5    28 mc	=	0xD5
+                           00009D    29 acon	=	0x9D
+                           0000D1    30 F1	=	0xD1	; user flag
+                                     31 ;--------------------------------------------------------
+                                     32 ; Public variables in this module
+                                     33 ;--------------------------------------------------------
+                                     34 	.globl _memset
+                                     35 	.globl _malloc
+                                     36 	.globl _calloc_PARM_2
+                                     37 	.globl _calloc
+                                     38 ;--------------------------------------------------------
+                                     39 ; special function registers
+                                     40 ;--------------------------------------------------------
+                                     41 ;--------------------------------------------------------
+                                     42 ; special function bits
+                                     43 ;--------------------------------------------------------
+                                     44 ;--------------------------------------------------------
+                                     45 ; overlayable register banks
+                                     46 ;--------------------------------------------------------
+                                     47 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         48 	.ds 8
+                                     49 ;--------------------------------------------------------
+                                     50 ; internal ram data
+                                     51 ;--------------------------------------------------------
+                                     52 	.area DSEG    (DATA)
+                                     53 ;--------------------------------------------------------
+                                     54 ; overlayable items in internal ram 
+                                     55 ;--------------------------------------------------------
+                                     56 ;--------------------------------------------------------
+                                     57 ; indirectly addressable internal ram data
+                                     58 ;--------------------------------------------------------
+                                     59 	.area ISEG    (DATA)
+                                     60 ;--------------------------------------------------------
+                                     61 ; absolute internal ram data
+                                     62 ;--------------------------------------------------------
+                                     63 	.area IABS    (ABS,DATA)
+                                     64 	.area IABS    (ABS,DATA)
+                                     65 ;--------------------------------------------------------
+                                     66 ; bit data
+                                     67 ;--------------------------------------------------------
+                                     68 	.area BSEG    (BIT)
+                                     69 ;--------------------------------------------------------
+                                     70 ; paged external ram data
+                                     71 ;--------------------------------------------------------
+                                     72 	.area PSEG    (PAG,XDATA)
+                                     73 ;--------------------------------------------------------
+                                     74 ; external ram data
+                                     75 ;--------------------------------------------------------
+                                     76 	.area XSEG    (XDATA)
+      000000                         77 _calloc_PARM_2:
+      000000                         78 	.ds 2
+                                     79 ;--------------------------------------------------------
+                                     80 ; absolute external ram data
+                                     81 ;--------------------------------------------------------
+                                     82 	.area XABS    (ABS,XDATA)
+                                     83 ;--------------------------------------------------------
+                                     84 ; external initialized ram data
+                                     85 ;--------------------------------------------------------
+                                     86 	.area XISEG   (XDATA)
+                                     87 ;--------------------------------------------------------
+                                     88 ; global & static initialisations
+                                     89 ;--------------------------------------------------------
+                                     90 	.area HOME    (CODE)
+                                     91 	.area GSINIT  (CODE)
+                                     92 	.area GSFINAL (CODE)
+                                     93 	.area GSINIT  (CODE)
+                                     94 ;--------------------------------------------------------
+                                     95 ; Home
+                                     96 ;--------------------------------------------------------
+                                     97 	.area HOME    (CODE)
+                                     98 	.area HOME    (CODE)
+                                     99 ;--------------------------------------------------------
+                                    100 ; code
+                                    101 ;--------------------------------------------------------
+                                    102 	.area CSEG    (CODE)
+                                    103 ;------------------------------------------------------------
+                                    104 ;Allocation info for local variables in function 'calloc'
+                                    105 ;------------------------------------------------------------
+                                    106 ;size                      Allocated with name '_calloc_PARM_2'
+                                    107 ;nmemb                     Allocated to registers r2 r3 
+                                    108 ;ptr                       Allocated to registers r4 r5 r6 
+                                    109 ;------------------------------------------------------------
+                                    110 ;	_calloc.c:45: void __xdata * calloc (size_t nmemb, size_t size)
+                                    111 ;	-----------------------------------------
+                                    112 ;	 function calloc
+                                    113 ;	-----------------------------------------
+      000000                        114 _calloc:
+                           000002   115 	ar2 = 0x02
+                           000003   116 	ar3 = 0x03
+                           000004   117 	ar4 = 0x04
+                           000005   118 	ar5 = 0x05
+                           000006   119 	ar6 = 0x06
+                           000007   120 	ar7 = 0x07
+                           000000   121 	ar0 = 0x00
+                           000001   122 	ar1 = 0x01
+      000000 AA 82            [ 8]  123 	mov	r2,dpl
+      000002 AB 83            [ 8]  124 	mov	r3,dph
+                                    125 ;	_calloc.c:49: ptr = malloc(nmemb * size);
+      000004 90s00r00r00      [12]  126 	mov	dptr,#_calloc_PARM_2
+                                    127 ;	genAssign: resultIsFar = TRUE
+      000008 75 86 21         [12]  128 	mov	dps,#0x21
+      00000B 90s00r00r00      [12]  129 	mov	dptr,#__mulint_PARM_2
+      00000F E0               [ 8]  130 	movx	a,@dptr
+      000010 F0               [ 8]  131 	movx	@dptr,a
+      000011 A3               [12]  132 	inc	dptr
+      000012 A3               [12]  133 	inc	dptr
+      000013 E0               [ 8]  134 	movx	a,@dptr
+      000014 F0               [ 8]  135 	movx	@dptr,a
+      000015 75 86 00         [12]  136 	mov	dps,#0
+      000018 8A 82            [ 8]  137 	mov	dpl,r2
+      00001A 8B 83            [ 8]  138 	mov	dph,r3
+      00001C 12s00r00r00      [16]  139 	lcall	__mulint
+      000020 AA 82            [ 8]  140 	mov	r2,dpl
+      000022 AB 83            [ 8]  141 	mov	r3,dph
+      000024 C0 02            [ 8]  142 	push	ar2
+      000026 C0 03            [ 8]  143 	push	ar3
+      000028 8A 82            [ 8]  144 	mov	dpl,r2
+      00002A 8B 83            [ 8]  145 	mov	dph,r3
+      00002C 12s00r00r00      [16]  146 	lcall	_malloc
+      000030 AC 82            [ 8]  147 	mov	r4,dpl
+      000032 AD 83            [ 8]  148 	mov	r5,dph
+      000034 AE 93            [ 8]  149 	mov	r6,dpx
+      000036 D0 03            [ 8]  150 	pop	ar3
+      000038 D0 02            [ 8]  151 	pop	ar2
+                                    152 ;	genAssign: resultIsFar = TRUE
+                                    153 ;	_calloc.c:50: if (ptr)
+      00003A EC               [ 4]  154 	mov	a,r4
+      00003B 4D               [ 4]  155 	orl	a,r5
+      00003C 4E               [ 4]  156 	orl	a,r6
+      00003D 60 3B            [12]  157 	jz  00102$
+      00003F                        158 00108$:
+                                    159 ;	_calloc.c:52: memset(ptr, 0, nmemb * size);
+                                    160 ;	genAssign: resultIsFar = FALSE
+      00003F 8C 07            [ 8]  161 	mov	ar7,r4
+      000041 8D 00            [ 8]  162 	mov	ar0,r5
+      000043 8E 01            [ 8]  163 	mov	ar1,r6
+      000045 C0 04            [ 8]  164 	push	ar4
+      000047 C0 05            [ 8]  165 	push	ar5
+      000049 C0 06            [ 8]  166 	push	ar6
+      00004B 7C 00            [ 8]  167 	mov	r4,#0x00
+                                    168 ;	genAssign: resultIsFar = TRUE
+      00004D 90s00r00r00      [12]  169 	mov	dptr,#_memset_PARM_2
+      000051 E4               [ 4]  170 	clr	a
+      000052 F0               [ 8]  171 	movx	@dptr,a
+                                    172 ;	genAssign: resultIsFar = TRUE
+      000053 90s00r00r00      [12]  173 	mov	dptr,#_memset_PARM_3
+      000057 EA               [ 4]  174 	mov	a,r2
+      000058 F0               [ 8]  175 	movx	@dptr,a
+      000059 A3               [12]  176 	inc	dptr
+      00005A EB               [ 4]  177 	mov	a,r3
+      00005B F0               [ 8]  178 	movx	@dptr,a
+      00005C C0 04            [ 8]  179 	push	ar4
+      00005E C0 05            [ 8]  180 	push	ar5
+      000060 C0 06            [ 8]  181 	push	ar6
+      000062 8F 82            [ 8]  182 	mov	dpl,r7
+      000064 88 83            [ 8]  183 	mov	dph,r0
+      000066 89 93            [ 8]  184 	mov	dpx,r1
+      000068 8C F0            [ 8]  185 	mov	b,r4
+      00006A 12s00r00r00      [16]  186 	lcall	_memset
+      00006E D0 06            [ 8]  187 	pop	ar6
+      000070 D0 05            [ 8]  188 	pop	ar5
+      000072 D0 04            [ 8]  189 	pop	ar4
+                                    190 ;	_calloc.c:54: return ptr;
+      000074 D0 06            [ 8]  191 	pop	ar6
+      000076 D0 05            [ 8]  192 	pop	ar5
+      000078 D0 04            [ 8]  193 	pop	ar4
+                                    194 ;	_calloc.c:52: memset(ptr, 0, nmemb * size);
+      00007A                        195 00102$:
+                                    196 ;	_calloc.c:54: return ptr;
+      00007A 8C 82            [ 8]  197 	mov	dpl,r4
+      00007C 8D 83            [ 8]  198 	mov	dph,r5
+      00007E 8E 93            [ 8]  199 	mov	dpx,r6
+      000080                        200 00103$:
+      000080 22               [16]  201 	ret
+                                    202 	.area CSEG    (CODE)
+                                    203 	.area CONST   (CODE)
+                                    204 	.area XINIT   (CODE)
+                                    205 	.area CABS    (ABS,CODE)

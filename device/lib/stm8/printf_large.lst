@@ -1,0 +1,1314 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                                      4 ; This file was generated Mon Apr  4 14:17:25 2022
+                                      5 ;--------------------------------------------------------
+                                      6 	.module printf_large
+                                      7 	.optsdcc -mstm8
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _strlen
+                                     13 	.globl __print_format
+                                     14 ;--------------------------------------------------------
+                                     15 ; ram data
+                                     16 ;--------------------------------------------------------
+                                     17 	.area DATA
+                                     18 ;--------------------------------------------------------
+                                     19 ; ram data
+                                     20 ;--------------------------------------------------------
+                                     21 	.area INITIALIZED
+                                     22 ;--------------------------------------------------------
+                                     23 ; absolute external ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area DABS (ABS)
+                                     26 ;--------------------------------------------------------
+                                     27 ; global & static initialisations
+                                     28 ;--------------------------------------------------------
+                                     29 	.area HOME
+                                     30 	.area GSINIT
+                                     31 	.area GSFINAL
+                                     32 	.area GSINIT
+                                     33 ;--------------------------------------------------------
+                                     34 ; Home
+                                     35 ;--------------------------------------------------------
+                                     36 	.area HOME
+                                     37 	.area HOME
+                                     38 ;--------------------------------------------------------
+                                     39 ; code
+                                     40 ;--------------------------------------------------------
+                                     41 	.area CODE
+                                     42 ;	../printf_large.c: 116: output_digit (unsigned char n, bool lower_case, pfn_outputchar output_char, void* p)
+                                     43 ;	-----------------------------------------
+                                     44 ;	 function output_digit
+                                     45 ;	-----------------------------------------
+      000000                         46 _output_digit:
+                                     47 ;	../printf_large.c: 118: register unsigned char c = n + (unsigned char)'0';
+      000000 7B 03            [ 1]   48 	ld	a, (0x03, sp)
+      000002 AB 30            [ 1]   49 	add	a, #0x30
+                                     50 ;	../printf_large.c: 120: if (c > (unsigned char)'9')
+      000004 A1 39            [ 1]   51 	cp	a, #0x39
+      000006 23 08            [ 2]   52 	jrule	00104$
+                                     53 ;	../printf_large.c: 122: c += (unsigned char)('A' - '0' - 10);
+      000008 AB 07            [ 1]   54 	add	a, #0x07
+                                     55 ;	../printf_large.c: 123: if (lower_case)
+      00000A 0D 04            [ 1]   56 	tnz	(0x04, sp)
+      00000C 27 02            [ 1]   57 	jreq	00104$
+                                     58 ;	../printf_large.c: 124: c += (unsigned char)('a' - 'A');
+      00000E AB 20            [ 1]   59 	add	a, #0x20
+      000010                         60 00104$:
+                                     61 ;	../printf_large.c: 126: output_char( c, p );
+      000010 1E 07            [ 2]   62 	ldw	x, (0x07, sp)
+      000012 89               [ 2]   63 	pushw	x
+      000013 88               [ 1]   64 	push	a
+      000014 1E 08            [ 2]   65 	ldw	x, (0x08, sp)
+      000016 FD               [ 4]   66 	call	(x)
+      000017 5B 03            [ 2]   67 	addw	sp, #3
+      000019 81               [ 4]   68 	ret
+                                     69 ;	../printf_large.c: 149: output_2digits (unsigned char b, bool lower_case, pfn_outputchar output_char, void* p)
+                                     70 ;	-----------------------------------------
+                                     71 ;	 function output_2digits
+                                     72 ;	-----------------------------------------
+      00001A                         73 _output_2digits:
+                                     74 ;	../printf_large.c: 151: output_digit( b>>4,   lower_case, output_char, p );
+      00001A 7B 03            [ 1]   75 	ld	a, (0x03, sp)
+      00001C 4E               [ 1]   76 	swap	a
+      00001D A4 0F            [ 1]   77 	and	a, #0x0f
+      00001F 1E 07            [ 2]   78 	ldw	x, (0x07, sp)
+      000021 89               [ 2]   79 	pushw	x
+      000022 1E 07            [ 2]   80 	ldw	x, (0x07, sp)
+      000024 89               [ 2]   81 	pushw	x
+      000025 41               [ 1]   82 	exg	a, xl
+      000026 7B 08            [ 1]   83 	ld	a, (0x08, sp)
+      000028 41               [ 1]   84 	exg	a, xl
+      000029 89               [ 2]   85 	pushw	x
+      00002A 5B 01            [ 2]   86 	addw	sp, #1
+      00002C 88               [ 1]   87 	push	a
+      00002D CDr00r00         [ 4]   88 	call	_output_digit
+      000030 5B 06            [ 2]   89 	addw	sp, #6
+                                     90 ;	../printf_large.c: 152: output_digit( b&0x0F, lower_case, output_char, p );
+      000032 7B 03            [ 1]   91 	ld	a, (0x03, sp)
+      000034 A4 0F            [ 1]   92 	and	a, #0x0f
+      000036 90 95            [ 1]   93 	ld	yh, a
+      000038 1E 07            [ 2]   94 	ldw	x, (0x07, sp)
+      00003A 89               [ 2]   95 	pushw	x
+      00003B 1E 07            [ 2]   96 	ldw	x, (0x07, sp)
+      00003D 89               [ 2]   97 	pushw	x
+      00003E 7B 08            [ 1]   98 	ld	a, (0x08, sp)
+      000040 88               [ 1]   99 	push	a
+      000041 90 9E            [ 1]  100 	ld	a, yh
+      000043 88               [ 1]  101 	push	a
+      000044 CDr00r00         [ 4]  102 	call	_output_digit
+      000047 5B 06            [ 2]  103 	addw	sp, #6
+      000049 81               [ 4]  104 	ret
+                                    105 ;	../printf_large.c: 168: calculate_digit (value_t _AUTOMEM * value, unsigned char radix)
+                                    106 ;	-----------------------------------------
+                                    107 ;	 function calculate_digit
+                                    108 ;	-----------------------------------------
+      00004A                        109 _calculate_digit:
+      00004A 52 09            [ 2]  110 	sub	sp, #9
+                                    111 ;	../printf_large.c: 170: unsigned long ul = value->ul;
+      00004C 16 0C            [ 2]  112 	ldw	y, (0x0c, sp)
+      00004E 17 08            [ 2]  113 	ldw	(0x08, sp), y
+      000050 1E 08            [ 2]  114 	ldw	x, (0x08, sp)
+      000052 E6 03            [ 1]  115 	ld	a, (0x3, x)
+      000054 90 97            [ 1]  116 	ld	yl, a
+      000056 E6 02            [ 1]  117 	ld	a, (0x2, x)
+      000058 FE               [ 2]  118 	ldw	x, (x)
+      000059 1F 04            [ 2]  119 	ldw	(0x04, sp), x
+      00005B 90 95            [ 1]  120 	ld	yh, a
+                                    121 ;	../printf_large.c: 171: unsigned char _AUTOMEM * pb4 = &value->byte[4];
+      00005D 1E 08            [ 2]  122 	ldw	x, (0x08, sp)
+      00005F 1C 00 04         [ 2]  123 	addw	x, #0x0004
+      000062 1F 02            [ 2]  124 	ldw	(0x02, sp), x
+                                    125 ;	../printf_large.c: 172: unsigned char i = 32;
+      000064 A6 20            [ 1]  126 	ld	a, #0x20
+      000066 6B 01            [ 1]  127 	ld	(0x01, sp), a
+                                    128 ;	../printf_large.c: 174: do
+      000068                        129 00103$:
+                                    130 ;	../printf_large.c: 176: *pb4 = (*pb4 << 1) | ((ul >> 31) & 0x01);
+      000068 1E 02            [ 2]  131 	ldw	x, (0x02, sp)
+      00006A F6               [ 1]  132 	ld	a, (x)
+      00006B 48               [ 1]  133 	sll	a
+      00006C 95               [ 1]  134 	ld	xh, a
+      00006D 7B 04            [ 1]  135 	ld	a, (0x04, sp)
+      00006F 48               [ 1]  136 	sll	a
+      000070 4F               [ 1]  137 	clr	a
+      000071 49               [ 1]  138 	rlc	a
+      000072 89               [ 2]  139 	pushw	x
+      000073 1A 01            [ 1]  140 	or	a, (1, sp)
+      000075 85               [ 2]  141 	popw	x
+      000076 1E 02            [ 2]  142 	ldw	x, (0x02, sp)
+      000078 F7               [ 1]  143 	ld	(x), a
+                                    144 ;	../printf_large.c: 177: ul <<= 1;
+      000079 1E 04            [ 2]  145 	ldw	x, (0x04, sp)
+      00007B 90 58            [ 2]  146 	sllw	y
+      00007D 59               [ 2]  147 	rlcw	x
+      00007E 1F 04            [ 2]  148 	ldw	(0x04, sp), x
+                                    149 ;	../printf_large.c: 179: if (radix <= *pb4 )
+      000080 1E 02            [ 2]  150 	ldw	x, (0x02, sp)
+      000082 F6               [ 1]  151 	ld	a, (x)
+      000083 11 0E            [ 1]  152 	cp	a, (0x0e, sp)
+      000085 25 12            [ 1]  153 	jrc	00104$
+                                    154 ;	../printf_large.c: 181: *pb4 -= radix;
+      000087 10 0E            [ 1]  155 	sub	a, (0x0e, sp)
+      000089 1E 02            [ 2]  156 	ldw	x, (0x02, sp)
+      00008B F7               [ 1]  157 	ld	(x), a
+                                    158 ;	../printf_large.c: 182: ul |= 1;
+      00008C 90 54            [ 2]  159 	srlw	y
+      00008E 99               [ 1]  160 	scf
+      00008F 90 59            [ 2]  161 	rlcw	y
+      000091 7B 05            [ 1]  162 	ld	a, (0x05, sp)
+      000093 97               [ 1]  163 	ld	xl, a
+      000094 7B 04            [ 1]  164 	ld	a, (0x04, sp)
+      000096 95               [ 1]  165 	ld	xh, a
+      000097 1F 04            [ 2]  166 	ldw	(0x04, sp), x
+      000099                        167 00104$:
+                                    168 ;	../printf_large.c: 184: } while (--i);
+      000099 7B 01            [ 1]  169 	ld	a, (0x01, sp)
+      00009B 4A               [ 1]  170 	dec	a
+      00009C 6B 01            [ 1]  171 	ld	(0x01, sp), a
+      00009E 4D               [ 1]  172 	tnz	a
+      00009F 26 C7            [ 1]  173 	jrne	00103$
+                                    174 ;	../printf_large.c: 185: value->ul = ul;
+      0000A1 1E 08            [ 2]  175 	ldw	x, (0x08, sp)
+      0000A3 EF 02            [ 2]  176 	ldw	(0x2, x), y
+      0000A5 16 04            [ 2]  177 	ldw	y, (0x04, sp)
+      0000A7 FF               [ 2]  178 	ldw	(x), y
+      0000A8 5B 09            [ 2]  179 	addw	sp, #9
+      0000AA 81               [ 4]  180 	ret
+                                    181 ;	../printf_large.c: 434: _print_format (pfn_outputchar pfn, void* pvoid, const char *format, va_list ap)
+                                    182 ;	-----------------------------------------
+                                    183 ;	 function _print_format
+                                    184 ;	-----------------------------------------
+      0000AB                        185 __print_format:
+      0000AB 52 89            [ 2]  186 	sub	sp, #137
+                                    187 ;	../printf_large.c: 466: charsOutputted = 0;
+      0000AD 5F               [ 1]  188 	clrw	x
+      0000AE 1F 1E            [ 2]  189 	ldw	(0x1e, sp), x
+                                    190 ;	../printf_large.c: 475: while( c=*format++ )
+      0000B0 96               [ 1]  191 	ldw	x, sp
+      0000B1 1C 00 12         [ 2]  192 	addw	x, #18
+      0000B4 1F 21            [ 2]  193 	ldw	(0x21, sp), x
+      0000B6 AEr06rEE         [ 2]  194 	ldw	x, #___str_0+0
+      0000B9 1F 66            [ 2]  195 	ldw	(0x66, sp), x
+      0000BB 96               [ 1]  196 	ldw	x, sp
+      0000BC 1C 00 06         [ 2]  197 	addw	x, #6
+      0000BF 1F 85            [ 2]  198 	ldw	(0x85, sp), x
+      0000C1 96               [ 1]  199 	ldw	x, sp
+      0000C2 1C 00 12         [ 2]  200 	addw	x, #18
+      0000C5 1F 87            [ 2]  201 	ldw	(0x87, sp), x
+      0000C7 1E 87            [ 2]  202 	ldw	x, (0x87, sp)
+      0000C9 1C 00 04         [ 2]  203 	addw	x, #0x0004
+      0000CC 1F 26            [ 2]  204 	ldw	(0x26, sp), x
+      0000CE                        205 00231$:
+      0000CE 1E 90            [ 2]  206 	ldw	x, (0x90, sp)
+      0000D0 F6               [ 1]  207 	ld	a, (x)
+      0000D1 5C               [ 2]  208 	incw	x
+      0000D2 1F 90            [ 2]  209 	ldw	(0x90, sp), x
+      0000D4 6B 31            [ 1]  210 	ld	(0x31, sp), a
+      0000D6 4D               [ 1]  211 	tnz	a
+      0000D7 26 03            [ 1]  212 	jrne	00550$
+      0000D9 CCr06rE9         [ 2]  213 	jp	00233$
+      0000DC                        214 00550$:
+                                    215 ;	../printf_large.c: 477: if ( c=='%' )
+      0000DC 7B 31            [ 1]  216 	ld	a, (0x31, sp)
+      0000DE A1 25            [ 1]  217 	cp	a, #0x25
+      0000E0 27 03            [ 1]  218 	jreq	00553$
+      0000E2 CCr06rD6         [ 2]  219 	jp	00229$
+      0000E5                        220 00553$:
+                                    221 ;	../printf_large.c: 479: left_justify    = 0;
+      0000E5 0F 18            [ 1]  222 	clr	(0x18, sp)
+                                    223 ;	../printf_large.c: 480: zero_padding    = 0;
+      0000E7 0F 0F            [ 1]  224 	clr	(0x0f, sp)
+                                    225 ;	../printf_large.c: 481: prefix_sign     = 0;
+      0000E9 0F 0E            [ 1]  226 	clr	(0x0e, sp)
+                                    227 ;	../printf_large.c: 482: prefix_space    = 0;
+      0000EB 0F 0D            [ 1]  228 	clr	(0x0d, sp)
+                                    229 ;	../printf_large.c: 483: signed_argument = 0;
+      0000ED 0F 0A            [ 1]  230 	clr	(0x0a, sp)
+                                    231 ;	../printf_large.c: 484: char_argument   = 0;
+      0000EF 0F 09            [ 1]  232 	clr	(0x09, sp)
+                                    233 ;	../printf_large.c: 485: long_argument   = 0;
+      0000F1 0F 08            [ 1]  234 	clr	(0x08, sp)
+                                    235 ;	../printf_large.c: 486: float_argument  = 0;
+      0000F3 0F 07            [ 1]  236 	clr	(0x07, sp)
+                                    237 ;	../printf_large.c: 487: radix           = 0;
+      0000F5 0F 10            [ 1]  238 	clr	(0x10, sp)
+                                    239 ;	../printf_large.c: 488: width           = 0;
+      0000F7 0F 63            [ 1]  240 	clr	(0x63, sp)
+                                    241 ;	../printf_large.c: 489: decimals        = -1;
+      0000F9 A6 FF            [ 1]  242 	ld	a, #0xff
+      0000FB 6B 0C            [ 1]  243 	ld	(0x0c, sp), a
+                                    244 ;	../printf_large.c: 491: get_conversion_spec:
+      0000FD 16 90            [ 2]  245 	ldw	y, (0x90, sp)
+      0000FF 17 7F            [ 2]  246 	ldw	(0x7f, sp), y
+      000101                        247 00101$:
+                                    248 ;	../printf_large.c: 493: c = *format++;
+      000101 1E 7F            [ 2]  249 	ldw	x, (0x7f, sp)
+      000103 F6               [ 1]  250 	ld	a, (x)
+      000104 1E 7F            [ 2]  251 	ldw	x, (0x7f, sp)
+      000106 5C               [ 2]  252 	incw	x
+      000107 1F 7F            [ 2]  253 	ldw	(0x7f, sp), x
+      000109 16 7F            [ 2]  254 	ldw	y, (0x7f, sp)
+      00010B 17 90            [ 2]  255 	ldw	(0x90, sp), y
+      00010D 6B 74            [ 1]  256 	ld	(0x74, sp), a
+                                    257 ;	../printf_large.c: 495: if (c=='%')
+      00010F 7B 74            [ 1]  258 	ld	a, (0x74, sp)
+      000111 A1 25            [ 1]  259 	cp	a, #0x25
+      000113 26 12            [ 1]  260 	jrne	00103$
+                                    261 ;	../printf_large.c: 497: OUTPUT_CHAR(c, p);
+      000115 1E 8E            [ 2]  262 	ldw	x, (0x8e, sp)
+      000117 89               [ 2]  263 	pushw	x
+      000118 7B 76            [ 1]  264 	ld	a, (0x76, sp)
+      00011A 88               [ 1]  265 	push	a
+      00011B 1E 8F            [ 2]  266 	ldw	x, (0x8f, sp)
+      00011D FD               [ 4]  267 	call	(x)
+      00011E 5B 03            [ 2]  268 	addw	sp, #3
+      000120 1E 1E            [ 2]  269 	ldw	x, (0x1e, sp)
+      000122 5C               [ 2]  270 	incw	x
+      000123 1F 1E            [ 2]  271 	ldw	(0x1e, sp), x
+                                    272 ;	../printf_large.c: 498: continue;
+      000125 20 A7            [ 2]  273 	jra	00231$
+      000127                        274 00103$:
+                                    275 ;	../printf_large.c: 501: if (isdigit(c))
+      000127 7B 74            [ 1]  276 	ld	a, (0x74, sp)
+      000129 A1 30            [ 1]  277 	cp	a, #0x30
+      00012B 25 30            [ 1]  278 	jrc	00110$
+      00012D A1 39            [ 1]  279 	cp	a, #0x39
+      00012F 22 2C            [ 1]  280 	jrugt	00110$
+                                    281 ;	../printf_large.c: 503: if (decimals==-1)
+      000131 7B 0C            [ 1]  282 	ld	a, (0x0c, sp)
+      000133 A1 FF            [ 1]  283 	cp	a, #0xff
+      000135 26 17            [ 1]  284 	jrne	00107$
+                                    285 ;	../printf_large.c: 505: width = 10*width + c - '0';
+      000137 7B 63            [ 1]  286 	ld	a, (0x63, sp)
+      000139 97               [ 1]  287 	ld	xl, a
+      00013A A6 0A            [ 1]  288 	ld	a, #0x0a
+      00013C 42               [ 4]  289 	mul	x, a
+      00013D 9F               [ 1]  290 	ld	a, xl
+      00013E 1B 74            [ 1]  291 	add	a, (0x74, sp)
+      000140 A0 30            [ 1]  292 	sub	a, #0x30
+      000142 6B 63            [ 1]  293 	ld	(0x63, sp), a
+                                    294 ;	../printf_large.c: 506: if (width == 0)
+      000144 0D 63            [ 1]  295 	tnz	(0x63, sp)
+      000146 26 B9            [ 1]  296 	jrne	00101$
+                                    297 ;	../printf_large.c: 509: zero_padding = 1;
+      000148 A6 01            [ 1]  298 	ld	a, #0x01
+      00014A 6B 0F            [ 1]  299 	ld	(0x0f, sp), a
+      00014C 20 B3            [ 2]  300 	jra	00101$
+      00014E                        301 00107$:
+                                    302 ;	../printf_large.c: 514: decimals = 10*decimals + c - '0';
+      00014E 7B 0C            [ 1]  303 	ld	a, (0x0c, sp)
+      000150 97               [ 1]  304 	ld	xl, a
+      000151 A6 0A            [ 1]  305 	ld	a, #0x0a
+      000153 42               [ 4]  306 	mul	x, a
+      000154 9F               [ 1]  307 	ld	a, xl
+      000155 1B 74            [ 1]  308 	add	a, (0x74, sp)
+      000157 A0 30            [ 1]  309 	sub	a, #0x30
+      000159 6B 0C            [ 1]  310 	ld	(0x0c, sp), a
+                                    311 ;	../printf_large.c: 516: goto get_conversion_spec;
+      00015B 20 A4            [ 2]  312 	jra	00101$
+      00015D                        313 00110$:
+                                    314 ;	../printf_large.c: 519: if (c=='.')
+      00015D 7B 74            [ 1]  315 	ld	a, (0x74, sp)
+      00015F A1 2E            [ 1]  316 	cp	a, #0x2e
+      000161 26 0A            [ 1]  317 	jrne	00115$
+                                    318 ;	../printf_large.c: 521: if (decimals==-1)
+      000163 7B 0C            [ 1]  319 	ld	a, (0x0c, sp)
+      000165 A1 FF            [ 1]  320 	cp	a, #0xff
+      000167 26 98            [ 1]  321 	jrne	00101$
+                                    322 ;	../printf_large.c: 522: decimals=0;
+      000169 0F 0C            [ 1]  323 	clr	(0x0c, sp)
+                                    324 ;	../printf_large.c: 525: goto get_conversion_spec;
+      00016B 20 94            [ 2]  325 	jra	00101$
+      00016D                        326 00115$:
+                                    327 ;	../printf_large.c: 528: if (islower(c))
+      00016D 7B 74            [ 1]  328 	ld	a, (0x74, sp)
+      00016F A1 61            [ 1]  329 	cp	a, #0x61
+      000171 25 10            [ 1]  330 	jrc	00117$
+      000173 A1 7A            [ 1]  331 	cp	a, #0x7a
+      000175 22 0C            [ 1]  332 	jrugt	00117$
+                                    333 ;	../printf_large.c: 530: c = toupper(c);
+      000177 7B 74            [ 1]  334 	ld	a, (0x74, sp)
+      000179 A4 DF            [ 1]  335 	and	a, #0xdf
+      00017B 6B 74            [ 1]  336 	ld	(0x74, sp), a
+                                    337 ;	../printf_large.c: 531: lower_case = 1;
+      00017D A6 01            [ 1]  338 	ld	a, #0x01
+      00017F 6B 17            [ 1]  339 	ld	(0x17, sp), a
+      000181 20 02            [ 2]  340 	jra	00118$
+      000183                        341 00117$:
+                                    342 ;	../printf_large.c: 534: lower_case = 0;
+      000183 0F 17            [ 1]  343 	clr	(0x17, sp)
+      000185                        344 00118$:
+                                    345 ;	../printf_large.c: 536: switch( c )
+      000185 7B 74            [ 1]  346 	ld	a, (0x74, sp)
+      000187 A1 20            [ 1]  347 	cp	a, #0x20
+      000189 26 03            [ 1]  348 	jrne	00572$
+      00018B CCr02r32         [ 2]  349 	jp	00122$
+      00018E                        350 00572$:
+      00018E 7B 74            [ 1]  351 	ld	a, (0x74, sp)
+      000190 A1 2B            [ 1]  352 	cp	a, #0x2b
+      000192 26 03            [ 1]  353 	jrne	00575$
+      000194 CCr02r2B         [ 2]  354 	jp	00121$
+      000197                        355 00575$:
+      000197 7B 74            [ 1]  356 	ld	a, (0x74, sp)
+      000199 A1 2D            [ 1]  357 	cp	a, #0x2d
+      00019B 26 03            [ 1]  358 	jrne	00578$
+      00019D CCr02r24         [ 2]  359 	jp	00120$
+      0001A0                        360 00578$:
+      0001A0 7B 74            [ 1]  361 	ld	a, (0x74, sp)
+      0001A2 A1 42            [ 1]  362 	cp	a, #0x42
+      0001A4 26 03            [ 1]  363 	jrne	00581$
+      0001A6 CCr02r39         [ 2]  364 	jp	00123$
+      0001A9                        365 00581$:
+      0001A9 7B 74            [ 1]  366 	ld	a, (0x74, sp)
+      0001AB A1 43            [ 1]  367 	cp	a, #0x43
+      0001AD 26 03            [ 1]  368 	jrne	00584$
+      0001AF CCr02r47         [ 2]  369 	jp	00129$
+      0001B2                        370 00584$:
+      0001B2 7B 74            [ 1]  371 	ld	a, (0x74, sp)
+      0001B4 A1 44            [ 1]  372 	cp	a, #0x44
+      0001B6 26 03            [ 1]  373 	jrne	00587$
+      0001B8 CCr03r9C         [ 2]  374 	jp	00154$
+      0001BB                        375 00587$:
+      0001BB 7B 74            [ 1]  376 	ld	a, (0x74, sp)
+      0001BD A1 46            [ 1]  377 	cp	a, #0x46
+      0001BF 26 03            [ 1]  378 	jrne	00590$
+      0001C1 CCr03rB8         [ 2]  379 	jp	00158$
+      0001C4                        380 00590$:
+      0001C4 7B 74            [ 1]  381 	ld	a, (0x74, sp)
+      0001C6 A1 48            [ 1]  382 	cp	a, #0x48
+      0001C8 26 03            [ 1]  383 	jrne	00593$
+      0001CA CCr01r01         [ 2]  384 	jp	00101$
+      0001CD                        385 00593$:
+      0001CD 7B 74            [ 1]  386 	ld	a, (0x74, sp)
+      0001CF A1 49            [ 1]  387 	cp	a, #0x49
+      0001D1 26 03            [ 1]  388 	jrne	00596$
+      0001D3 CCr03r9C         [ 2]  389 	jp	00154$
+      0001D6                        390 00596$:
+      0001D6 7B 74            [ 1]  391 	ld	a, (0x74, sp)
+      0001D8 A1 4A            [ 1]  392 	cp	a, #0x4a
+      0001DA 26 03            [ 1]  393 	jrne	00599$
+      0001DC CCr01r01         [ 2]  394 	jp	00101$
+      0001DF                        395 00599$:
+      0001DF 7B 74            [ 1]  396 	ld	a, (0x74, sp)
+      0001E1 A1 4C            [ 1]  397 	cp	a, #0x4c
+      0001E3 27 5B            [ 1]  398 	jreq	00128$
+      0001E5 7B 74            [ 1]  399 	ld	a, (0x74, sp)
+      0001E7 A1 4F            [ 1]  400 	cp	a, #0x4f
+      0001E9 26 03            [ 1]  401 	jrne	00605$
+      0001EB CCr03rA6         [ 2]  402 	jp	00155$
+      0001EE                        403 00605$:
+      0001EE 7B 74            [ 1]  404 	ld	a, (0x74, sp)
+      0001F0 A1 50            [ 1]  405 	cp	a, #0x50
+      0001F2 26 03            [ 1]  406 	jrne	00608$
+      0001F4 CCr03r30         [ 2]  407 	jp	00152$
+      0001F7                        408 00608$:
+      0001F7 7B 74            [ 1]  409 	ld	a, (0x74, sp)
+      0001F9 A1 53            [ 1]  410 	cp	a, #0x53
+      0001FB 27 72            [ 1]  411 	jreq	00133$
+      0001FD 7B 74            [ 1]  412 	ld	a, (0x74, sp)
+      0001FF A1 54            [ 1]  413 	cp	a, #0x54
+      000201 26 03            [ 1]  414 	jrne	00614$
+      000203 CCr01r01         [ 2]  415 	jp	00101$
+      000206                        416 00614$:
+      000206 7B 74            [ 1]  417 	ld	a, (0x74, sp)
+      000208 A1 55            [ 1]  418 	cp	a, #0x55
+      00020A 26 03            [ 1]  419 	jrne	00617$
+      00020C CCr03rAC         [ 2]  420 	jp	00156$
+      00020F                        421 00617$:
+      00020F 7B 74            [ 1]  422 	ld	a, (0x74, sp)
+      000211 A1 58            [ 1]  423 	cp	a, #0x58
+      000213 26 03            [ 1]  424 	jrne	00620$
+      000215 CCr03rB2         [ 2]  425 	jp	00157$
+      000218                        426 00620$:
+      000218 7B 74            [ 1]  427 	ld	a, (0x74, sp)
+      00021A A1 5A            [ 1]  428 	cp	a, #0x5a
+      00021C 26 03            [ 1]  429 	jrne	00623$
+      00021E CCr01r01         [ 2]  430 	jp	00101$
+      000221                        431 00623$:
+      000221 CCr03rBE         [ 2]  432 	jp	00159$
+                                    433 ;	../printf_large.c: 538: case '-':
+      000224                        434 00120$:
+                                    435 ;	../printf_large.c: 539: left_justify = 1;
+      000224 A6 01            [ 1]  436 	ld	a, #0x01
+      000226 6B 18            [ 1]  437 	ld	(0x18, sp), a
+                                    438 ;	../printf_large.c: 540: goto get_conversion_spec;
+      000228 CCr01r01         [ 2]  439 	jp	00101$
+                                    440 ;	../printf_large.c: 541: case '+':
+      00022B                        441 00121$:
+                                    442 ;	../printf_large.c: 542: prefix_sign = 1;
+      00022B A6 01            [ 1]  443 	ld	a, #0x01
+      00022D 6B 0E            [ 1]  444 	ld	(0x0e, sp), a
+                                    445 ;	../printf_large.c: 543: goto get_conversion_spec;
+      00022F CCr01r01         [ 2]  446 	jp	00101$
+                                    447 ;	../printf_large.c: 544: case ' ':
+      000232                        448 00122$:
+                                    449 ;	../printf_large.c: 545: prefix_space = 1;
+      000232 A6 01            [ 1]  450 	ld	a, #0x01
+      000234 6B 0D            [ 1]  451 	ld	(0x0d, sp), a
+                                    452 ;	../printf_large.c: 546: goto get_conversion_spec;
+      000236 CCr01r01         [ 2]  453 	jp	00101$
+                                    454 ;	../printf_large.c: 547: case 'B': /* byte */
+      000239                        455 00123$:
+                                    456 ;	../printf_large.c: 548: char_argument = 1;
+      000239 A6 01            [ 1]  457 	ld	a, #0x01
+      00023B 6B 09            [ 1]  458 	ld	(0x09, sp), a
+                                    459 ;	../printf_large.c: 549: goto get_conversion_spec;
+      00023D CCr01r01         [ 2]  460 	jp	00101$
+                                    461 ;	../printf_large.c: 556: case 'L': /* long */
+      000240                        462 00128$:
+                                    463 ;	../printf_large.c: 557: long_argument = 1;
+      000240 A6 01            [ 1]  464 	ld	a, #0x01
+      000242 6B 08            [ 1]  465 	ld	(0x08, sp), a
+                                    466 ;	../printf_large.c: 558: goto get_conversion_spec;
+      000244 CCr01r01         [ 2]  467 	jp	00101$
+                                    468 ;	../printf_large.c: 560: case 'C':
+      000247                        469 00129$:
+                                    470 ;	../printf_large.c: 561: if( char_argument )
+      000247 0D 09            [ 1]  471 	tnz	(0x09, sp)
+      000249 27 09            [ 1]  472 	jreq	00131$
+                                    473 ;	../printf_large.c: 562: c = va_arg(ap,char);
+      00024B 1E 92            [ 2]  474 	ldw	x, (0x92, sp)
+      00024D 5C               [ 2]  475 	incw	x
+      00024E 1F 92            [ 2]  476 	ldw	(0x92, sp), x
+      000250 5A               [ 2]  477 	decw	x
+      000251 F6               [ 1]  478 	ld	a, (x)
+      000252 20 0A            [ 2]  479 	jra	00132$
+      000254                        480 00131$:
+                                    481 ;	../printf_large.c: 564: c = va_arg(ap,int);
+      000254 1E 92            [ 2]  482 	ldw	x, (0x92, sp)
+      000256 5C               [ 2]  483 	incw	x
+      000257 5C               [ 2]  484 	incw	x
+      000258 1F 92            [ 2]  485 	ldw	(0x92, sp), x
+      00025A 5A               [ 2]  486 	decw	x
+      00025B 5A               [ 2]  487 	decw	x
+      00025C FE               [ 2]  488 	ldw	x, (x)
+      00025D 9F               [ 1]  489 	ld	a, xl
+      00025E                        490 00132$:
+                                    491 ;	../printf_large.c: 565: OUTPUT_CHAR( c, p );
+      00025E 1E 8E            [ 2]  492 	ldw	x, (0x8e, sp)
+      000260 89               [ 2]  493 	pushw	x
+      000261 88               [ 1]  494 	push	a
+      000262 1E 8F            [ 2]  495 	ldw	x, (0x8f, sp)
+      000264 FD               [ 4]  496 	call	(x)
+      000265 5B 03            [ 2]  497 	addw	sp, #3
+      000267 1E 1E            [ 2]  498 	ldw	x, (0x1e, sp)
+      000269 5C               [ 2]  499 	incw	x
+      00026A 1F 1E            [ 2]  500 	ldw	(0x1e, sp), x
+                                    501 ;	../printf_large.c: 566: break;
+      00026C CCr03rD4         [ 2]  502 	jp	00160$
+                                    503 ;	../printf_large.c: 568: case 'S':
+      00026F                        504 00133$:
+                                    505 ;	../printf_large.c: 569: PTR = va_arg(ap,ptr_t);
+      00026F 96               [ 1]  506 	ldw	x, sp
+      000270 1C 00 12         [ 2]  507 	addw	x, #18
+      000273 1F 24            [ 2]  508 	ldw	(0x24, sp), x
+      000275 1E 92            [ 2]  509 	ldw	x, (0x92, sp)
+      000277 5C               [ 2]  510 	incw	x
+      000278 5C               [ 2]  511 	incw	x
+      000279 1F 92            [ 2]  512 	ldw	(0x92, sp), x
+      00027B 5A               [ 2]  513 	decw	x
+      00027C 5A               [ 2]  514 	decw	x
+      00027D FE               [ 2]  515 	ldw	x, (x)
+      00027E 16 24            [ 2]  516 	ldw	y, (0x24, sp)
+      000280 90 FF            [ 2]  517 	ldw	(y), x
+                                    518 ;	../printf_large.c: 582: length = strlen(PTR);
+      000282 89               [ 2]  519 	pushw	x
+      000283 CDr00r00         [ 4]  520 	call	_strlen
+      000286 5B 02            [ 2]  521 	addw	sp, #2
+      000288 9F               [ 1]  522 	ld	a, xl
+      000289 6B 2E            [ 1]  523 	ld	(0x2e, sp), a
+                                    524 ;	../printf_large.c: 584: if ( decimals == -1 )
+      00028B 7B 0C            [ 1]  525 	ld	a, (0x0c, sp)
+      00028D A1 FF            [ 1]  526 	cp	a, #0xff
+      00028F 26 04            [ 1]  527 	jrne	00135$
+                                    528 ;	../printf_large.c: 586: decimals = length;
+      000291 7B 2E            [ 1]  529 	ld	a, (0x2e, sp)
+      000293 6B 0C            [ 1]  530 	ld	(0x0c, sp), a
+      000295                        531 00135$:
+                                    532 ;	../printf_large.c: 588: if ( ( !left_justify ) && (length < width) )
+      000295 0D 18            [ 1]  533 	tnz	(0x18, sp)
+      000297 26 2E            [ 1]  534 	jrne	00277$
+      000299 7B 2E            [ 1]  535 	ld	a, (0x2e, sp)
+      00029B 11 63            [ 1]  536 	cp	a, (0x63, sp)
+      00029D 24 28            [ 1]  537 	jrnc	00277$
+                                    538 ;	../printf_large.c: 590: width -= length;
+      00029F 7B 63            [ 1]  539 	ld	a, (0x63, sp)
+      0002A1 10 2E            [ 1]  540 	sub	a, (0x2e, sp)
+                                    541 ;	../printf_large.c: 591: while( width-- != 0 )
+      0002A3 16 1E            [ 2]  542 	ldw	y, (0x1e, sp)
+      0002A5 17 2F            [ 2]  543 	ldw	(0x2f, sp), y
+      0002A7                        544 00136$:
+      0002A7 97               [ 1]  545 	ld	xl, a
+      0002A8 4A               [ 1]  546 	dec	a
+      0002A9 41               [ 1]  547 	exg	a, xl
+      0002AA 4D               [ 1]  548 	tnz	a
+      0002AB 41               [ 1]  549 	exg	a, xl
+      0002AC 27 13            [ 1]  550 	jreq	00312$
+                                    551 ;	../printf_large.c: 593: OUTPUT_CHAR( ' ', p );
+      0002AE 88               [ 1]  552 	push	a
+      0002AF 1E 8F            [ 2]  553 	ldw	x, (0x8f, sp)
+      0002B1 89               [ 2]  554 	pushw	x
+      0002B2 4B 20            [ 1]  555 	push	#0x20
+      0002B4 1E 90            [ 2]  556 	ldw	x, (0x90, sp)
+      0002B6 FD               [ 4]  557 	call	(x)
+      0002B7 5B 03            [ 2]  558 	addw	sp, #3
+      0002B9 84               [ 1]  559 	pop	a
+      0002BA 1E 2F            [ 2]  560 	ldw	x, (0x2f, sp)
+      0002BC 5C               [ 2]  561 	incw	x
+      0002BD 1F 2F            [ 2]  562 	ldw	(0x2f, sp), x
+      0002BF 20 E6            [ 2]  563 	jra	00136$
+                                    564 ;	../printf_large.c: 597: while ( (c = *PTR)  && (decimals-- > 0))
+      0002C1                        565 00312$:
+      0002C1 16 2F            [ 2]  566 	ldw	y, (0x2f, sp)
+      0002C3 17 1E            [ 2]  567 	ldw	(0x1e, sp), y
+      0002C5 6B 63            [ 1]  568 	ld	(0x63, sp), a
+      0002C7                        569 00277$:
+      0002C7 7B 0C            [ 1]  570 	ld	a, (0x0c, sp)
+      0002C9 6B 6A            [ 1]  571 	ld	(0x6a, sp), a
+      0002CB 16 1E            [ 2]  572 	ldw	y, (0x1e, sp)
+      0002CD 17 3E            [ 2]  573 	ldw	(0x3e, sp), y
+      0002CF                        574 00143$:
+      0002CF 1E 24            [ 2]  575 	ldw	x, (0x24, sp)
+      0002D1 FE               [ 2]  576 	ldw	x, (x)
+      0002D2 F6               [ 1]  577 	ld	a, (x)
+      0002D3 6B 89            [ 1]  578 	ld	(0x89, sp), a
+      0002D5 4D               [ 1]  579 	tnz	a
+      0002D6 27 22            [ 1]  580 	jreq	00313$
+      0002D8 7B 6A            [ 1]  581 	ld	a, (0x6a, sp)
+      0002DA 0A 6A            [ 1]  582 	dec	(0x6a, sp)
+      0002DC A1 00            [ 1]  583 	cp	a, #0x00
+      0002DE 2D 1A            [ 1]  584 	jrsle	00313$
+                                    585 ;	../printf_large.c: 599: OUTPUT_CHAR( c, p );
+      0002E0 1E 8E            [ 2]  586 	ldw	x, (0x8e, sp)
+      0002E2 89               [ 2]  587 	pushw	x
+      0002E3 7B 8B            [ 1]  588 	ld	a, (0x8b, sp)
+      0002E5 88               [ 1]  589 	push	a
+      0002E6 1E 8F            [ 2]  590 	ldw	x, (0x8f, sp)
+      0002E8 FD               [ 4]  591 	call	(x)
+      0002E9 5B 03            [ 2]  592 	addw	sp, #3
+      0002EB 1E 3E            [ 2]  593 	ldw	x, (0x3e, sp)
+      0002ED 5C               [ 2]  594 	incw	x
+      0002EE 1F 3E            [ 2]  595 	ldw	(0x3e, sp), x
+                                    596 ;	../printf_large.c: 600: PTR++;
+      0002F0 1E 24            [ 2]  597 	ldw	x, (0x24, sp)
+      0002F2 FE               [ 2]  598 	ldw	x, (x)
+      0002F3 5C               [ 2]  599 	incw	x
+      0002F4 16 24            [ 2]  600 	ldw	y, (0x24, sp)
+      0002F6 90 FF            [ 2]  601 	ldw	(y), x
+      0002F8 20 D5            [ 2]  602 	jra	00143$
+      0002FA                        603 00313$:
+      0002FA 16 3E            [ 2]  604 	ldw	y, (0x3e, sp)
+      0002FC 17 1E            [ 2]  605 	ldw	(0x1e, sp), y
+                                    606 ;	../printf_large.c: 603: if ( left_justify && (length < width))
+      0002FE 0D 18            [ 1]  607 	tnz	(0x18, sp)
+      000300 26 03            [ 1]  608 	jrne	00634$
+      000302 CCr03rD4         [ 2]  609 	jp	00160$
+      000305                        610 00634$:
+      000305 7B 2E            [ 1]  611 	ld	a, (0x2e, sp)
+      000307 11 63            [ 1]  612 	cp	a, (0x63, sp)
+      000309 25 03            [ 1]  613 	jrc	00635$
+      00030B CCr03rD4         [ 2]  614 	jp	00160$
+      00030E                        615 00635$:
+                                    616 ;	../printf_large.c: 605: width -= length;
+      00030E 7B 63            [ 1]  617 	ld	a, (0x63, sp)
+      000310 10 2E            [ 1]  618 	sub	a, (0x2e, sp)
+                                    619 ;	../printf_large.c: 606: while( width-- != 0 )
+      000312 1E 3E            [ 2]  620 	ldw	x, (0x3e, sp)
+      000314                        621 00146$:
+      000314 6B 23            [ 1]  622 	ld	(0x23, sp), a
+      000316 4A               [ 1]  623 	dec	a
+      000317 0D 23            [ 1]  624 	tnz	(0x23, sp)
+      000319 26 03            [ 1]  625 	jrne	00636$
+      00031B CCr03rD0         [ 2]  626 	jp	00314$
+      00031E                        627 00636$:
+                                    628 ;	../printf_large.c: 608: OUTPUT_CHAR( ' ', p );
+      00031E 88               [ 1]  629 	push	a
+      00031F 89               [ 2]  630 	pushw	x
+      000320 16 91            [ 2]  631 	ldw	y, (0x91, sp)
+      000322 90 89            [ 2]  632 	pushw	y
+      000324 4B 20            [ 1]  633 	push	#0x20
+      000326 1E 92            [ 2]  634 	ldw	x, (0x92, sp)
+      000328 FD               [ 4]  635 	call	(x)
+      000329 5B 03            [ 2]  636 	addw	sp, #3
+      00032B 85               [ 2]  637 	popw	x
+      00032C 84               [ 1]  638 	pop	a
+      00032D 5C               [ 2]  639 	incw	x
+      00032E 20 E4            [ 2]  640 	jra	00146$
+                                    641 ;	../printf_large.c: 613: case 'P':
+      000330                        642 00152$:
+                                    643 ;	../printf_large.c: 614: PTR = va_arg(ap,ptr_t);
+      000330 96               [ 1]  644 	ldw	x, sp
+      000331 1C 00 12         [ 2]  645 	addw	x, #18
+      000334 16 92            [ 2]  646 	ldw	y, (0x92, sp)
+      000336 72 A9 00 02      [ 2]  647 	addw	y, #0x0002
+      00033A 17 92            [ 2]  648 	ldw	(0x92, sp), y
+      00033C 72 A2 00 02      [ 2]  649 	subw	y, #0x0002
+      000340 90 FE            [ 2]  650 	ldw	y, (y)
+      000342 FF               [ 2]  651 	ldw	(x), y
+                                    652 ;	../printf_large.c: 658: OUTPUT_CHAR('0', p);
+      000343 1E 8E            [ 2]  653 	ldw	x, (0x8e, sp)
+      000345 89               [ 2]  654 	pushw	x
+      000346 4B 30            [ 1]  655 	push	#0x30
+      000348 1E 8F            [ 2]  656 	ldw	x, (0x8f, sp)
+      00034A FD               [ 4]  657 	call	(x)
+      00034B 5B 03            [ 2]  658 	addw	sp, #3
+      00034D 1E 1E            [ 2]  659 	ldw	x, (0x1e, sp)
+      00034F 5C               [ 2]  660 	incw	x
+                                    661 ;	../printf_large.c: 659: OUTPUT_CHAR('x', p);
+      000350 89               [ 2]  662 	pushw	x
+      000351 16 90            [ 2]  663 	ldw	y, (0x90, sp)
+      000353 90 89            [ 2]  664 	pushw	y
+      000355 4B 78            [ 1]  665 	push	#0x78
+      000357 1E 91            [ 2]  666 	ldw	x, (0x91, sp)
+      000359 FD               [ 4]  667 	call	(x)
+      00035A 5B 03            [ 2]  668 	addw	sp, #3
+      00035C 85               [ 2]  669 	popw	x
+      00035D 5C               [ 2]  670 	incw	x
+      00035E 1F 49            [ 2]  671 	ldw	(0x49, sp), x
+                                    672 ;	../printf_large.c: 660: OUTPUT_2DIGITS( value.byte[1] );
+      000360 96               [ 1]  673 	ldw	x, sp
+      000361 1C 00 13         [ 2]  674 	addw	x, #19
+      000364 F6               [ 1]  675 	ld	a, (x)
+      000365 90 95            [ 1]  676 	ld	yh, a
+      000367 1E 8E            [ 2]  677 	ldw	x, (0x8e, sp)
+      000369 89               [ 2]  678 	pushw	x
+      00036A 1E 8E            [ 2]  679 	ldw	x, (0x8e, sp)
+      00036C 89               [ 2]  680 	pushw	x
+      00036D 7B 1B            [ 1]  681 	ld	a, (0x1b, sp)
+      00036F 88               [ 1]  682 	push	a
+      000370 90 9E            [ 1]  683 	ld	a, yh
+      000372 88               [ 1]  684 	push	a
+      000373 CDr00r1A         [ 4]  685 	call	_output_2digits
+      000376 5B 06            [ 2]  686 	addw	sp, #6
+      000378 1E 49            [ 2]  687 	ldw	x, (0x49, sp)
+      00037A 5C               [ 2]  688 	incw	x
+      00037B 5C               [ 2]  689 	incw	x
+      00037C 1F 68            [ 2]  690 	ldw	(0x68, sp), x
+                                    691 ;	../printf_large.c: 661: OUTPUT_2DIGITS( value.byte[0] );
+      00037E 1E 21            [ 2]  692 	ldw	x, (0x21, sp)
+      000380 F6               [ 1]  693 	ld	a, (x)
+      000381 90 95            [ 1]  694 	ld	yh, a
+      000383 1E 8E            [ 2]  695 	ldw	x, (0x8e, sp)
+      000385 89               [ 2]  696 	pushw	x
+      000386 1E 8E            [ 2]  697 	ldw	x, (0x8e, sp)
+      000388 89               [ 2]  698 	pushw	x
+      000389 7B 1B            [ 1]  699 	ld	a, (0x1b, sp)
+      00038B 88               [ 1]  700 	push	a
+      00038C 90 9E            [ 1]  701 	ld	a, yh
+      00038E 88               [ 1]  702 	push	a
+      00038F CDr00r1A         [ 4]  703 	call	_output_2digits
+      000392 5B 06            [ 2]  704 	addw	sp, #6
+      000394 1E 68            [ 2]  705 	ldw	x, (0x68, sp)
+      000396 5C               [ 2]  706 	incw	x
+      000397 5C               [ 2]  707 	incw	x
+      000398 1F 1E            [ 2]  708 	ldw	(0x1e, sp), x
+                                    709 ;	../printf_large.c: 663: break;
+      00039A 20 38            [ 2]  710 	jra	00160$
+                                    711 ;	../printf_large.c: 666: case 'I':
+      00039C                        712 00154$:
+                                    713 ;	../printf_large.c: 667: signed_argument = 1;
+      00039C A6 01            [ 1]  714 	ld	a, #0x01
+      00039E 6B 0A            [ 1]  715 	ld	(0x0a, sp), a
+                                    716 ;	../printf_large.c: 668: radix = 10;
+      0003A0 A6 0A            [ 1]  717 	ld	a, #0x0a
+      0003A2 6B 10            [ 1]  718 	ld	(0x10, sp), a
+                                    719 ;	../printf_large.c: 669: break;
+      0003A4 20 2E            [ 2]  720 	jra	00160$
+                                    721 ;	../printf_large.c: 671: case 'O':
+      0003A6                        722 00155$:
+                                    723 ;	../printf_large.c: 672: radix = 8;
+      0003A6 A6 08            [ 1]  724 	ld	a, #0x08
+      0003A8 6B 10            [ 1]  725 	ld	(0x10, sp), a
+                                    726 ;	../printf_large.c: 673: break;
+      0003AA 20 28            [ 2]  727 	jra	00160$
+                                    728 ;	../printf_large.c: 675: case 'U':
+      0003AC                        729 00156$:
+                                    730 ;	../printf_large.c: 676: radix = 10;
+      0003AC A6 0A            [ 1]  731 	ld	a, #0x0a
+      0003AE 6B 10            [ 1]  732 	ld	(0x10, sp), a
+                                    733 ;	../printf_large.c: 677: break;
+      0003B0 20 22            [ 2]  734 	jra	00160$
+                                    735 ;	../printf_large.c: 679: case 'X':
+      0003B2                        736 00157$:
+                                    737 ;	../printf_large.c: 680: radix = 16;
+      0003B2 A6 10            [ 1]  738 	ld	a, #0x10
+      0003B4 6B 10            [ 1]  739 	ld	(0x10, sp), a
+                                    740 ;	../printf_large.c: 681: break;
+      0003B6 20 1C            [ 2]  741 	jra	00160$
+                                    742 ;	../printf_large.c: 683: case 'F':
+      0003B8                        743 00158$:
+                                    744 ;	../printf_large.c: 684: float_argument=1;
+      0003B8 A6 01            [ 1]  745 	ld	a, #0x01
+      0003BA 6B 07            [ 1]  746 	ld	(0x07, sp), a
+                                    747 ;	../printf_large.c: 685: break;
+      0003BC 20 16            [ 2]  748 	jra	00160$
+                                    749 ;	../printf_large.c: 687: default:
+      0003BE                        750 00159$:
+                                    751 ;	../printf_large.c: 689: OUTPUT_CHAR( c, p );
+      0003BE 1E 8E            [ 2]  752 	ldw	x, (0x8e, sp)
+      0003C0 89               [ 2]  753 	pushw	x
+      0003C1 7B 76            [ 1]  754 	ld	a, (0x76, sp)
+      0003C3 88               [ 1]  755 	push	a
+      0003C4 1E 8F            [ 2]  756 	ldw	x, (0x8f, sp)
+      0003C6 FD               [ 4]  757 	call	(x)
+      0003C7 5B 03            [ 2]  758 	addw	sp, #3
+      0003C9 1E 1E            [ 2]  759 	ldw	x, (0x1e, sp)
+      0003CB 5C               [ 2]  760 	incw	x
+      0003CC 1F 1E            [ 2]  761 	ldw	(0x1e, sp), x
+                                    762 ;	../printf_large.c: 872: return charsOutputted;
+      0003CE 20 04            [ 2]  763 	jra	00160$
+                                    764 ;	../printf_large.c: 691: }
+      0003D0                        765 00314$:
+      0003D0 1F 1E            [ 2]  766 	ldw	(0x1e, sp), x
+      0003D2 6B 63            [ 1]  767 	ld	(0x63, sp), a
+      0003D4                        768 00160$:
+                                    769 ;	../printf_large.c: 693: if (float_argument)
+      0003D4 0D 07            [ 1]  770 	tnz	(0x07, sp)
+      0003D6 27 60            [ 1]  771 	jreq	00226$
+                                    772 ;	../printf_large.c: 695: value.f = va_arg(ap, float);
+      0003D8 96               [ 1]  773 	ldw	x, sp
+      0003D9 1C 00 12         [ 2]  774 	addw	x, #18
+      0003DC 1F 72            [ 2]  775 	ldw	(0x72, sp), x
+      0003DE 1E 92            [ 2]  776 	ldw	x, (0x92, sp)
+      0003E0 1C 00 04         [ 2]  777 	addw	x, #0x0004
+      0003E3 1F 92            [ 2]  778 	ldw	(0x92, sp), x
+      0003E5 1D 00 04         [ 2]  779 	subw	x, #0x0004
+      0003E8 E6 03            [ 1]  780 	ld	a, (0x3, x)
+      0003EA 90 97            [ 1]  781 	ld	yl, a
+      0003EC E6 02            [ 1]  782 	ld	a, (0x2, x)
+      0003EE 90 95            [ 1]  783 	ld	yh, a
+      0003F0 FE               [ 2]  784 	ldw	x, (x)
+      0003F1 1F 75            [ 2]  785 	ldw	(0x75, sp), x
+      0003F3 1E 72            [ 2]  786 	ldw	x, (0x72, sp)
+      0003F5 EF 02            [ 2]  787 	ldw	(0x2, x), y
+      0003F7 16 75            [ 2]  788 	ldw	y, (0x75, sp)
+      0003F9 FF               [ 2]  789 	ldw	(x), y
+                                    790 ;	../printf_large.c: 697: PTR="<NO FLOAT>";
+      0003FA 96               [ 1]  791 	ldw	x, sp
+      0003FB 1C 00 12         [ 2]  792 	addw	x, #18
+      0003FE 1F 4F            [ 2]  793 	ldw	(0x4f, sp), x
+      000400 16 66            [ 2]  794 	ldw	y, (0x66, sp)
+      000402 1E 4F            [ 2]  795 	ldw	x, (0x4f, sp)
+      000404 FF               [ 2]  796 	ldw	(x), y
+                                    797 ;	../printf_large.c: 698: while (c=*PTR++)
+      000405 16 1E            [ 2]  798 	ldw	y, (0x1e, sp)
+      000407 17 79            [ 2]  799 	ldw	(0x79, sp), y
+      000409                        800 00161$:
+      000409 1E 4F            [ 2]  801 	ldw	x, (0x4f, sp)
+      00040B FE               [ 2]  802 	ldw	x, (x)
+      00040C 1F 19            [ 2]  803 	ldw	(0x19, sp), x
+      00040E 1E 19            [ 2]  804 	ldw	x, (0x19, sp)
+      000410 5C               [ 2]  805 	incw	x
+      000411 1F 2C            [ 2]  806 	ldw	(0x2c, sp), x
+      000413 1E 4F            [ 2]  807 	ldw	x, (0x4f, sp)
+      000415 16 2C            [ 2]  808 	ldw	y, (0x2c, sp)
+      000417 FF               [ 2]  809 	ldw	(x), y
+      000418 1E 19            [ 2]  810 	ldw	x, (0x19, sp)
+      00041A F6               [ 1]  811 	ld	a, (x)
+      00041B 95               [ 1]  812 	ld	xh, a
+      00041C 4D               [ 1]  813 	tnz	a
+      00041D 26 03            [ 1]  814 	jrne	00638$
+      00041F CCr00rCE         [ 2]  815 	jp	00231$
+      000422                        816 00638$:
+                                    817 ;	../printf_large.c: 700: OUTPUT_CHAR (c, p);
+      000422 16 8E            [ 2]  818 	ldw	y, (0x8e, sp)
+      000424 90 89            [ 2]  819 	pushw	y
+      000426 9E               [ 1]  820 	ld	a, xh
+      000427 88               [ 1]  821 	push	a
+      000428 1E 8F            [ 2]  822 	ldw	x, (0x8f, sp)
+      00042A FD               [ 4]  823 	call	(x)
+      00042B 5B 03            [ 2]  824 	addw	sp, #3
+      00042D 1E 79            [ 2]  825 	ldw	x, (0x79, sp)
+      00042F 5C               [ 2]  826 	incw	x
+      000430 1F 79            [ 2]  827 	ldw	(0x79, sp), x
+      000432 16 79            [ 2]  828 	ldw	y, (0x79, sp)
+      000434 17 1E            [ 2]  829 	ldw	(0x1e, sp), y
+      000436 20 D1            [ 2]  830 	jra	00161$
+      000438                        831 00226$:
+                                    832 ;	../printf_large.c: 718: else if (radix != 0)
+      000438 0D 10            [ 1]  833 	tnz	(0x10, sp)
+      00043A 26 03            [ 1]  834 	jrne	00639$
+      00043C CCr00rCE         [ 2]  835 	jp	00231$
+      00043F                        836 00639$:
+                                    837 ;	../printf_large.c: 723: unsigned char MEM_SPACE_BUF_PP *pstore = &store[5];
+      00043F 16 85            [ 2]  838 	ldw	y, (0x85, sp)
+      000441 17 38            [ 2]  839 	ldw	(0x38, sp), y
+                                    840 ;	../printf_large.c: 726: if (char_argument)
+      000443 0D 09            [ 1]  841 	tnz	(0x09, sp)
+      000445 27 3D            [ 1]  842 	jreq	00172$
+                                    843 ;	../printf_large.c: 728: value.l = va_arg(ap, char);
+      000447 96               [ 1]  844 	ldw	x, sp
+      000448 1C 00 12         [ 2]  845 	addw	x, #18
+      00044B 1F 70            [ 2]  846 	ldw	(0x70, sp), x
+      00044D 1E 92            [ 2]  847 	ldw	x, (0x92, sp)
+      00044F 5C               [ 2]  848 	incw	x
+      000450 1F 92            [ 2]  849 	ldw	(0x92, sp), x
+      000452 5A               [ 2]  850 	decw	x
+      000453 F6               [ 1]  851 	ld	a, (x)
+      000454 97               [ 1]  852 	ld	xl, a
+      000455 49               [ 1]  853 	rlc	a
+      000456 4F               [ 1]  854 	clr	a
+      000457 A2 00            [ 1]  855 	sbc	a, #0x00
+      000459 95               [ 1]  856 	ld	xh, a
+      00045A 6B 29            [ 1]  857 	ld	(0x29, sp), a
+      00045C 6B 28            [ 1]  858 	ld	(0x28, sp), a
+      00045E 16 70            [ 2]  859 	ldw	y, (0x70, sp)
+      000460 90 EF 02         [ 2]  860 	ldw	(0x2, y), x
+      000463 1E 28            [ 2]  861 	ldw	x, (0x28, sp)
+      000465 90 FF            [ 2]  862 	ldw	(y), x
+                                    863 ;	../printf_large.c: 729: if (!signed_argument)
+      000467 0D 0A            [ 1]  864 	tnz	(0x0a, sp)
+      000469 26 7C            [ 1]  865 	jrne	00173$
+                                    866 ;	../printf_large.c: 731: value.l &= 0xFF;
+      00046B 1E 70            [ 2]  867 	ldw	x, (0x70, sp)
+      00046D E6 03            [ 1]  868 	ld	a, (0x3, x)
+      00046F 90 97            [ 1]  869 	ld	yl, a
+      000471 E6 02            [ 1]  870 	ld	a, (0x2, x)
+      000473 FE               [ 2]  871 	ldw	x, (x)
+      000474 4F               [ 1]  872 	clr	a
+      000475 90 95            [ 1]  873 	ld	yh, a
+      000477 0F 7C            [ 1]  874 	clr	(0x7c, sp)
+      000479 0F 7B            [ 1]  875 	clr	(0x7b, sp)
+      00047B 1E 70            [ 2]  876 	ldw	x, (0x70, sp)
+      00047D EF 02            [ 2]  877 	ldw	(0x2, x), y
+      00047F 16 7B            [ 2]  878 	ldw	y, (0x7b, sp)
+      000481 FF               [ 2]  879 	ldw	(x), y
+      000482 20 63            [ 2]  880 	jra	00173$
+      000484                        881 00172$:
+                                    882 ;	../printf_large.c: 734: else if (long_argument)
+      000484 0D 08            [ 1]  883 	tnz	(0x08, sp)
+      000486 27 24            [ 1]  884 	jreq	00169$
+                                    885 ;	../printf_large.c: 736: value.l = va_arg(ap, long);
+      000488 96               [ 1]  886 	ldw	x, sp
+      000489 1C 00 12         [ 2]  887 	addw	x, #18
+      00048C 1F 47            [ 2]  888 	ldw	(0x47, sp), x
+      00048E 1E 92            [ 2]  889 	ldw	x, (0x92, sp)
+      000490 1C 00 04         [ 2]  890 	addw	x, #0x0004
+      000493 1F 92            [ 2]  891 	ldw	(0x92, sp), x
+      000495 1D 00 04         [ 2]  892 	subw	x, #0x0004
+      000498 E6 03            [ 1]  893 	ld	a, (0x3, x)
+      00049A 90 97            [ 1]  894 	ld	yl, a
+      00049C E6 02            [ 1]  895 	ld	a, (0x2, x)
+      00049E 90 95            [ 1]  896 	ld	yh, a
+      0004A0 FE               [ 2]  897 	ldw	x, (x)
+      0004A1 1F 4B            [ 2]  898 	ldw	(0x4b, sp), x
+      0004A3 1E 47            [ 2]  899 	ldw	x, (0x47, sp)
+      0004A5 EF 02            [ 2]  900 	ldw	(0x2, x), y
+      0004A7 16 4B            [ 2]  901 	ldw	y, (0x4b, sp)
+      0004A9 FF               [ 2]  902 	ldw	(x), y
+      0004AA 20 3B            [ 2]  903 	jra	00173$
+      0004AC                        904 00169$:
+                                    905 ;	../printf_large.c: 740: value.l = va_arg(ap, int);
+      0004AC 96               [ 1]  906 	ldw	x, sp
+      0004AD 1C 00 12         [ 2]  907 	addw	x, #18
+      0004B0 16 92            [ 2]  908 	ldw	y, (0x92, sp)
+      0004B2 72 A9 00 02      [ 2]  909 	addw	y, #0x0002
+      0004B6 17 92            [ 2]  910 	ldw	(0x92, sp), y
+      0004B8 72 A2 00 02      [ 2]  911 	subw	y, #0x0002
+      0004BC 90 FE            [ 2]  912 	ldw	y, (y)
+      0004BE 90 9E            [ 1]  913 	ld	a, yh
+      0004C0 49               [ 1]  914 	rlc	a
+      0004C1 4F               [ 1]  915 	clr	a
+      0004C2 A2 00            [ 1]  916 	sbc	a, #0x00
+      0004C4 6B 56            [ 1]  917 	ld	(0x56, sp), a
+      0004C6 6B 55            [ 1]  918 	ld	(0x55, sp), a
+      0004C8 EF 02            [ 2]  919 	ldw	(0x2, x), y
+      0004CA 16 55            [ 2]  920 	ldw	y, (0x55, sp)
+      0004CC FF               [ 2]  921 	ldw	(x), y
+                                    922 ;	../printf_large.c: 741: if (!signed_argument)
+      0004CD 0D 0A            [ 1]  923 	tnz	(0x0a, sp)
+      0004CF 26 16            [ 1]  924 	jrne	00173$
+                                    925 ;	../printf_large.c: 743: value.l &= 0xFFFF;
+      0004D1 E6 03            [ 1]  926 	ld	a, (0x3, x)
+      0004D3 90 97            [ 1]  927 	ld	yl, a
+      0004D5 E6 02            [ 1]  928 	ld	a, (0x2, x)
+      0004D7 90 95            [ 1]  929 	ld	yh, a
+      0004D9 E6 01            [ 1]  930 	ld	a, (0x1, x)
+      0004DB 6B 5A            [ 1]  931 	ld	(0x5a, sp), a
+      0004DD F6               [ 1]  932 	ld	a, (x)
+      0004DE 0F 60            [ 1]  933 	clr	(0x60, sp)
+      0004E0 0F 5F            [ 1]  934 	clr	(0x5f, sp)
+      0004E2 EF 02            [ 2]  935 	ldw	(0x2, x), y
+      0004E4 16 5F            [ 2]  936 	ldw	y, (0x5f, sp)
+      0004E6 FF               [ 2]  937 	ldw	(x), y
+      0004E7                        938 00173$:
+                                    939 ;	../printf_large.c: 747: if ( signed_argument )
+      0004E7 0D 0A            [ 1]  940 	tnz	(0x0a, sp)
+      0004E9 27 36            [ 1]  941 	jreq	00178$
+                                    942 ;	../printf_large.c: 749: if (value.l < 0)
+      0004EB 96               [ 1]  943 	ldw	x, sp
+      0004EC 1C 00 12         [ 2]  944 	addw	x, #18
+      0004EF 1F 6E            [ 2]  945 	ldw	(0x6e, sp), x
+      0004F1 1E 6E            [ 2]  946 	ldw	x, (0x6e, sp)
+      0004F3 E6 03            [ 1]  947 	ld	a, (0x3, x)
+      0004F5 6B 84            [ 1]  948 	ld	(0x84, sp), a
+      0004F7 E6 02            [ 1]  949 	ld	a, (0x2, x)
+      0004F9 FE               [ 2]  950 	ldw	x, (x)
+      0004FA 5D               [ 2]  951 	tnzw	x
+      0004FB 2A 22            [ 1]  952 	jrpl	00175$
+                                    953 ;	../printf_large.c: 750: value.l = -value.l;
+      0004FD 1E 6E            [ 2]  954 	ldw	x, (0x6e, sp)
+      0004FF E6 03            [ 1]  955 	ld	a, (0x3, x)
+      000501 90 97            [ 1]  956 	ld	yl, a
+      000503 E6 02            [ 1]  957 	ld	a, (0x2, x)
+      000505 FE               [ 2]  958 	ldw	x, (x)
+      000506 1F 43            [ 2]  959 	ldw	(0x43, sp), x
+      000508 90 95            [ 1]  960 	ld	yh, a
+      00050A 90 50            [ 2]  961 	negw	y
+      00050C 4F               [ 1]  962 	clr	a
+      00050D 12 44            [ 1]  963 	sbc	a, (0x44, sp)
+      00050F 6B 33            [ 1]  964 	ld	(0x33, sp), a
+      000511 4F               [ 1]  965 	clr	a
+      000512 12 43            [ 1]  966 	sbc	a, (0x43, sp)
+      000514 6B 32            [ 1]  967 	ld	(0x32, sp), a
+      000516 1E 6E            [ 2]  968 	ldw	x, (0x6e, sp)
+      000518 EF 02            [ 2]  969 	ldw	(0x2, x), y
+      00051A 16 32            [ 2]  970 	ldw	y, (0x32, sp)
+      00051C FF               [ 2]  971 	ldw	(x), y
+      00051D 20 02            [ 2]  972 	jra	00178$
+      00051F                        973 00175$:
+                                    974 ;	../printf_large.c: 752: signed_argument = 0;
+      00051F 0F 0A            [ 1]  975 	clr	(0x0a, sp)
+      000521                        976 00178$:
+                                    977 ;	../printf_large.c: 756: lsd = 1;
+      000521 A6 01            [ 1]  978 	ld	a, #0x01
+      000523 6B 11            [ 1]  979 	ld	(0x11, sp), a
+                                    980 ;	../printf_large.c: 758: do {
+      000525 16 38            [ 2]  981 	ldw	y, (0x38, sp)
+      000527 17 3C            [ 2]  982 	ldw	(0x3c, sp), y
+      000529 0F 0B            [ 1]  983 	clr	(0x0b, sp)
+      00052B                        984 00182$:
+                                    985 ;	../printf_large.c: 759: value.byte[4] = 0;
+      00052B 96               [ 1]  986 	ldw	x, sp
+      00052C 1C 00 16         [ 2]  987 	addw	x, #22
+      00052F 7F               [ 1]  988 	clr	(x)
+                                    989 ;	../printf_large.c: 761: calculate_digit(&value, radix);
+      000530 1E 87            [ 2]  990 	ldw	x, (0x87, sp)
+      000532 7B 10            [ 1]  991 	ld	a, (0x10, sp)
+      000534 88               [ 1]  992 	push	a
+      000535 89               [ 2]  993 	pushw	x
+      000536 CDr00r4A         [ 4]  994 	call	_calculate_digit
+      000539 5B 03            [ 2]  995 	addw	sp, #3
+                                    996 ;	../printf_large.c: 765: if (!lsd)
+      00053B 0D 11            [ 1]  997 	tnz	(0x11, sp)
+      00053D 26 21            [ 1]  998 	jrne	00180$
+                                    999 ;	../printf_large.c: 767: *pstore = (value.byte[4] << 4) | (value.byte[4] >> 4) | *pstore;
+      00053F 1E 26            [ 2] 1000 	ldw	x, (0x26, sp)
+      000541 F6               [ 1] 1001 	ld	a, (x)
+      000542 4E               [ 1] 1002 	swap	a
+      000543 A4 F0            [ 1] 1003 	and	a, #0xf0
+      000545 6B 36            [ 1] 1004 	ld	(0x36, sp), a
+      000547 1E 26            [ 2] 1005 	ldw	x, (0x26, sp)
+      000549 F6               [ 1] 1006 	ld	a, (x)
+      00054A 4E               [ 1] 1007 	swap	a
+      00054B A4 0F            [ 1] 1008 	and	a, #0x0f
+      00054D 1A 36            [ 1] 1009 	or	a, (0x36, sp)
+      00054F 6B 6D            [ 1] 1010 	ld	(0x6d, sp), a
+      000551 1E 3C            [ 2] 1011 	ldw	x, (0x3c, sp)
+      000553 F6               [ 1] 1012 	ld	a, (x)
+      000554 1A 6D            [ 1] 1013 	or	a, (0x6d, sp)
+      000556 1E 3C            [ 2] 1014 	ldw	x, (0x3c, sp)
+      000558 F7               [ 1] 1015 	ld	(x), a
+                                   1016 ;	../printf_large.c: 768: pstore--;
+      000559 1E 3C            [ 2] 1017 	ldw	x, (0x3c, sp)
+      00055B 5A               [ 2] 1018 	decw	x
+      00055C 1F 3C            [ 2] 1019 	ldw	(0x3c, sp), x
+      00055E 20 06            [ 2] 1020 	jra	00181$
+      000560                       1021 00180$:
+                                   1022 ;	../printf_large.c: 772: *pstore = value.byte[4];
+      000560 1E 26            [ 2] 1023 	ldw	x, (0x26, sp)
+      000562 F6               [ 1] 1024 	ld	a, (x)
+      000563 1E 3C            [ 2] 1025 	ldw	x, (0x3c, sp)
+      000565 F7               [ 1] 1026 	ld	(x), a
+      000566                       1027 00181$:
+                                   1028 ;	../printf_large.c: 774: length++;
+      000566 0C 0B            [ 1] 1029 	inc	(0x0b, sp)
+                                   1030 ;	../printf_large.c: 775: lsd = !lsd;
+      000568 7B 11            [ 1] 1031 	ld	a, (0x11, sp)
+      00056A A0 01            [ 1] 1032 	sub	a, #0x01
+      00056C 4F               [ 1] 1033 	clr	a
+      00056D 49               [ 1] 1034 	rlc	a
+      00056E 6B 11            [ 1] 1035 	ld	(0x11, sp), a
+                                   1036 ;	../printf_large.c: 776: } while( value.ul );
+      000570 1E 87            [ 2] 1037 	ldw	x, (0x87, sp)
+      000572 E6 03            [ 1] 1038 	ld	a, (0x3, x)
+      000574 6B 54            [ 1] 1039 	ld	(0x54, sp), a
+      000576 E6 02            [ 1] 1040 	ld	a, (0x2, x)
+      000578 6B 53            [ 1] 1041 	ld	(0x53, sp), a
+      00057A FE               [ 2] 1042 	ldw	x, (x)
+      00057B 1F 51            [ 2] 1043 	ldw	(0x51, sp), x
+      00057D 1E 53            [ 2] 1044 	ldw	x, (0x53, sp)
+      00057F 26 AA            [ 1] 1045 	jrne	00182$
+      000581 1E 51            [ 2] 1046 	ldw	x, (0x51, sp)
+      000583 26 A6            [ 1] 1047 	jrne	00182$
+                                   1048 ;	../printf_large.c: 778: if (width == 0)
+      000585 16 3C            [ 2] 1049 	ldw	y, (0x3c, sp)
+      000587 17 1C            [ 2] 1050 	ldw	(0x1c, sp), y
+      000589 7B 0B            [ 1] 1051 	ld	a, (0x0b, sp)
+      00058B 6B 20            [ 1] 1052 	ld	(0x20, sp), a
+      00058D 0D 63            [ 1] 1053 	tnz	(0x63, sp)
+      00058F 26 04            [ 1] 1054 	jrne	00186$
+                                   1055 ;	../printf_large.c: 783: width = 1;
+      000591 A6 01            [ 1] 1056 	ld	a, #0x01
+      000593 6B 63            [ 1] 1057 	ld	(0x63, sp), a
+      000595                       1058 00186$:
+                                   1059 ;	../printf_large.c: 787: if (!zero_padding && !left_justify)
+      000595 0D 0F            [ 1] 1060 	tnz	(0x0f, sp)
+      000597 26 2D            [ 1] 1061 	jrne	00191$
+      000599 0D 18            [ 1] 1062 	tnz	(0x18, sp)
+      00059B 26 29            [ 1] 1063 	jrne	00191$
+                                   1064 ;	../printf_large.c: 789: while ( width > (unsigned char) (length+1) )
+      00059D 7B 20            [ 1] 1065 	ld	a, (0x20, sp)
+      00059F 4C               [ 1] 1066 	inc	a
+      0005A0 6B 37            [ 1] 1067 	ld	(0x37, sp), a
+      0005A2 16 1E            [ 2] 1068 	ldw	y, (0x1e, sp)
+      0005A4 17 3A            [ 2] 1069 	ldw	(0x3a, sp), y
+      0005A6 7B 63            [ 1] 1070 	ld	a, (0x63, sp)
+      0005A8                       1071 00187$:
+      0005A8 11 37            [ 1] 1072 	cp	a, (0x37, sp)
+      0005AA 23 14            [ 2] 1073 	jrule	00316$
+                                   1074 ;	../printf_large.c: 791: OUTPUT_CHAR( ' ', p );
+      0005AC 88               [ 1] 1075 	push	a
+      0005AD 1E 8F            [ 2] 1076 	ldw	x, (0x8f, sp)
+      0005AF 89               [ 2] 1077 	pushw	x
+      0005B0 4B 20            [ 1] 1078 	push	#0x20
+      0005B2 1E 90            [ 2] 1079 	ldw	x, (0x90, sp)
+      0005B4 FD               [ 4] 1080 	call	(x)
+      0005B5 5B 03            [ 2] 1081 	addw	sp, #3
+      0005B7 84               [ 1] 1082 	pop	a
+      0005B8 1E 3A            [ 2] 1083 	ldw	x, (0x3a, sp)
+      0005BA 5C               [ 2] 1084 	incw	x
+      0005BB 1F 3A            [ 2] 1085 	ldw	(0x3a, sp), x
+                                   1086 ;	../printf_large.c: 792: width--;
+      0005BD 4A               [ 1] 1087 	dec	a
+      0005BE 20 E8            [ 2] 1088 	jra	00187$
+      0005C0                       1089 00316$:
+      0005C0 16 3A            [ 2] 1090 	ldw	y, (0x3a, sp)
+      0005C2 17 1E            [ 2] 1091 	ldw	(0x1e, sp), y
+      0005C4 6B 63            [ 1] 1092 	ld	(0x63, sp), a
+      0005C6                       1093 00191$:
+                                   1094 ;	../printf_large.c: 796: if (signed_argument) // this now means the original value was negative
+      0005C6 0D 0A            [ 1] 1095 	tnz	(0x0a, sp)
+      0005C8 27 13            [ 1] 1096 	jreq	00201$
+                                   1097 ;	../printf_large.c: 798: OUTPUT_CHAR( '-', p );
+      0005CA 1E 8E            [ 2] 1098 	ldw	x, (0x8e, sp)
+      0005CC 89               [ 2] 1099 	pushw	x
+      0005CD 4B 2D            [ 1] 1100 	push	#0x2d
+      0005CF 1E 8F            [ 2] 1101 	ldw	x, (0x8f, sp)
+      0005D1 FD               [ 4] 1102 	call	(x)
+      0005D2 5B 03            [ 2] 1103 	addw	sp, #3
+      0005D4 1E 1E            [ 2] 1104 	ldw	x, (0x1e, sp)
+      0005D6 5C               [ 2] 1105 	incw	x
+      0005D7 1F 1E            [ 2] 1106 	ldw	(0x1e, sp), x
+                                   1107 ;	../printf_large.c: 800: width--;
+      0005D9 0A 63            [ 1] 1108 	dec	(0x63, sp)
+      0005DB 20 30            [ 2] 1109 	jra	00202$
+      0005DD                       1110 00201$:
+                                   1111 ;	../printf_large.c: 802: else if (length != 0)
+      0005DD 0D 20            [ 1] 1112 	tnz	(0x20, sp)
+      0005DF 27 2C            [ 1] 1113 	jreq	00202$
+                                   1114 ;	../printf_large.c: 805: if (prefix_sign)
+      0005E1 0D 0E            [ 1] 1115 	tnz	(0x0e, sp)
+      0005E3 27 13            [ 1] 1116 	jreq	00196$
+                                   1117 ;	../printf_large.c: 807: OUTPUT_CHAR( '+', p );
+      0005E5 1E 8E            [ 2] 1118 	ldw	x, (0x8e, sp)
+      0005E7 89               [ 2] 1119 	pushw	x
+      0005E8 4B 2B            [ 1] 1120 	push	#0x2b
+      0005EA 1E 8F            [ 2] 1121 	ldw	x, (0x8f, sp)
+      0005EC FD               [ 4] 1122 	call	(x)
+      0005ED 5B 03            [ 2] 1123 	addw	sp, #3
+      0005EF 1E 1E            [ 2] 1124 	ldw	x, (0x1e, sp)
+      0005F1 5C               [ 2] 1125 	incw	x
+      0005F2 1F 1E            [ 2] 1126 	ldw	(0x1e, sp), x
+                                   1127 ;	../printf_large.c: 809: width--;
+      0005F4 0A 63            [ 1] 1128 	dec	(0x63, sp)
+      0005F6 20 15            [ 2] 1129 	jra	00202$
+      0005F8                       1130 00196$:
+                                   1131 ;	../printf_large.c: 811: else if (prefix_space)
+      0005F8 0D 0D            [ 1] 1132 	tnz	(0x0d, sp)
+      0005FA 27 11            [ 1] 1133 	jreq	00202$
+                                   1134 ;	../printf_large.c: 813: OUTPUT_CHAR( ' ', p );
+      0005FC 1E 8E            [ 2] 1135 	ldw	x, (0x8e, sp)
+      0005FE 89               [ 2] 1136 	pushw	x
+      0005FF 4B 20            [ 1] 1137 	push	#0x20
+      000601 1E 8F            [ 2] 1138 	ldw	x, (0x8f, sp)
+      000603 FD               [ 4] 1139 	call	(x)
+      000604 5B 03            [ 2] 1140 	addw	sp, #3
+      000606 1E 1E            [ 2] 1141 	ldw	x, (0x1e, sp)
+      000608 5C               [ 2] 1142 	incw	x
+      000609 1F 1E            [ 2] 1143 	ldw	(0x1e, sp), x
+                                   1144 ;	../printf_large.c: 815: width--;
+      00060B 0A 63            [ 1] 1145 	dec	(0x63, sp)
+      00060D                       1146 00202$:
+                                   1147 ;	../printf_large.c: 820: if (!left_justify)
+      00060D 0D 18            [ 1] 1148 	tnz	(0x18, sp)
+      00060F 26 2A            [ 1] 1149 	jrne	00210$
+                                   1150 ;	../printf_large.c: 822: while ( width-- > length )
+      000611 16 1E            [ 2] 1151 	ldw	y, (0x1e, sp)
+      000613 17 41            [ 2] 1152 	ldw	(0x41, sp), y
+      000615 7B 63            [ 1] 1153 	ld	a, (0x63, sp)
+      000617 6B 5D            [ 1] 1154 	ld	(0x5d, sp), a
+      000619                       1155 00203$:
+      000619 7B 5D            [ 1] 1156 	ld	a, (0x5d, sp)
+      00061B 0A 5D            [ 1] 1157 	dec	(0x5d, sp)
+      00061D 11 20            [ 1] 1158 	cp	a, (0x20, sp)
+      00061F 23 2C            [ 2] 1159 	jrule	00317$
+                                   1160 ;	../printf_large.c: 824: OUTPUT_CHAR( zero_padding ? '0' : ' ', p );
+      000621 0D 0F            [ 1] 1161 	tnz	(0x0f, sp)
+      000623 27 04            [ 1] 1162 	jreq	00236$
+      000625 A6 30            [ 1] 1163 	ld	a, #0x30
+      000627 20 02            [ 2] 1164 	jra	00237$
+      000629                       1165 00236$:
+      000629 A6 20            [ 1] 1166 	ld	a, #0x20
+      00062B                       1167 00237$:
+      00062B 1E 8E            [ 2] 1168 	ldw	x, (0x8e, sp)
+      00062D 89               [ 2] 1169 	pushw	x
+      00062E 88               [ 1] 1170 	push	a
+      00062F 1E 8F            [ 2] 1171 	ldw	x, (0x8f, sp)
+      000631 FD               [ 4] 1172 	call	(x)
+      000632 5B 03            [ 2] 1173 	addw	sp, #3
+      000634 1E 41            [ 2] 1174 	ldw	x, (0x41, sp)
+      000636 5C               [ 2] 1175 	incw	x
+      000637 1F 41            [ 2] 1176 	ldw	(0x41, sp), x
+      000639 20 DE            [ 2] 1177 	jra	00203$
+      00063B                       1178 00210$:
+                                   1179 ;	../printf_large.c: 830: if (width > length)
+      00063B 7B 63            [ 1] 1180 	ld	a, (0x63, sp)
+      00063D 11 20            [ 1] 1181 	cp	a, (0x20, sp)
+      00063F 23 08            [ 2] 1182 	jrule	00207$
+                                   1183 ;	../printf_large.c: 831: width -= length;
+      000641 7B 63            [ 1] 1184 	ld	a, (0x63, sp)
+      000643 10 20            [ 1] 1185 	sub	a, (0x20, sp)
+      000645 6B 5E            [ 1] 1186 	ld	(0x5e, sp), a
+      000647 20 0C            [ 2] 1187 	jra	00309$
+      000649                       1188 00207$:
+                                   1189 ;	../printf_large.c: 833: width = 0;
+      000649 0F 5E            [ 1] 1190 	clr	(0x5e, sp)
+                                   1191 ;	../printf_large.c: 872: return charsOutputted;
+      00064B 20 08            [ 2] 1192 	jra	00309$
+                                   1193 ;	../printf_large.c: 837: while( length-- )
+      00064D                       1194 00317$:
+      00064D 16 41            [ 2] 1195 	ldw	y, (0x41, sp)
+      00064F 17 1E            [ 2] 1196 	ldw	(0x1e, sp), y
+      000651 7B 5D            [ 1] 1197 	ld	a, (0x5d, sp)
+      000653 6B 5E            [ 1] 1198 	ld	(0x5e, sp), a
+      000655                       1199 00309$:
+      000655 16 1C            [ 2] 1200 	ldw	y, (0x1c, sp)
+      000657 17 64            [ 2] 1201 	ldw	(0x64, sp), y
+      000659 16 1E            [ 2] 1202 	ldw	y, (0x1e, sp)
+      00065B 17 6B            [ 2] 1203 	ldw	(0x6b, sp), y
+      00065D 7B 20            [ 1] 1204 	ld	a, (0x20, sp)
+      00065F 6B 1B            [ 1] 1205 	ld	(0x1b, sp), a
+      000661                       1206 00215$:
+      000661 7B 1B            [ 1] 1207 	ld	a, (0x1b, sp)
+      000663 0A 1B            [ 1] 1208 	dec	(0x1b, sp)
+      000665 4D               [ 1] 1209 	tnz	a
+      000666 27 41            [ 1] 1210 	jreq	00318$
+                                   1211 ;	../printf_large.c: 839: lsd = !lsd;
+      000668 7B 11            [ 1] 1212 	ld	a, (0x11, sp)
+      00066A A0 01            [ 1] 1213 	sub	a, #0x01
+      00066C 4F               [ 1] 1214 	clr	a
+      00066D 49               [ 1] 1215 	rlc	a
+      00066E 6B 11            [ 1] 1216 	ld	(0x11, sp), a
+                                   1217 ;	../printf_large.c: 840: if (!lsd)
+      000670 0D 11            [ 1] 1218 	tnz	(0x11, sp)
+      000672 26 10            [ 1] 1219 	jrne	00213$
+                                   1220 ;	../printf_large.c: 842: pstore++;
+      000674 1E 64            [ 2] 1221 	ldw	x, (0x64, sp)
+      000676 5C               [ 2] 1222 	incw	x
+      000677 1F 64            [ 2] 1223 	ldw	(0x64, sp), x
+                                   1224 ;	../printf_large.c: 843: value.byte[4] = *pstore >> 4;
+      000679 1E 64            [ 2] 1225 	ldw	x, (0x64, sp)
+      00067B F6               [ 1] 1226 	ld	a, (x)
+      00067C 4E               [ 1] 1227 	swap	a
+      00067D A4 0F            [ 1] 1228 	and	a, #0x0f
+      00067F 1E 26            [ 2] 1229 	ldw	x, (0x26, sp)
+      000681 F7               [ 1] 1230 	ld	(x), a
+      000682 20 08            [ 2] 1231 	jra	00214$
+      000684                       1232 00213$:
+                                   1233 ;	../printf_large.c: 847: value.byte[4] = *pstore & 0x0F;
+      000684 1E 64            [ 2] 1234 	ldw	x, (0x64, sp)
+      000686 F6               [ 1] 1235 	ld	a, (x)
+      000687 A4 0F            [ 1] 1236 	and	a, #0x0f
+      000689 1E 26            [ 2] 1237 	ldw	x, (0x26, sp)
+      00068B F7               [ 1] 1238 	ld	(x), a
+      00068C                       1239 00214$:
+                                   1240 ;	../printf_large.c: 850: output_digit( value.byte[4], lower_case, output_char, p );
+      00068C 1E 26            [ 2] 1241 	ldw	x, (0x26, sp)
+      00068E F6               [ 1] 1242 	ld	a, (x)
+      00068F 90 95            [ 1] 1243 	ld	yh, a
+      000691 1E 8E            [ 2] 1244 	ldw	x, (0x8e, sp)
+      000693 89               [ 2] 1245 	pushw	x
+      000694 1E 8E            [ 2] 1246 	ldw	x, (0x8e, sp)
+      000696 89               [ 2] 1247 	pushw	x
+      000697 7B 1B            [ 1] 1248 	ld	a, (0x1b, sp)
+      000699 88               [ 1] 1249 	push	a
+      00069A 90 9E            [ 1] 1250 	ld	a, yh
+      00069C 88               [ 1] 1251 	push	a
+      00069D CDr00r00         [ 4] 1252 	call	_output_digit
+      0006A0 5B 06            [ 2] 1253 	addw	sp, #6
+                                   1254 ;	../printf_large.c: 851: charsOutputted++;
+      0006A2 1E 6B            [ 2] 1255 	ldw	x, (0x6b, sp)
+      0006A4 5C               [ 2] 1256 	incw	x
+      0006A5 1F 6B            [ 2] 1257 	ldw	(0x6b, sp), x
+      0006A7 20 B8            [ 2] 1258 	jra	00215$
+      0006A9                       1259 00318$:
+      0006A9 16 6B            [ 2] 1260 	ldw	y, (0x6b, sp)
+      0006AB 17 1E            [ 2] 1261 	ldw	(0x1e, sp), y
+                                   1262 ;	../printf_large.c: 856: if (left_justify)
+      0006AD 0D 18            [ 1] 1263 	tnz	(0x18, sp)
+      0006AF 26 03            [ 1] 1264 	jrne	00663$
+      0006B1 CCr00rCE         [ 2] 1265 	jp	00231$
+      0006B4                       1266 00663$:
+                                   1267 ;	../printf_large.c: 858: while (width-- > 0)
+      0006B4 1E 6B            [ 2] 1268 	ldw	x, (0x6b, sp)
+      0006B6 7B 5E            [ 1] 1269 	ld	a, (0x5e, sp)
+      0006B8 6B 40            [ 1] 1270 	ld	(0x40, sp), a
+      0006BA                       1271 00218$:
+      0006BA 7B 40            [ 1] 1272 	ld	a, (0x40, sp)
+      0006BC 0A 40            [ 1] 1273 	dec	(0x40, sp)
+      0006BE 4D               [ 1] 1274 	tnz	a
+      0006BF 26 03            [ 1] 1275 	jrne	00664$
+      0006C1 CCr00rCE         [ 2] 1276 	jp	00231$
+      0006C4                       1277 00664$:
+                                   1278 ;	../printf_large.c: 860: OUTPUT_CHAR(' ', p);
+      0006C4 89               [ 2] 1279 	pushw	x
+      0006C5 16 90            [ 2] 1280 	ldw	y, (0x90, sp)
+      0006C7 90 89            [ 2] 1281 	pushw	y
+      0006C9 4B 20            [ 1] 1282 	push	#0x20
+      0006CB 1E 91            [ 2] 1283 	ldw	x, (0x91, sp)
+      0006CD FD               [ 4] 1284 	call	(x)
+      0006CE 5B 03            [ 2] 1285 	addw	sp, #3
+      0006D0 85               [ 2] 1286 	popw	x
+      0006D1 5C               [ 2] 1287 	incw	x
+      0006D2 1F 1E            [ 2] 1288 	ldw	(0x1e, sp), x
+      0006D4 20 E4            [ 2] 1289 	jra	00218$
+      0006D6                       1290 00229$:
+                                   1291 ;	../printf_large.c: 868: OUTPUT_CHAR( c, p );
+      0006D6 1E 8E            [ 2] 1292 	ldw	x, (0x8e, sp)
+      0006D8 89               [ 2] 1293 	pushw	x
+      0006D9 7B 33            [ 1] 1294 	ld	a, (0x33, sp)
+      0006DB 88               [ 1] 1295 	push	a
+      0006DC 1E 8F            [ 2] 1296 	ldw	x, (0x8f, sp)
+      0006DE FD               [ 4] 1297 	call	(x)
+      0006DF 5B 03            [ 2] 1298 	addw	sp, #3
+      0006E1 1E 1E            [ 2] 1299 	ldw	x, (0x1e, sp)
+      0006E3 5C               [ 2] 1300 	incw	x
+      0006E4 1F 1E            [ 2] 1301 	ldw	(0x1e, sp), x
+      0006E6 CCr00rCE         [ 2] 1302 	jp	00231$
+      0006E9                       1303 00233$:
+                                   1304 ;	../printf_large.c: 872: return charsOutputted;
+      0006E9 1E 1E            [ 2] 1305 	ldw	x, (0x1e, sp)
+      0006EB 5B 89            [ 2] 1306 	addw	sp, #137
+      0006ED 81               [ 4] 1307 	ret
+                                   1308 	.area CODE
+      0006EE                       1309 ___str_0:
+      0006EE 3C 4E 4F 20 46 4C 4F  1310 	.ascii "<NO FLOAT>"
+             41 54 3E
+      0006F8 00                    1311 	.db 0x00
+                                   1312 	.area INITIALIZER
+                                   1313 	.area CABS (ABS)

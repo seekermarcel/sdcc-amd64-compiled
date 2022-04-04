@@ -1,0 +1,144 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:16 2022
+                              5 ;--------------------------------------------------------
+                              6 	.r3k
+                              7 	.module floorf
+                              8 	.optsdcc -mr3ka
+                              9 	
+                             10 ;--------------------------------------------------------
+                             11 ; Public variables in this module
+                             12 ;--------------------------------------------------------
+                             13 	.globl _floorf
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 	.area _HOME
+                             41 ;--------------------------------------------------------
+                             42 ; code
+                             43 ;--------------------------------------------------------
+                             44 	.area _CODE
+                             45 ;../floorf.c:33: float floorf (float x) _FLOAT_FUNC_REENTRANT
+                             46 ;	---------------------------------
+                             47 ; Function floorf
+                             48 ; ---------------------------------
+   0000                      49 _floorf::
+   0000 DD E5                50 	push	ix
+   0002 DD 21 00 00          51 	ld	ix,#0
+   0006 DD 39                52 	add	ix,sp
+   0008 27 F7                53 	add	sp, #-9
+                             54 ;../floorf.c:36: r=x;
+   000A C4 0F                55 	ld	hl, 15 (sp)
+   000C E5                   56 	push	hl
+   000D C4 0F                57 	ld	hl, 15 (sp)
+   000F E5                   58 	push	hl
+   0010 CDr00r00             59 	call	___fs2slong
+   0013 27 04                60 	add	sp, #4
+   0015 DD 75 F7             61 	ld	-9 (ix),l
+   0018 DD 74 F8             62 	ld	-8 (ix),h
+   001B DD 73 F9             63 	ld	-7 (ix),e
+   001E DD 72 FA             64 	ld	-6 (ix),d
+                             65 ;../floorf.c:38: return (r+((r>x)?-1:0));
+   0021 C4 02                66 	ld	hl, 2 (sp)
+   0023 E5                   67 	push	hl
+   0024 C4 02                68 	ld	hl, 2 (sp)
+   0026 E5                   69 	push	hl
+   0027 CDr00r00             70 	call	___slong2fs
+   002A 27 04                71 	add	sp, #4
+   002C DD 72 FE             72 	ld	-2 (ix),d
+   002F DD 73 FD             73 	ld	-3 (ix),e
+   0032 DD 74 FC             74 	ld	-4 (ix),h
+   0035 DD 75 FB             75 	ld	-5 (ix),l
+                             76 ;../floorf.c:37: if (r<=0)
+   0038 AF                   77 	xor	a, a
+   0039 DD BE F7             78 	cp	a, -9 (ix)
+   003C DD 9E F8             79 	sbc	a, -8 (ix)
+   003F 3E 00                80 	ld	a,#0x00
+   0041 DD 9E F9             81 	sbc	a, -7 (ix)
+   0044 3E 00                82 	ld	a,#0x00
+   0046 DD 9E FA             83 	sbc	a, -6 (ix)
+   0049 E2r4Er00             84 	jp	PO, 00116$
+   004C EE 80                85 	xor	a, #0x80
+   004E                      86 00116$:
+   004E FAr9Br00             87 	jp	M,00102$
+                             88 ;../floorf.c:38: return (r+((r>x)?-1:0));
+   0051 C4 0F                89 	ld	hl, 15 (sp)
+   0053 E5                   90 	push	hl
+   0054 C4 0F                91 	ld	hl, 15 (sp)
+   0056 E5                   92 	push	hl
+   0057 C4 0A                93 	ld	hl, 10 (sp)
+   0059 E5                   94 	push	hl
+   005A C4 0A                95 	ld	hl, 10 (sp)
+   005C E5                   96 	push	hl
+   005D CDr00r00             97 	call	___fsgt
+   0060 27 08                98 	add	sp, #8
+   0062 DD 75 FF             99 	ld	-1 (ix), l
+   0065 7D                  100 	ld	a, l
+   0066 B7                  101 	or	a, a
+   0067 28 06               102 	jr	Z,00106$
+   0069 DD 36 FF FF         103 	ld	-1 (ix),#0xFF
+   006D 18 04               104 	jr	00107$
+   006F                     105 00106$:
+   006F DD 36 FF 00         106 	ld	-1 (ix),#0x00
+   0073                     107 00107$:
+   0073 DD 6E FF            108 	ld	l,-1 (ix)
+   0076 DD 7E FF            109 	ld	a,-1 (ix)
+   0079 17                  110 	rla
+   007A 9F                  111 	sbc	a, a
+   007B 67                  112 	ld	h,a
+   007C 5F                  113 	ld	e,a
+   007D 57                  114 	ld	d,a
+   007E DD 7E F7            115 	ld	a,-9 (ix)
+   0081 85                  116 	add	a, l
+   0082 6F                  117 	ld	l,a
+   0083 DD 7E F8            118 	ld	a,-8 (ix)
+   0086 8C                  119 	adc	a, h
+   0087 67                  120 	ld	h,a
+   0088 DD 7E F9            121 	ld	a,-7 (ix)
+   008B 8B                  122 	adc	a, e
+   008C 5F                  123 	ld	e,a
+   008D DD 7E FA            124 	ld	a,-6 (ix)
+   0090 8A                  125 	adc	a, d
+   0091 57                  126 	ld	d,a
+   0092 D5                  127 	push	de
+   0093 E5                  128 	push	hl
+   0094 CDr00r00            129 	call	___slong2fs
+   0097 27 04               130 	add	sp, #4
+   0099 18 0C               131 	jr	00104$
+   009B                     132 00102$:
+                            133 ;../floorf.c:40: return r;
+   009B DD 6E FB            134 	ld	l,-5 (ix)
+   009E DD 66 FC            135 	ld	h,-4 (ix)
+   00A1 DD 5E FD            136 	ld	e,-3 (ix)
+   00A4 DD 56 FE            137 	ld	d,-2 (ix)
+   00A7                     138 00104$:
+   00A7 DD F9               139 	ld	sp, ix
+   00A9 DD E1               140 	pop	ix
+   00AB C9                  141 	ret
+                            142 	.area _CODE
+                            143 	.area _INITIALIZER
+                            144 	.area _CABS (ABS)

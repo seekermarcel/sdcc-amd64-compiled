@@ -1,0 +1,396 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                                      4 ; This file was generated Mon Apr  4 14:10:30 2022
+                                      5 ;--------------------------------------------------------
+                                      6 	.module atol
+                                      7 	.optsdcc -mds400 --model-flat24
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; CPU specific extensions
+                                     11 ;--------------------------------------------------------
+                                     12 	.DS80C390
+                                     13 	.amode	2	; 24 bit flat addressing
+                           000082    14 dpl	=	0x82
+                           000083    15 dph	=	0x83
+                           000084    16 dpl1	=	0x84
+                           000085    17 dph1	=	0x85
+                           000086    18 dps	=	0x86
+                           000093    19 dpx	=	0x93
+                           000095    20 dpx1	=	0x95
+                           00009B    21 esp	=	0x9B
+                           00009C    22 ap	=	0x9C
+                           00009C    23 acc1	=	0x9C
+                           0000D1    24 mcnt0	=	0xD1
+                           0000D2    25 mcnt1	=	0xD2
+                           0000D3    26 ma	=	0xD3
+                           0000D4    27 mb	=	0xD4
+                           0000D5    28 mc	=	0xD5
+                           00009D    29 acon	=	0x9D
+                           0000D1    30 F1	=	0xD1	; user flag
+                                     31 ;--------------------------------------------------------
+                                     32 ; Public variables in this module
+                                     33 ;--------------------------------------------------------
+                                     34 	.globl _atol
+                                     35 ;--------------------------------------------------------
+                                     36 ; special function registers
+                                     37 ;--------------------------------------------------------
+                                     38 ;--------------------------------------------------------
+                                     39 ; special function bits
+                                     40 ;--------------------------------------------------------
+                                     41 ;--------------------------------------------------------
+                                     42 ; overlayable register banks
+                                     43 ;--------------------------------------------------------
+                                     44 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         45 	.ds 8
+                                     46 	.area REG_BANK_3	(REL,OVR,DATA)
+      000000                         47 	.ds 8
+                                     48 ;--------------------------------------------------------
+                                     49 ; internal ram data
+                                     50 ;--------------------------------------------------------
+                                     51 	.area DSEG    (DATA)
+                                     52 ;--------------------------------------------------------
+                                     53 ; overlayable items in internal ram 
+                                     54 ;--------------------------------------------------------
+                                     55 ;--------------------------------------------------------
+                                     56 ; indirectly addressable internal ram data
+                                     57 ;--------------------------------------------------------
+                                     58 	.area ISEG    (DATA)
+                                     59 ;--------------------------------------------------------
+                                     60 ; absolute internal ram data
+                                     61 ;--------------------------------------------------------
+                                     62 	.area IABS    (ABS,DATA)
+                                     63 	.area IABS    (ABS,DATA)
+                                     64 ;--------------------------------------------------------
+                                     65 ; bit data
+                                     66 ;--------------------------------------------------------
+                                     67 	.area BSEG    (BIT)
+                                     68 ;--------------------------------------------------------
+                                     69 ; paged external ram data
+                                     70 ;--------------------------------------------------------
+                                     71 	.area PSEG    (PAG,XDATA)
+                                     72 ;--------------------------------------------------------
+                                     73 ; external ram data
+                                     74 ;--------------------------------------------------------
+                                     75 	.area XSEG    (XDATA)
+      000000                         76 _atol_ret_1_37:
+      000000                         77 	.ds 4
+      000004                         78 _atol_neg_1_37:
+      000004                         79 	.ds 1
+      000005                         80 _atol_sloc1_1_0:
+      000005                         81 	.ds 4
+                                     82 ;--------------------------------------------------------
+                                     83 ; absolute external ram data
+                                     84 ;--------------------------------------------------------
+                                     85 	.area XABS    (ABS,XDATA)
+                                     86 ;--------------------------------------------------------
+                                     87 ; external initialized ram data
+                                     88 ;--------------------------------------------------------
+                                     89 	.area XISEG   (XDATA)
+                                     90 ;--------------------------------------------------------
+                                     91 ; global & static initialisations
+                                     92 ;--------------------------------------------------------
+                                     93 	.area HOME    (CODE)
+                                     94 	.area GSINIT  (CODE)
+                                     95 	.area GSFINAL (CODE)
+                                     96 	.area GSINIT  (CODE)
+                                     97 ;--------------------------------------------------------
+                                     98 ; Home
+                                     99 ;--------------------------------------------------------
+                                    100 	.area HOME    (CODE)
+                                    101 	.area HOME    (CODE)
+                                    102 ;--------------------------------------------------------
+                                    103 ; code
+                                    104 ;--------------------------------------------------------
+                                    105 	.area CSEG    (CODE)
+                                    106 ;------------------------------------------------------------
+                                    107 ;Allocation info for local variables in function 'atol'
+                                    108 ;------------------------------------------------------------
+                                    109 ;nptr                      Allocated to registers r6 r7 r0 r1 
+                                    110 ;__00010004                Allocated to registers 
+                                    111 ;__00010001                Allocated to registers 
+                                    112 ;ret                       Allocated with name '_atol_ret_1_37'
+                                    113 ;neg                       Allocated with name '_atol_neg_1_37'
+                                    114 ;__00020002                Allocated to registers r6 r7 
+                                    115 ;c                         Allocated to registers 
+                                    116 ;__00020005                Allocated to registers r6 r7 
+                                    117 ;c                         Allocated to registers 
+                                    118 ;sloc0                     Allocated with name '_atol_sloc0_1_0'
+                                    119 ;sloc1                     Allocated with name '_atol_sloc1_1_0'
+                                    120 ;------------------------------------------------------------
+                                    121 ;	atol.c:34: long int atol(const char *nptr)
+                                    122 ;	-----------------------------------------
+                                    123 ;	 function atol
+                                    124 ;	-----------------------------------------
+      000000                        125 _atol:
+                           000002   126 	ar2 = 0x02
+                           000003   127 	ar3 = 0x03
+                           000004   128 	ar4 = 0x04
+                           000005   129 	ar5 = 0x05
+                           000006   130 	ar6 = 0x06
+                           000007   131 	ar7 = 0x07
+                           000000   132 	ar0 = 0x00
+                           000001   133 	ar1 = 0x01
+      000000 AE 82            [ 8]  134 	mov	r6,dpl
+      000002 AF 83            [ 8]  135 	mov	r7,dph
+      000004 A8 93            [ 8]  136 	mov	r0,dpx
+      000006 A9 F0            [ 8]  137 	mov	r1,b
+                                    138 ;	atol.c:36: long int ret = 0;
+                                    139 ;	genAssign: resultIsFar = TRUE
+      000008 90s00r00r00      [12]  140 	mov	dptr,#_atol_ret_1_37
+      00000C E4               [ 4]  141 	clr	a
+      00000D F0               [ 8]  142 	movx	@dptr,a
+      00000E A3               [12]  143 	inc	dptr
+      00000F F0               [ 8]  144 	movx	@dptr,a
+      000010 A3               [12]  145 	inc	dptr
+      000011 F0               [ 8]  146 	movx	@dptr,a
+      000012 A3               [12]  147 	inc	dptr
+      000013 F0               [ 8]  148 	movx	@dptr,a
+                                    149 ;	atol.c:39: while (isblank (*nptr))
+                                    150 ;	genAssign: resultIsFar = FALSE
+      000014 8E 02            [ 8]  151 	mov	ar2,r6
+      000016 8F 03            [ 8]  152 	mov	ar3,r7
+      000018 88 04            [ 8]  153 	mov	ar4,r0
+      00001A 89 05            [ 8]  154 	mov	ar5,r1
+      00001C                        155 00101$:
+      00001C 8A 82            [ 8]  156 	mov	dpl,r2
+      00001E 8B 83            [ 8]  157 	mov	dph,r3
+      000020 8C 93            [ 8]  158 	mov	dpx,r4
+      000022 8D F0            [ 8]  159 	mov	b,r5
+      000024 12s00r00r00      [16]  160 	lcall	__gptrget
+      000028 FE               [ 4]  161 	mov  r6,a
+      000029 33               [ 4]  162 	rlc	a
+      00002A 95 E0            [ 8]  163 	subb	a,acc
+      00002C FF               [ 4]  164 	mov	r7,a
+                                    165 ;	../../device/include/ctype.h:53: return ((unsigned char)c == ' ' || (unsigned char)c == '\t');
+      00002D BE 20 02         [16]  166 	cjne	r6,#0x20,00147$
+      000030 80 03            [12]  167 	sjmp 00115$
+      000032                        168 00147$:
+      000032 BE 09 0B         [16]  169 	cjne r6,#0x09,00131$
+      000035                        170 00149$:
+      000035                        171 00115$:
+                                    172 ;	atol.c:40: nptr++;
+      000035 0A               [ 4]  173 	inc	r2
+      000036 BA 00 05         [16]  174 	cjne	r2,#0x00,00150$
+      000039 0B               [ 4]  175 	inc	r3
+      00003A BB 00 01         [16]  176 	cjne	r3,#0x00,00150$
+      00003D 0C               [ 4]  177 	inc	r4
+      00003E                        178 00150$:
+      00003E 80 DC            [12]  179 	sjmp 00101$
+      000040                        180 00131$:
+                                    181 ;	genAssign: resultIsFar = FALSE
+      000040 8A 06            [ 8]  182 	mov	ar6,r2
+      000042 8B 07            [ 8]  183 	mov	ar7,r3
+      000044 8C 00            [ 8]  184 	mov	ar0,r4
+      000046 8D 01            [ 8]  185 	mov	ar1,r5
+                                    186 ;	atol.c:42: neg = (*nptr == '-');
+      000048 8A 82            [ 8]  187 	mov	dpl,r2
+      00004A 8B 83            [ 8]  188 	mov	dph,r3
+      00004C 8C 93            [ 8]  189 	mov	dpx,r4
+      00004E 8D F0            [ 8]  190 	mov	b,r5
+      000050 12s00r00r00      [16]  191 	lcall	__gptrget
+      000054 FA               [ 4]  192 	mov	r2,a
+      000055 E4               [ 4]  193 	clr     a
+      000056 BA 2D 01         [16]  194 	cjne    r2,#0x2D,00151$
+      000059 04               [ 4]  195 	inc     a
+      00005A                        196 00151$:
+      00005A                        197 00152$:
+      00005A 90s00r00r04      [12]  198 	mov	dptr,#_atol_neg_1_37
+      00005E F0               [ 8]  199 	movx	@dptr,a
+                                    200 ;	atol.c:44: if (*nptr == '-' || *nptr == '+')
+      00005F BA 2D 02         [16]  201 	cjne	r2,#0x2D,00153$
+      000062 80 03            [12]  202 	sjmp 00104$
+      000064                        203 00153$:
+      000064 BA 2B 09         [16]  204 	cjne r2,#0x2B,00129$
+      000067                        205 00155$:
+      000067                        206 00104$:
+                                    207 ;	atol.c:45: nptr++;
+      000067 0E               [ 4]  208 	inc	r6
+      000068 BE 00 05         [16]  209 	cjne	r6,#0x00,00156$
+      00006B 0F               [ 4]  210 	inc	r7
+      00006C BF 00 01         [16]  211 	cjne	r7,#0x00,00156$
+      00006F 08               [ 4]  212 	inc	r0
+      000070                        213 00156$:
+                                    214 ;	atol.c:47: while (isdigit (*nptr))
+      000070                        215 00129$:
+                                    216 ;	genAssign: resultIsFar = FALSE
+      000070 8E 02            [ 8]  217 	mov	ar2,r6
+      000072 8F 04            [ 8]  218 	mov	ar4,r7
+      000074 88 05            [ 8]  219 	mov	ar5,r0
+      000076 89 03            [ 8]  220 	mov	ar3,r1
+      000078                        221 00107$:
+      000078 8A 82            [ 8]  222 	mov	dpl,r2
+      00007A 8C 83            [ 8]  223 	mov	dph,r4
+      00007C 8D 93            [ 8]  224 	mov	dpx,r5
+      00007E 8B F0            [ 8]  225 	mov	b,r3
+      000080 12s00r00r00      [16]  226 	lcall	__gptrget
+      000084 FE               [ 4]  227 	mov  r6,a
+      000085 33               [ 4]  228 	rlc	a
+      000086 95 E0            [ 8]  229 	subb	a,acc
+                                    230 ;	../../device/include/ctype.h:62: return ((unsigned char)c >= '0' && (unsigned char)c <= '9');
+      000088 8E 07            [ 8]  231 	mov	ar7,r6
+      00008A BF 30 00         [16]  232 	cjne	r7,#0x30,00157$
+      00008D                        233 00157$:
+      00008D 50 04            [12]  234 	jnc	00158$
+      00008F 02s00r01r49      [16]  235 	ljmp	00109$
+      000093                        236 00158$:
+      000093 C3               [ 4]  237 	clr	c
+      000094 74 39            [ 8]  238 	mov	a,#0x39
+      000096 9F               [ 4]  239 	subb	a,r7
+      000097 50 04            [12]  240 	jnc	00159$
+      000099 02s00r01r49      [16]  241 	ljmp	00109$
+      00009D                        242 00159$:
+                                    243 ;	atol.c:48: ret = ret * 10 + (*(nptr++) - '0');
+      00009D 90s00r00r00      [12]  244 	mov	dptr,#_atol_ret_1_37
+                                    245 ;	genAssign: resultIsFar = TRUE
+      0000A1 75 86 21         [12]  246 	mov	dps,#0x21
+      0000A4 90s00r00r00      [12]  247 	mov	dptr,#__mullong_PARM_2
+      0000A8 E0               [ 8]  248 	movx	a,@dptr
+      0000A9 F0               [ 8]  249 	movx	@dptr,a
+      0000AA A3               [12]  250 	inc	dptr
+      0000AB A3               [12]  251 	inc	dptr
+      0000AC E0               [ 8]  252 	movx	a,@dptr
+      0000AD F0               [ 8]  253 	movx	@dptr,a
+      0000AE A3               [12]  254 	inc	dptr
+      0000AF A3               [12]  255 	inc	dptr
+      0000B0 E0               [ 8]  256 	movx	a,@dptr
+      0000B1 F0               [ 8]  257 	movx	@dptr,a
+      0000B2 A3               [12]  258 	inc	dptr
+      0000B3 A3               [12]  259 	inc	dptr
+      0000B4 E0               [ 8]  260 	movx	a,@dptr
+      0000B5 F0               [ 8]  261 	movx	@dptr,a
+      0000B6 75 86 00         [12]  262 	mov	dps,#0
+      0000B9 C0 02            [ 8]  263 	push	ar2
+      0000BB C0 03            [ 8]  264 	push	ar3
+      0000BD C0 04            [ 8]  265 	push	ar4
+      0000BF C0 05            [ 8]  266 	push	ar5
+      0000C1 90 00 00 0A      [12]  267 	mov	dptr,#0x00000A
+      0000C5 75 F0 00         [12]  268 	mov	b,#0x00
+      0000C8 12s00r00r00      [16]  269 	lcall	__mullong
+      0000CC 75 86 01         [12]  270 	mov     dps, #1
+      0000CF 90s00r00r05      [12]  271 	mov     dptr, #_atol_sloc1_1_0
+      0000D3 E5 82            [ 8]  272 	mov	a,dpl
+      0000D5 F0               [ 8]  273 	movx	@dptr,a
+      0000D6 A3               [12]  274 	inc	dptr
+      0000D7 E5 83            [ 8]  275 	mov	a,dph
+      0000D9 F0               [ 8]  276 	movx	@dptr,a
+      0000DA A3               [12]  277 	inc	dptr
+      0000DB E5 93            [ 8]  278 	mov	a,dpx
+      0000DD F0               [ 8]  279 	movx	@dptr,a
+      0000DE A3               [12]  280 	inc	dptr
+      0000DF E5 F0            [ 8]  281 	mov	a,b
+      0000E1 F0               [ 8]  282 	movx	@dptr,a
+      0000E2 75 86 00         [12]  283 	mov	dps,#0
+      0000E5 D0 05            [ 8]  284 	pop	ar5
+      0000E7 D0 04            [ 8]  285 	pop	ar4
+      0000E9 D0 03            [ 8]  286 	pop	ar3
+      0000EB D0 02            [ 8]  287 	pop	ar2
+      0000ED 8A 82            [ 8]  288 	mov	dpl,r2
+      0000EF 8C 83            [ 8]  289 	mov	dph,r4
+      0000F1 8D 93            [ 8]  290 	mov	dpx,r5
+      0000F3 8B F0            [ 8]  291 	mov	b,r3
+      0000F5 12s00r00r00      [16]  292 	lcall	__gptrget
+      0000F9 FE               [ 4]  293 	mov	r6,a
+      0000FA A3               [12]  294 	inc	dptr
+      0000FB AA 82            [ 8]  295 	mov	r2,dpl
+      0000FD AC 83            [ 8]  296 	mov	r4,dph
+      0000FF AD 93            [ 8]  297 	mov	r5,dpx
+      000101 AB F0            [ 8]  298 	mov	r3,b
+      000103 EE               [ 4]  299 	mov	a,r6
+      000104 33               [ 4]  300 	rlc	a
+      000105 95 E0            [ 8]  301 	subb	a,acc
+      000107 FF               [ 4]  302 	mov	r7,a
+      000108 EE               [ 4]  303 	mov	a,r6
+      000109 24 D0            [ 8]  304 	add	a,#0xD0
+      00010B FE               [ 4]  305 	mov	r6,a
+      00010C EF               [ 4]  306 	mov	a,r7
+      00010D 34 FF            [ 8]  307 	addc	a,#0xFF
+      00010F FF               [ 4]  308 	mov  r7,a
+      000110 33               [ 4]  309 	rlc	a
+      000111 95 E0            [ 8]  310 	subb	a,acc
+      000113 F8               [ 4]  311 	mov	r0,a
+      000114 F9               [ 4]  312 	mov	r1,a
+      000115 90s00r00r05      [12]  313 	mov	dptr,#_atol_sloc1_1_0
+      000119 75 86 01         [12]  314 	mov	dps, #1
+      00011C 90s00r00r00      [12]  315 	mov	dptr, #_atol_ret_1_37
+      000120 15 86            [ 8]  316 	dec	dps
+      000122 E0               [ 8]  317 	movx	a,@dptr
+      000123 2E               [ 4]  318 	add	a,r6
+      000124 05 86            [ 8]  319 	inc	dps
+      000126 F0               [ 8]  320 	movx	@dptr,a
+      000127 15 86            [ 8]  321 	dec	dps
+      000129 A3               [12]  322 	inc	dptr
+      00012A E0               [ 8]  323 	movx	a,@dptr
+      00012B 3F               [ 4]  324 	addc	a,r7
+      00012C 05 86            [ 8]  325 	inc	dps
+      00012E A3               [12]  326 	inc	dptr
+      00012F F0               [ 8]  327 	movx	@dptr,a
+      000130 15 86            [ 8]  328 	dec	dps
+      000132 A3               [12]  329 	inc	dptr
+      000133 E0               [ 8]  330 	movx	a,@dptr
+      000134 38               [ 4]  331 	addc	a,r0
+      000135 05 86            [ 8]  332 	inc	dps
+      000137 A3               [12]  333 	inc	dptr
+      000138 F0               [ 8]  334 	movx	@dptr,a
+      000139 15 86            [ 8]  335 	dec	dps
+      00013B A3               [12]  336 	inc	dptr
+      00013C E0               [ 8]  337 	movx	a,@dptr
+      00013D 39               [ 4]  338 	addc	a,r1
+      00013E 05 86            [ 8]  339 	inc	dps
+      000140 A3               [12]  340 	inc	dptr
+      000141 F0               [ 8]  341 	movx	@dptr,a
+      000142 75 86 00         [12]  342 	mov	dps,#0
+      000145 02s00r00r78      [16]  343 	ljmp	00107$
+      000149                        344 00109$:
+                                    345 ;	atol.c:50: return (neg ? -ret : ret); // Since -LONG_MIN is LONG_MIN in sdcc, the result value always turns out ok.
+      000149 90s00r00r04      [12]  346 	mov	dptr,#_atol_neg_1_37
+      00014D E0               [ 8]  347 	movx	a,@dptr
+      00014E 60 1E            [12]  348 	jz  00120$
+      000150                        349 00160$:
+      000150 90s00r00r00      [12]  350 	mov	dptr,#_atol_ret_1_37
+      000154 E0               [ 8]  351 	movx	a,@dptr
+      000155 D3               [ 4]  352 	setb	c
+      000156 F4               [ 4]  353 	cpl	a
+      000157 34 00            [ 8]  354 	addc	a,#0x00
+      000159 FA               [ 4]  355 	mov	r2,a
+      00015A A3               [12]  356 	inc	dptr
+      00015B E0               [ 8]  357 	movx	a,@dptr
+      00015C F4               [ 4]  358 	cpl	a
+      00015D 34 00            [ 8]  359 	addc	a,#0x00
+      00015F FB               [ 4]  360 	mov	r3,a
+      000160 A3               [12]  361 	inc	dptr
+      000161 E0               [ 8]  362 	movx	a,@dptr
+      000162 F4               [ 4]  363 	cpl	a
+      000163 34 00            [ 8]  364 	addc	a,#0x00
+      000165 FC               [ 4]  365 	mov	r4,a
+      000166 A3               [12]  366 	inc	dptr
+      000167 E0               [ 8]  367 	movx	a,@dptr
+      000168 F4               [ 4]  368 	cpl	a
+      000169 34 00            [ 8]  369 	addc	a,#0x00
+      00016B FD               [ 4]  370 	mov	r5,a
+      00016C 80 0F            [12]  371 	sjmp 00121$
+      00016E                        372 00120$:
+      00016E 90s00r00r00      [12]  373 	mov	dptr,#_atol_ret_1_37
+                                    374 ;	genAssign: resultIsFar = FALSE
+      000172 E0               [ 8]  375 	movx	a,@dptr
+      000173 FA               [ 4]  376 	mov	r2,a
+      000174 A3               [12]  377 	inc	dptr
+      000175 E0               [ 8]  378 	movx	a,@dptr
+      000176 FB               [ 4]  379 	mov	r3,a
+      000177 A3               [12]  380 	inc	dptr
+      000178 E0               [ 8]  381 	movx	a,@dptr
+      000179 FC               [ 4]  382 	mov	r4,a
+      00017A A3               [12]  383 	inc	dptr
+      00017B E0               [ 8]  384 	movx	a,@dptr
+      00017C FD               [ 4]  385 	mov	r5,a
+      00017D                        386 00121$:
+      00017D 8A 82            [ 8]  387 	mov	dpl,r2
+      00017F 8B 83            [ 8]  388 	mov	dph,r3
+      000181 8C 93            [ 8]  389 	mov	dpx,r4
+      000183 8D F0            [ 8]  390 	mov	b,r5
+      000185                        391 00112$:
+      000185 22               [16]  392 	ret
+                                    393 	.area CSEG    (CODE)
+                                    394 	.area CONST   (CODE)
+                                    395 	.area XINIT   (CODE)
+                                    396 	.area CABS    (ABS,CODE)

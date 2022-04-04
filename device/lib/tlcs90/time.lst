@@ -1,0 +1,1071 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:42 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module time
+                              7 	.optsdcc -mtlcs90
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _RtcRead
+                             13 	.globl _sprintf
+                             14 	.globl ___day
+                             15 	.globl ___month
+                             16 	.globl _time
+                             17 	.globl _asctime
+                             18 	.globl _ctime
+                             19 	.globl _localtime
+                             20 	.globl _gmtime
+                             21 	.globl _mktime
+                             22 ;--------------------------------------------------------
+                             23 ; ram data
+                             24 ;--------------------------------------------------------
+                             25 	.area _DATA
+   0000                      26 _ascTimeBuffer:
+   0000                      27 	.ds 32
+   0020                      28 _lastTime:
+   0020                      29 	.ds 12
+                             30 ;--------------------------------------------------------
+                             31 ; ram data
+                             32 ;--------------------------------------------------------
+                             33 	.area _INITIALIZED
+   0000                      34 _monthDays:
+   0000                      35 	.ds 12
+   000C                      36 ___month::
+   000C                      37 	.ds 24
+   0024                      38 ___day::
+   0024                      39 	.ds 14
+                             40 ;--------------------------------------------------------
+                             41 ; absolute external ram data
+                             42 ;--------------------------------------------------------
+                             43 	.area _DABS (ABS)
+                             44 ;--------------------------------------------------------
+                             45 ; global & static initialisations
+                             46 ;--------------------------------------------------------
+                             47 	.area _HOME
+                             48 	.area _GSINIT
+                             49 	.area _GSFINAL
+                             50 	.area _GSINIT
+                             51 ;--------------------------------------------------------
+                             52 ; Home
+                             53 ;--------------------------------------------------------
+                             54 	.area _HOME
+                             55 	.area _HOME
+                             56 ;--------------------------------------------------------
+                             57 ; code
+                             58 ;--------------------------------------------------------
+                             59 	.area _CODE
+                             60 ;../time.c:42: unsigned char RtcRead(struct tm *timeptr) {
+                             61 ;	---------------------------------
+                             62 ; Function RtcRead
+                             63 ; ---------------------------------
+   0000                      64 _RtcRead::
+                             65 ;../time.c:45: return 0;
+   0000 35 00         [11]   66 	ld	l,#0x00
+   0002 1E            [ 7]   67 	ret
+                             68 ;../time.c:50: time_t time(time_t *timeptr) {
+                             69 ;	---------------------------------
+                             70 ; Function time
+                             71 ; ---------------------------------
+   0003                      72 _time::
+   0003 54            [ 4]   73 	push	ix
+   0004 3C 00 00      [ 4]   74 	ld	ix,#0
+   0007 FE 14         [ 7]   75 	add	ix,sp
+   0009 16 F4 FF      [ 7]   76 	add	sp, #-12
+                             77 ;../time.c:52: time_t t=(time_t) -1;
+   000C 38 FF FF      [12]   78 	ld	bc,#0xFFFF
+   000F 39 FF FF      [11]   79 	ld	de,#0xFFFF
+                             80 ;../time.c:54: if (RtcRead(&now)) {
+   0012 3A 00 00      [13]   81 	ld	hl,#0x0000
+   0015 FE 70         [ 7]   82 	add	hl,sp
+   0017 4D            [ 4]   83 	ld	iy, hl
+   0018 52            [ 4]   84 	push	hl
+   0019 50            [ 4]   85 	push	bc
+   001A 51            [ 4]   86 	push	de
+   001B 55            [ 4]   87 	push	iy
+   001C 1Cr00r00      [ 4]   88 	call	_RtcRead
+   001F 16 02 00      [ 7]   89 	add	sp, #2
+   0022 25            [ 4]   90 	ld	a,l
+   0023 59            [ 4]   91 	pop	de
+   0024 58            [ 4]   92 	pop	bc
+   0025 5A            [ 4]   93 	pop	hl
+   0026 FE 66         [ 7]   94 	or	a, a
+   0028 C6 0B         [ 7]   95 	jr	Z,00102$
+                             96 ;../time.c:55: t=mktime(&now);
+   002A 52            [ 4]   97 	push	hl
+   002B 1Cr66r04      [ 4]   98 	call	_mktime
+   002E 16 02 00      [ 7]   99 	add	sp, #2
+   0031 FD 31               100 	ld	c,l
+   0033 FC 30         [17]  101 	ld	b,h
+   0035                     102 00102$:
+                            103 ;../time.c:57: if (timeptr) {
+   0035 F0 05 2E      [11]  104 	ld	a,5 (ix)
+   0038 F0 04 66      [11]  105 	or	a,4 (ix)
+   003B C6 0E         [ 7]  106 	jr	Z,00104$
+                            107 ;../time.c:58: *timeptr=t;
+   003D F2 10 4A      [10]  108 	ld	hl, 16 (sp)
+   0040 EA 21         [10]  109 	ld	(hl),c
+   0042 92            [ 4]  110 	inc	hl
+   0043 EA 20         [10]  111 	ld	(hl),b
+   0045 92            [ 4]  112 	inc	hl
+   0046 EA 23         [10]  113 	ld	(hl),e
+   0048 92            [ 4]  114 	inc	hl
+   0049 EA 22         [10]  115 	ld	(hl),d
+   004B                     116 00104$:
+                            117 ;../time.c:60: return t;
+   004B F9 35         [ 6]  118 	ld	l,c
+   004D F8 34         [11]  119 	ld	h,b
+   004F FC 3E         [17]  120 	ld	sp, ix
+   0051 5C            [ 4]  121 	pop	ix
+   0052 1E            [ 7]  122 	ret
+                            123 ;../time.c:73: static void CheckTime(struct tm *timeptr) {
+                            124 ;	---------------------------------
+                            125 ; Function CheckTime
+                            126 ; ---------------------------------
+   0053                     127 _CheckTime:
+                            128 ;../time.c:84: if (timeptr->tm_sec>59) timeptr->tm_sec=59;
+   0053 58            [ 4]  129 	pop	bc
+   0054 59            [ 4]  130 	pop	de
+   0055 51            [ 4]  131 	push	de
+   0056 50            [ 4]  132 	push	bc
+   0057 E1 2E         [10]  133 	ld	a,(de)
+   0059 2C            [ 4]  134 	ld	h,a
+   005A 36 3B         [10]  135 	ld	a,#0x3B
+   005C FC 67         [17]  136 	cp	a,h
+   005E CF 02         [11]  137 	jr	NC,00102$
+   0060 E9 26         [ 4]  138 	ld	(de),a
+   0062                     139 00102$:
+                            140 ;../time.c:85: if (timeptr->tm_min>59) timeptr->tm_min=59;
+   0062 FB 35         [ 4]  141 	ld	l, e
+   0064 FA 34         [10]  142 	ld	h, d
+   0066 92            [ 4]  143 	inc	hl
+   0067 E2 28         [10]  144 	ld	b,(hl)
+   0069 36 3B         [10]  145 	ld	a,#0x3B
+   006B F8 62         [11]  146 	sub	a, b
+   006D CF 03         [11]  147 	jr	NC,00104$
+   006F EA 37 3B      [10]  148 	ld	(hl),#0x3B
+   0072                     149 00104$:
+                            150 ;../time.c:86: if (timeptr->tm_hour>23) timeptr->tm_hour=23;
+   0072 FB 35         [ 4]  151 	ld	l, e
+   0074 FA 34         [10]  152 	ld	h, d
+   0076 92            [ 4]  153 	inc	hl
+   0077 92            [ 4]  154 	inc	hl
+   0078 E2 28         [10]  155 	ld	b,(hl)
+   007A 36 17         [10]  156 	ld	a,#0x17
+   007C F8 62         [11]  157 	sub	a, b
+   007E CF 03         [11]  158 	jr	NC,00106$
+   0080 EA 37 17      [10]  159 	ld	(hl),#0x17
+   0083                     160 00106$:
+                            161 ;../time.c:87: if (timeptr->tm_wday>6) timeptr->tm_wday=6;
+   0083 3A 07 00      [13]  162 	ld	hl,#0x0007
+   0086 F9 70         [ 6]  163 	add	hl,de
+   0088 E2 28         [10]  164 	ld	b,(hl)
+   008A 36 06         [10]  165 	ld	a,#0x06
+   008C F8 62         [11]  166 	sub	a, b
+   008E CF 03         [11]  167 	jr	NC,00108$
+   0090 EA 37 06      [10]  168 	ld	(hl),#0x06
+   0093                     169 00108$:
+                            170 ;../time.c:88: if (timeptr->tm_mday<1) timeptr->tm_mday=1;
+   0093 FB 35         [ 4]  171 	ld	l, e
+   0095 FA 34         [10]  172 	ld	h, d
+   0097 92            [ 4]  173 	inc	hl
+   0098 92            [ 4]  174 	inc	hl
+   0099 92            [ 4]  175 	inc	hl
+   009A E2 28         [10]  176 	ld	b,(hl)
+   009C 20            [12]  177 	ld	a,b
+   009D 6A 01         [ 4]  178 	sub	a, #0x01
+   009F CF 05         [11]  179 	jr	NC,00112$
+   00A1 EA 37 01      [10]  180 	ld	(hl),#0x01
+   00A4 C8 09         [11]  181 	jr	00113$
+   00A6                     182 00112$:
+                            183 ;../time.c:89: else if (timeptr->tm_mday>31) timeptr->tm_mday=31;
+   00A6 36 1F         [10]  184 	ld	a,#0x1F
+   00A8 F8 62         [11]  185 	sub	a, b
+   00AA CF 03         [11]  186 	jr	NC,00113$
+   00AC EA 37 1F      [10]  187 	ld	(hl),#0x1F
+   00AF                     188 00113$:
+                            189 ;../time.c:90: if (timeptr->tm_mon>11) timeptr->tm_mon=11;
+   00AF 3A 04 00      [13]  190 	ld	hl,#0x0004
+   00B2 F9 70         [ 6]  191 	add	hl,de
+   00B4 E2 28         [10]  192 	ld	b,(hl)
+   00B6 36 0B         [10]  193 	ld	a,#0x0B
+   00B8 F8 62         [11]  194 	sub	a, b
+   00BA CF 03         [11]  195 	jr	NC,00115$
+   00BC EA 37 0B      [10]  196 	ld	(hl),#0x0B
+   00BF                     197 00115$:
+                            198 ;../time.c:91: if (timeptr->tm_year<0) timeptr->tm_year=0;
+   00BF 3A 05 00      [13]  199 	ld	hl,#0x0005
+   00C2 F9 70         [ 6]  200 	add	hl,de
+   00C4 52            [ 4]  201 	push	hl
+   00C5 E2 2A         [10]  202 	ld	d,(hl)
+   00C7 92            [ 4]  203 	inc	hl
+   00C8 E2 2B         [10]  204 	ld	e,(hl)
+   00CA 5A            [ 4]  205 	pop	hl
+   00CB FB AF         [ 4]  206 	bit	7, e
+   00CD FE D6         [ 7]  207 	ret	Z
+   00CF FE 65         [ 7]  208 	xor	a, a
+   00D1 EA 26         [10]  209 	ld	(hl), a
+   00D3 92            [ 4]  210 	inc	hl
+   00D4 EA 26         [10]  211 	ld	(hl), a
+   00D6 1E            [ 7]  212 	ret
+                            213 ;../time.c:95: char *asctime(struct tm *timeptr) {
+                            214 ;	---------------------------------
+                            215 ; Function asctime
+                            216 ; ---------------------------------
+   00D7                     217 _asctime::
+   00D7 54            [ 4]  218 	push	ix
+   00D8 3C 00 00      [ 4]  219 	ld	ix,#0
+   00DB FE 14         [ 7]  220 	add	ix,sp
+   00DD 16 F6 FF      [ 7]  221 	add	sp, #-10
+                            222 ;../time.c:96: CheckTime(timeptr);
+   00E0 F2 0E 4A      [10]  223 	ld	hl, 14 (sp)
+   00E3 52            [ 4]  224 	push	hl
+   00E4 1Cr53r00      [ 4]  225 	call	_CheckTime
+   00E7 16 02 00      [ 7]  226 	add	sp, #2
+                            227 ;../time.c:100: timeptr->tm_year+1900);
+   00EA 08            [ 4]  228 	ex	de, hl
+   00EB F2 0E 4A      [10]  229 	ld	hl, 14 (sp)
+   00EE 08            [ 4]  230 	ex	de, hl
+   00EF 3A 05 00      [13]  231 	ld	hl,#0x0005
+   00F2 F9 70         [ 6]  232 	add	hl,de
+   00F4 E2 29         [10]  233 	ld	c,(hl)
+   00F6 92            [ 4]  234 	inc	hl
+   00F7 E2 28         [10]  235 	ld	b,(hl)
+   00F9 3A 6C 07      [13]  236 	ld	hl,#0x076C
+   00FC F8 70         [11]  237 	add	hl,bc
+   00FE E6 52         [ 7]  238 	ex	(sp), hl
+                            239 ;../time.c:99: timeptr->tm_hour, timeptr->tm_min, timeptr->tm_sec, 
+   0100 E1 2E         [10]  240 	ld	a,(de)
+   0102 F4 FC 26      [17]  241 	ld	-4 (ix),a
+   0105 F4 FD 37 00   [17]  242 	ld	-3 (ix),#0x00
+   0109 FB 35         [ 4]  243 	ld	l, e
+   010B FA 34         [10]  244 	ld	h, d
+   010D 92            [ 4]  245 	inc	hl
+   010E E2 2E         [10]  246 	ld	a,(hl)
+   0110 F4 FE 26      [17]  247 	ld	-2 (ix),a
+   0113 F4 FF 37 00   [17]  248 	ld	-1 (ix),#0x00
+   0117 FB 35         [ 4]  249 	ld	l, e
+   0119 FA 34         [10]  250 	ld	h, d
+   011B 92            [ 4]  251 	inc	hl
+   011C 92            [ 4]  252 	inc	hl
+   011D E2 2E         [10]  253 	ld	a,(hl)
+   011F F4 F8 26      [17]  254 	ld	-8 (ix),a
+   0122 F4 F9 37 00   [17]  255 	ld	-7 (ix),#0x00
+                            256 ;../time.c:98: __day[timeptr->tm_wday], __month[timeptr->tm_mon], timeptr->tm_mday,
+   0126 FB 35         [ 4]  257 	ld	l, e
+   0128 FA 34         [10]  258 	ld	h, d
+   012A 92            [ 4]  259 	inc	hl
+   012B 92            [ 4]  260 	inc	hl
+   012C 92            [ 4]  261 	inc	hl
+   012D E2 2E         [10]  262 	ld	a,(hl)
+   012F F4 FA 26      [17]  263 	ld	-6 (ix),a
+   0132 F4 FB 37 00   [17]  264 	ld	-5 (ix),#0x00
+   0136 3A 04 00      [13]  265 	ld	hl,#0x0004
+   0139 F9 70         [ 6]  266 	add	hl,de
+   013B E2 2D         [10]  267 	ld	l,(hl)
+   013D 34 00         [11]  268 	ld	h,#0x00
+   013F FA 70         [10]  269 	add	hl, hl
+   0141 38r0Cr00      [12]  270 	ld	bc,#___month
+   0144 F8 70         [11]  271 	add	hl,bc
+   0146 E2 29         [10]  272 	ld	c,(hl)
+   0148 92            [ 4]  273 	inc	hl
+   0149 E2 28         [10]  274 	ld	b,(hl)
+   014B 3A 07 00      [13]  275 	ld	hl,#0x0007
+   014E F9 70         [ 6]  276 	add	hl,de
+   0150 E2 2D         [10]  277 	ld	l,(hl)
+   0152 34 00         [11]  278 	ld	h,#0x00
+   0154 FA 70         [10]  279 	add	hl, hl
+   0156 39r24r00      [11]  280 	ld	de,#___day
+   0159 F9 70         [ 6]  281 	add	hl,de
+   015B E2 2B         [10]  282 	ld	e,(hl)
+   015D 92            [ 4]  283 	inc	hl
+   015E E2 2A         [10]  284 	ld	d,(hl)
+                            285 ;../time.c:97: sprintf (ascTimeBuffer, "%s %s %2d %02d:%02d:%02d %04d\n",
+   0160 5A            [ 4]  286 	pop	hl
+   0161 52            [ 4]  287 	push	hl
+   0162 52            [ 4]  288 	push	hl
+   0163 F2 08 4A      [10]  289 	ld	hl, 8 (sp)
+   0166 52            [ 4]  290 	push	hl
+   0167 F2 0C 4A      [10]  291 	ld	hl, 12 (sp)
+   016A 52            [ 4]  292 	push	hl
+   016B F2 08 4A      [10]  293 	ld	hl, 8 (sp)
+   016E 52            [ 4]  294 	push	hl
+   016F F2 0C 4A      [10]  295 	ld	hl, 12 (sp)
+   0172 52            [ 4]  296 	push	hl
+   0173 50            [ 4]  297 	push	bc
+   0174 51            [ 4]  298 	push	de
+   0175 3Ar8Ar01      [13]  299 	ld	hl,#___str_0
+   0178 52            [ 4]  300 	push	hl
+   0179 3Ar00r00      [13]  301 	ld	hl,#_ascTimeBuffer
+   017C 52            [ 4]  302 	push	hl
+   017D 1Cr00r00      [ 4]  303 	call	_sprintf
+   0180 16 12 00      [ 7]  304 	add	sp, #18
+                            305 ;../time.c:101: return ascTimeBuffer;
+   0183 3Ar00r00      [13]  306 	ld	hl,#_ascTimeBuffer
+   0186 FC 3E         [17]  307 	ld	sp, ix
+   0188 5C            [ 4]  308 	pop	ix
+   0189 1E            [ 7]  309 	ret
+   018A                     310 ___str_0:
+   018A 25 73 20 25 73 20   311 	.ascii "%s %s %2d %02d:%02d:%02d %04d"
+        25 32 64 20 25 30
+        32 64 3A 25 30 32
+        64 3A 25 30 32 64
+        20 25 30 34 64
+   01A7 0A                  312 	.db 0x0A
+   01A8 00                  313 	.db 0x00
+                            314 ;../time.c:104: char *ctime(time_t *timep) {
+                            315 ;	---------------------------------
+                            316 ; Function ctime
+                            317 ; ---------------------------------
+   01A9                     318 _ctime::
+                            319 ;../time.c:105: return asctime(localtime(timep));
+   01A9 58            [ 4]  320 	pop	bc
+   01AA 5A            [ 4]  321 	pop	hl
+   01AB 52            [ 4]  322 	push	hl
+   01AC 50            [ 4]  323 	push	bc
+   01AD 52            [ 4]  324 	push	hl
+   01AE 1CrBCr01      [ 4]  325 	call	_localtime
+   01B1 16 02 00      [ 7]  326 	add	sp, #2
+   01B4 52            [ 4]  327 	push	hl
+   01B5 1CrD7r00      [ 4]  328 	call	_asctime
+   01B8 16 02 00      [ 7]  329 	add	sp, #2
+   01BB 1E            [ 7]  330 	ret
+                            331 ;../time.c:121: struct tm *localtime(time_t *timep) {
+                            332 ;	---------------------------------
+                            333 ; Function localtime
+                            334 ; ---------------------------------
+   01BC                     335 _localtime::
+                            336 ;../time.c:122: return gmtime(timep);
+   01BC 58            [ 4]  337 	pop	bc
+   01BD 5A            [ 4]  338 	pop	hl
+   01BE 52            [ 4]  339 	push	hl
+   01BF 50            [ 4]  340 	push	bc
+   01C0 52            [ 4]  341 	push	hl
+   01C1 1CrC8r01      [ 4]  342 	call	_gmtime
+   01C4 16 02 00      [ 7]  343 	add	sp, #2
+   01C7 1E            [ 7]  344 	ret
+                            345 ;../time.c:125: struct tm *gmtime(time_t *timep) {
+                            346 ;	---------------------------------
+                            347 ; Function gmtime
+                            348 ; ---------------------------------
+   01C8                     349 _gmtime::
+   01C8 54            [ 4]  350 	push	ix
+   01C9 3C 00 00      [ 4]  351 	ld	ix,#0
+   01CC FE 14         [ 7]  352 	add	ix,sp
+   01CE 16 EF FF      [ 7]  353 	add	sp, #-17
+                            354 ;../time.c:126: unsigned long epoch=*timep;
+   01D1 F2 15 4A      [10]  355 	ld	hl, 21 (sp)
+   01D4 08            [ 4]  356 	ex	de,hl
+   01D5 3A 03 00      [13]  357 	ld	hl, #0x0003
+   01D8 FE 70         [ 7]  358 	add	hl, sp
+   01DA 08            [ 4]  359 	ex	de, hl
+   01DB 38 04 00      [12]  360 	ld	bc, #0x0004
+   01DE FE 59         [ 7]  361 	ldir
+                            362 ;../time.c:131: lastTime.tm_sec=epoch%60;
+   01E0 3A 00 00      [13]  363 	ld	hl,#0x0000
+   01E3 52            [ 4]  364 	push	hl
+   01E4 3A 3C 00      [13]  365 	ld	hl,#0x003C
+   01E7 52            [ 4]  366 	push	hl
+   01E8 F2 09 4A      [10]  367 	ld	hl, 9 (sp)
+   01EB 52            [ 4]  368 	push	hl
+   01EC F2 09 4A      [10]  369 	ld	hl, 9 (sp)
+   01EF 52            [ 4]  370 	push	hl
+   01F0 1Cr00r00      [ 4]  371 	call	__modulong
+   01F3 16 08 00      [ 7]  372 	add	sp, #8
+   01F6 25            [ 4]  373 	ld	a,l
+   01F7 EBr20r00 26   [ 4]  374 	ld	(#_lastTime),a
+                            375 ;../time.c:132: epoch/=60; // now it is minutes
+   01FB 3A 00 00      [13]  376 	ld	hl,#0x0000
+   01FE 52            [ 4]  377 	push	hl
+   01FF 3A 3C 00      [13]  378 	ld	hl,#0x003C
+   0202 52            [ 4]  379 	push	hl
+   0203 F2 09 4A      [10]  380 	ld	hl, 9 (sp)
+   0206 52            [ 4]  381 	push	hl
+   0207 F2 09 4A      [10]  382 	ld	hl, 9 (sp)
+   020A 52            [ 4]  383 	push	hl
+   020B 1Cr00r00      [ 4]  384 	call	__divulong
+   020E 16 08 00      [ 7]  385 	add	sp, #8
+   0211 FD 31               386 	ld	c,l
+   0213 FC 30         [17]  387 	ld	b,h
+                            388 ;../time.c:133: lastTime.tm_min=epoch%60;
+   0215 50            [ 4]  389 	push	bc
+   0216 51            [ 4]  390 	push	de
+   0217 3A 00 00      [13]  391 	ld	hl,#0x0000
+   021A 52            [ 4]  392 	push	hl
+   021B 3A 3C 00      [13]  393 	ld	hl,#0x003C
+   021E 52            [ 4]  394 	push	hl
+   021F 51            [ 4]  395 	push	de
+   0220 50            [ 4]  396 	push	bc
+   0221 1Cr00r00      [ 4]  397 	call	__modulong
+   0224 16 08 00      [ 7]  398 	add	sp, #8
+   0227 F4 F5 22      [17]  399 	ld	-11 (ix),d
+   022A F4 F4 23      [17]  400 	ld	-12 (ix),e
+   022D F4 F3 24      [17]  401 	ld	-13 (ix),h
+   0230 F4 F2 25      [17]  402 	ld	-14 (ix),l
+   0233 59            [ 4]  403 	pop	de
+   0234 58            [ 4]  404 	pop	bc
+   0235 F0 F2 2E      [11]  405 	ld	a,-14 (ix)
+   0238 EBr21r00 26   [ 4]  406 	ld	(#(_lastTime + 0x0001)),a
+                            407 ;../time.c:134: epoch/=60; // now it is hours
+   023C 3A 00 00      [13]  408 	ld	hl,#0x0000
+   023F 52            [ 4]  409 	push	hl
+   0240 3A 3C 00      [13]  410 	ld	hl,#0x003C
+   0243 52            [ 4]  411 	push	hl
+   0244 51            [ 4]  412 	push	de
+   0245 50            [ 4]  413 	push	bc
+   0246 1Cr00r00      [ 4]  414 	call	__divulong
+   0249 16 08 00      [ 7]  415 	add	sp, #8
+   024C FD 31               416 	ld	c,l
+   024E FC 30         [17]  417 	ld	b,h
+                            418 ;../time.c:135: lastTime.tm_hour=epoch%24;
+   0250 50            [ 4]  419 	push	bc
+   0251 51            [ 4]  420 	push	de
+   0252 3A 00 00      [13]  421 	ld	hl,#0x0000
+   0255 52            [ 4]  422 	push	hl
+   0256 3A 18 00      [13]  423 	ld	hl,#0x0018
+   0259 52            [ 4]  424 	push	hl
+   025A 51            [ 4]  425 	push	de
+   025B 50            [ 4]  426 	push	bc
+   025C 1Cr00r00      [ 4]  427 	call	__modulong
+   025F 16 08 00      [ 7]  428 	add	sp, #8
+   0262 F4 F5 22      [17]  429 	ld	-11 (ix),d
+   0265 F4 F4 23      [17]  430 	ld	-12 (ix),e
+   0268 F4 F3 24      [17]  431 	ld	-13 (ix),h
+   026B F4 F2 25      [17]  432 	ld	-14 (ix),l
+   026E 59            [ 4]  433 	pop	de
+   026F 58            [ 4]  434 	pop	bc
+   0270 F0 F2 2E      [11]  435 	ld	a,-14 (ix)
+   0273 EBr22r00 26   [ 4]  436 	ld	(#(_lastTime + 0x0002)),a
+                            437 ;../time.c:136: epoch/=24; // now it is days
+   0277 3A 00 00      [13]  438 	ld	hl,#0x0000
+   027A 52            [ 4]  439 	push	hl
+   027B 3A 18 00      [13]  440 	ld	hl,#0x0018
+   027E 52            [ 4]  441 	push	hl
+   027F 51            [ 4]  442 	push	de
+   0280 50            [ 4]  443 	push	bc
+   0281 1Cr00r00      [ 4]  444 	call	__divulong
+   0284 16 08 00      [ 7]  445 	add	sp, #8
+   0287 F4 F2 25      [17]  446 	ld	-14 (ix),l
+   028A F4 F3 24      [17]  447 	ld	-13 (ix),h
+   028D F4 F4 23      [17]  448 	ld	-12 (ix),e
+   0290 F4 F5 22      [17]  449 	ld	-11 (ix),d
+                            450 ;../time.c:137: lastTime.tm_wday=(epoch+4)%7;
+   0293 F0 F2 2E      [11]  451 	ld	a,-14 (ix)
+   0296 68 04         [ 4]  452 	add	a, #0x04
+   0298 2B            [ 6]  453 	ld	e,a
+   0299 F0 F3 2E      [11]  454 	ld	a,-13 (ix)
+   029C 69 00         [ 4]  455 	adc	a, #0x00
+   029E 2A            [16]  456 	ld	d,a
+   029F F0 F4 2E      [11]  457 	ld	a,-12 (ix)
+   02A2 69 00         [ 4]  458 	adc	a, #0x00
+   02A4 29            [11]  459 	ld	c,a
+   02A5 F0 F5 2E      [11]  460 	ld	a,-11 (ix)
+   02A8 69 00         [ 4]  461 	adc	a, #0x00
+   02AA 28            [12]  462 	ld	b,a
+   02AB 3A 00 00      [13]  463 	ld	hl,#0x0000
+   02AE 52            [ 4]  464 	push	hl
+   02AF 3A 07 00      [13]  465 	ld	hl,#0x0007
+   02B2 52            [ 4]  466 	push	hl
+   02B3 50            [ 4]  467 	push	bc
+   02B4 51            [ 4]  468 	push	de
+   02B5 1Cr00r00      [ 4]  469 	call	__modulong
+   02B8 16 08 00      [ 7]  470 	add	sp, #8
+   02BB 25            [ 4]  471 	ld	a,l
+   02BC EBr27r00 26   [ 4]  472 	ld	(#(_lastTime + 0x0007)),a
+                            473 ;../time.c:140: days=0;
+   02C0 38 00 00      [12]  474 	ld	bc,#0x0000
+   02C3 39 00 00      [11]  475 	ld	de,#0x0000
+                            476 ;../time.c:141: while((days += (LEAP_YEAR(year) ? 366 : 365)) <= epoch) {
+   02C6 3A B2 07      [13]  477 	ld	hl,#0x07B2
+   02C9 E6 52         [ 7]  478 	ex	(sp), hl
+   02CB                     479 00101$:
+   02CB F0 EF 2E      [11]  480 	ld	a,-17 (ix)
+   02CE 6C 03         [ 4]  481 	and	a, #0x03
+   02D0 F4 F6 26      [17]  482 	ld	-10 (ix),a
+   02D3 F4 F7 37 00   [17]  483 	ld	-9 (ix), #0x00
+   02D7 36 00         [10]  484 	ld	a, #0x00
+   02D9 F0 F6 66      [11]  485 	or	a,-10 (ix)
+   02DC CE 05         [ 7]  486 	jr	NZ,00118$
+   02DE 3A 6E 01      [13]  487 	ld	hl,#0x016E
+   02E1 C8 03         [11]  488 	jr	00119$
+   02E3                     489 00118$:
+   02E3 3A 6D 01      [13]  490 	ld	hl,#0x016D
+   02E6                     491 00119$:
+   02E6 F4 FC 25      [17]  492 	ld	-4 (ix),l
+   02E9 F4 FD 24      [17]  493 	ld	-3 (ix),h
+   02EC 24            [ 4]  494 	ld	a,h
+   02ED A2            [ 4]  495 	rla
+   02EE FE 63         [ 7]  496 	sbc	a, a
+   02F0 F4 FE 26      [17]  497 	ld	-2 (ix),a
+   02F3 F4 FF 26      [17]  498 	ld	-1 (ix),a
+   02F6 21            [10]  499 	ld	a,c
+   02F7 F0 FC 60      [11]  500 	add	a, -4 (ix)
+   02FA F4 FC 26      [17]  501 	ld	-4 (ix),a
+   02FD 20            [12]  502 	ld	a,b
+   02FE F0 FD 61      [11]  503 	adc	a, -3 (ix)
+   0301 F4 FD 26      [17]  504 	ld	-3 (ix),a
+   0304 23            [ 6]  505 	ld	a,e
+   0305 F0 FE 61      [11]  506 	adc	a, -2 (ix)
+   0308 F4 FE 26      [17]  507 	ld	-2 (ix),a
+   030B 22            [16]  508 	ld	a,d
+   030C F0 FF 61      [11]  509 	adc	a, -1 (ix)
+   030F F4 FF 26      [17]  510 	ld	-1 (ix),a
+   0312 F0 FC 29      [11]  511 	ld	c,-4 (ix)
+   0315 F0 FD 28      [11]  512 	ld	b,-3 (ix)
+   0318 F0 FE 2B      [11]  513 	ld	e,-2 (ix)
+   031B F0 FF 2A      [11]  514 	ld	d,-1 (ix)
+   031E F0 F2 2E      [11]  515 	ld	a,-14 (ix)
+   0321 F0 FC 62      [11]  516 	sub	a, -4 (ix)
+   0324 F0 F3 2E      [11]  517 	ld	a,-13 (ix)
+   0327 F0 FD 63      [11]  518 	sbc	a, -3 (ix)
+   032A F0 F4 2E      [11]  519 	ld	a,-12 (ix)
+   032D F0 FE 63      [11]  520 	sbc	a, -2 (ix)
+   0330 F0 F5 2E      [11]  521 	ld	a,-11 (ix)
+   0333 F0 FF 63      [11]  522 	sbc	a, -1 (ix)
+   0336 C7 0D         [11]  523 	jr	C,00103$
+                            524 ;../time.c:142: year++;
+   0338 F0 EF 87      [11]  525 	inc	-17 (ix)
+   033B EBrCBr02 CE   [ 4]  526 	jp	NZ,00101$
+   033F F0 F0 87      [11]  527 	inc	-16 (ix)
+   0342 1ArCBr02      [ 7]  528 	jp	00101$
+   0345                     529 00103$:
+                            530 ;../time.c:144: lastTime.tm_year=year-1900;
+   0345 3Dr25r00      [ 4]  531 	ld	iy,#_lastTime + 5
+   0348 F0 EF 2E      [11]  532 	ld	a,-17 (ix)
+   034B 68 94         [ 4]  533 	add	a,#0x94
+   034D 2C            [ 4]  534 	ld	h,a
+   034E F0 F0 2E      [11]  535 	ld	a,-16 (ix)
+   0351 69 F8         [ 4]  536 	adc	a,#0xF8
+   0353 ED 24               537 	ld	0 (iy), h
+   0355 F5 01 26      [11]  538 	ld	1 (iy), a
+                            539 ;../time.c:146: days -= LEAP_YEAR(year) ? 366 : 365;
+   0358 F0 F6 2E      [11]  540 	ld	a,-10 (ix)
+   035B F4 FC 26      [17]  541 	ld	-4 (ix),a
+   035E F0 F7 2E      [11]  542 	ld	a,-9 (ix)
+   0361 F4 FD 26      [17]  543 	ld	-3 (ix),a
+   0364 F0 F7 2E      [11]  544 	ld	a,-9 (ix)
+   0367 F0 F6 66      [11]  545 	or	a,-10 (ix)
+   036A CE 05         [ 7]  546 	jr	NZ,00120$
+   036C 3A 6E 01      [13]  547 	ld	hl,#0x016E
+   036F C8 03         [11]  548 	jr	00121$
+   0371                     549 00120$:
+   0371 3A 6D 01      [13]  550 	ld	hl,#0x016D
+   0374                     551 00121$:
+   0374 F4 F8 25      [17]  552 	ld	-8 (ix),l
+   0377 F4 F9 24      [17]  553 	ld	-7 (ix),h
+   037A 24            [ 4]  554 	ld	a,h
+   037B A2            [ 4]  555 	rla
+   037C FE 63         [ 7]  556 	sbc	a, a
+   037E F4 FA 26      [17]  557 	ld	-6 (ix),a
+   0381 F4 FB 26      [17]  558 	ld	-5 (ix),a
+   0384 21            [10]  559 	ld	a,c
+   0385 F0 F8 62      [11]  560 	sub	a, -8 (ix)
+   0388 2D            [ 4]  561 	ld	l,a
+   0389 20            [12]  562 	ld	a,b
+   038A F0 F9 63      [11]  563 	sbc	a, -7 (ix)
+   038D 2C            [ 4]  564 	ld	h,a
+   038E 23            [ 6]  565 	ld	a,e
+   038F F0 FA 63      [11]  566 	sbc	a, -6 (ix)
+   0392 2B            [ 6]  567 	ld	e,a
+   0393 22            [16]  568 	ld	a,d
+   0394 F0 FB 63      [11]  569 	sbc	a, -5 (ix)
+   0397 2A            [16]  570 	ld	d,a
+                            571 ;../time.c:147: epoch -= days; // now it is days in this year, starting at 0
+   0398 F0 F2 2E      [11]  572 	ld	a,-14 (ix)
+   039B FD 62               573 	sub	a, l
+   039D F4 F8 26      [17]  574 	ld	-8 (ix),a
+   03A0 F0 F3 2E      [11]  575 	ld	a,-13 (ix)
+   03A3 FC 63         [17]  576 	sbc	a, h
+   03A5 F4 F9 26      [17]  577 	ld	-7 (ix),a
+   03A8 F0 F4 2E      [11]  578 	ld	a,-12 (ix)
+   03AB FB 63         [ 4]  579 	sbc	a, e
+   03AD F4 FA 26      [17]  580 	ld	-6 (ix),a
+   03B0 F0 F5 2E      [11]  581 	ld	a,-11 (ix)
+   03B3 FA 63         [10]  582 	sbc	a, d
+   03B5 F4 FB 26      [17]  583 	ld	-5 (ix),a
+                            584 ;../time.c:148: lastTime.tm_yday=epoch;
+   03B8 08            [ 4]  585 	ex	de, hl
+   03B9 F2 09 4A      [10]  586 	ld	hl, 9 (sp)
+   03BC 08            [ 4]  587 	ex	de, hl
+   03BD EBr28r00 41   [ 4]  588 	ld	((_lastTime + 0x0008)), de
+                            589 ;../time.c:153: for (month=0; month<12; month++) {
+   03C1 F4 F1 37 00   [17]  590 	ld	-15 (ix),#0x00
+   03C5                     591 00114$:
+                            592 ;../time.c:154: if (month==1) { // februari
+   03C5 F0 F1 2E      [11]  593 	ld	a,-15 (ix)
+   03C8 8E            [ 7]  594 	dec	a
+   03C9 CE 10         [ 7]  595 	jr	NZ,00108$
+                            596 ;../time.c:155: if (LEAP_YEAR(year)) {
+   03CB F0 FD 2E      [11]  597 	ld	a,-3 (ix)
+   03CE F0 FC 66      [11]  598 	or	a,-4 (ix)
+   03D1 CE 04         [ 7]  599 	jr	NZ,00105$
+                            600 ;../time.c:156: monthLength=29;
+   03D3 31 1D         [10]  601 	ld	c,#0x1D
+   03D5 C8 18         [11]  602 	jr	00109$
+   03D7                     603 00105$:
+                            604 ;../time.c:158: monthLength=28;
+   03D7 31 1C         [10]  605 	ld	c,#0x1C
+   03D9 C8 14         [11]  606 	jr	00109$
+   03DB                     607 00108$:
+                            608 ;../time.c:161: monthLength = monthDays[month];
+   03DB 36r00         [10]  609 	ld	a,#<(_monthDays)
+   03DD F0 F1 60      [11]  610 	add	a, -15 (ix)
+   03E0 F4 F6 26      [17]  611 	ld	-10 (ix),a
+   03E3 36s00         [10]  612 	ld	a,#>(_monthDays)
+   03E5 69 00         [ 4]  613 	adc	a, #0x00
+   03E7 F4 F7 26      [17]  614 	ld	-9 (ix),a
+   03EA F2 07 4A      [10]  615 	ld	hl, 7 (sp)
+   03ED E2 29         [10]  616 	ld	c,(hl)
+   03EF                     617 00109$:
+                            618 ;../time.c:164: if (epoch>=monthLength) {
+   03EF F4 F2 21      [17]  619 	ld	-14 (ix),c
+   03F2 F4 F3 37 00   [17]  620 	ld	-13 (ix),#0x00
+   03F6 F4 F4 37 00   [17]  621 	ld	-12 (ix),#0x00
+   03FA F4 F5 37 00   [17]  622 	ld	-11 (ix),#0x00
+   03FE F0 F8 2E      [11]  623 	ld	a,-8 (ix)
+   0401 F0 F2 62      [11]  624 	sub	a, -14 (ix)
+   0404 F0 F9 2E      [11]  625 	ld	a,-7 (ix)
+   0407 F0 F3 63      [11]  626 	sbc	a, -13 (ix)
+   040A F0 FA 2E      [11]  627 	ld	a,-6 (ix)
+   040D F0 F4 63      [11]  628 	sbc	a, -12 (ix)
+   0410 F0 FB 2E      [11]  629 	ld	a,-5 (ix)
+   0413 F0 F5 63      [11]  630 	sbc	a, -11 (ix)
+   0416 C7 30         [11]  631 	jr	C,00113$
+                            632 ;../time.c:165: epoch-=monthLength;
+   0418 F0 F8 2E      [11]  633 	ld	a,-8 (ix)
+   041B F0 F2 62      [11]  634 	sub	a, -14 (ix)
+   041E F4 F8 26      [17]  635 	ld	-8 (ix),a
+   0421 F0 F9 2E      [11]  636 	ld	a,-7 (ix)
+   0424 F0 F3 63      [11]  637 	sbc	a, -13 (ix)
+   0427 F4 F9 26      [17]  638 	ld	-7 (ix),a
+   042A F0 FA 2E      [11]  639 	ld	a,-6 (ix)
+   042D F0 F4 63      [11]  640 	sbc	a, -12 (ix)
+   0430 F4 FA 26      [17]  641 	ld	-6 (ix),a
+   0433 F0 FB 2E      [11]  642 	ld	a,-5 (ix)
+   0436 F0 F5 63      [11]  643 	sbc	a, -11 (ix)
+   0439 F4 FB 26      [17]  644 	ld	-5 (ix),a
+                            645 ;../time.c:153: for (month=0; month<12; month++) {
+   043C F0 F1 87      [11]  646 	inc	-15 (ix)
+   043F F0 F1 2E      [11]  647 	ld	a,-15 (ix)
+   0442 6A 0C         [ 4]  648 	sub	a, #0x0C
+   0444 EBrC5r03 C7   [ 4]  649 	jp	C,00114$
+   0448                     650 00113$:
+                            651 ;../time.c:170: lastTime.tm_mon=month;
+   0448 3Ar24r00      [13]  652 	ld	hl,#_lastTime + 4
+   044B F0 F1 2E      [11]  653 	ld	a,-15 (ix)
+   044E EA 26         [10]  654 	ld	(hl),a
+                            655 ;../time.c:171: lastTime.tm_mday=epoch+1;
+   0450 3Ar23r00      [13]  656 	ld	hl,#_lastTime + 3
+   0453 F0 F8 2E      [11]  657 	ld	a,-8 (ix)
+   0456 86            [ 7]  658 	inc	a
+   0457 EA 26         [10]  659 	ld	(hl),a
+                            660 ;../time.c:173: lastTime.tm_isdst=0;
+   0459 3Ar2Ar00      [13]  661 	ld	hl,#_lastTime + 10
+   045C EA 37 00      [10]  662 	ld	(hl),#0x00
+                            663 ;../time.c:175: return &lastTime;
+   045F 3Ar20r00      [13]  664 	ld	hl,#_lastTime
+   0462 FC 3E         [17]  665 	ld	sp, ix
+   0464 5C            [ 4]  666 	pop	ix
+   0465 1E            [ 7]  667 	ret
+                            668 ;../time.c:179: time_t mktime(struct tm *timeptr) {
+                            669 ;	---------------------------------
+                            670 ; Function mktime
+                            671 ; ---------------------------------
+   0466                     672 _mktime::
+   0466 54            [ 4]  673 	push	ix
+   0467 3C 00 00      [ 4]  674 	ld	ix,#0
+   046A FE 14         [ 7]  675 	add	ix,sp
+   046C 16 F2 FF      [ 7]  676 	add	sp, #-14
+                            677 ;../time.c:180: int year=timeptr->tm_year+1900, month=timeptr->tm_mon, i;
+   046F F0 04 2E      [11]  678 	ld	a,4 (ix)
+   0472 F4 FA 26      [17]  679 	ld	-6 (ix),a
+   0475 F0 05 2E      [11]  680 	ld	a,5 (ix)
+   0478 F4 FB 26      [17]  681 	ld	-5 (ix),a
+   047B F0 FA 2E      [11]  682 	ld	a,-6 (ix)
+   047E 68 05         [ 4]  683 	add	a, #0x05
+   0480 2D            [ 4]  684 	ld	l,a
+   0481 F0 FB 2E      [11]  685 	ld	a,-5 (ix)
+   0484 69 00         [ 4]  686 	adc	a, #0x00
+   0486 2C            [ 4]  687 	ld	h,a
+   0487 E2 2B         [10]  688 	ld	e,(hl)
+   0489 92            [ 4]  689 	inc	hl
+   048A E2 2A         [10]  690 	ld	d,(hl)
+   048C 3A 6C 07      [13]  691 	ld	hl,#0x076C
+   048F F9 70         [ 6]  692 	add	hl,de
+   0491 F6 02 42      [ 7]  693 	ld	2 (sp), hl
+   0494 3D 04 00      [ 4]  694 	ld	iy,#0x0004
+   0497 08            [ 4]  695 	ex	de, hl
+   0498 F2 08 4A      [10]  696 	ld	hl, 8 (sp)
+   049B 08            [ 4]  697 	ex	de, hl
+   049C F9 15         [ 6]  698 	add	iy, de
+   049E E5 2E         [11]  699 	ld	a, 0 (iy)
+   04A0 F4 F2 26      [17]  700 	ld	-14 (ix),a
+   04A3 F4 F3 37 00   [17]  701 	ld	-13 (ix),#0x00
+                            702 ;../time.c:183: CheckTime(timeptr);
+   04A7 F2 08 4A      [10]  703 	ld	hl, 8 (sp)
+   04AA 52            [ 4]  704 	push	hl
+   04AB 1Cr53r00      [ 4]  705 	call	_CheckTime
+   04AE 16 02 00      [ 7]  706 	add	sp, #2
+                            707 ;../time.c:186: seconds= (year-1970)*(60*60*24L*365);
+   04B1 F0 F4 2E      [11]  708 	ld	a,-12 (ix)
+   04B4 68 4E         [ 4]  709 	add	a,#0x4E
+   04B6 2B            [ 6]  710 	ld	e,a
+   04B7 F0 F5 2E      [11]  711 	ld	a,-11 (ix)
+   04BA 69 F8         [ 4]  712 	adc	a,#0xF8
+   04BC 2A            [16]  713 	ld	d,a
+   04BD A2            [ 4]  714 	rla
+   04BE FE 63         [ 7]  715 	sbc	a, a
+   04C0 2D            [ 4]  716 	ld	l,a
+   04C1 2C            [ 4]  717 	ld	h,a
+   04C2 52            [ 4]  718 	push	hl
+   04C3 51            [ 4]  719 	push	de
+   04C4 3A E1 01      [13]  720 	ld	hl,#0x01E1
+   04C7 52            [ 4]  721 	push	hl
+   04C8 3A 80 33      [13]  722 	ld	hl,#0x3380
+   04CB 52            [ 4]  723 	push	hl
+   04CC 1Cr00r00      [ 4]  724 	call	__mullong
+   04CF 16 08 00      [ 7]  725 	add	sp, #8
+   04D2 F4 FC 25      [17]  726 	ld	-4 (ix),l
+   04D5 F4 FD 24      [17]  727 	ld	-3 (ix),h
+   04D8 F4 FE 23      [17]  728 	ld	-2 (ix),e
+   04DB F4 FF 22      [17]  729 	ld	-1 (ix),d
+                            730 ;../time.c:189: for (i=1970; i<year; i++) {
+   04DE 3A B2 07      [13]  731 	ld	hl,#0x07B2
+   04E1 F6 04 42      [ 7]  732 	ld	4 (sp), hl
+   04E4                     733 00110$:
+   04E4 F0 F6 2E      [11]  734 	ld	a,-10 (ix)
+   04E7 F0 F4 62      [11]  735 	sub	a, -12 (ix)
+   04EA F0 F7 2E      [11]  736 	ld	a,-9 (ix)
+   04ED F0 F5 63      [11]  737 	sbc	a, -11 (ix)
+   04F0 EBrF6r04 CC   [ 4]  738 	jp	PO, 00147$
+   04F4 6D 80         [ 4]  739 	xor	a, #0x80
+   04F6                     740 00147$:
+   04F6 EBr3Ar05 CD   [ 4]  741 	jp	P,00124$
+                            742 ;../time.c:190: if (LEAP_YEAR(i)) {
+   04FA 3A 04 00      [13]  743 	ld	hl,#0x0004
+   04FD 52            [ 4]  744 	push	hl
+   04FE F2 06 4A      [10]  745 	ld	hl, 6 (sp)
+   0501 52            [ 4]  746 	push	hl
+   0502 1Cr00r00      [ 4]  747 	call	__modsint
+   0505 16 04 00      [ 7]  748 	add	sp, #4
+   0508 24            [ 4]  749 	ld	a,h
+   0509 FD 66         [19]  750 	or	a,l
+   050B CE 20         [ 7]  751 	jr	NZ,00111$
+                            752 ;../time.c:191: seconds+= 60*60*24L;
+   050D F0 FC 2E      [11]  753 	ld	a,-4 (ix)
+   0510 68 80         [ 4]  754 	add	a, #0x80
+   0512 F4 FC 26      [17]  755 	ld	-4 (ix),a
+   0515 F0 FD 2E      [11]  756 	ld	a,-3 (ix)
+   0518 69 51         [ 4]  757 	adc	a, #0x51
+   051A F4 FD 26      [17]  758 	ld	-3 (ix),a
+   051D F0 FE 2E      [11]  759 	ld	a,-2 (ix)
+   0520 69 01         [ 4]  760 	adc	a, #0x01
+   0522 F4 FE 26      [17]  761 	ld	-2 (ix),a
+   0525 F0 FF 2E      [11]  762 	ld	a,-1 (ix)
+   0528 69 00         [ 4]  763 	adc	a, #0x00
+   052A F4 FF 26      [17]  764 	ld	-1 (ix),a
+   052D                     765 00111$:
+                            766 ;../time.c:189: for (i=1970; i<year; i++) {
+   052D F0 F6 87      [11]  767 	inc	-10 (ix)
+   0530 EBrE4r04 CE   [ 4]  768 	jp	NZ,00110$
+   0534 F0 F7 87      [11]  769 	inc	-9 (ix)
+   0537 1ArE4r04      [ 7]  770 	jp	00110$
+   053A                     771 00124$:
+                            772 ;../time.c:196: for (i=0; i<month; i++) {
+   053A 3A 04 00      [13]  773 	ld	hl,#0x0004
+   053D 52            [ 4]  774 	push	hl
+   053E F2 04 4A      [10]  775 	ld	hl, 4 (sp)
+   0541 52            [ 4]  776 	push	hl
+   0542 1Cr00r00      [ 4]  777 	call	__modsint
+   0545 16 04 00      [ 7]  778 	add	sp, #4
+   0548 F4 F9 24      [17]  779 	ld	-7 (ix),h
+   054B F4 F8 25      [17]  780 	ld	-8 (ix),l
+   054E 39 00 00      [11]  781 	ld	de,#0x0000
+   0551                     782 00113$:
+   0551 23            [ 6]  783 	ld	a,e
+   0552 F0 F2 62      [11]  784 	sub	a, -14 (ix)
+   0555 22            [16]  785 	ld	a,d
+   0556 F0 F3 63      [11]  786 	sbc	a, -13 (ix)
+   0559 EBr5Fr05 CC   [ 4]  787 	jp	PO, 00149$
+   055D 6D 80         [ 4]  788 	xor	a, #0x80
+   055F                     789 00149$:
+   055F EBrDFr05 CD   [ 4]  790 	jp	P,00108$
+                            791 ;../time.c:197: if (i==1 && LEAP_YEAR(year)) { 
+   0563 23            [ 6]  792 	ld	a,e
+   0564 8E            [ 7]  793 	dec	a
+   0565 CE 30         [ 7]  794 	jr	NZ,00105$
+   0567 22            [16]  795 	ld	a,d
+   0568 FE 66         [ 7]  796 	or	a, a
+   056A CE 2B         [ 7]  797 	jr	NZ,00105$
+   056C F0 F9 2E      [11]  798 	ld	a,-7 (ix)
+   056F F0 F8 66      [11]  799 	or	a,-8 (ix)
+   0572 CE 23         [ 7]  800 	jr	NZ,00105$
+                            801 ;../time.c:198: seconds+= 60*60*24L*29;
+   0574 F0 FC 2E      [11]  802 	ld	a,-4 (ix)
+   0577 68 80         [ 4]  803 	add	a, #0x80
+   0579 F4 FC 26      [17]  804 	ld	-4 (ix),a
+   057C F0 FD 2E      [11]  805 	ld	a,-3 (ix)
+   057F 69 3B         [ 4]  806 	adc	a, #0x3B
+   0581 F4 FD 26      [17]  807 	ld	-3 (ix),a
+   0584 F0 FE 2E      [11]  808 	ld	a,-2 (ix)
+   0587 69 26         [ 4]  809 	adc	a, #0x26
+   0589 F4 FE 26      [17]  810 	ld	-2 (ix),a
+   058C F0 FF 2E      [11]  811 	ld	a,-1 (ix)
+   058F 69 00         [ 4]  812 	adc	a, #0x00
+   0591 F4 FF 26      [17]  813 	ld	-1 (ix),a
+   0594 1ArDBr05      [ 7]  814 	jp	00114$
+   0597                     815 00105$:
+                            816 ;../time.c:200: seconds+= 60*60*24L*monthDays[i];
+   0597 3Ar00r00      [13]  817 	ld	hl,#_monthDays
+   059A F9 70         [ 6]  818 	add	hl,de
+   059C E2 2E         [10]  819 	ld	a,(hl)
+   059E 29            [11]  820 	ld	c,a
+   059F A2            [ 4]  821 	rla
+   05A0 FE 63         [ 7]  822 	sbc	a, a
+   05A2 28            [12]  823 	ld	b,a
+   05A3 2D            [ 4]  824 	ld	l,a
+   05A4 2C            [ 4]  825 	ld	h,a
+   05A5 51            [ 4]  826 	push	de
+   05A6 52            [ 4]  827 	push	hl
+   05A7 50            [ 4]  828 	push	bc
+   05A8 3A 01 00      [13]  829 	ld	hl,#0x0001
+   05AB 52            [ 4]  830 	push	hl
+   05AC 3A 80 51      [13]  831 	ld	hl,#0x5180
+   05AF 52            [ 4]  832 	push	hl
+   05B0 1Cr00r00      [ 4]  833 	call	__mullong
+   05B3 16 08 00      [ 7]  834 	add	sp, #8
+   05B6 FB 30         [ 4]  835 	ld	b,e
+   05B8 FA 31         [10]  836 	ld	c,d
+   05BA 59            [ 4]  837 	pop	de
+   05BB F0 FC 2E      [11]  838 	ld	a,-4 (ix)
+   05BE FD 60               839 	add	a, l
+   05C0 F4 FC 26      [17]  840 	ld	-4 (ix),a
+   05C3 F0 FD 2E      [11]  841 	ld	a,-3 (ix)
+   05C6 FC 61         [17]  842 	adc	a, h
+   05C8 F4 FD 26      [17]  843 	ld	-3 (ix),a
+   05CB F0 FE 2E      [11]  844 	ld	a,-2 (ix)
+   05CE F8 61         [11]  845 	adc	a, b
+   05D0 F4 FE 26      [17]  846 	ld	-2 (ix),a
+   05D3 F0 FF 2E      [11]  847 	ld	a,-1 (ix)
+   05D6 F9 61         [ 6]  848 	adc	a, c
+   05D8 F4 FF 26      [17]  849 	ld	-1 (ix),a
+   05DB                     850 00114$:
+                            851 ;../time.c:196: for (i=0; i<month; i++) {
+   05DB 91            [ 4]  852 	inc	de
+   05DC 1Ar51r05      [ 7]  853 	jp	00113$
+   05DF                     854 00108$:
+                            855 ;../time.c:204: seconds+= (timeptr->tm_mday-1)*60*60*24L;
+   05DF F2 08 4A      [10]  856 	ld	hl, 8 (sp)
+   05E2 92            [ 4]  857 	inc	hl
+   05E3 92            [ 4]  858 	inc	hl
+   05E4 92            [ 4]  859 	inc	hl
+   05E5 E2 2B         [10]  860 	ld	e,(hl)
+   05E7 32 00         [13]  861 	ld	d,#0x00
+   05E9 99            [ 4]  862 	dec	de
+   05EA 22            [16]  863 	ld	a,d
+   05EB A2            [ 4]  864 	rla
+   05EC FE 63         [ 7]  865 	sbc	a, a
+   05EE 2D            [ 4]  866 	ld	l,a
+   05EF 2C            [ 4]  867 	ld	h,a
+   05F0 52            [ 4]  868 	push	hl
+   05F1 51            [ 4]  869 	push	de
+   05F2 3A 01 00      [13]  870 	ld	hl,#0x0001
+   05F5 52            [ 4]  871 	push	hl
+   05F6 3A 80 51      [13]  872 	ld	hl,#0x5180
+   05F9 52            [ 4]  873 	push	hl
+   05FA 1Cr00r00      [ 4]  874 	call	__mullong
+   05FD 16 08 00      [ 7]  875 	add	sp, #8
+   0600 F0 FC 2E      [11]  876 	ld	a,-4 (ix)
+   0603 FD 60               877 	add	a, l
+   0605 F4 FC 26      [17]  878 	ld	-4 (ix),a
+   0608 F0 FD 2E      [11]  879 	ld	a,-3 (ix)
+   060B FC 61         [17]  880 	adc	a, h
+   060D F4 FD 26      [17]  881 	ld	-3 (ix),a
+   0610 F0 FE 2E      [11]  882 	ld	a,-2 (ix)
+   0613 FB 61         [ 4]  883 	adc	a, e
+   0615 F4 FE 26      [17]  884 	ld	-2 (ix),a
+   0618 F0 FF 2E      [11]  885 	ld	a,-1 (ix)
+   061B FA 61         [10]  886 	adc	a, d
+   061D F4 FF 26      [17]  887 	ld	-1 (ix),a
+                            888 ;../time.c:205: seconds+= timeptr->tm_hour*60*60L;
+   0620 F2 08 4A      [10]  889 	ld	hl, 8 (sp)
+   0623 92            [ 4]  890 	inc	hl
+   0624 92            [ 4]  891 	inc	hl
+   0625 E2 2B         [10]  892 	ld	e,(hl)
+   0627 32 00         [13]  893 	ld	d,#0x00
+   0629 3A 00 00      [13]  894 	ld	hl,#0x0000
+   062C 52            [ 4]  895 	push	hl
+   062D 51            [ 4]  896 	push	de
+   062E 3A 00 00      [13]  897 	ld	hl,#0x0000
+   0631 52            [ 4]  898 	push	hl
+   0632 3A 10 0E      [13]  899 	ld	hl,#0x0E10
+   0635 52            [ 4]  900 	push	hl
+   0636 1Cr00r00      [ 4]  901 	call	__mullong
+   0639 16 08 00      [ 7]  902 	add	sp, #8
+   063C F0 FC 2E      [11]  903 	ld	a,-4 (ix)
+   063F FD 60               904 	add	a, l
+   0641 F4 FC 26      [17]  905 	ld	-4 (ix),a
+   0644 F0 FD 2E      [11]  906 	ld	a,-3 (ix)
+   0647 FC 61         [17]  907 	adc	a, h
+   0649 F4 FD 26      [17]  908 	ld	-3 (ix),a
+   064C F0 FE 2E      [11]  909 	ld	a,-2 (ix)
+   064F FB 61         [ 4]  910 	adc	a, e
+   0651 F4 FE 26      [17]  911 	ld	-2 (ix),a
+   0654 F0 FF 2E      [11]  912 	ld	a,-1 (ix)
+   0657 FA 61         [10]  913 	adc	a, d
+   0659 F4 FF 26      [17]  914 	ld	-1 (ix),a
+                            915 ;../time.c:206: seconds+= timeptr->tm_min*60;
+   065C F2 08 4A      [10]  916 	ld	hl, 8 (sp)
+   065F 92            [ 4]  917 	inc	hl
+   0660 E2 29         [10]  918 	ld	c, (hl)
+   0662 30 00         [12]  919 	ld	b,#0x00
+   0664 F9 35         [ 6]  920 	ld	l, c
+   0666 F8 34         [11]  921 	ld	h, b
+   0668 FA 70         [10]  922 	add	hl, hl
+   066A F8 70         [11]  923 	add	hl, bc
+   066C FA 70         [10]  924 	add	hl, hl
+   066E F8 70         [11]  925 	add	hl, bc
+   0670 FA 70         [10]  926 	add	hl, hl
+   0672 F8 70         [11]  927 	add	hl, bc
+   0674 FA 70         [10]  928 	add	hl, hl
+   0676 FA 70         [10]  929 	add	hl, hl
+   0678 24            [ 4]  930 	ld	a,h
+   0679 A2            [ 4]  931 	rla
+   067A FE 63         [ 7]  932 	sbc	a, a
+   067C 2B            [ 6]  933 	ld	e,a
+   067D 2A            [16]  934 	ld	d,a
+   067E F0 FC 2E      [11]  935 	ld	a,-4 (ix)
+   0681 FD 60               936 	add	a, l
+   0683 29            [11]  937 	ld	c,a
+   0684 F0 FD 2E      [11]  938 	ld	a,-3 (ix)
+   0687 FC 61         [17]  939 	adc	a, h
+   0689 28            [12]  940 	ld	b,a
+   068A F0 FE 2E      [11]  941 	ld	a,-2 (ix)
+   068D FB 61         [ 4]  942 	adc	a, e
+   068F 2B            [ 6]  943 	ld	e,a
+   0690 F0 FF 2E      [11]  944 	ld	a,-1 (ix)
+   0693 FA 61         [10]  945 	adc	a, d
+   0695 2A            [16]  946 	ld	d,a
+                            947 ;../time.c:207: seconds+= timeptr->tm_sec;
+   0696 F2 08 4A      [10]  948 	ld	hl, 8 (sp)
+   0699 E2 2D         [10]  949 	ld	l,(hl)
+   069B 34 00         [11]  950 	ld	h,#0x00
+   069D F4 FC 25      [17]  951 	ld	-4 (ix),l
+   06A0 F4 FD 24      [17]  952 	ld	-3 (ix),h
+   06A3 24            [ 4]  953 	ld	a,h
+   06A4 A2            [ 4]  954 	rla
+   06A5 FE 63         [ 7]  955 	sbc	a, a
+   06A7 F4 FE 26      [17]  956 	ld	-2 (ix),a
+   06AA F4 FF 26      [17]  957 	ld	-1 (ix),a
+   06AD 21            [10]  958 	ld	a,c
+   06AE F0 FC 60      [11]  959 	add	a, -4 (ix)
+   06B1 2D            [ 4]  960 	ld	l,a
+   06B2 20            [12]  961 	ld	a,b
+   06B3 F0 FD 61      [11]  962 	adc	a, -3 (ix)
+   06B6 2C            [ 4]  963 	ld	h,a
+   06B7 23            [ 6]  964 	ld	a,e
+   06B8 F0 FE 61      [11]  965 	adc	a, -2 (ix)
+   06BB 2B            [ 6]  966 	ld	e,a
+   06BC 22            [16]  967 	ld	a,d
+   06BD F0 FF 61      [11]  968 	adc	a, -1 (ix)
+   06C0 2A            [16]  969 	ld	d,a
+                            970 ;../time.c:208: return seconds;
+   06C1 FC 3E         [17]  971 	ld	sp, ix
+   06C3 5C            [ 4]  972 	pop	ix
+   06C4 1E            [ 7]  973 	ret
+                            974 	.area _CODE
+   06C5                     975 ___str_1:
+   06C5 4A 61 6E            976 	.ascii "Jan"
+   06C8 00                  977 	.db 0x00
+   06C9                     978 ___str_2:
+   06C9 46 65 62            979 	.ascii "Feb"
+   06CC 00                  980 	.db 0x00
+   06CD                     981 ___str_3:
+   06CD 4D 61 72            982 	.ascii "Mar"
+   06D0 00                  983 	.db 0x00
+   06D1                     984 ___str_4:
+   06D1 41 70 72            985 	.ascii "Apr"
+   06D4 00                  986 	.db 0x00
+   06D5                     987 ___str_5:
+   06D5 4D 61 79            988 	.ascii "May"
+   06D8 00                  989 	.db 0x00
+   06D9                     990 ___str_6:
+   06D9 4A 75 6E            991 	.ascii "Jun"
+   06DC 00                  992 	.db 0x00
+   06DD                     993 ___str_7:
+   06DD 4A 75 6C            994 	.ascii "Jul"
+   06E0 00                  995 	.db 0x00
+   06E1                     996 ___str_8:
+   06E1 41 75 67            997 	.ascii "Aug"
+   06E4 00                  998 	.db 0x00
+   06E5                     999 ___str_9:
+   06E5 53 65 70           1000 	.ascii "Sep"
+   06E8 00                 1001 	.db 0x00
+   06E9                    1002 ___str_10:
+   06E9 4F 63 74           1003 	.ascii "Oct"
+   06EC 00                 1004 	.db 0x00
+   06ED                    1005 ___str_11:
+   06ED 4E 6F 76           1006 	.ascii "Nov"
+   06F0 00                 1007 	.db 0x00
+   06F1                    1008 ___str_12:
+   06F1 44 65 63           1009 	.ascii "Dec"
+   06F4 00                 1010 	.db 0x00
+   06F5                    1011 ___str_13:
+   06F5 53 75 6E           1012 	.ascii "Sun"
+   06F8 00                 1013 	.db 0x00
+   06F9                    1014 ___str_14:
+   06F9 4D 6F 6E           1015 	.ascii "Mon"
+   06FC 00                 1016 	.db 0x00
+   06FD                    1017 ___str_15:
+   06FD 54 75 65           1018 	.ascii "Tue"
+   0700 00                 1019 	.db 0x00
+   0701                    1020 ___str_16:
+   0701 57 65 64           1021 	.ascii "Wed"
+   0704 00                 1022 	.db 0x00
+   0705                    1023 ___str_17:
+   0705 54 68 75           1024 	.ascii "Thu"
+   0708 00                 1025 	.db 0x00
+   0709                    1026 ___str_18:
+   0709 46 72 69           1027 	.ascii "Fri"
+   070C 00                 1028 	.db 0x00
+   070D                    1029 ___str_19:
+   070D 53 61 74           1030 	.ascii "Sat"
+   0710 00                 1031 	.db 0x00
+                           1032 	.area _INITIALIZER
+   0000                    1033 __xinit__monthDays:
+   0000 1F                 1034 	.db #0x1F	;  31
+   0001 1C                 1035 	.db #0x1C	;  28
+   0002 1F                 1036 	.db #0x1F	;  31
+   0003 1E                 1037 	.db #0x1E	;  30
+   0004 1F                 1038 	.db #0x1F	;  31
+   0005 1E                 1039 	.db #0x1E	;  30
+   0006 1F                 1040 	.db #0x1F	;  31
+   0007 1F                 1041 	.db #0x1F	;  31
+   0008 1E                 1042 	.db #0x1E	;  30
+   0009 1F                 1043 	.db #0x1F	;  31
+   000A 1E                 1044 	.db #0x1E	;  30
+   000B 1F                 1045 	.db #0x1F	;  31
+   000C                    1046 __xinit____month:
+   000CrC5r06              1047 	.dw ___str_1
+   000ErC9r06              1048 	.dw ___str_2
+   0010rCDr06              1049 	.dw ___str_3
+   0012rD1r06              1050 	.dw ___str_4
+   0014rD5r06              1051 	.dw ___str_5
+   0016rD9r06              1052 	.dw ___str_6
+   0018rDDr06              1053 	.dw ___str_7
+   001ArE1r06              1054 	.dw ___str_8
+   001CrE5r06              1055 	.dw ___str_9
+   001ErE9r06              1056 	.dw ___str_10
+   0020rEDr06              1057 	.dw ___str_11
+   0022rF1r06              1058 	.dw ___str_12
+   0024                    1059 __xinit____day:
+   0024rF5r06              1060 	.dw ___str_13
+   0026rF9r06              1061 	.dw ___str_14
+   0028rFDr06              1062 	.dw ___str_15
+   002Ar01r07              1063 	.dw ___str_16
+   002Cr05r07              1064 	.dw ___str_17
+   002Er09r07              1065 	.dw ___str_18
+   0030r0Dr07              1066 	.dw ___str_19
+                           1067 	.area _CABS (ABS)

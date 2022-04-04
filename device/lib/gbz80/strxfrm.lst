@@ -1,0 +1,77 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:48 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module strxfrm
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _strlen
+                             13 	.globl _strncpy
+                             14 	.globl _strxfrm
+                             15 ;--------------------------------------------------------
+                             16 ; ram data
+                             17 ;--------------------------------------------------------
+                             18 	.area _DATA
+                             19 ;--------------------------------------------------------
+                             20 ; absolute external ram data
+                             21 ;--------------------------------------------------------
+                             22 	.area _DABS (ABS)
+                             23 ;--------------------------------------------------------
+                             24 ; global & static initialisations
+                             25 ;--------------------------------------------------------
+                             26 	.area _HOME
+                             27 	.area _GSINIT
+                             28 	.area _GSFINAL
+                             29 	.area _GSINIT
+                             30 ;--------------------------------------------------------
+                             31 ; Home
+                             32 ;--------------------------------------------------------
+                             33 	.area _HOME
+                             34 	.area _HOME
+                             35 ;--------------------------------------------------------
+                             36 ; code
+                             37 ;--------------------------------------------------------
+                             38 	.area _CODE
+                             39 ;../strxfrm.c:31: size_t strxfrm(char *dest, const char *src, size_t n)
+                             40 ;	---------------------------------
+                             41 ; Function strxfrm
+                             42 ; ---------------------------------
+   0000                      43 _strxfrm::
+                             44 ;../strxfrm.c:33: strncpy(dest, src, n);
+   0000 F8 06                45 	ldhl	sp,#6
+   0002 2A                   46 	ld	a,(hl+)
+   0003 66                   47 	ld	h,(hl)
+   0004 6F                   48 	ld	l,a
+   0005 E5                   49 	push	hl
+   0006 F8 06                50 	ldhl	sp,#6
+   0008 2A                   51 	ld	a,(hl+)
+   0009 66                   52 	ld	h,(hl)
+   000A 6F                   53 	ld	l,a
+   000B E5                   54 	push	hl
+   000C F8 06                55 	ldhl	sp,#6
+   000E 2A                   56 	ld	a,(hl+)
+   000F 66                   57 	ld	h,(hl)
+   0010 6F                   58 	ld	l,a
+   0011 E5                   59 	push	hl
+   0012 CDr00r00             60 	call	_strncpy
+   0015 E8 06                61 	add	sp, #6
+                             62 ;../strxfrm.c:34: return(strlen(src) + 1);
+   0017 F8 04                63 	ldhl	sp,#4
+   0019 2A                   64 	ld	a,(hl+)
+   001A 66                   65 	ld	h,(hl)
+   001B 6F                   66 	ld	l,a
+   001C E5                   67 	push	hl
+   001D CDr00r00             68 	call	_strlen
+   0020 E8 02                69 	add	sp, #2
+   0022 4B                   70 	ld	c,e
+   0023 42                   71 	ld	b,d
+   0024 03                   72 	inc	bc
+   0025 59                   73 	ld	e, c
+   0026 50                   74 	ld	d, b
+   0027 C9                   75 	ret
+                             76 	.area _CODE
+                             77 	.area _CABS (ABS)

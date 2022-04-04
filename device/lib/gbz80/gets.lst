@@ -1,0 +1,177 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:51 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module gets
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _putchar
+                             13 	.globl _getchar
+                             14 	.globl _gets
+                             15 ;--------------------------------------------------------
+                             16 ; ram data
+                             17 ;--------------------------------------------------------
+                             18 	.area _DATA
+                             19 ;--------------------------------------------------------
+                             20 ; absolute external ram data
+                             21 ;--------------------------------------------------------
+                             22 	.area _DABS (ABS)
+                             23 ;--------------------------------------------------------
+                             24 ; global & static initialisations
+                             25 ;--------------------------------------------------------
+                             26 	.area _HOME
+                             27 	.area _GSINIT
+                             28 	.area _GSFINAL
+                             29 	.area _GSINIT
+                             30 ;--------------------------------------------------------
+                             31 ; Home
+                             32 ;--------------------------------------------------------
+                             33 	.area _HOME
+                             34 	.area _HOME
+                             35 ;--------------------------------------------------------
+                             36 ; code
+                             37 ;--------------------------------------------------------
+                             38 	.area _CODE
+                             39 ;../gets.c:32: gets (char *s)
+                             40 ;	---------------------------------
+                             41 ; Function gets
+                             42 ; ---------------------------------
+   0000                      43 _gets::
+   0000 E8 FD                44 	add	sp, #-3
+                             45 ;../gets.c:35: unsigned int count = 0;
+   0002 F8 00                46 	ldhl	sp,#0
+   0004 36 00                47 	ld	(hl),#0x00
+   0006 23                   48 	inc	hl
+   0007 36 00                49 	ld	(hl),#0x00
+                             50 ;../gets.c:37: while (1)
+   0009                      51 00109$:
+                             52 ;../gets.c:39: c = getchar ();
+   0009 CDr00r00             53 	call	_getchar
+   000C F8 02                54 	ldhl	sp,#2
+   000E 73                   55 	ld	(hl),e
+                             56 ;../gets.c:40: switch(c)
+   000F 7E                   57 	ld	a,(hl)
+   0010 D6 08                58 	sub	a, #0x08
+   0012 28 19                59 	jr	Z,00101$
+                             60 ;../gets.c:57: *s = 0;
+   0014 F8 06                61 	ldhl	sp,#6
+   0016 2B                   62 	dec	hl
+   0017 4E                   63 	ld	c,(hl)
+   0018 23                   64 	inc	hl
+   0019 46                   65 	ld	b,(hl)
+                             66 ;../gets.c:40: switch(c)
+   001A F8 02                67 	ldhl	sp,#2
+   001C 7E                   68 	ld	a,(hl)
+   001D D6 0A                69 	sub	a, #0x0A
+   001F CAr5Fr00             70 	jp	Z,00105$
+   0022 F8 02                71 	ldhl	sp,#2
+   0024 7E                   72 	ld	a,(hl)
+   0025 D6 0D                73 	sub	a, #0x0D
+   0027 CAr5Fr00             74 	jp	Z,00105$
+   002A C3r79r00             75 	jp	00106$
+                             76 ;../gets.c:42: case '\b': /* backspace */
+   002D                      77 00101$:
+                             78 ;../gets.c:43: if (count)
+   002D F8 01                79 	ldhl	sp,#1
+   002F 3A                   80 	ld	a,(hl-)
+   0030 B6                   81 	or	a,(hl)
+   0031 28 D6                82 	jr	Z,00109$
+                             83 ;../gets.c:45: putchar ('\b');
+   0033 3E 08                84 	ld	a,#0x08
+   0035 F5                   85 	push	af
+   0036 33                   86 	inc	sp
+   0037 CDr00r00             87 	call	_putchar
+   003A 33                   88 	inc	sp
+                             89 ;../gets.c:46: putchar (' ');
+   003B 3E 20                90 	ld	a,#0x20
+   003D F5                   91 	push	af
+   003E 33                   92 	inc	sp
+   003F CDr00r00             93 	call	_putchar
+   0042 33                   94 	inc	sp
+                             95 ;../gets.c:47: putchar ('\b');
+   0043 3E 08                96 	ld	a,#0x08
+   0045 F5                   97 	push	af
+   0046 33                   98 	inc	sp
+   0047 CDr00r00             99 	call	_putchar
+   004A 33                  100 	inc	sp
+                            101 ;../gets.c:48: --s;
+   004B F8 06               102 	ldhl	sp,#6
+   004D 2B                  103 	dec	hl
+   004E 5E                  104 	ld	e,(hl)
+   004F 23                  105 	inc	hl
+   0050 56                  106 	ld	d,(hl)
+   0051 1B                  107 	dec	de
+   0052 2B                  108 	dec	hl
+   0053 73                  109 	ld	(hl),e
+   0054 23                  110 	inc	hl
+   0055 72                  111 	ld	(hl),d
+                            112 ;../gets.c:49: --count;
+   0056 D1                  113 	pop	de
+   0057 D5                  114 	push	de
+   0058 1B                  115 	dec	de
+   0059 33                  116 	inc	sp
+   005A 33                  117 	inc	sp
+   005B D5                  118 	push	de
+                            119 ;../gets.c:51: break;
+   005C C3r09r00            120 	jp	00109$
+                            121 ;../gets.c:54: case '\r': /* CR or LF */
+   005F                     122 00105$:
+                            123 ;../gets.c:55: putchar ('\r');
+   005F C5                  124 	push	bc
+   0060 3E 0D               125 	ld	a,#0x0D
+   0062 F5                  126 	push	af
+   0063 33                  127 	inc	sp
+   0064 CDr00r00            128 	call	_putchar
+   0067 33                  129 	inc	sp
+   0068 C1                  130 	pop	bc
+                            131 ;../gets.c:56: putchar ('\n');
+   0069 C5                  132 	push	bc
+   006A 3E 0A               133 	ld	a,#0x0A
+   006C F5                  134 	push	af
+   006D 33                  135 	inc	sp
+   006E CDr00r00            136 	call	_putchar
+   0071 33                  137 	inc	sp
+   0072 C1                  138 	pop	bc
+                            139 ;../gets.c:57: *s = 0;
+   0073 AF                  140 	xor	a, a
+   0074 02                  141 	ld	(bc),a
+                            142 ;../gets.c:58: return s;
+   0075 59                  143 	ld	e, c
+   0076 50                  144 	ld	d, b
+   0077 18 1D               145 	jr	00111$
+                            146 ;../gets.c:60: default:
+   0079                     147 00106$:
+                            148 ;../gets.c:61: *s++ = c;
+   0079 F8 02               149 	ldhl	sp,#2
+   007B 7E                  150 	ld	a,(hl)
+   007C 02                  151 	ld	(bc),a
+   007D 03                  152 	inc	bc
+   007E F8 05               153 	ldhl	sp,#5
+   0080 71                  154 	ld	(hl),c
+   0081 23                  155 	inc	hl
+   0082 70                  156 	ld	(hl),b
+                            157 ;../gets.c:62: ++count;
+   0083 F8 00               158 	ldhl	sp,#0
+   0085 34                  159 	inc	(hl)
+   0086 20 02               160 	jr	NZ,00136$
+   0088 23                  161 	inc	hl
+   0089 34                  162 	inc	(hl)
+   008A                     163 00136$:
+                            164 ;../gets.c:63: putchar (c);
+   008A F8 02               165 	ldhl	sp,#2
+   008C 7E                  166 	ld	a,(hl)
+   008D F5                  167 	push	af
+   008E 33                  168 	inc	sp
+   008F CDr00r00            169 	call	_putchar
+   0092 33                  170 	inc	sp
+                            171 ;../gets.c:65: }
+   0093 C3r09r00            172 	jp	00109$
+   0096                     173 00111$:
+   0096 E8 03               174 	add	sp, #3
+   0098 C9                  175 	ret
+                            176 	.area _CODE
+                            177 	.area _CABS (ABS)

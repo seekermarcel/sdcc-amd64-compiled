@@ -1,0 +1,195 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:42 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _itoa
+                              7 	.optsdcc -mtlcs90
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl __itoa
+                             13 	.globl __uitoa
+                             14 ;--------------------------------------------------------
+                             15 ; ram data
+                             16 ;--------------------------------------------------------
+                             17 	.area _DATA
+                             18 ;--------------------------------------------------------
+                             19 ; ram data
+                             20 ;--------------------------------------------------------
+                             21 	.area _INITIALIZED
+                             22 ;--------------------------------------------------------
+                             23 ; absolute external ram data
+                             24 ;--------------------------------------------------------
+                             25 	.area _DABS (ABS)
+                             26 ;--------------------------------------------------------
+                             27 ; global & static initialisations
+                             28 ;--------------------------------------------------------
+                             29 	.area _HOME
+                             30 	.area _GSINIT
+                             31 	.area _GSFINAL
+                             32 	.area _GSINIT
+                             33 ;--------------------------------------------------------
+                             34 ; Home
+                             35 ;--------------------------------------------------------
+                             36 	.area _HOME
+                             37 	.area _HOME
+                             38 ;--------------------------------------------------------
+                             39 ; code
+                             40 ;--------------------------------------------------------
+                             41 	.area _CODE
+                             42 ;../_itoa.c:40: void _uitoa(unsigned int value, char* string, unsigned char radix)
+                             43 ;	---------------------------------
+                             44 ; Function _uitoa
+                             45 ; ---------------------------------
+   0000                      46 __uitoa::
+   0000 54            [ 4]   47 	push	ix
+   0001 3C 00 00      [ 4]   48 	ld	ix,#0
+   0004 FE 14         [ 7]   49 	add	ix,sp
+   0006 16 FD FF      [ 7]   50 	add	sp, #-3
+                             51 ;../_itoa.c:45: do {
+   0009 31 00         [10]   52 	ld	c,#0x00
+   000B                      53 00103$:
+                             54 ;../_itoa.c:46: string[index] = '0' + (value % radix);
+   000B F0 06 2E      [11]   55 	ld	a,6 (ix)
+   000E F9 60         [ 6]   56 	add	a, c
+   0010 F4 FE 26      [17]   57 	ld	-2 (ix),a
+   0013 F0 07 2E      [11]   58 	ld	a,7 (ix)
+   0016 69 00         [ 4]   59 	adc	a, #0x00
+   0018 F4 FF 26      [17]   60 	ld	-1 (ix),a
+   001B F0 08 2B      [11]   61 	ld	e,8 (ix)
+   001E 32 00         [13]   62 	ld	d,#0x00
+   0020 50            [ 4]   63 	push	bc
+   0021 51            [ 4]   64 	push	de
+   0022 51            [ 4]   65 	push	de
+   0023 F2 0D 4A      [10]   66 	ld	hl, 13 (sp)
+   0026 52            [ 4]   67 	push	hl
+   0027 1Cr00r00      [ 4]   68 	call	__moduint
+   002A 16 04 00      [ 7]   69 	add	sp, #4
+   002D 59            [ 4]   70 	pop	de
+   002E 58            [ 4]   71 	pop	bc
+   002F 25            [ 4]   72 	ld	a,l
+   0030 68 30         [ 4]   73 	add	a, #0x30
+   0032 28            [12]   74 	ld	b,a
+   0033 F2 01 4A      [10]   75 	ld	hl, 1 (sp)
+   0036 EA 20         [10]   76 	ld	(hl),b
+                             77 ;../_itoa.c:47: if (string[index] > '9')
+   0038 36 39         [10]   78 	ld	a,#0x39
+   003A F8 62         [11]   79 	sub	a, b
+   003C EBr42r00 CC   [ 4]   80 	jp	PO, 00133$
+   0040 6D 80         [ 4]   81 	xor	a, #0x80
+   0042                      82 00133$:
+   0042 EBr52r00 CD   [ 4]   83 	jp	P,00102$
+                             84 ;../_itoa.c:48: string[index] += 'A' - '9' - 1;
+   0046 F2 01 4A      [10]   85 	ld	hl, 1 (sp)
+   0049 E2 2E         [10]   86 	ld	a,(hl)
+   004B 68 07         [ 4]   87 	add	a, #0x07
+   004D F2 01 4A      [10]   88 	ld	hl, 1 (sp)
+   0050 EA 26         [10]   89 	ld	(hl),a
+   0052                      90 00102$:
+                             91 ;../_itoa.c:49: value /= radix;
+   0052 50            [ 4]   92 	push	bc
+   0053 51            [ 4]   93 	push	de
+   0054 F2 0B 4A      [10]   94 	ld	hl, 11 (sp)
+   0057 52            [ 4]   95 	push	hl
+   0058 1Cr00r00      [ 4]   96 	call	__divuint
+   005B 16 04 00      [ 7]   97 	add	sp, #4
+   005E 58            [ 4]   98 	pop	bc
+   005F F6 07 42      [ 7]   99 	ld	7 (sp), hl
+                            100 ;../_itoa.c:50: ++index;
+   0062 81            [ 4]  101 	inc	c
+                            102 ;../_itoa.c:51: } while (value != 0);
+   0063 F0 05 2E      [11]  103 	ld	a,5 (ix)
+   0066 F0 04 66      [11]  104 	or	a,4 (ix)
+   0069 EBr0Br00 CE   [ 4]  105 	jp	NZ,00103$
+                            106 ;../_itoa.c:54: string[index--] = '\0';
+   006D F9 32         [ 6]  107 	ld	d,c
+   006F 8A            [ 4]  108 	dec	d
+   0070 F2 09 4A      [10]  109 	ld	hl, 9 (sp)
+   0073 30 00         [12]  110 	ld	b,#0x00
+   0075 F8 70         [11]  111 	add	hl, bc
+   0077 EA 37 00      [10]  112 	ld	(hl),#0x00
+                            113 ;../_itoa.c:57: while (index > i) {
+   007A 33 00         [ 6]  114 	ld	e,#0x00
+   007C                     115 00106$:
+   007C 23            [ 6]  116 	ld	a,e
+   007D FA 62         [10]  117 	sub	a, d
+   007F EBr85r00 CC   [ 4]  118 	jp	PO, 00134$
+   0083 6D 80         [ 4]  119 	xor	a, #0x80
+   0085                     120 00134$:
+   0085 EBrBEr00 CD   [ 4]  121 	jp	P,00109$
+                            122 ;../_itoa.c:58: char tmp = string[i];
+   0089 F0 06 2E      [11]  123 	ld	a,6 (ix)
+   008C FB 60         [ 4]  124 	add	a, e
+   008E 29            [11]  125 	ld	c,a
+   008F F0 07 2E      [11]  126 	ld	a,7 (ix)
+   0092 69 00         [ 4]  127 	adc	a, #0x00
+   0094 28            [12]  128 	ld	b,a
+   0095 E0 2E         [11]  129 	ld	a,(bc)
+   0097 F4 FD 26      [17]  130 	ld	-3 (ix),a
+                            131 ;../_itoa.c:59: string[i] = string[index];
+   009A F0 06 2E      [11]  132 	ld	a,6 (ix)
+   009D FA 60         [10]  133 	add	a, d
+   009F F4 FE 26      [17]  134 	ld	-2 (ix),a
+   00A2 F0 07 2E      [11]  135 	ld	a,7 (ix)
+   00A5 69 00         [ 4]  136 	adc	a, #0x00
+   00A7 F4 FF 26      [17]  137 	ld	-1 (ix),a
+   00AA F2 01 4A      [10]  138 	ld	hl, 1 (sp)
+   00AD E2 2E         [10]  139 	ld	a,(hl)
+   00AF E8 26         [11]  140 	ld	(bc),a
+                            141 ;../_itoa.c:60: string[index] = tmp;
+   00B1 F2 01 4A      [10]  142 	ld	hl, 1 (sp)
+   00B4 F0 FD 2E      [11]  143 	ld	a,-3 (ix)
+   00B7 EA 26         [10]  144 	ld	(hl),a
+                            145 ;../_itoa.c:61: ++i;
+   00B9 83            [ 4]  146 	inc	e
+                            147 ;../_itoa.c:62: --index;
+   00BA 8A            [ 4]  148 	dec	d
+   00BB 1Ar7Cr00      [ 7]  149 	jp	00106$
+   00BE                     150 00109$:
+   00BE FC 3E         [17]  151 	ld	sp, ix
+   00C0 5C            [ 4]  152 	pop	ix
+   00C1 1E            [ 7]  153 	ret
+                            154 ;../_itoa.c:66: void _itoa(int value, char* string, unsigned char radix)
+                            155 ;	---------------------------------
+                            156 ; Function _itoa
+                            157 ; ---------------------------------
+   00C2                     158 __itoa::
+   00C2 54            [ 4]  159 	push	ix
+   00C3 3C 00 00      [ 4]  160 	ld	ix,#0
+   00C6 FE 14         [ 7]  161 	add	ix,sp
+                            162 ;../_itoa.c:68: if (value < 0 && radix == 10) {
+   00C8 F0 05 AF      [11]  163 	bit	7, 5 (ix)
+   00CB C6 21         [ 7]  164 	jr	Z,00102$
+   00CD F0 08 2E      [11]  165 	ld	a,8 (ix)
+   00D0 6A 0A         [ 4]  166 	sub	a, #0x0A
+   00D2 CE 1A         [ 7]  167 	jr	NZ,00102$
+                            168 ;../_itoa.c:69: *string++ = '-';
+   00D4 F2 06 4A      [10]  169 	ld	hl, 6 (sp)
+   00D7 EA 37 2D      [10]  170 	ld	(hl),#0x2D
+   00DA 92            [ 4]  171 	inc	hl
+   00DB F6 06 42      [ 7]  172 	ld	6 (sp), hl
+                            173 ;../_itoa.c:70: value = -value;
+   00DE FE 65         [ 7]  174 	xor	a, a
+   00E0 F0 04 62      [11]  175 	sub	a, 4 (ix)
+   00E3 F4 04 26      [17]  176 	ld	4 (ix),a
+   00E6 36 00         [10]  177 	ld	a, #0x00
+   00E8 F0 05 63      [11]  178 	sbc	a, 5 (ix)
+   00EB F4 05 26      [17]  179 	ld	5 (ix),a
+   00EE                     180 00102$:
+                            181 ;../_itoa.c:72: _uitoa(value, string, radix);
+   00EE F0 08 2E      [11]  182 	ld	a,8 (ix)
+   00F1 56            [ 7]  183 	push	af
+   00F2 96            [ 7]  184 	inc	sp
+   00F3 F2 07 4A      [10]  185 	ld	hl, 7 (sp)
+   00F6 52            [ 4]  186 	push	hl
+   00F7 F2 07 4A      [10]  187 	ld	hl, 7 (sp)
+   00FA 52            [ 4]  188 	push	hl
+   00FB 1Cr00r00      [ 4]  189 	call	__uitoa
+   00FE 16 05 00      [ 7]  190 	add	sp, #5
+   0101 5C            [ 4]  191 	pop	ix
+   0102 1E            [ 7]  192 	ret
+                            193 	.area _CODE
+                            194 	.area _INITIALIZER
+                            195 	.area _CABS (ABS)

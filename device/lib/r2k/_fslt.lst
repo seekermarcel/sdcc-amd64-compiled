@@ -1,0 +1,211 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:15:55 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _fslt
+                              7 	.optsdcc -mr2k
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl ___fslt
+                             13 ;--------------------------------------------------------
+                             14 ; special function registers
+                             15 ;--------------------------------------------------------
+                             16 ;--------------------------------------------------------
+                             17 ; ram data
+                             18 ;--------------------------------------------------------
+                             19 	.area _DATA
+                             20 ;--------------------------------------------------------
+                             21 ; ram data
+                             22 ;--------------------------------------------------------
+                             23 	.area _INITIALIZED
+                             24 ;--------------------------------------------------------
+                             25 ; absolute external ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area _DABS (ABS)
+                             28 ;--------------------------------------------------------
+                             29 ; global & static initialisations
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _GSINIT
+                             33 	.area _GSFINAL
+                             34 	.area _GSINIT
+                             35 ;--------------------------------------------------------
+                             36 ; Home
+                             37 ;--------------------------------------------------------
+                             38 	.area _HOME
+                             39 ;../_fslt.c:108: char __fslt (float a1, float a2)
+                             40 ;	---------------------------------
+                             41 ; Function __fslt
+                             42 ; ---------------------------------
+   0000                      43 ___fslt::
+   0000 DD E5                44 	push	ix
+   0002 DD 21 00 00          45 	ld	ix,#0
+   0006 DD 39                46 	add	ix,sp
+   0008 27 F4                47 	add	sp, #-12
+                             48 ;../_fslt.c:112: fl1.f = a1;
+   000A 21 04 00             49 	ld	hl,#0x0004
+   000D 39                   50 	add	hl,sp
+   000E EB                   51 	ex	de,hl
+   000F 21 10 00             52 	ld	hl, #0x0010
+   0012 39                   53 	add	hl, sp
+   0013 01 04 00             54 	ld	bc, #0x0004
+   0016 ED B0                55 	ldir
+                             56 ;../_fslt.c:113: fl2.f = a2;
+   0018 21 00 00             57 	ld	hl,#0x0000
+   001B 39                   58 	add	hl,sp
+   001C EB                   59 	ex	de,hl
+   001D 21 14 00             60 	ld	hl, #0x0014
+   0020 39                   61 	add	hl, sp
+   0021 01 04 00             62 	ld	bc, #0x0004
+   0024 ED B0                63 	ldir
+                             64 ;../_fslt.c:115: if (((fl1.l | fl2.l) & 0x7FFFFFFF) == 0)
+   0026 21 04 00             65 	ld	hl,#0x0004
+   0029 39                   66 	add	hl,sp
+   002A EB                   67 	ex	de,hl
+   002B 21 08 00             68 	ld	hl, #0x0008
+   002E 39                   69 	add	hl, sp
+   002F EB                   70 	ex	de, hl
+   0030 01 04 00             71 	ld	bc, #0x0004
+   0033 ED B0                72 	ldir
+   0035 21 00 00             73 	ld	hl,#0x0000
+   0038 39                   74 	add	hl,sp
+   0039 5E                   75 	ld	e,(hl)
+   003A 23                   76 	inc	hl
+   003B 56                   77 	ld	d,(hl)
+   003C 23                   78 	inc	hl
+   003D 4E                   79 	ld	c,(hl)
+   003E 23                   80 	inc	hl
+   003F 46                   81 	ld	b,(hl)
+   0040 DD 7E FC             82 	ld	a,-4 (ix)
+   0043 B3                   83 	or	a, e
+   0044 6F                   84 	ld	l,a
+   0045 DD 7E FD             85 	ld	a,-3 (ix)
+   0048 B2                   86 	or	a, d
+   0049 67                   87 	ld	h,a
+   004A DD 7E FE             88 	ld	a,-2 (ix)
+   004D B1                   89 	or	a, c
+   004E 5F                   90 	ld	e,a
+   004F DD 7E FF             91 	ld	a,-1 (ix)
+   0052 B0                   92 	or	a, b
+   0053 57                   93 	ld	d,a
+   0054 BF                   94 	cp	a, a
+   0055 ED 6A                95 	adc	hl, hl
+   0057 20 08                96 	jr	NZ,00102$
+   0059 F3                   97 	rl	de
+   005A 20 05                98 	jr	NZ,00102$
+                             99 ;../_fslt.c:116: return (0);
+   005C 2E 00               100 	ld	l,#0x00
+   005E C3rF1r00            101 	jp	00110$
+   0061                     102 00102$:
+                            103 ;../_fslt.c:118: if (fl1.l<0 && fl2.l<0) {
+   0061 21 04 00            104 	ld	hl,#0x0004
+   0064 39                  105 	add	hl,sp
+   0065 56                  106 	ld	d,(hl)
+   0066 23                  107 	inc	hl
+   0067 5E                  108 	ld	e,(hl)
+   0068 23                  109 	inc	hl
+   0069 4E                  110 	ld	c,(hl)
+   006A 23                  111 	inc	hl
+   006B 66                  112 	ld	h,(hl)
+   006C CB 7C               113 	bit	7, h
+   006E 28 49               114 	jr	Z,00106$
+   0070 21 00 00            115 	ld	hl,#0x0000
+   0073 39                  116 	add	hl,sp
+   0074 56                  117 	ld	d,(hl)
+   0075 23                  118 	inc	hl
+   0076 5E                  119 	ld	e,(hl)
+   0077 23                  120 	inc	hl
+   0078 4E                  121 	ld	c,(hl)
+   0079 23                  122 	inc	hl
+   007A 66                  123 	ld	h,(hl)
+   007B CB 7C               124 	bit	7, h
+   007D 28 3A               125 	jr	Z,00106$
+                            126 ;../_fslt.c:119: if (fl2.l < fl1.l)
+   007F 21 00 00            127 	ld	hl,#0x0000
+   0082 39                  128 	add	hl,sp
+   0083 EB                  129 	ex	de,hl
+   0084 21 08 00            130 	ld	hl, #0x0008
+   0087 39                  131 	add	hl, sp
+   0088 EB                  132 	ex	de, hl
+   0089 01 04 00            133 	ld	bc, #0x0004
+   008C ED B0               134 	ldir
+   008E 21 04 00            135 	ld	hl,#0x0004
+   0091 39                  136 	add	hl,sp
+   0092 56                  137 	ld	d,(hl)
+   0093 23                  138 	inc	hl
+   0094 5E                  139 	ld	e,(hl)
+   0095 23                  140 	inc	hl
+   0096 4E                  141 	ld	c,(hl)
+   0097 23                  142 	inc	hl
+   0098 66                  143 	ld	h,(hl)
+   0099 DD 7E FC            144 	ld	a,-4 (ix)
+   009C 92                  145 	sub	a, d
+   009D DD 7E FD            146 	ld	a,-3 (ix)
+   00A0 9B                  147 	sbc	a, e
+   00A1 DD 7E FE            148 	ld	a,-2 (ix)
+   00A4 99                  149 	sbc	a, c
+   00A5 DD 7E FF            150 	ld	a,-1 (ix)
+   00A8 9C                  151 	sbc	a, h
+   00A9 E2rAEr00            152 	jp	PO, 00134$
+   00AC EE 80               153 	xor	a, #0x80
+   00AE                     154 00134$:
+   00AE F2rB5r00            155 	jp	P,00104$
+                            156 ;../_fslt.c:120: return (1);
+   00B1 2E 01               157 	ld	l,#0x01
+   00B3 18 3C               158 	jr	00110$
+   00B5                     159 00104$:
+                            160 ;../_fslt.c:121: return (0);
+   00B5 2E 00               161 	ld	l,#0x00
+   00B7 18 38               162 	jr	00110$
+   00B9                     163 00106$:
+                            164 ;../_fslt.c:124: if (fl1.l < fl2.l)
+   00B9 21 04 00            165 	ld	hl,#0x0004
+   00BC 39                  166 	add	hl,sp
+   00BD EB                  167 	ex	de,hl
+   00BE 21 08 00            168 	ld	hl, #0x0008
+   00C1 39                  169 	add	hl, sp
+   00C2 EB                  170 	ex	de, hl
+   00C3 01 04 00            171 	ld	bc, #0x0004
+   00C6 ED B0               172 	ldir
+   00C8 21 00 00            173 	ld	hl,#0x0000
+   00CB 39                  174 	add	hl,sp
+   00CC 56                  175 	ld	d,(hl)
+   00CD 23                  176 	inc	hl
+   00CE 5E                  177 	ld	e,(hl)
+   00CF 23                  178 	inc	hl
+   00D0 4E                  179 	ld	c,(hl)
+   00D1 23                  180 	inc	hl
+   00D2 66                  181 	ld	h,(hl)
+   00D3 DD 7E FC            182 	ld	a,-4 (ix)
+   00D6 92                  183 	sub	a, d
+   00D7 DD 7E FD            184 	ld	a,-3 (ix)
+   00DA 9B                  185 	sbc	a, e
+   00DB DD 7E FE            186 	ld	a,-2 (ix)
+   00DE 99                  187 	sbc	a, c
+   00DF DD 7E FF            188 	ld	a,-1 (ix)
+   00E2 9C                  189 	sbc	a, h
+   00E3 E2rE8r00            190 	jp	PO, 00135$
+   00E6 EE 80               191 	xor	a, #0x80
+   00E8                     192 00135$:
+   00E8 F2rEFr00            193 	jp	P,00109$
+                            194 ;../_fslt.c:125: return (1);
+   00EB 2E 01               195 	ld	l,#0x01
+   00ED 18 02               196 	jr	00110$
+   00EF                     197 00109$:
+                            198 ;../_fslt.c:126: return (0);
+   00EF 2E 00               199 	ld	l,#0x00
+   00F1                     200 00110$:
+   00F1 DD F9               201 	ld	sp, ix
+   00F3 DD E1               202 	pop	ix
+   00F5 C9                  203 	ret
+                            204 	.area _HOME
+                            205 ;--------------------------------------------------------
+                            206 ; code
+                            207 ;--------------------------------------------------------
+                            208 	.area _CODE
+                            209 	.area _CODE
+                            210 	.area _INITIALIZER
+                            211 	.area _CABS (ABS)

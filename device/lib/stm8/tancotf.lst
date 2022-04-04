@@ -1,0 +1,399 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                                      4 ; This file was generated Mon Apr  4 14:17:06 2022
+                                      5 ;--------------------------------------------------------
+                                      6 	.module tancotf
+                                      7 	.optsdcc -mstm8
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _tancotf
+                                     13 	.globl _fabsf
+                                     14 ;--------------------------------------------------------
+                                     15 ; ram data
+                                     16 ;--------------------------------------------------------
+                                     17 	.area DATA
+                                     18 ;--------------------------------------------------------
+                                     19 ; ram data
+                                     20 ;--------------------------------------------------------
+                                     21 	.area INITIALIZED
+                                     22 ;--------------------------------------------------------
+                                     23 ; absolute external ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area DABS (ABS)
+                                     26 ;--------------------------------------------------------
+                                     27 ; global & static initialisations
+                                     28 ;--------------------------------------------------------
+                                     29 	.area HOME
+                                     30 	.area GSINIT
+                                     31 	.area GSFINAL
+                                     32 	.area GSINIT
+                                     33 ;--------------------------------------------------------
+                                     34 ; Home
+                                     35 ;--------------------------------------------------------
+                                     36 	.area HOME
+                                     37 	.area HOME
+                                     38 ;--------------------------------------------------------
+                                     39 ; code
+                                     40 ;--------------------------------------------------------
+                                     41 	.area CODE
+                                     42 ;	../tancotf.c: 53: float tancotf(float x, bool iscotan)
+                                     43 ;	-----------------------------------------
+                                     44 ;	 function tancotf
+                                     45 ;	-----------------------------------------
+      000000                         46 _tancotf:
+      000000 52 48            [ 2]   47 	sub	sp, #72
+                                     48 ;	../tancotf.c: 58: if (fabsf(x) > YMAX)
+      000002 1E 4D            [ 2]   49 	ldw	x, (0x4d, sp)
+      000004 89               [ 2]   50 	pushw	x
+      000005 1E 4D            [ 2]   51 	ldw	x, (0x4d, sp)
+      000007 89               [ 2]   52 	pushw	x
+      000008 CDr00r00         [ 4]   53 	call	_fabsf
+      00000B 5B 04            [ 2]   54 	addw	sp, #4
+      00000D 4B 00            [ 1]   55 	push	#0x00
+      00000F 4B 08            [ 1]   56 	push	#0x08
+      000011 4B C9            [ 1]   57 	push	#0xc9
+      000013 4B 45            [ 1]   58 	push	#0x45
+      000015 89               [ 2]   59 	pushw	x
+      000016 90 89            [ 2]   60 	pushw	y
+      000018 CDr00r00         [ 4]   61 	call	___fsgt
+      00001B 5B 08            [ 2]   62 	addw	sp, #8
+      00001D 6B 1B            [ 1]   63 	ld	(0x1b, sp), a
+      00001F 0D 1B            [ 1]   64 	tnz	(0x1b, sp)
+      000021 27 0C            [ 1]   65 	jreq	00102$
+                                     66 ;	../tancotf.c: 60: errno = ERANGE;
+      000023 AE 00 22         [ 2]   67 	ldw	x, #0x0022
+      000026 CFu00u00         [ 2]   68 	ldw	_errno+0, x
+                                     69 ;	../tancotf.c: 61: return 0.0;
+      000029 5F               [ 1]   70 	clrw	x
+      00002A 90 5F            [ 1]   71 	clrw	y
+      00002C CCr02r51         [ 2]   72 	jp	00115$
+      00002F                         73 00102$:
+                                     74 ;	../tancotf.c: 65: n=(x*TWO_O_PI+(x>0.0?0.5:-0.5)); /*works for +-x*/
+      00002F 1E 4D            [ 2]   75 	ldw	x, (0x4d, sp)
+      000031 89               [ 2]   76 	pushw	x
+      000032 1E 4D            [ 2]   77 	ldw	x, (0x4d, sp)
+      000034 89               [ 2]   78 	pushw	x
+      000035 4B 83            [ 1]   79 	push	#0x83
+      000037 4B F9            [ 1]   80 	push	#0xf9
+      000039 4B 22            [ 1]   81 	push	#0x22
+      00003B 4B 3F            [ 1]   82 	push	#0x3f
+      00003D CDr00r00         [ 4]   83 	call	___fsmul
+      000040 5B 08            [ 2]   84 	addw	sp, #8
+      000042 1F 3F            [ 2]   85 	ldw	(0x3f, sp), x
+      000044 17 3D            [ 2]   86 	ldw	(0x3d, sp), y
+      000046 5F               [ 1]   87 	clrw	x
+      000047 89               [ 2]   88 	pushw	x
+      000048 5F               [ 1]   89 	clrw	x
+      000049 89               [ 2]   90 	pushw	x
+      00004A 1E 51            [ 2]   91 	ldw	x, (0x51, sp)
+      00004C 89               [ 2]   92 	pushw	x
+      00004D 1E 51            [ 2]   93 	ldw	x, (0x51, sp)
+      00004F 89               [ 2]   94 	pushw	x
+      000050 CDr00r00         [ 4]   95 	call	___fsgt
+      000053 5B 08            [ 2]   96 	addw	sp, #8
+      000055 4D               [ 1]   97 	tnz	a
+      000056 27 0A            [ 1]   98 	jreq	00117$
+      000058 5F               [ 1]   99 	clrw	x
+      000059 1F 19            [ 2]  100 	ldw	(0x19, sp), x
+      00005B AE 3F 00         [ 2]  101 	ldw	x, #0x3f00
+      00005E 1F 17            [ 2]  102 	ldw	(0x17, sp), x
+      000060 20 08            [ 2]  103 	jra	00118$
+      000062                        104 00117$:
+      000062 5F               [ 1]  105 	clrw	x
+      000063 1F 19            [ 2]  106 	ldw	(0x19, sp), x
+      000065 AE BF 00         [ 2]  107 	ldw	x, #0xbf00
+      000068 1F 17            [ 2]  108 	ldw	(0x17, sp), x
+      00006A                        109 00118$:
+      00006A 1E 19            [ 2]  110 	ldw	x, (0x19, sp)
+      00006C 89               [ 2]  111 	pushw	x
+      00006D 1E 19            [ 2]  112 	ldw	x, (0x19, sp)
+      00006F 89               [ 2]  113 	pushw	x
+      000070 1E 43            [ 2]  114 	ldw	x, (0x43, sp)
+      000072 89               [ 2]  115 	pushw	x
+      000073 1E 43            [ 2]  116 	ldw	x, (0x43, sp)
+      000075 89               [ 2]  117 	pushw	x
+      000076 CDr00r00         [ 4]  118 	call	___fsadd
+      000079 5B 08            [ 2]  119 	addw	sp, #8
+      00007B 89               [ 2]  120 	pushw	x
+      00007C 90 89            [ 2]  121 	pushw	y
+      00007E CDr00r00         [ 4]  122 	call	___fs2sint
+      000081 5B 04            [ 2]  123 	addw	sp, #4
+      000083 1F 01            [ 2]  124 	ldw	(0x01, sp), x
+                                    125 ;	../tancotf.c: 66: xn=n;
+      000085 1E 01            [ 2]  126 	ldw	x, (0x01, sp)
+      000087 89               [ 2]  127 	pushw	x
+      000088 CDr00r00         [ 4]  128 	call	___sint2fs
+      00008B 5B 02            [ 2]  129 	addw	sp, #2
+      00008D 1F 0D            [ 2]  130 	ldw	(0x0d, sp), x
+      00008F 17 0B            [ 2]  131 	ldw	(0x0b, sp), y
+                                    132 ;	../tancotf.c: 68: xnum=(int)x;
+      000091 1E 4D            [ 2]  133 	ldw	x, (0x4d, sp)
+      000093 89               [ 2]  134 	pushw	x
+      000094 1E 4D            [ 2]  135 	ldw	x, (0x4d, sp)
+      000096 89               [ 2]  136 	pushw	x
+      000097 CDr00r00         [ 4]  137 	call	___fs2sint
+      00009A 5B 04            [ 2]  138 	addw	sp, #4
+      00009C 89               [ 2]  139 	pushw	x
+      00009D CDr00r00         [ 4]  140 	call	___sint2fs
+      0000A0 5B 02            [ 2]  141 	addw	sp, #2
+      0000A2 1F 47            [ 2]  142 	ldw	(0x47, sp), x
+      0000A4 17 45            [ 2]  143 	ldw	(0x45, sp), y
+                                    144 ;	../tancotf.c: 69: xden=x-xnum;
+      0000A6 1E 47            [ 2]  145 	ldw	x, (0x47, sp)
+      0000A8 89               [ 2]  146 	pushw	x
+      0000A9 1E 47            [ 2]  147 	ldw	x, (0x47, sp)
+      0000AB 89               [ 2]  148 	pushw	x
+      0000AC 1E 51            [ 2]  149 	ldw	x, (0x51, sp)
+      0000AE 89               [ 2]  150 	pushw	x
+      0000AF 1E 51            [ 2]  151 	ldw	x, (0x51, sp)
+      0000B1 89               [ 2]  152 	pushw	x
+      0000B2 CDr00r00         [ 4]  153 	call	___fssub
+      0000B5 5B 08            [ 2]  154 	addw	sp, #8
+      0000B7 1F 2F            [ 2]  155 	ldw	(0x2f, sp), x
+      0000B9 17 2D            [ 2]  156 	ldw	(0x2d, sp), y
+                                    157 ;	../tancotf.c: 70: f=((xnum-xn*C1)+xden)-xn*C2;
+      0000BB 1E 0D            [ 2]  158 	ldw	x, (0x0d, sp)
+      0000BD 89               [ 2]  159 	pushw	x
+      0000BE 1E 0D            [ 2]  160 	ldw	x, (0x0d, sp)
+      0000C0 89               [ 2]  161 	pushw	x
+      0000C1 5F               [ 1]  162 	clrw	x
+      0000C2 89               [ 2]  163 	pushw	x
+      0000C3 4B C9            [ 1]  164 	push	#0xc9
+      0000C5 4B 3F            [ 1]  165 	push	#0x3f
+      0000C7 CDr00r00         [ 4]  166 	call	___fsmul
+      0000CA 5B 08            [ 2]  167 	addw	sp, #8
+      0000CC 89               [ 2]  168 	pushw	x
+      0000CD 90 89            [ 2]  169 	pushw	y
+      0000CF 1E 4B            [ 2]  170 	ldw	x, (0x4b, sp)
+      0000D1 89               [ 2]  171 	pushw	x
+      0000D2 1E 4B            [ 2]  172 	ldw	x, (0x4b, sp)
+      0000D4 89               [ 2]  173 	pushw	x
+      0000D5 CDr00r00         [ 4]  174 	call	___fssub
+      0000D8 5B 08            [ 2]  175 	addw	sp, #8
+      0000DA 1F 33            [ 2]  176 	ldw	(0x33, sp), x
+      0000DC 1E 2F            [ 2]  177 	ldw	x, (0x2f, sp)
+      0000DE 89               [ 2]  178 	pushw	x
+      0000DF 1E 2F            [ 2]  179 	ldw	x, (0x2f, sp)
+      0000E1 89               [ 2]  180 	pushw	x
+      0000E2 1E 37            [ 2]  181 	ldw	x, (0x37, sp)
+      0000E4 89               [ 2]  182 	pushw	x
+      0000E5 90 89            [ 2]  183 	pushw	y
+      0000E7 CDr00r00         [ 4]  184 	call	___fsadd
+      0000EA 5B 08            [ 2]  185 	addw	sp, #8
+      0000EC 1F 37            [ 2]  186 	ldw	(0x37, sp), x
+      0000EE 17 35            [ 2]  187 	ldw	(0x35, sp), y
+      0000F0 1E 0D            [ 2]  188 	ldw	x, (0x0d, sp)
+      0000F2 89               [ 2]  189 	pushw	x
+      0000F3 1E 0D            [ 2]  190 	ldw	x, (0x0d, sp)
+      0000F5 89               [ 2]  191 	pushw	x
+      0000F6 4B 22            [ 1]  192 	push	#0x22
+      0000F8 4B AA            [ 1]  193 	push	#0xaa
+      0000FA 4B FD            [ 1]  194 	push	#0xfd
+      0000FC 4B 39            [ 1]  195 	push	#0x39
+      0000FE CDr00r00         [ 4]  196 	call	___fsmul
+      000101 5B 08            [ 2]  197 	addw	sp, #8
+      000103 89               [ 2]  198 	pushw	x
+      000104 90 89            [ 2]  199 	pushw	y
+      000106 1E 3B            [ 2]  200 	ldw	x, (0x3b, sp)
+      000108 89               [ 2]  201 	pushw	x
+      000109 1E 3B            [ 2]  202 	ldw	x, (0x3b, sp)
+      00010B 89               [ 2]  203 	pushw	x
+      00010C CDr00r00         [ 4]  204 	call	___fssub
+      00010F 5B 08            [ 2]  205 	addw	sp, #8
+      000111 1F 15            [ 2]  206 	ldw	(0x15, sp), x
+      000113 17 13            [ 2]  207 	ldw	(0x13, sp), y
+                                    208 ;	../tancotf.c: 72: if (fabsf(f) < EPS)
+      000115 1E 15            [ 2]  209 	ldw	x, (0x15, sp)
+      000117 89               [ 2]  210 	pushw	x
+      000118 1E 15            [ 2]  211 	ldw	x, (0x15, sp)
+      00011A 89               [ 2]  212 	pushw	x
+      00011B CDr00r00         [ 4]  213 	call	_fabsf
+      00011E 5B 04            [ 2]  214 	addw	sp, #4
+      000120 4B 00            [ 1]  215 	push	#0x00
+      000122 4B 00            [ 1]  216 	push	#0x00
+      000124 4B 80            [ 1]  217 	push	#0x80
+      000126 4B 39            [ 1]  218 	push	#0x39
+      000128 89               [ 2]  219 	pushw	x
+      000129 90 89            [ 2]  220 	pushw	y
+      00012B CDr00r00         [ 4]  221 	call	___fslt
+      00012E 5B 08            [ 2]  222 	addw	sp, #8
+      000130 6B 28            [ 1]  223 	ld	(0x28, sp), a
+      000132 0D 28            [ 1]  224 	tnz	(0x28, sp)
+      000134 27 13            [ 1]  225 	jreq	00104$
+                                    226 ;	../tancotf.c: 74: xnum = f;
+      000136 16 15            [ 2]  227 	ldw	y, (0x15, sp)
+      000138 17 09            [ 2]  228 	ldw	(0x09, sp), y
+      00013A 16 13            [ 2]  229 	ldw	y, (0x13, sp)
+      00013C 17 07            [ 2]  230 	ldw	(0x07, sp), y
+                                    231 ;	../tancotf.c: 75: xden = 1.0;
+      00013E 5F               [ 1]  232 	clrw	x
+      00013F 1F 05            [ 2]  233 	ldw	(0x05, sp), x
+      000141 AE 3F 80         [ 2]  234 	ldw	x, #0x3f80
+      000144 1F 03            [ 2]  235 	ldw	(0x03, sp), x
+      000146 CCr01rE6         [ 2]  236 	jp	00105$
+      000149                        237 00104$:
+                                    238 ;	../tancotf.c: 79: g = f*f;
+      000149 1E 15            [ 2]  239 	ldw	x, (0x15, sp)
+      00014B 89               [ 2]  240 	pushw	x
+      00014C 1E 15            [ 2]  241 	ldw	x, (0x15, sp)
+      00014E 89               [ 2]  242 	pushw	x
+      00014F 1E 19            [ 2]  243 	ldw	x, (0x19, sp)
+      000151 89               [ 2]  244 	pushw	x
+      000152 1E 19            [ 2]  245 	ldw	x, (0x19, sp)
+      000154 89               [ 2]  246 	pushw	x
+      000155 CDr00r00         [ 4]  247 	call	___fsmul
+      000158 5B 08            [ 2]  248 	addw	sp, #8
+      00015A 1F 11            [ 2]  249 	ldw	(0x11, sp), x
+      00015C 17 0F            [ 2]  250 	ldw	(0x0f, sp), y
+                                    251 ;	../tancotf.c: 80: xnum = P(f,g);
+      00015E 1E 11            [ 2]  252 	ldw	x, (0x11, sp)
+      000160 89               [ 2]  253 	pushw	x
+      000161 1E 11            [ 2]  254 	ldw	x, (0x11, sp)
+      000163 89               [ 2]  255 	pushw	x
+      000164 4B B8            [ 1]  256 	push	#0xb8
+      000166 4B 33            [ 1]  257 	push	#0x33
+      000168 4B C4            [ 1]  258 	push	#0xc4
+      00016A 4B BD            [ 1]  259 	push	#0xbd
+      00016C CDr00r00         [ 4]  260 	call	___fsmul
+      00016F 5B 08            [ 2]  261 	addw	sp, #8
+      000171 1F 26            [ 2]  262 	ldw	(0x26, sp), x
+      000173 1E 15            [ 2]  263 	ldw	x, (0x15, sp)
+      000175 89               [ 2]  264 	pushw	x
+      000176 1E 15            [ 2]  265 	ldw	x, (0x15, sp)
+      000178 89               [ 2]  266 	pushw	x
+      000179 1E 2A            [ 2]  267 	ldw	x, (0x2a, sp)
+      00017B 89               [ 2]  268 	pushw	x
+      00017C 90 89            [ 2]  269 	pushw	y
+      00017E CDr00r00         [ 4]  270 	call	___fsmul
+      000181 5B 08            [ 2]  271 	addw	sp, #8
+      000183 1F 3B            [ 2]  272 	ldw	(0x3b, sp), x
+      000185 1E 15            [ 2]  273 	ldw	x, (0x15, sp)
+      000187 89               [ 2]  274 	pushw	x
+      000188 1E 15            [ 2]  275 	ldw	x, (0x15, sp)
+      00018A 89               [ 2]  276 	pushw	x
+      00018B 1E 3F            [ 2]  277 	ldw	x, (0x3f, sp)
+      00018D 89               [ 2]  278 	pushw	x
+      00018E 90 89            [ 2]  279 	pushw	y
+      000190 CDr00r00         [ 4]  280 	call	___fsadd
+      000193 5B 08            [ 2]  281 	addw	sp, #8
+      000195 1F 09            [ 2]  282 	ldw	(0x09, sp), x
+      000197 17 07            [ 2]  283 	ldw	(0x07, sp), y
+                                    284 ;	../tancotf.c: 81: xden = Q(g);
+      000199 1E 11            [ 2]  285 	ldw	x, (0x11, sp)
+      00019B 89               [ 2]  286 	pushw	x
+      00019C 1E 11            [ 2]  287 	ldw	x, (0x11, sp)
+      00019E 89               [ 2]  288 	pushw	x
+      00019F 4B 75            [ 1]  289 	push	#0x75
+      0001A1 4B 33            [ 1]  290 	push	#0x33
+      0001A3 4B 1F            [ 1]  291 	push	#0x1f
+      0001A5 4B 3C            [ 1]  292 	push	#0x3c
+      0001A7 CDr00r00         [ 4]  293 	call	___fsmul
+      0001AA 5B 08            [ 2]  294 	addw	sp, #8
+      0001AC 4B AF            [ 1]  295 	push	#0xaf
+      0001AE 4B B7            [ 1]  296 	push	#0xb7
+      0001B0 4B DB            [ 1]  297 	push	#0xdb
+      0001B2 4B BE            [ 1]  298 	push	#0xbe
+      0001B4 89               [ 2]  299 	pushw	x
+      0001B5 90 89            [ 2]  300 	pushw	y
+      0001B7 CDr00r00         [ 4]  301 	call	___fsadd
+      0001BA 5B 08            [ 2]  302 	addw	sp, #8
+      0001BC 1F 2B            [ 2]  303 	ldw	(0x2b, sp), x
+      0001BE 1E 11            [ 2]  304 	ldw	x, (0x11, sp)
+      0001C0 89               [ 2]  305 	pushw	x
+      0001C1 1E 11            [ 2]  306 	ldw	x, (0x11, sp)
+      0001C3 89               [ 2]  307 	pushw	x
+      0001C4 1E 2F            [ 2]  308 	ldw	x, (0x2f, sp)
+      0001C6 89               [ 2]  309 	pushw	x
+      0001C7 90 89            [ 2]  310 	pushw	y
+      0001C9 CDr00r00         [ 4]  311 	call	___fsmul
+      0001CC 5B 08            [ 2]  312 	addw	sp, #8
+      0001CE 4B 00            [ 1]  313 	push	#0x00
+      0001D0 4B 00            [ 1]  314 	push	#0x00
+      0001D2 4B 80            [ 1]  315 	push	#0x80
+      0001D4 4B 3F            [ 1]  316 	push	#0x3f
+      0001D6 89               [ 2]  317 	pushw	x
+      0001D7 90 89            [ 2]  318 	pushw	y
+      0001D9 CDr00r00         [ 4]  319 	call	___fsadd
+      0001DC 5B 08            [ 2]  320 	addw	sp, #8
+      0001DE 1F 22            [ 2]  321 	ldw	(0x22, sp), x
+      0001E0 17 03            [ 2]  322 	ldw	(0x03, sp), y
+      0001E2 16 22            [ 2]  323 	ldw	y, (0x22, sp)
+      0001E4 17 05            [ 2]  324 	ldw	(0x05, sp), y
+      0001E6                        325 00105$:
+                                    326 ;	../tancotf.c: 84: if(n&1)
+      0001E6 7B 02            [ 1]  327 	ld	a, (0x02, sp)
+      0001E8 44               [ 1]  328 	srl	a
+      0001E9 24 3E            [ 1]  329 	jrnc	00113$
+                                    330 ;	../tancotf.c: 87: if(iscotan) return (-xnum/xden);
+      0001EB 0D 4F            [ 1]  331 	tnz	(0x4f, sp)
+      0001ED 27 1D            [ 1]  332 	jreq	00107$
+      0001EF 16 09            [ 2]  333 	ldw	y, (0x09, sp)
+      0001F1 17 1E            [ 2]  334 	ldw	(0x1e, sp), y
+      0001F3 16 07            [ 2]  335 	ldw	y, (0x07, sp)
+      0001F5 90 58            [ 2]  336 	sllw	y
+      0001F7 8C               [ 1]  337 	ccf
+      0001F8 90 56            [ 2]  338 	rrcw	y
+      0001FA 1E 05            [ 2]  339 	ldw	x, (0x05, sp)
+      0001FC 89               [ 2]  340 	pushw	x
+      0001FD 1E 05            [ 2]  341 	ldw	x, (0x05, sp)
+      0001FF 89               [ 2]  342 	pushw	x
+      000200 1E 22            [ 2]  343 	ldw	x, (0x22, sp)
+      000202 89               [ 2]  344 	pushw	x
+      000203 90 89            [ 2]  345 	pushw	y
+      000205 CDr00r00         [ 4]  346 	call	___fsdiv
+      000208 5B 08            [ 2]  347 	addw	sp, #8
+      00020A 20 45            [ 2]  348 	jra	00115$
+      00020C                        349 00107$:
+                                    350 ;	../tancotf.c: 88: else return (-xden/xnum);
+      00020C 16 05            [ 2]  351 	ldw	y, (0x05, sp)
+      00020E 17 43            [ 2]  352 	ldw	(0x43, sp), y
+      000210 16 03            [ 2]  353 	ldw	y, (0x03, sp)
+      000212 90 58            [ 2]  354 	sllw	y
+      000214 8C               [ 1]  355 	ccf
+      000215 90 56            [ 2]  356 	rrcw	y
+      000217 1E 09            [ 2]  357 	ldw	x, (0x09, sp)
+      000219 89               [ 2]  358 	pushw	x
+      00021A 1E 09            [ 2]  359 	ldw	x, (0x09, sp)
+      00021C 89               [ 2]  360 	pushw	x
+      00021D 1E 47            [ 2]  361 	ldw	x, (0x47, sp)
+      00021F 89               [ 2]  362 	pushw	x
+      000220 90 89            [ 2]  363 	pushw	y
+      000222 CDr00r00         [ 4]  364 	call	___fsdiv
+      000225 5B 08            [ 2]  365 	addw	sp, #8
+      000227 20 28            [ 2]  366 	jra	00115$
+      000229                        367 00113$:
+                                    368 ;	../tancotf.c: 92: if(iscotan) return (xden/xnum);
+      000229 0D 4F            [ 1]  369 	tnz	(0x4f, sp)
+      00022B 27 13            [ 1]  370 	jreq	00110$
+      00022D 1E 09            [ 2]  371 	ldw	x, (0x09, sp)
+      00022F 89               [ 2]  372 	pushw	x
+      000230 1E 09            [ 2]  373 	ldw	x, (0x09, sp)
+      000232 89               [ 2]  374 	pushw	x
+      000233 1E 09            [ 2]  375 	ldw	x, (0x09, sp)
+      000235 89               [ 2]  376 	pushw	x
+      000236 1E 09            [ 2]  377 	ldw	x, (0x09, sp)
+      000238 89               [ 2]  378 	pushw	x
+      000239 CDr00r00         [ 4]  379 	call	___fsdiv
+      00023C 5B 08            [ 2]  380 	addw	sp, #8
+      00023E 20 11            [ 2]  381 	jra	00115$
+      000240                        382 00110$:
+                                    383 ;	../tancotf.c: 93: else return (xnum/xden);
+      000240 1E 05            [ 2]  384 	ldw	x, (0x05, sp)
+      000242 89               [ 2]  385 	pushw	x
+      000243 1E 05            [ 2]  386 	ldw	x, (0x05, sp)
+      000245 89               [ 2]  387 	pushw	x
+      000246 1E 0D            [ 2]  388 	ldw	x, (0x0d, sp)
+      000248 89               [ 2]  389 	pushw	x
+      000249 1E 0D            [ 2]  390 	ldw	x, (0x0d, sp)
+      00024B 89               [ 2]  391 	pushw	x
+      00024C CDr00r00         [ 4]  392 	call	___fsdiv
+      00024F 5B 08            [ 2]  393 	addw	sp, #8
+      000251                        394 00115$:
+      000251 5B 48            [ 2]  395 	addw	sp, #72
+      000253 81               [ 4]  396 	ret
+                                    397 	.area CODE
+                                    398 	.area INITIALIZER
+                                    399 	.area CABS (ABS)

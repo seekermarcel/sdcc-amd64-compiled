@@ -1,0 +1,134 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:37 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module _strchr
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _strchr_PARM_2
+                             25 	.globl _strchr
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area DSEG    (PAG)
+                             30 ;--------------------------------------------------------
+                             31 ; overlayable items in ram 
+                             32 ;--------------------------------------------------------
+                             33 	.area	OSEG    (PAG, OVR)
+   0000                      34 _strchr_sloc0_1_0:
+   0000                      35 	.ds 2
+                             36 ;--------------------------------------------------------
+                             37 ; absolute ram data
+                             38 ;--------------------------------------------------------
+                             39 	.area IABS    (ABS)
+                             40 	.area IABS    (ABS)
+                             41 ;--------------------------------------------------------
+                             42 ; absolute external ram data
+                             43 ;--------------------------------------------------------
+                             44 	.area XABS    (ABS)
+                             45 ;--------------------------------------------------------
+                             46 ; external initialized ram data
+                             47 ;--------------------------------------------------------
+                             48 	.area XISEG
+                             49 ;--------------------------------------------------------
+                             50 ; extended address mode data
+                             51 ;--------------------------------------------------------
+                             52 	.area XSEG
+   0000                      53 _strchr_PARM_2:
+   0000                      54 	.ds 2
+                             55 ;--------------------------------------------------------
+                             56 ; global & static initialisations
+                             57 ;--------------------------------------------------------
+                             58 	.area HOME    (CODE)
+                             59 	.area GSINIT  (CODE)
+                             60 	.area GSFINAL (CODE)
+                             61 	.area GSINIT  (CODE)
+                             62 ;--------------------------------------------------------
+                             63 ; Home
+                             64 ;--------------------------------------------------------
+                             65 	.area HOME    (CODE)
+                             66 	.area HOME    (CODE)
+                             67 ;--------------------------------------------------------
+                             68 ; code
+                             69 ;--------------------------------------------------------
+                             70 	.area CSEG    (CODE)
+                             71 ;------------------------------------------------------------
+                             72 ;Allocation info for local variables in function 'strchr'
+                             73 ;------------------------------------------------------------
+                             74 ;ch                        Allocated with name '_strchr_PARM_2'
+                             75 ;string                    Allocated to registers 
+                             76 ;sloc0                     Allocated with name '_strchr_sloc0_1_0'
+                             77 ;------------------------------------------------------------
+                             78 ;../_strchr.c:36: char * strchr ( const char * string, int ch )
+                             79 ;	-----------------------------------------
+                             80 ;	 function strchr
+                             81 ;	-----------------------------------------
+                             82 ;	Register assignment is optimal.
+                             83 ;	Stack space usage: 0 bytes.
+   0000                      84 _strchr:
+   0000 B7*01         [ 3]   85 	sta	*(_strchr_sloc0_1_0 + 1)
+   0002 BF*00         [ 3]   86 	stx	*_strchr_sloc0_1_0
+                             87 ;../_strchr.c:39: while (*string && *string != ch)
+   0004                      88 00102$:
+   0004 55*00         [ 4]   89 	ldhx	*_strchr_sloc0_1_0
+   0006 F6            [ 3]   90 	lda	,x
+   0007 97            [ 1]   91 	tax
+   0008 87            [ 2]   92 	psha
+   0009 49            [ 1]   93 	rola	
+   000A 4F            [ 1]   94 	clra	
+   000B A2 00         [ 2]   95 	sbc	#0x00
+   000D 87            [ 2]   96 	psha
+   000E 8A            [ 3]   97 	pulh
+   000F 86            [ 3]   98 	pula
+   0010 3Er00r00      [ 6]   99 	cphx	_strchr_PARM_2
+   0013 87            [ 2]  100 	psha
+   0014 27 03         [ 3]  101 	beq	00127$
+   0016 4F            [ 1]  102 	clra
+   0017 20 02         [ 3]  103 	bra	00126$
+   0019                     104 00127$:
+   0019 A6 01         [ 2]  105 	lda	#0x01
+   001B                     106 00126$:
+   001B 97            [ 1]  107 	tax
+   001C 86            [ 3]  108 	pula
+   001D 4D            [ 1]  109 	tsta
+   001E 27 0B         [ 3]  110 	beq	00104$
+   0020 5D            [ 1]  111 	tstx
+   0021 26 08         [ 3]  112 	bne	00104$
+                            113 ;../_strchr.c:40: string++;
+   0023 55*00         [ 4]  114 	ldhx	*_strchr_sloc0_1_0
+   0025 AF 01         [ 2]  115 	aix	#1
+   0027 35*00         [ 4]  116 	sthx	*_strchr_sloc0_1_0
+   0029 20 D9         [ 3]  117 	bra	00102$
+   002B                     118 00104$:
+                            119 ;../_strchr.c:42: if (*string == ch)
+   002B 5D            [ 1]  120 	tstx
+   002C 27 05         [ 3]  121 	beq	00106$
+                            122 ;../_strchr.c:43: return(string);
+   002E BE*00         [ 3]  123 	ldx	*_strchr_sloc0_1_0
+   0030 B6*01         [ 3]  124 	lda	*(_strchr_sloc0_1_0 + 1)
+   0032 81            [ 6]  125 	rts
+   0033                     126 00106$:
+                            127 ;../_strchr.c:44: return ( NULL );
+   0033 4F            [ 1]  128 	clra
+   0034 97            [ 1]  129 	tax
+   0035 81            [ 6]  130 	rts
+                            131 	.area CSEG    (CODE)
+                            132 	.area CONST   (CODE)
+                            133 	.area XINIT   (CODE)
+                            134 	.area CABS    (ABS,CODE)

@@ -1,0 +1,160 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:39 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module gets
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _putchar
+                             25 	.globl _getchar
+                             26 	.globl _gets
+                             27 ;--------------------------------------------------------
+                             28 ; ram data
+                             29 ;--------------------------------------------------------
+                             30 	.area DSEG    (PAG)
+                             31 ;--------------------------------------------------------
+                             32 ; overlayable items in ram 
+                             33 ;--------------------------------------------------------
+                             34 ;--------------------------------------------------------
+                             35 ; absolute ram data
+                             36 ;--------------------------------------------------------
+                             37 	.area IABS    (ABS)
+                             38 	.area IABS    (ABS)
+                             39 ;--------------------------------------------------------
+                             40 ; absolute external ram data
+                             41 ;--------------------------------------------------------
+                             42 	.area XABS    (ABS)
+                             43 ;--------------------------------------------------------
+                             44 ; external initialized ram data
+                             45 ;--------------------------------------------------------
+                             46 	.area XISEG
+                             47 ;--------------------------------------------------------
+                             48 ; extended address mode data
+                             49 ;--------------------------------------------------------
+                             50 	.area XSEG
+   0000                      51 _gets_s_1_12:
+   0000                      52 	.ds 2
+   0002                      53 _gets_count_1_13:
+   0002                      54 	.ds 2
+                             55 ;--------------------------------------------------------
+                             56 ; global & static initialisations
+                             57 ;--------------------------------------------------------
+                             58 	.area HOME    (CODE)
+                             59 	.area GSINIT  (CODE)
+                             60 	.area GSFINAL (CODE)
+                             61 	.area GSINIT  (CODE)
+                             62 ;--------------------------------------------------------
+                             63 ; Home
+                             64 ;--------------------------------------------------------
+                             65 	.area HOME    (CODE)
+                             66 	.area HOME    (CODE)
+                             67 ;--------------------------------------------------------
+                             68 ; code
+                             69 ;--------------------------------------------------------
+                             70 	.area CSEG    (CODE)
+                             71 ;------------------------------------------------------------
+                             72 ;Allocation info for local variables in function 'gets'
+                             73 ;------------------------------------------------------------
+                             74 ;s                         Allocated with name '_gets_s_1_12'
+                             75 ;c                         Allocated to registers a 
+                             76 ;count                     Allocated with name '_gets_count_1_13'
+                             77 ;------------------------------------------------------------
+                             78 ;../gets.c:32: gets (char *s)
+                             79 ;	-----------------------------------------
+                             80 ;	 function gets
+                             81 ;	-----------------------------------------
+                             82 ;	Register assignment is optimal.
+                             83 ;	Stack space usage: 0 bytes.
+   0000                      84 _gets:
+   0000 C7r00r01      [ 4]   85 	sta	(_gets_s_1_12 + 1)
+   0003 CFr00r00      [ 4]   86 	stx	_gets_s_1_12
+                             87 ;../gets.c:35: unsigned int count = 0;
+   0006 8C            [ 1]   88 	clrh
+   0007 5F            [ 1]   89 	clrx
+   0008 96r00r02      [ 5]   90 	sthx	_gets_count_1_13
+                             91 ;../gets.c:37: while (1)
+   000B                      92 00109$:
+                             93 ;../gets.c:39: c = getchar ();
+   000B CDr00r00      [ 6]   94 	jsr	_getchar
+                             95 ;../gets.c:40: switch(c)
+   000E 41 08 08      [ 4]   96 	cbeqa	#0x08,00101$
+   0011 41 0A 2E      [ 4]   97 	cbeqa	#0x0A,00105$
+   0014 41 0D 2B      [ 4]   98 	cbeqa	#0x0D,00105$
+   0017 20 3F         [ 3]   99 	bra	00106$
+                            100 ;../gets.c:42: case '\b': /* backspace */
+   0019                     101 00101$:
+                            102 ;../gets.c:43: if (count)
+   0019 C6r00r02      [ 4]  103 	lda	_gets_count_1_13
+   001C CAr00r03      [ 4]  104 	ora	(_gets_count_1_13 + 1)
+   001F 27 EA         [ 3]  105 	beq	00109$
+                            106 ;../gets.c:45: putchar ('\b');
+   0021 A6 08         [ 2]  107 	lda	#0x08
+   0023 CDr00r00      [ 6]  108 	jsr	_putchar
+                            109 ;../gets.c:46: putchar (' ');
+   0026 A6 20         [ 2]  110 	lda	#0x20
+   0028 CDr00r00      [ 6]  111 	jsr	_putchar
+                            112 ;../gets.c:47: putchar ('\b');
+   002B A6 08         [ 2]  113 	lda	#0x08
+   002D CDr00r00      [ 6]  114 	jsr	_putchar
+                            115 ;../gets.c:48: --s;
+   0030 32r00r00      [ 5]  116 	ldhx	_gets_s_1_12
+   0033 AF FF         [ 2]  117 	aix	#-1
+   0035 96r00r00      [ 5]  118 	sthx	_gets_s_1_12
+                            119 ;../gets.c:49: --count;
+   0038 32r00r02      [ 5]  120 	ldhx	_gets_count_1_13
+   003B AF FF         [ 2]  121 	aix	#-1
+   003D 96r00r02      [ 5]  122 	sthx	_gets_count_1_13
+                            123 ;../gets.c:51: break;
+   0040 20 C9         [ 3]  124 	bra	00109$
+                            125 ;../gets.c:54: case '\r': /* CR or LF */
+   0042                     126 00105$:
+                            127 ;../gets.c:55: putchar ('\r');
+   0042 A6 0D         [ 2]  128 	lda	#0x0D
+   0044 CDr00r00      [ 6]  129 	jsr	_putchar
+                            130 ;../gets.c:56: putchar ('\n');
+   0047 A6 0A         [ 2]  131 	lda	#0x0A
+   0049 CDr00r00      [ 6]  132 	jsr	_putchar
+                            133 ;../gets.c:57: *s = 0;
+   004C 32r00r00      [ 5]  134 	ldhx	_gets_s_1_12
+   004F 4F            [ 1]  135 	clra
+   0050 F7            [ 2]  136 	sta	,x
+                            137 ;../gets.c:58: return s;
+   0051 CEr00r00      [ 4]  138 	ldx	_gets_s_1_12
+   0054 C6r00r01      [ 4]  139 	lda	(_gets_s_1_12 + 1)
+   0057 81            [ 6]  140 	rts
+                            141 ;../gets.c:60: default:
+   0058                     142 00106$:
+                            143 ;../gets.c:61: *s++ = c;
+   0058 32r00r00      [ 5]  144 	ldhx	_gets_s_1_12
+   005B F7            [ 2]  145 	sta	,x
+   005C AF 01         [ 2]  146 	aix	#1
+   005E 96r00r00      [ 5]  147 	sthx	_gets_s_1_12
+                            148 ;../gets.c:62: ++count;
+   0061 32r00r02      [ 5]  149 	ldhx	_gets_count_1_13
+   0064 AF 01         [ 2]  150 	aix	#1
+   0066 96r00r02      [ 5]  151 	sthx	_gets_count_1_13
+                            152 ;../gets.c:63: putchar (c);
+   0069 CDr00r00      [ 6]  153 	jsr	_putchar
+                            154 ;../gets.c:65: }
+   006C 20 9D         [ 3]  155 	bra	00109$
+   006E 81            [ 6]  156 	rts
+                            157 	.area CSEG    (CODE)
+                            158 	.area CONST   (CODE)
+                            159 	.area XINIT   (CODE)
+                            160 	.area CABS    (ABS,CODE)

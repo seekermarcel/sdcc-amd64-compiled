@@ -1,0 +1,114 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:33 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module strxfrm
+                              7 	.optsdcc -mhc08
+                              8 	
+                              9 	.area HOME    (CODE)
+                             10 	.area GSINIT0 (CODE)
+                             11 	.area GSINIT  (CODE)
+                             12 	.area GSFINAL (CODE)
+                             13 	.area CSEG    (CODE)
+                             14 	.area XINIT   (CODE)
+                             15 	.area CONST   (CODE)
+                             16 	.area DSEG    (PAG)
+                             17 	.area OSEG    (PAG, OVR)
+                             18 	.area XSEG
+                             19 	.area XISEG
+                             20 ;--------------------------------------------------------
+                             21 ; Public variables in this module
+                             22 ;--------------------------------------------------------
+                             23 	.globl _strlen
+                             24 	.globl _strncpy
+                             25 	.globl _strxfrm_PARM_3
+                             26 	.globl _strxfrm_PARM_2
+                             27 	.globl _strxfrm
+                             28 ;--------------------------------------------------------
+                             29 ; ram data
+                             30 ;--------------------------------------------------------
+                             31 	.area DSEG    (PAG)
+                             32 ;--------------------------------------------------------
+                             33 ; overlayable items in ram 
+                             34 ;--------------------------------------------------------
+                             35 ;--------------------------------------------------------
+                             36 ; absolute ram data
+                             37 ;--------------------------------------------------------
+                             38 	.area IABS    (ABS)
+                             39 	.area IABS    (ABS)
+                             40 ;--------------------------------------------------------
+                             41 ; absolute external ram data
+                             42 ;--------------------------------------------------------
+                             43 	.area XABS    (ABS)
+                             44 ;--------------------------------------------------------
+                             45 ; external initialized ram data
+                             46 ;--------------------------------------------------------
+                             47 	.area XISEG
+                             48 ;--------------------------------------------------------
+                             49 ; extended address mode data
+                             50 ;--------------------------------------------------------
+                             51 	.area XSEG
+   0000                      52 _strxfrm_PARM_2:
+   0000                      53 	.ds 2
+   0002                      54 _strxfrm_PARM_3:
+   0002                      55 	.ds 2
+                             56 ;--------------------------------------------------------
+                             57 ; global & static initialisations
+                             58 ;--------------------------------------------------------
+                             59 	.area HOME    (CODE)
+                             60 	.area GSINIT  (CODE)
+                             61 	.area GSFINAL (CODE)
+                             62 	.area GSINIT  (CODE)
+                             63 ;--------------------------------------------------------
+                             64 ; Home
+                             65 ;--------------------------------------------------------
+                             66 	.area HOME    (CODE)
+                             67 	.area HOME    (CODE)
+                             68 ;--------------------------------------------------------
+                             69 ; code
+                             70 ;--------------------------------------------------------
+                             71 	.area CSEG    (CODE)
+                             72 ;------------------------------------------------------------
+                             73 ;Allocation info for local variables in function 'strxfrm'
+                             74 ;------------------------------------------------------------
+                             75 ;src                       Allocated with name '_strxfrm_PARM_2'
+                             76 ;n                         Allocated with name '_strxfrm_PARM_3'
+                             77 ;dest                      Allocated to registers x h 
+                             78 ;------------------------------------------------------------
+                             79 ;../strxfrm.c:31: size_t strxfrm(char *dest, const char *src, size_t n)
+                             80 ;	-----------------------------------------
+                             81 ;	 function strxfrm
+                             82 ;	-----------------------------------------
+                             83 ;	Register assignment is optimal.
+                             84 ;	Stack space usage: 0 bytes.
+   0000                      85 _strxfrm:
+   0000 89            [ 2]   86 	pshx
+   0001 97            [ 1]   87 	tax
+   0002 8A            [ 2]   88 	pulh
+                             89 ;../strxfrm.c:33: strncpy(dest, src, n);
+   0003 C6r00r00      [ 4]   90 	lda	_strxfrm_PARM_2
+   0006 C7r00r00      [ 4]   91 	sta	_strncpy_PARM_2
+   0009 C6r00r01      [ 4]   92 	lda	(_strxfrm_PARM_2 + 1)
+   000C C7r00r01      [ 4]   93 	sta	(_strncpy_PARM_2 + 1)
+   000F C6r00r02      [ 4]   94 	lda	_strxfrm_PARM_3
+   0012 C7r00r00      [ 4]   95 	sta	_strncpy_PARM_3
+   0015 C6r00r03      [ 4]   96 	lda	(_strxfrm_PARM_3 + 1)
+   0018 C7r00r01      [ 4]   97 	sta	(_strncpy_PARM_3 + 1)
+   001B 9F            [ 1]   98 	txa
+   001C 8B            [ 2]   99 	pshh
+   001D 88            [ 2]  100 	pulx
+   001E CDr00r00      [ 5]  101 	jsr	_strncpy
+                            102 ;../strxfrm.c:34: return(strlen(src) + 1);
+   0021 C6r00r01      [ 4]  103 	lda	(_strxfrm_PARM_2 + 1)
+   0024 CEr00r00      [ 4]  104 	ldx	_strxfrm_PARM_2
+   0027 CDr00r00      [ 5]  105 	jsr	_strlen
+   002A 4C            [ 1]  106 	inca
+   002B 26 01         [ 3]  107 	bne	00103$
+   002D 5C            [ 1]  108 	incx
+   002E                     109 00103$:
+   002E 81            [ 4]  110 	rts
+                            111 	.area CSEG    (CODE)
+                            112 	.area CONST   (CODE)
+                            113 	.area XINIT   (CODE)
+                            114 	.area CABS    (ABS,CODE)

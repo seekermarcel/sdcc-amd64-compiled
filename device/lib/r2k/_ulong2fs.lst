@@ -1,0 +1,182 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:15:52 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _ulong2fs
+                              7 	.optsdcc -mr2k
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl ___ulong2fs
+                             13 ;--------------------------------------------------------
+                             14 ; special function registers
+                             15 ;--------------------------------------------------------
+                             16 ;--------------------------------------------------------
+                             17 ; ram data
+                             18 ;--------------------------------------------------------
+                             19 	.area _DATA
+                             20 ;--------------------------------------------------------
+                             21 ; ram data
+                             22 ;--------------------------------------------------------
+                             23 	.area _INITIALIZED
+                             24 ;--------------------------------------------------------
+                             25 ; absolute external ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area _DABS (ABS)
+                             28 ;--------------------------------------------------------
+                             29 ; global & static initialisations
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _GSINIT
+                             33 	.area _GSFINAL
+                             34 	.area _GSINIT
+                             35 ;--------------------------------------------------------
+                             36 ; Home
+                             37 ;--------------------------------------------------------
+                             38 	.area _HOME
+                             39 ;../_ulong2fs.c:83: float __ulong2fs (unsigned long a )
+                             40 ;	---------------------------------
+                             41 ; Function __ulong2fs
+                             42 ; ---------------------------------
+   0000                      43 ___ulong2fs::
+   0000 DD E5                44 	push	ix
+   0002 DD 21 00 00          45 	ld	ix,#0
+   0006 DD 39                46 	add	ix,sp
+   0008 27 F8                47 	add	sp, #-8
+                             48 ;../_ulong2fs.c:88: if (!a)
+   000A DD 7E 07             49 	ld	a,7 (ix)
+   000D DD B6 06             50 	or	a, 6 (ix)
+   0010 DD B6 05             51 	or	a, 5 (ix)
+   0013 DD B6 04             52 	or	a,4 (ix)
+   0016 20 08                53 	jr	NZ,00115$
+                             54 ;../_ulong2fs.c:90: return 0.0;
+   0018 21 00 00             55 	ld	hl,#0x0000
+   001B 5D                   56 	ld	e,l
+   001C 54                   57 	ld	d,h
+   001D C3rD3r00             58 	jp	00111$
+                             59 ;../_ulong2fs.c:93: while (a & NORM) 
+   0020                      60 00115$:
+   0020 21 96 00             61 	ld	hl,#0x0096
+   0023                      62 00103$:
+   0023 DD 7E 07             63 	ld	a,7 (ix)
+   0026 B7                   64 	or	a, a
+   0027 28 15                65 	jr	Z,00117$
+                             66 ;../_ulong2fs.c:96: a >>= 1;
+   0029 F5                   67 	push	af
+   002A F1                   68 	pop	af
+   002B DD CB 07 3E          69 	srl	7 (ix)
+   002F DD CB 06 1E          70 	rr	6 (ix)
+   0033 DD CB 05 1E          71 	rr	5 (ix)
+   0037 DD CB 04 1E          72 	rr	4 (ix)
+                             73 ;../_ulong2fs.c:97: exp++;
+   003B 23                   74 	inc	hl
+   003C 18 E5                75 	jr	00103$
+                             76 ;../_ulong2fs.c:100: while (a < HIDDEN)
+   003E                      77 00117$:
+   003E                      78 00106$:
+   003E DD 7E 06             79 	ld	a,6 (ix)
+   0041 D6 80                80 	sub	a, #0x80
+   0043 DD 7E 07             81 	ld	a,7 (ix)
+   0046 DE 00                82 	sbc	a, #0x00
+   0048 30 15                83 	jr	NC,00120$
+                             84 ;../_ulong2fs.c:102: a <<= 1;
+   004A F5                   85 	push	af
+   004B F1                   86 	pop	af
+   004C DD CB 04 26          87 	sla	4 (ix)
+   0050 DD CB 05 16          88 	rl	5 (ix)
+   0054 DD CB 06 16          89 	rl	6 (ix)
+   0058 DD CB 07 16          90 	rl	7 (ix)
+                             91 ;../_ulong2fs.c:103: exp--;
+   005C 2B                   92 	dec	hl
+   005D 18 DF                93 	jr	00106$
+   005F                      94 00120$:
+   005F D4 04                95 	ld	4 (sp), hl
+                             96 ;../_ulong2fs.c:107: if ((a&0x7fffff)==0x7fffff) {
+   0061 DD 56 04             97 	ld	d,4 (ix)
+   0064 DD 5E 05             98 	ld	e,5 (ix)
+   0067 DD 4E 06             99 	ld	c,6 (ix)
+   006A CB B9               100 	res	7, c
+   006C 06 00               101 	ld	b,#0x00
+   006E 14                  102 	inc	d
+   006F 20 1B               103 	jr	NZ,00110$
+   0071 1C                  104 	inc	e
+   0072 20 18               105 	jr	NZ,00110$
+   0074 79                  106 	ld	a,c
+   0075 D6 7F               107 	sub	a,#0x7F
+   0077 20 13               108 	jr	NZ,00110$
+   0079 B0                  109 	or	a,b
+   007A 20 10               110 	jr	NZ,00110$
+                            111 ;../_ulong2fs.c:108: a=0;
+   007C AF                  112 	xor	a, a
+   007D DD 77 04            113 	ld	4 (ix),a
+   0080 DD 77 05            114 	ld	5 (ix),a
+   0083 DD 77 06            115 	ld	6 (ix),a
+   0086 DD 77 07            116 	ld	7 (ix),a
+                            117 ;../_ulong2fs.c:109: exp++;
+   0089 23                  118 	inc	hl
+   008A D4 04               119 	ld	4 (sp), hl
+   008C                     120 00110$:
+                            121 ;../_ulong2fs.c:113: a &= ~HIDDEN ;
+   008C DD CB 06 BE         122 	res	7, 6 (ix)
+                            123 ;../_ulong2fs.c:115: fl.l = PACK(0,(unsigned long)exp, a);
+   0090 21 00 00            124 	ld	hl,#0x0000
+   0093 39                  125 	add	hl,sp
+   0094 D4 06               126 	ld	6 (sp), hl
+   0096 DD 6E FC            127 	ld	l,-4 (ix)
+   0099 DD 66 FD            128 	ld	h,-3 (ix)
+   009C DD 7E FD            129 	ld	a,-3 (ix)
+   009F 17                  130 	rla
+   00A0 9F                  131 	sbc	a, a
+   00A1 5F                  132 	ld	e,a
+   00A2 57                  133 	ld	d,a
+   00A3 06 17               134 	ld	b,#0x17
+   00A5                     135 00146$:
+   00A5 29                  136 	add	hl, hl
+   00A6 F3                  137 	rl	de
+   00A7 10 FC               138 	djnz	00146$
+   00A9 7D                  139 	ld	a,l
+   00AA DD B6 04            140 	or	a, 4 (ix)
+   00AD 4F                  141 	ld	c,a
+   00AE 7C                  142 	ld	a,h
+   00AF DD B6 05            143 	or	a, 5 (ix)
+   00B2 47                  144 	ld	b,a
+   00B3 7B                  145 	ld	a,e
+   00B4 DD B6 06            146 	or	a, 6 (ix)
+   00B7 5F                  147 	ld	e,a
+   00B8 7A                  148 	ld	a,d
+   00B9 DD B6 07            149 	or	a, 7 (ix)
+   00BC 57                  150 	ld	d,a
+   00BD C4 06               151 	ld	hl, 6 (sp)
+   00BF 71                  152 	ld	(hl),c
+   00C0 23                  153 	inc	hl
+   00C1 70                  154 	ld	(hl),b
+   00C2 23                  155 	inc	hl
+   00C3 73                  156 	ld	(hl),e
+   00C4 23                  157 	inc	hl
+   00C5 72                  158 	ld	(hl),d
+                            159 ;../_ulong2fs.c:117: return (fl.f);
+   00C6 21 00 00            160 	ld	hl,#0x0000
+   00C9 39                  161 	add	hl,sp
+   00CA 46                  162 	ld	b,(hl)
+   00CB 23                  163 	inc	hl
+   00CC 4E                  164 	ld	c,(hl)
+   00CD 23                  165 	inc	hl
+   00CE 5E                  166 	ld	e,(hl)
+   00CF 23                  167 	inc	hl
+   00D0 56                  168 	ld	d,(hl)
+   00D1 68                  169 	ld	l,b
+   00D2 61                  170 	ld	h,c
+   00D3                     171 00111$:
+   00D3 DD F9               172 	ld	sp, ix
+   00D5 DD E1               173 	pop	ix
+   00D7 C9                  174 	ret
+                            175 	.area _HOME
+                            176 ;--------------------------------------------------------
+                            177 ; code
+                            178 ;--------------------------------------------------------
+                            179 	.area _CODE
+                            180 	.area _CODE
+                            181 	.area _INITIALIZER
+                            182 	.area _CABS (ABS)

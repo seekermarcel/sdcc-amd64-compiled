@@ -1,0 +1,126 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:36 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module cosf
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _sincosf
+                             25 	.globl _cosf
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area DSEG    (PAG)
+                             30 ;--------------------------------------------------------
+                             31 ; overlayable items in ram 
+                             32 ;--------------------------------------------------------
+                             33 ;--------------------------------------------------------
+                             34 ; absolute ram data
+                             35 ;--------------------------------------------------------
+                             36 	.area IABS    (ABS)
+                             37 	.area IABS    (ABS)
+                             38 ;--------------------------------------------------------
+                             39 ; absolute external ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area XABS    (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; external initialized ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area XISEG
+                             46 ;--------------------------------------------------------
+                             47 ; extended address mode data
+                             48 ;--------------------------------------------------------
+                             49 	.area XSEG
+                             50 ;--------------------------------------------------------
+                             51 ; global & static initialisations
+                             52 ;--------------------------------------------------------
+                             53 	.area HOME    (CODE)
+                             54 	.area GSINIT  (CODE)
+                             55 	.area GSFINAL (CODE)
+                             56 	.area GSINIT  (CODE)
+                             57 ;--------------------------------------------------------
+                             58 ; Home
+                             59 ;--------------------------------------------------------
+                             60 	.area HOME    (CODE)
+                             61 	.area HOME    (CODE)
+                             62 ;--------------------------------------------------------
+                             63 ; code
+                             64 ;--------------------------------------------------------
+                             65 	.area CSEG    (CODE)
+                             66 ;------------------------------------------------------------
+                             67 ;Allocation info for local variables in function 'cosf'
+                             68 ;------------------------------------------------------------
+                             69 ;x                         Allocated to stack - sp -2
+                             70 ;sloc0                     Allocated to stack - sp -8
+                             71 ;------------------------------------------------------------
+                             72 ;../cosf.c:36: float cosf(float x) _FLOAT_FUNC_REENTRANT
+                             73 ;	-----------------------------------------
+                             74 ;	 function cosf
+                             75 ;	-----------------------------------------
+                             76 ;	Register assignment is optimal.
+                             77 ;	Stack space usage: 4 bytes.
+   0000                      78 _cosf:
+   0000 A7 FC         [ 2]   79 	ais	#-4
+                             80 ;../cosf.c:38: if (x==0.0) return 1.0;
+   0002 95            [ 2]   81 	tsx
+   0003 E6 06         [ 3]   82 	lda	6,x
+   0005 A4 7F         [ 2]   83 	and	#0x7F
+   0007 EA 07         [ 3]   84 	ora	7,x
+   0009 EA 08         [ 3]   85 	ora	8,x
+   000B EA 09         [ 3]   86 	ora	9,x
+   000D 26 0A         [ 3]   87 	bne	00102$
+   000F 4F            [ 1]   88 	clra
+   0010 97            [ 1]   89 	tax
+   0011 6E 80*00      [ 4]   90 	mov	#0x80,*___SDCC_hc08_ret2
+   0014 6E 3F*00      [ 4]   91 	mov	#0x3F,*___SDCC_hc08_ret3
+   0017 20 3A         [ 3]   92 	bra	00103$
+   0019                      93 00102$:
+                             94 ;../cosf.c:39: return sincosf(x, 1);
+   0019 95            [ 2]   95 	tsx
+   001A E6 06         [ 3]   96 	lda	6,x
+   001C C7r00r00      [ 4]   97 	sta	_sincosf_PARM_1
+   001F E6 07         [ 3]   98 	lda	7,x
+   0021 C7r00r01      [ 4]   99 	sta	(_sincosf_PARM_1 + 1)
+   0024 E6 08         [ 3]  100 	lda	8,x
+   0026 C7r00r02      [ 4]  101 	sta	(_sincosf_PARM_1 + 2)
+   0029 E6 09         [ 3]  102 	lda	9,x
+   002B C7r00r03      [ 4]  103 	sta	(_sincosf_PARM_1 + 3)
+   002E A6 01         [ 2]  104 	lda	#0x01
+   0030 C7r00r00      [ 4]  105 	sta	_sincosf_PARM_2
+   0033 CDr00r00      [ 6]  106 	jsr	_sincosf
+   0036 9E E7 04      [ 4]  107 	sta	4,s
+   0039 9E EF 03      [ 4]  108 	stx	3,s
+   003C B6*00         [ 3]  109 	lda	*___SDCC_hc08_ret2
+   003E 9E E7 02      [ 4]  110 	sta	2,s
+   0041 B6*00         [ 3]  111 	lda	*___SDCC_hc08_ret3
+   0043 9E E7 01      [ 4]  112 	sta	1,s
+   0046 95            [ 2]  113 	tsx
+   0047 F6            [ 3]  114 	lda	,x
+   0048 B7*00         [ 3]  115 	sta	*___SDCC_hc08_ret3
+   004A E6 01         [ 3]  116 	lda	1,x
+   004C B7*00         [ 3]  117 	sta	*___SDCC_hc08_ret2
+   004E EE 02         [ 3]  118 	ldx	2,x
+   0050 9E E6 04      [ 4]  119 	lda	4,s
+   0053                     120 00103$:
+   0053 A7 04         [ 2]  121 	ais	#4
+   0055 81            [ 6]  122 	rts
+                            123 	.area CSEG    (CODE)
+                            124 	.area CONST   (CODE)
+                            125 	.area XINIT   (CODE)
+                            126 	.area CABS    (ABS,CODE)

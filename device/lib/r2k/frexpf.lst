@@ -1,0 +1,155 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:15:55 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module frexpf
+                              7 	.optsdcc -mr2k
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _frexpf
+                             13 ;--------------------------------------------------------
+                             14 ; special function registers
+                             15 ;--------------------------------------------------------
+                             16 ;--------------------------------------------------------
+                             17 ; ram data
+                             18 ;--------------------------------------------------------
+                             19 	.area _DATA
+                             20 ;--------------------------------------------------------
+                             21 ; ram data
+                             22 ;--------------------------------------------------------
+                             23 	.area _INITIALIZED
+                             24 ;--------------------------------------------------------
+                             25 ; absolute external ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area _DABS (ABS)
+                             28 ;--------------------------------------------------------
+                             29 ; global & static initialisations
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _GSINIT
+                             33 	.area _GSFINAL
+                             34 	.area _GSINIT
+                             35 ;--------------------------------------------------------
+                             36 ; Home
+                             37 ;--------------------------------------------------------
+                             38 	.area _HOME
+                             39 	.area _HOME
+                             40 ;--------------------------------------------------------
+                             41 ; code
+                             42 ;--------------------------------------------------------
+                             43 	.area _CODE
+                             44 ;../frexpf.c:34: float frexpf(float x, int *pw2)
+                             45 ;	---------------------------------
+                             46 ; Function frexpf
+                             47 ; ---------------------------------
+   0000                      48 _frexpf::
+   0000 DD E5                49 	push	ix
+   0002 DD 21 00 00          50 	ld	ix,#0
+   0006 DD 39                51 	add	ix,sp
+   0008 27 FA                52 	add	sp, #-6
+                             53 ;../frexpf.c:39: fl.f=x;
+   000A 21 00 00             54 	ld	hl,#0x0000
+   000D 39                   55 	add	hl,sp
+   000E EB                   56 	ex	de,hl
+   000F 21 0A 00             57 	ld	hl, #0x000A
+   0012 39                   58 	add	hl, sp
+   0013 01 04 00             59 	ld	bc, #0x0004
+   0016 ED B0                60 	ldir
+                             61 ;../frexpf.c:41: i  = ( fl.l >> 23) & 0x000000ff;
+   0018 21 00 00             62 	ld	hl,#0x0000
+   001B 39                   63 	add	hl,sp
+   001C D4 04                64 	ld	4 (sp), hl
+   001E C4 04                65 	ld	hl, 4 (sp)
+   0020 5E                   66 	ld	e,(hl)
+   0021 23                   67 	inc	hl
+   0022 56                   68 	ld	d,(hl)
+   0023 23                   69 	inc	hl
+   0024 4E                   70 	ld	c,(hl)
+   0025 23                   71 	inc	hl
+   0026 46                   72 	ld	b,(hl)
+   0027 3E 17                73 	ld	a,#0x17
+   0029                      74 00103$:
+   0029 CB 28                75 	sra	b
+   002B CB 19                76 	rr	c
+   002D FB                   77 	rr	de
+   002E 3D                   78 	dec	a
+   002F 20 F8                79 	jr	NZ,00103$
+   0031 16 00                80 	ld	d,#0x00
+   0033 21 00 00             81 	ld	hl,#0x0000
+                             82 ;../frexpf.c:42: i -= 0x7e;
+   0036 7B                   83 	ld	a,e
+   0037 C6 82                84 	add	a,#0x82
+   0039 5F                   85 	ld	e,a
+   003A 7A                   86 	ld	a,d
+   003B CE FF                87 	adc	a,#0xFF
+   003D 57                   88 	ld	d,a
+   003E 7D                   89 	ld	a,l
+   003F CE FF                90 	adc	a,#0xFF
+   0041 7C                   91 	ld	a,h
+   0042 CE FF                92 	adc	a,#0xFF
+                             93 ;../frexpf.c:43: *pw2 = i;
+   0044 C4 0E                94 	ld	hl, 14 (sp)
+   0046 73                   95 	ld	(hl),e
+   0047 23                   96 	inc	hl
+   0048 72                   97 	ld	(hl),d
+                             98 ;../frexpf.c:44: fl.l &= 0x807fffff; /* strip all exponent bits */
+   0049 C4 04                99 	ld	hl, 4 (sp)
+   004B 5E                  100 	ld	e,(hl)
+   004C 23                  101 	inc	hl
+   004D 56                  102 	ld	d,(hl)
+   004E 23                  103 	inc	hl
+   004F 4E                  104 	ld	c,(hl)
+   0050 23                  105 	inc	hl
+   0051 46                  106 	ld	b,(hl)
+   0052 CB B9               107 	res	7, c
+   0054 78                  108 	ld	a,b
+   0055 E6 80               109 	and	a, #0x80
+   0057 47                  110 	ld	b,a
+   0058 C4 04               111 	ld	hl, 4 (sp)
+   005A 73                  112 	ld	(hl),e
+   005B 23                  113 	inc	hl
+   005C 72                  114 	ld	(hl),d
+   005D 23                  115 	inc	hl
+   005E 71                  116 	ld	(hl),c
+   005F 23                  117 	inc	hl
+   0060 70                  118 	ld	(hl),b
+                            119 ;../frexpf.c:45: fl.l |= 0x3f000000; /* mantissa between 0.5 and 1 */
+   0061 C4 04               120 	ld	hl, 4 (sp)
+   0063 5E                  121 	ld	e,(hl)
+   0064 23                  122 	inc	hl
+   0065 56                  123 	ld	d,(hl)
+   0066 23                  124 	inc	hl
+   0067 4E                  125 	ld	c,(hl)
+   0068 23                  126 	inc	hl
+   0069 7E                  127 	ld	a, (hl)
+   006A F6 3F               128 	or	a, #0x3F
+   006C 47                  129 	ld	b,a
+   006D C4 04               130 	ld	hl, 4 (sp)
+   006F 73                  131 	ld	(hl),e
+   0070 23                  132 	inc	hl
+   0071 72                  133 	ld	(hl),d
+   0072 23                  134 	inc	hl
+   0073 71                  135 	ld	(hl),c
+   0074 23                  136 	inc	hl
+   0075 70                  137 	ld	(hl),b
+                            138 ;../frexpf.c:46: return(fl.f);
+   0076 21 00 00            139 	ld	hl,#0x0000
+   0079 39                  140 	add	hl,sp
+   007A 46                  141 	ld	b,(hl)
+   007B 23                  142 	inc	hl
+   007C 4E                  143 	ld	c,(hl)
+   007D 23                  144 	inc	hl
+   007E 5E                  145 	ld	e,(hl)
+   007F 23                  146 	inc	hl
+   0080 56                  147 	ld	d,(hl)
+   0081 68                  148 	ld	l,b
+   0082 61                  149 	ld	h,c
+   0083 DD F9               150 	ld	sp, ix
+   0085 DD E1               151 	pop	ix
+   0087 C9                  152 	ret
+                            153 	.area _CODE
+                            154 	.area _INITIALIZER
+                            155 	.area _CABS (ABS)

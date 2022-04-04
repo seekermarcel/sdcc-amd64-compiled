@@ -1,0 +1,91 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:48 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _memset
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _memset
+                             13 ;--------------------------------------------------------
+                             14 ; ram data
+                             15 ;--------------------------------------------------------
+                             16 	.area _DATA
+                             17 ;--------------------------------------------------------
+                             18 ; absolute external ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DABS (ABS)
+                             21 ;--------------------------------------------------------
+                             22 ; global & static initialisations
+                             23 ;--------------------------------------------------------
+                             24 	.area _HOME
+                             25 	.area _GSINIT
+                             26 	.area _GSFINAL
+                             27 	.area _GSINIT
+                             28 ;--------------------------------------------------------
+                             29 ; Home
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _HOME
+                             33 ;--------------------------------------------------------
+                             34 ; code
+                             35 ;--------------------------------------------------------
+                             36 	.area _CODE
+                             37 ;../_memset.c:41: void *memset (void *s, int c, size_t n)
+                             38 ;	---------------------------------
+                             39 ; Function memset
+                             40 ; ---------------------------------
+   0000                      41 _memset::
+   0000 E8 FC                42 	add	sp, #-4
+                             43 ;../_memset.c:44: register unsigned char *ret = s;
+   0002 F8 06                44 	ldhl	sp,#6
+   0004 2A                   45 	ld	a,(hl+)
+   0005 5E                   46 	ld	e, (hl)
+   0006 F8 02                47 	ldhl	sp,#2
+   0008 22                   48 	ld	(hl+),a
+   0009 73                   49 	ld	(hl),e
+                             50 ;../_memset.c:46: while (n--)
+   000A F8 0B                51 	ldhl	sp,#11
+   000C 2B                   52 	dec	hl
+   000D 4E                   53 	ld	c,(hl)
+   000E 23                   54 	inc	hl
+   000F 46                   55 	ld	b,(hl)
+   0010                      56 00101$:
+   0010 33                   57 	inc	sp
+   0011 33                   58 	inc	sp
+   0012 C5                   59 	push	bc
+   0013 0B                   60 	dec	bc
+   0014 F8 01                61 	ldhl	sp,#1
+   0016 3A                   62 	ld	a,(hl-)
+   0017 B6                   63 	or	a,(hl)
+   0018 28 12                64 	jr	Z,00103$
+                             65 ;../_memset.c:48: *(unsigned char *) ret = c;
+   001A F8 08                66 	ldhl	sp,#8
+   001C 7E                   67 	ld	a,(hl)
+   001D F8 03                68 	ldhl	sp,#3
+   001F 2B                   69 	dec	hl
+   0020 5E                   70 	ld	e,(hl)
+   0021 23                   71 	inc	hl
+   0022 56                   72 	ld	d,(hl)
+   0023 12                   73 	ld	(de),a
+                             74 ;../_memset.c:49: ret = ((unsigned char *) ret) + 1;
+   0024 2B                   75 	dec	hl
+   0025 34                   76 	inc	(hl)
+   0026 20 E8                77 	jr	NZ,00101$
+   0028 23                   78 	inc	hl
+   0029 34                   79 	inc	(hl)
+   002A 18 E4                80 	jr	00101$
+   002C                      81 00103$:
+                             82 ;../_memset.c:52: return s;
+   002C F8 07                83 	ldhl	sp,#7
+   002E 2B                   84 	dec	hl
+   002F 5E                   85 	ld	e,(hl)
+   0030 23                   86 	inc	hl
+   0031 56                   87 	ld	d,(hl)
+   0032 E8 04                88 	add	sp, #4
+   0034 C9                   89 	ret
+                             90 	.area _CODE
+                             91 	.area _CABS (ABS)

@@ -1,0 +1,551 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                                      4 ; This file was generated Mon Apr  4 14:10:30 2022
+                                      5 ;--------------------------------------------------------
+                                      6 	.module serial
+                                      7 	.optsdcc -mds400 --model-flat24
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; CPU specific extensions
+                                     11 ;--------------------------------------------------------
+                                     12 	.DS80C390
+                                     13 	.amode	2	; 24 bit flat addressing
+                           000082    14 dpl	=	0x82
+                           000083    15 dph	=	0x83
+                           000084    16 dpl1	=	0x84
+                           000085    17 dph1	=	0x85
+                           000086    18 dps	=	0x86
+                           000093    19 dpx	=	0x93
+                           000095    20 dpx1	=	0x95
+                           00009B    21 esp	=	0x9B
+                           00009C    22 ap	=	0x9C
+                           00009C    23 acc1	=	0x9C
+                           0000D1    24 mcnt0	=	0xD1
+                           0000D2    25 mcnt1	=	0xD2
+                           0000D3    26 ma	=	0xD3
+                           0000D4    27 mb	=	0xD4
+                           0000D5    28 mc	=	0xD5
+                           00009D    29 acon	=	0x9D
+                           0000D1    30 F1	=	0xD1	; user flag
+                                     31 ;--------------------------------------------------------
+                                     32 ; Public variables in this module
+                                     33 ;--------------------------------------------------------
+                                     34 	.globl _serial_getc
+                                     35 	.globl _serial_putc
+                                     36 	.globl _serial_interrupt_handler
+                                     37 	.globl _serial_init
+                                     38 ;--------------------------------------------------------
+                                     39 ; special function registers
+                                     40 ;--------------------------------------------------------
+                           000080    41 _P0	=	0x0080
+                           000081    42 _SP	=	0x0081
+                           000082    43 _DPL	=	0x0082
+                           000083    44 _DPH	=	0x0083
+                           000087    45 _PCON	=	0x0087
+                           000088    46 _TCON	=	0x0088
+                           000089    47 _TMOD	=	0x0089
+                           00008A    48 _TL0	=	0x008a
+                           00008B    49 _TL1	=	0x008b
+                           00008C    50 _TH0	=	0x008c
+                           00008D    51 _TH1	=	0x008d
+                           000090    52 _P1	=	0x0090
+                           000098    53 _SCON	=	0x0098
+                           000099    54 _SBUF	=	0x0099
+                           0000A0    55 _P2	=	0x00a0
+                           0000A8    56 _IE	=	0x00a8
+                           0000B0    57 _P3	=	0x00b0
+                           0000B8    58 _IP	=	0x00b8
+                           0000D0    59 _PSW	=	0x00d0
+                           0000E0    60 _ACC	=	0x00e0
+                           0000F0    61 _B	=	0x00f0
+                           0000C8    62 _T2CON	=	0x00c8
+                           0000CA    63 _RCAP2L	=	0x00ca
+                           0000CB    64 _RCAP2H	=	0x00cb
+                           0000CC    65 _TL2	=	0x00cc
+                           0000CD    66 _TH2	=	0x00cd
+                                     67 ;--------------------------------------------------------
+                                     68 ; special function bits
+                                     69 ;--------------------------------------------------------
+                           000080    70 _P0_0	=	0x0080
+                           000081    71 _P0_1	=	0x0081
+                           000082    72 _P0_2	=	0x0082
+                           000083    73 _P0_3	=	0x0083
+                           000084    74 _P0_4	=	0x0084
+                           000085    75 _P0_5	=	0x0085
+                           000086    76 _P0_6	=	0x0086
+                           000087    77 _P0_7	=	0x0087
+                           000088    78 _IT0	=	0x0088
+                           000089    79 _IE0	=	0x0089
+                           00008A    80 _IT1	=	0x008a
+                           00008B    81 _IE1	=	0x008b
+                           00008C    82 _TR0	=	0x008c
+                           00008D    83 _TF0	=	0x008d
+                           00008E    84 _TR1	=	0x008e
+                           00008F    85 _TF1	=	0x008f
+                           000090    86 _P1_0	=	0x0090
+                           000091    87 _P1_1	=	0x0091
+                           000092    88 _P1_2	=	0x0092
+                           000093    89 _P1_3	=	0x0093
+                           000094    90 _P1_4	=	0x0094
+                           000095    91 _P1_5	=	0x0095
+                           000096    92 _P1_6	=	0x0096
+                           000097    93 _P1_7	=	0x0097
+                           000098    94 _RI	=	0x0098
+                           000099    95 _TI	=	0x0099
+                           00009A    96 _RB8	=	0x009a
+                           00009B    97 _TB8	=	0x009b
+                           00009C    98 _REN	=	0x009c
+                           00009D    99 _SM2	=	0x009d
+                           00009E   100 _SM1	=	0x009e
+                           00009F   101 _SM0	=	0x009f
+                           0000A0   102 _P2_0	=	0x00a0
+                           0000A1   103 _P2_1	=	0x00a1
+                           0000A2   104 _P2_2	=	0x00a2
+                           0000A3   105 _P2_3	=	0x00a3
+                           0000A4   106 _P2_4	=	0x00a4
+                           0000A5   107 _P2_5	=	0x00a5
+                           0000A6   108 _P2_6	=	0x00a6
+                           0000A7   109 _P2_7	=	0x00a7
+                           0000A8   110 _EX0	=	0x00a8
+                           0000A9   111 _ET0	=	0x00a9
+                           0000AA   112 _EX1	=	0x00aa
+                           0000AB   113 _ET1	=	0x00ab
+                           0000AC   114 _ES	=	0x00ac
+                           0000AF   115 _EA	=	0x00af
+                           0000B0   116 _P3_0	=	0x00b0
+                           0000B1   117 _P3_1	=	0x00b1
+                           0000B2   118 _P3_2	=	0x00b2
+                           0000B3   119 _P3_3	=	0x00b3
+                           0000B4   120 _P3_4	=	0x00b4
+                           0000B5   121 _P3_5	=	0x00b5
+                           0000B6   122 _P3_6	=	0x00b6
+                           0000B7   123 _P3_7	=	0x00b7
+                           0000B0   124 _RXD	=	0x00b0
+                           0000B1   125 _TXD	=	0x00b1
+                           0000B2   126 _INT0	=	0x00b2
+                           0000B3   127 _INT1	=	0x00b3
+                           0000B4   128 _T0	=	0x00b4
+                           0000B5   129 _T1	=	0x00b5
+                           0000B6   130 _WR	=	0x00b6
+                           0000B7   131 _RD	=	0x00b7
+                           0000B8   132 _PX0	=	0x00b8
+                           0000B9   133 _PT0	=	0x00b9
+                           0000BA   134 _PX1	=	0x00ba
+                           0000BB   135 _PT1	=	0x00bb
+                           0000BC   136 _PS	=	0x00bc
+                           0000D0   137 _P	=	0x00d0
+                           0000D1   138 _F1	=	0x00d1
+                           0000D2   139 _OV	=	0x00d2
+                           0000D3   140 _RS0	=	0x00d3
+                           0000D4   141 _RS1	=	0x00d4
+                           0000D5   142 _F0	=	0x00d5
+                           0000D6   143 _AC	=	0x00d6
+                           0000D7   144 _CY	=	0x00d7
+                           0000AD   145 _ET2	=	0x00ad
+                           0000BD   146 _PT2	=	0x00bd
+                           0000C8   147 _T2CON_0	=	0x00c8
+                           0000C9   148 _T2CON_1	=	0x00c9
+                           0000CA   149 _T2CON_2	=	0x00ca
+                           0000CB   150 _T2CON_3	=	0x00cb
+                           0000CC   151 _T2CON_4	=	0x00cc
+                           0000CD   152 _T2CON_5	=	0x00cd
+                           0000CE   153 _T2CON_6	=	0x00ce
+                           0000CF   154 _T2CON_7	=	0x00cf
+                           0000C8   155 _CP_RL2	=	0x00c8
+                           0000C9   156 _C_T2	=	0x00c9
+                           0000CA   157 _TR2	=	0x00ca
+                           0000CB   158 _EXEN2	=	0x00cb
+                           0000CC   159 _TCLK	=	0x00cc
+                           0000CD   160 _RCLK	=	0x00cd
+                           0000CE   161 _EXF2	=	0x00ce
+                           0000CF   162 _TF2	=	0x00cf
+                                    163 ;--------------------------------------------------------
+                                    164 ; overlayable register banks
+                                    165 ;--------------------------------------------------------
+                                    166 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        167 	.ds 8
+                                    168 	.area REG_BANK_1	(REL,OVR,DATA)
+      000000                        169 	.ds 8
+                                    170 	.area REG_BANK_3	(REL,OVR,DATA)
+      000000                        171 	.ds 8
+                                    172 ;--------------------------------------------------------
+                                    173 ; internal ram data
+                                    174 ;--------------------------------------------------------
+                                    175 	.area DSEG    (DATA)
+                                    176 ;--------------------------------------------------------
+                                    177 ; overlayable items in internal ram 
+                                    178 ;--------------------------------------------------------
+                                    179 ;--------------------------------------------------------
+                                    180 ; indirectly addressable internal ram data
+                                    181 ;--------------------------------------------------------
+                                    182 	.area ISEG    (DATA)
+                                    183 ;--------------------------------------------------------
+                                    184 ; absolute internal ram data
+                                    185 ;--------------------------------------------------------
+                                    186 	.area IABS    (ABS,DATA)
+                                    187 	.area IABS    (ABS,DATA)
+                                    188 ;--------------------------------------------------------
+                                    189 ; bit data
+                                    190 ;--------------------------------------------------------
+                                    191 	.area BSEG    (BIT)
+      000000                        192 _work_flag_byte_arrived:
+      000000                        193 	.ds 1
+      000001                        194 _work_flag_buffer_transfered:
+      000001                        195 	.ds 1
+      000002                        196 _tx_serial_buffer_empty:
+      000002                        197 	.ds 1
+      000003                        198 _rx_serial_buffer_empty:
+      000003                        199 	.ds 1
+                                    200 ;--------------------------------------------------------
+                                    201 ; paged external ram data
+                                    202 ;--------------------------------------------------------
+                                    203 	.area PSEG    (PAG,XDATA)
+                                    204 ;--------------------------------------------------------
+                                    205 ; external ram data
+                                    206 ;--------------------------------------------------------
+                                    207 	.area XSEG    (XDATA)
+      000000                        208 _stx_index_in:
+      000000                        209 	.ds 1
+      000001                        210 _srx_index_in:
+      000001                        211 	.ds 1
+      000002                        212 _stx_index_out:
+      000002                        213 	.ds 1
+      000003                        214 _srx_index_out:
+      000003                        215 	.ds 1
+      000004                        216 _stx_buffer:
+      000004                        217 	.ds 256
+      000104                        218 _srx_buffer:
+      000104                        219 	.ds 256
+                                    220 ;--------------------------------------------------------
+                                    221 ; absolute external ram data
+                                    222 ;--------------------------------------------------------
+                                    223 	.area XABS    (ABS,XDATA)
+                                    224 ;--------------------------------------------------------
+                                    225 ; external initialized ram data
+                                    226 ;--------------------------------------------------------
+                                    227 	.area XISEG   (XDATA)
+                                    228 ;--------------------------------------------------------
+                                    229 ; global & static initialisations
+                                    230 ;--------------------------------------------------------
+                                    231 	.area HOME    (CODE)
+                                    232 	.area GSINIT  (CODE)
+                                    233 	.area GSFINAL (CODE)
+                                    234 	.area GSINIT  (CODE)
+                                    235 ;--------------------------------------------------------
+                                    236 ; Home
+                                    237 ;--------------------------------------------------------
+                                    238 	.area HOME    (CODE)
+                                    239 	.area HOME    (CODE)
+                                    240 ;--------------------------------------------------------
+                                    241 ; code
+                                    242 ;--------------------------------------------------------
+                                    243 	.area CSEG    (CODE)
+                                    244 ;------------------------------------------------------------
+                                    245 ;Allocation info for local variables in function 'serial_init'
+                                    246 ;------------------------------------------------------------
+                                    247 ;	serial.c:45: void serial_init(void)
+                                    248 ;	-----------------------------------------
+                                    249 ;	 function serial_init
+                                    250 ;	-----------------------------------------
+      000000                        251 _serial_init:
+                           000002   252 	ar2 = 0x02
+                           000003   253 	ar3 = 0x03
+                           000004   254 	ar4 = 0x04
+                           000005   255 	ar5 = 0x05
+                           000006   256 	ar6 = 0x06
+                           000007   257 	ar7 = 0x07
+                           000000   258 	ar0 = 0x00
+                           000001   259 	ar1 = 0x01
+                                    260 ;	serial.c:47: SCON = 0x50;
+                                    261 ;	genAssign: resultIsFar = FALSE
+      000000 75 98 50         [12]  262 	mov	_SCON,#0x50
+                                    263 ;	serial.c:48: T2CON = 0x34;
+                                    264 ;	genAssign: resultIsFar = FALSE
+      000003 75 C8 34         [12]  265 	mov	_T2CON,#0x34
+                                    266 ;	serial.c:49: PS = 1;
+                                    267 ;	genAssign: resultIsFar = FALSE
+      000006 D2 BC            [ 8]  268 	setb	_PS
+                                    269 ;	serial.c:50: T2CON = 0x34;
+                                    270 ;	genAssign: resultIsFar = FALSE
+      000008 75 C8 34         [12]  271 	mov	_T2CON,#0x34
+                                    272 ;	serial.c:51: RCAP2H = 0xFF;
+                                    273 ;	genAssign: resultIsFar = FALSE
+      00000B 75 CB FF         [12]  274 	mov	_RCAP2H,#0xFF
+                                    275 ;	serial.c:52: RCAP2L = 0xDA;
+                                    276 ;	genAssign: resultIsFar = FALSE
+      00000E 75 CA DA         [12]  277 	mov	_RCAP2L,#0xDA
+                                    278 ;	serial.c:54: RI = 0;
+                                    279 ;	genAssign: resultIsFar = FALSE
+      000011 C2 98            [ 8]  280 	clr	_RI
+                                    281 ;	serial.c:55: TI = 0;
+                                    282 ;	genAssign: resultIsFar = FALSE
+      000013 C2 99            [ 8]  283 	clr	_TI
+                                    284 ;	serial.c:57: stx_index_in = srx_index_in = stx_index_out = srx_index_out = 0;
+                                    285 ;	genAssign: resultIsFar = TRUE
+      000015 90s00r00r03      [12]  286 	mov	dptr,#_srx_index_out
+                                    287 ;	genAssign: resultIsFar = TRUE
+                                    288 ;	genAssign: resultIsFar = TRUE
+                                    289 ;	genAssign: resultIsFar = TRUE
+      000019 E4               [ 4]  290 	clr   a
+      00001A F0               [ 8]  291 	movx  @dptr,a
+      00001B 90s00r00r02      [12]  292 	mov   dptr,#_stx_index_out
+      00001F F0               [ 8]  293 	movx  @dptr,a
+      000020 90s00r00r01      [12]  294 	mov   dptr,#_srx_index_in
+      000024 F0               [ 8]  295 	movx  @dptr,a
+      000025 90s00r00r00      [12]  296 	mov   dptr,#_stx_index_in
+      000029 F0               [ 8]  297 	movx  @dptr,a
+                                    298 ;	serial.c:58: rx_serial_buffer_empty = tx_serial_buffer_empty = 1;
+                                    299 ;	genAssign: resultIsFar = FALSE
+      00002A D2*02            [ 8]  300 	setb	_tx_serial_buffer_empty
+                                    301 ;	genAssign: resultIsFar = FALSE
+      00002C D2*03            [ 8]  302 	setb	_rx_serial_buffer_empty
+                                    303 ;	serial.c:59: work_flag_buffer_transfered = 0;
+                                    304 ;	genAssign: resultIsFar = FALSE
+      00002E C2*01            [ 8]  305 	clr	_work_flag_buffer_transfered
+                                    306 ;	serial.c:60: work_flag_byte_arrived = 0;
+                                    307 ;	genAssign: resultIsFar = FALSE
+      000030 C2*00            [ 8]  308 	clr	_work_flag_byte_arrived
+                                    309 ;	serial.c:61: ES=1;
+                                    310 ;	genAssign: resultIsFar = FALSE
+      000032 D2 AC            [ 8]  311 	setb	_ES
+      000034                        312 00101$:
+      000034 22               [16]  313 	ret
+                                    314 ;------------------------------------------------------------
+                                    315 ;Allocation info for local variables in function 'serial_interrupt_handler'
+                                    316 ;------------------------------------------------------------
+                                    317 ;	serial.c:64: void serial_interrupt_handler(void) __interrupt 4 __using 1
+                                    318 ;	-----------------------------------------
+                                    319 ;	 function serial_interrupt_handler
+                                    320 ;	-----------------------------------------
+      000035                        321 _serial_interrupt_handler:
+                           00000A   322 	ar2 = 0x0A
+                           00000B   323 	ar3 = 0x0B
+                           00000C   324 	ar4 = 0x0C
+                           00000D   325 	ar5 = 0x0D
+                           00000E   326 	ar6 = 0x0E
+                           00000F   327 	ar7 = 0x0F
+                           000008   328 	ar0 = 0x08
+                           000009   329 	ar1 = 0x09
+      000035 C0 E0            [ 8]  330 	push	acc
+      000037 C0 F0            [ 8]  331 	push	b
+      000039 C0 82            [ 8]  332 	push	dpl
+      00003B C0 83            [ 8]  333 	push	dph
+      00003D C0 93            [ 8]  334 	push	dpx
+      00003F C0 86            [ 8]  335 	push	dps
+      000041 75 86 00         [12]  336 	mov	dps,#0
+      000044 C0 9C            [ 8]  337 	push	acc1
+      000046 C0 D0            [ 8]  338 	push	psw
+      000048 75 D0 08         [12]  339 	mov	psw,#0x08
+                                    340 ;	serial.c:66: ES=0;
+                                    341 ;	genAssign: resultIsFar = FALSE
+      00004B C2 AC            [ 8]  342 	clr	_ES
+                                    343 ;	serial.c:67: if ( RI )
+                                    344 ;	serial.c:69: RI = 0;
+                                    345 ;	genAssign: resultIsFar = FALSE
+      00004D 10 98 02         [12]  346 	jbc     _RI,00119$
+      000050 80 24            [12]  347 	sjmp    00102$
+      000052                        348 00119$:
+                                    349 ;	serial.c:70: srx_buffer[srx_index_in++]=SBUF;
+      000052 90s00r00r01      [12]  350 	mov	dptr,#_srx_index_in
+                                    351 ;	genAssign: resultIsFar = FALSE
+      000056 E0               [ 8]  352 	movx	a,@dptr
+      000057 FA               [ 4]  353 	mov	r2,a
+      000058 90s00r00r01      [12]  354 	mov	dptr,#_srx_index_in
+      00005C 74 01            [ 8]  355 	mov	a,#0x01
+      00005E 2A               [ 4]  356 	add	a,r2
+      00005F F0               [ 8]  357 	movx	@dptr,a
+      000060 EA               [ 4]  358 	mov	a,r2
+      000061 24r04            [ 8]  359 	add	a,#_srx_buffer
+      000063 F5 82            [ 8]  360 	mov	dpl,a
+      000065 E4               [ 4]  361 	clr	a
+      000066 34s01            [ 8]  362 	addc	a,#(_srx_buffer >> 8)
+      000068 F5 83            [ 8]  363 	mov	dph,a
+      00006A E4               [ 4]  364 	clr	a
+      00006B 34s00            [ 8]  365 	addc	a,#(_srx_buffer >> 16)
+      00006D F5 93            [ 8]  366 	mov	dpx,a
+      00006F E5 99            [ 8]  367 	mov	a,_SBUF
+      000071 F0               [ 8]  368 	movx	@dptr,a
+                                    369 ;	serial.c:71: work_flag_byte_arrived = 1;
+                                    370 ;	genAssign: resultIsFar = FALSE
+      000072 D2*00            [ 8]  371 	setb	_work_flag_byte_arrived
+                                    372 ;	serial.c:72: rx_serial_buffer_empty = 0;
+                                    373 ;	genAssign: resultIsFar = FALSE
+      000074 C2*03            [ 8]  374 	clr	_rx_serial_buffer_empty
+      000076                        375 00102$:
+                                    376 ;	serial.c:74: if ( TI )
+                                    377 ;	serial.c:76: TI = 0;
+                                    378 ;	genAssign: resultIsFar = FALSE
+      000076 10 99 02         [12]  379 	jbc     _TI,00120$
+      000079 80 3B            [12]  380 	sjmp    00107$
+      00007B                        381 00120$:
+                                    382 ;	serial.c:77: if (stx_index_out == stx_index_in )
+      00007B 90s00r00r00      [12]  383 	mov	dptr,#_stx_index_in
+      00007F 75 86 01         [12]  384 	mov     dps, #1
+      000082 90s00r00r02      [12]  385 	mov     dptr, #_stx_index_out
+      000086 E0               [ 8]  386 	movx	a,@dptr
+      000087 75 86 00         [12]  387 	mov	dps,#0
+      00008A F5 F0            [ 8]  388 	mov	b,a
+      00008C E0               [ 8]  389 	movx	a,@dptr
+      00008D B5 F0 06         [16]  390 	cjne a,b,00104$
+      000090                        391 00122$:
+                                    392 ;	serial.c:79: tx_serial_buffer_empty = 1;
+                                    393 ;	genAssign: resultIsFar = FALSE
+      000090 D2*02            [ 8]  394 	setb	_tx_serial_buffer_empty
+                                    395 ;	serial.c:80: work_flag_buffer_transfered = 1;
+                                    396 ;	genAssign: resultIsFar = FALSE
+      000092 D2*01            [ 8]  397 	setb	_work_flag_buffer_transfered
+      000094 80 20            [12]  398 	sjmp 00107$
+      000096                        399 00104$:
+                                    400 ;	serial.c:82: else SBUF = stx_buffer[stx_index_out++];
+      000096 90s00r00r02      [12]  401 	mov	dptr,#_stx_index_out
+                                    402 ;	genAssign: resultIsFar = FALSE
+      00009A E0               [ 8]  403 	movx	a,@dptr
+      00009B FA               [ 4]  404 	mov	r2,a
+      00009C 90s00r00r02      [12]  405 	mov	dptr,#_stx_index_out
+      0000A0 74 01            [ 8]  406 	mov	a,#0x01
+      0000A2 2A               [ 4]  407 	add	a,r2
+      0000A3 F0               [ 8]  408 	movx	@dptr,a
+      0000A4 EA               [ 4]  409 	mov	a,r2
+      0000A5 24r04            [ 8]  410 	add	a,#_stx_buffer
+      0000A7 F5 82            [ 8]  411 	mov	dpl,a
+      0000A9 E4               [ 4]  412 	clr	a
+      0000AA 34s00            [ 8]  413 	addc	a,#(_stx_buffer >> 8)
+      0000AC F5 83            [ 8]  414 	mov	dph,a
+      0000AE E4               [ 4]  415 	clr	a
+      0000AF 34s00            [ 8]  416 	addc	a,#(_stx_buffer >> 16)
+      0000B1 F5 93            [ 8]  417 	mov	dpx,a
+      0000B3 E0               [ 8]  418 	movx	a,@dptr
+      0000B4 F5 99            [ 8]  419 	mov	_SBUF,a
+      0000B6                        420 00107$:
+                                    421 ;	serial.c:84: ES=1;
+                                    422 ;	genAssign: resultIsFar = FALSE
+      0000B6 D2 AC            [ 8]  423 	setb	_ES
+      0000B8                        424 00108$:
+      0000B8 D0 D0            [ 8]  425 	pop	psw
+      0000BA D0 9C            [ 8]  426 	pop	acc1
+      0000BC D0 86            [ 8]  427 	pop	dps
+      0000BE D0 93            [ 8]  428 	pop	dpx
+      0000C0 D0 83            [ 8]  429 	pop	dph
+      0000C2 D0 82            [ 8]  430 	pop	dpl
+      0000C4 D0 F0            [ 8]  431 	pop	b
+      0000C6 D0 E0            [ 8]  432 	pop	acc
+      0000C8 32               [16]  433 	reti
+                                    434 ;	eliminated unneeded push/pop dpl1
+                                    435 ;	eliminated unneeded push/pop dph1
+                                    436 ;	eliminated unneeded push/pop dpx1
+                                    437 ;------------------------------------------------------------
+                                    438 ;Allocation info for local variables in function 'serial_putc'
+                                    439 ;------------------------------------------------------------
+                                    440 ;c                         Allocated to registers r2 
+                                    441 ;------------------------------------------------------------
+                                    442 ;	serial.c:89: void serial_putc(unsigned char c)
+                                    443 ;	-----------------------------------------
+                                    444 ;	 function serial_putc
+                                    445 ;	-----------------------------------------
+      0000C9                        446 _serial_putc:
+                           000002   447 	ar2 = 0x02
+                           000003   448 	ar3 = 0x03
+                           000004   449 	ar4 = 0x04
+                           000005   450 	ar5 = 0x05
+                           000006   451 	ar6 = 0x06
+                           000007   452 	ar7 = 0x07
+                           000000   453 	ar0 = 0x00
+                           000001   454 	ar1 = 0x01
+      0000C9 AA 82            [ 8]  455 	mov	r2,dpl
+                                    456 ;	serial.c:91: stx_buffer[stx_index_in++]=c;
+      0000CB 90s00r00r00      [12]  457 	mov	dptr,#_stx_index_in
+                                    458 ;	genAssign: resultIsFar = FALSE
+      0000CF E0               [ 8]  459 	movx	a,@dptr
+      0000D0 FB               [ 4]  460 	mov	r3,a
+      0000D1 90s00r00r00      [12]  461 	mov	dptr,#_stx_index_in
+      0000D5 74 01            [ 8]  462 	mov	a,#0x01
+      0000D7 2B               [ 4]  463 	add	a,r3
+      0000D8 F0               [ 8]  464 	movx	@dptr,a
+      0000D9 EB               [ 4]  465 	mov	a,r3
+      0000DA 24r04            [ 8]  466 	add	a,#_stx_buffer
+      0000DC F5 82            [ 8]  467 	mov	dpl,a
+      0000DE E4               [ 4]  468 	clr	a
+      0000DF 34s00            [ 8]  469 	addc	a,#(_stx_buffer >> 8)
+      0000E1 F5 83            [ 8]  470 	mov	dph,a
+      0000E3 E4               [ 4]  471 	clr	a
+      0000E4 34s00            [ 8]  472 	addc	a,#(_stx_buffer >> 16)
+      0000E6 F5 93            [ 8]  473 	mov	dpx,a
+      0000E8 EA               [ 4]  474 	mov	a,r2
+      0000E9 F0               [ 8]  475 	movx	@dptr,a
+                                    476 ;	serial.c:92: ES=0;
+                                    477 ;	genAssign: resultIsFar = FALSE
+      0000EA C2 AC            [ 8]  478 	clr	_ES
+                                    479 ;	serial.c:93: if ( tx_serial_buffer_empty )
+                                    480 ;	serial.c:95: tx_serial_buffer_empty = 0;
+                                    481 ;	genAssign: resultIsFar = FALSE
+      0000EC 10*02 02         [12]  482 	jbc     _tx_serial_buffer_empty,00108$
+      0000EF 80 02            [12]  483 	sjmp    00102$
+      0000F1                        484 00108$:
+                                    485 ;	serial.c:96: TI=1;
+                                    486 ;	genAssign: resultIsFar = FALSE
+      0000F1 D2 99            [ 8]  487 	setb	_TI
+      0000F3                        488 00102$:
+                                    489 ;	serial.c:98: ES=1;
+                                    490 ;	genAssign: resultIsFar = FALSE
+      0000F3 D2 AC            [ 8]  491 	setb	_ES
+      0000F5                        492 00103$:
+      0000F5 22               [16]  493 	ret
+                                    494 ;------------------------------------------------------------
+                                    495 ;Allocation info for local variables in function 'serial_getc'
+                                    496 ;------------------------------------------------------------
+                                    497 ;tmp                       Allocated to registers r2 
+                                    498 ;------------------------------------------------------------
+                                    499 ;	serial.c:101: unsigned char serial_getc(void)
+                                    500 ;	-----------------------------------------
+                                    501 ;	 function serial_getc
+                                    502 ;	-----------------------------------------
+      0000F6                        503 _serial_getc:
+                                    504 ;	serial.c:103: unsigned char tmp = srx_buffer[srx_index_out++];
+      0000F6 90s00r00r03      [12]  505 	mov	dptr,#_srx_index_out
+                                    506 ;	genAssign: resultIsFar = FALSE
+      0000FA E0               [ 8]  507 	movx	a,@dptr
+      0000FB FA               [ 4]  508 	mov	r2,a
+      0000FC 90s00r00r03      [12]  509 	mov	dptr,#_srx_index_out
+      000100 74 01            [ 8]  510 	mov	a,#0x01
+      000102 2A               [ 4]  511 	add	a,r2
+      000103 F0               [ 8]  512 	movx	@dptr,a
+      000104 EA               [ 4]  513 	mov	a,r2
+      000105 24r04            [ 8]  514 	add	a,#_srx_buffer
+      000107 F5 82            [ 8]  515 	mov	dpl,a
+      000109 E4               [ 4]  516 	clr	a
+      00010A 34s01            [ 8]  517 	addc	a,#(_srx_buffer >> 8)
+      00010C F5 83            [ 8]  518 	mov	dph,a
+      00010E E4               [ 4]  519 	clr	a
+      00010F 34s00            [ 8]  520 	addc	a,#(_srx_buffer >> 16)
+      000111 F5 93            [ 8]  521 	mov	dpx,a
+      000113 E0               [ 8]  522 	movx	a,@dptr
+      000114 FA               [ 4]  523 	mov	r2,a
+                                    524 ;	genAssign: resultIsFar = TRUE
+                                    525 ;	serial.c:104: ES=0;
+                                    526 ;	genAssign: resultIsFar = FALSE
+      000115 C2 AC            [ 8]  527 	clr	_ES
+                                    528 ;	serial.c:105: if ( srx_index_out == srx_index_in) rx_serial_buffer_empty = 1;
+      000117 90s00r00r01      [12]  529 	mov	dptr,#_srx_index_in
+      00011B 75 86 01         [12]  530 	mov     dps, #1
+      00011E 90s00r00r03      [12]  531 	mov     dptr, #_srx_index_out
+      000122 E0               [ 8]  532 	movx	a,@dptr
+      000123 75 86 00         [12]  533 	mov	dps,#0
+      000126 F5 F0            [ 8]  534 	mov	b,a
+      000128 E0               [ 8]  535 	movx	a,@dptr
+      000129 B5 F0 02         [16]  536 	cjne a,b,00102$
+      00012C                        537 00109$:
+                                    538 ;	genAssign: resultIsFar = FALSE
+      00012C D2*03            [ 8]  539 	setb	_rx_serial_buffer_empty
+      00012E                        540 00102$:
+                                    541 ;	serial.c:106: ES=1;
+                                    542 ;	genAssign: resultIsFar = FALSE
+      00012E D2 AC            [ 8]  543 	setb	_ES
+                                    544 ;	serial.c:107: return tmp;
+      000130 8A 82            [ 8]  545 	mov	dpl,r2
+      000132                        546 00103$:
+      000132 22               [16]  547 	ret
+                                    548 	.area CSEG    (CODE)
+                                    549 	.area CONST   (CODE)
+                                    550 	.area XINIT   (CODE)
+                                    551 	.area CABS    (ABS,CODE)

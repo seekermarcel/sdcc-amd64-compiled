@@ -1,0 +1,155 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:16:48 2022
+                              5 ;--------------------------------------------------------
+                              6 	.module _strncat
+                              7 	.optsdcc -mgbz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _strncat
+                             13 ;--------------------------------------------------------
+                             14 ; ram data
+                             15 ;--------------------------------------------------------
+                             16 	.area _DATA
+                             17 ;--------------------------------------------------------
+                             18 ; absolute external ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DABS (ABS)
+                             21 ;--------------------------------------------------------
+                             22 ; global & static initialisations
+                             23 ;--------------------------------------------------------
+                             24 	.area _HOME
+                             25 	.area _GSINIT
+                             26 	.area _GSFINAL
+                             27 	.area _GSINIT
+                             28 ;--------------------------------------------------------
+                             29 ; Home
+                             30 ;--------------------------------------------------------
+                             31 	.area _HOME
+                             32 	.area _HOME
+                             33 ;--------------------------------------------------------
+                             34 ; code
+                             35 ;--------------------------------------------------------
+                             36 	.area _CODE
+                             37 ;../_strncat.c:31: char * strncat ( char * front, const char * back, size_t count )
+                             38 ;	---------------------------------
+                             39 ; Function strncat
+                             40 ; ---------------------------------
+   0000                      41 _strncat::
+   0000 E8 F8                42 	add	sp, #-8
+                             43 ;../_strncat.c:33: char *start = front;
+   0002 F8 0A                44 	ldhl	sp,#10
+   0004 2A                   45 	ld	a,(hl+)
+   0005 5E                   46 	ld	e, (hl)
+   0006 F8 00                47 	ldhl	sp,#0
+   0008 22                   48 	ld	(hl+),a
+   0009 73                   49 	ld	(hl),e
+                             50 ;../_strncat.c:35: while (*front++);
+   000A C1                   51 	pop	bc
+   000B C5                   52 	push	bc
+   000C                      53 00101$:
+   000C 0A                   54 	ld	a,(bc)
+   000D 03                   55 	inc	bc
+   000E B7                   56 	or	a, a
+   000F 20 FB                57 	jr	NZ,00101$
+                             58 ;../_strncat.c:37: front--;
+   0011 11 01 00             59 	ld	de,#0x0001
+   0014 79                   60 	ld	a,c
+   0015 93                   61 	sub	a,e
+   0016 5F                   62 	ld	e,a
+   0017 78                   63 	ld	a,b
+   0018 9A                   64 	sbc	a,d
+   0019 F8 0B                65 	ldhl	sp,#11
+   001B 32                   66 	ld	(hl-),a
+   001C 73                   67 	ld	(hl),e
+                             68 ;../_strncat.c:39: while (count--)
+   001D 23                   69 	inc	hl
+   001E 23                   70 	inc	hl
+   001F 2A                   71 	ld	a,(hl+)
+   0020 5E                   72 	ld	e, (hl)
+   0021 F8 04                73 	ldhl	sp,#4
+   0023 22                   74 	ld	(hl+),a
+   0024 73                   75 	ld	(hl),e
+   0025 F8 0B                76 	ldhl	sp,#11
+   0027 2B                   77 	dec	hl
+   0028 4E                   78 	ld	c,(hl)
+   0029 23                   79 	inc	hl
+   002A 46                   80 	ld	b,(hl)
+   002B F8 0E                81 	ldhl	sp,#14
+   002D 2A                   82 	ld	a,(hl+)
+   002E 5E                   83 	ld	e, (hl)
+   002F F8 06                84 	ldhl	sp,#6
+   0031 22                   85 	ld	(hl+),a
+   0032 73                   86 	ld	(hl),e
+   0033                      87 00106$:
+   0033 F8 06                88 	ldhl	sp,#6
+   0035 2A                   89 	ld	a,(hl+)
+   0036 5E                   90 	ld	e, (hl)
+   0037 F8 02                91 	ldhl	sp,#2
+   0039 22                   92 	ld	(hl+),a
+   003A 73                   93 	ld	(hl),e
+   003B F8 07                94 	ldhl	sp,#7
+   003D 2B                   95 	dec	hl
+   003E 5E                   96 	ld	e,(hl)
+   003F 23                   97 	inc	hl
+   0040 56                   98 	ld	d,(hl)
+   0041 1B                   99 	dec	de
+   0042 2B                  100 	dec	hl
+   0043 73                  101 	ld	(hl),e
+   0044 23                  102 	inc	hl
+   0045 72                  103 	ld	(hl),d
+   0046 F8 03               104 	ldhl	sp,#3
+   0048 3A                  105 	ld	a,(hl-)
+   0049 B6                  106 	or	a,(hl)
+   004A 28 25               107 	jr	Z,00108$
+                            108 ;../_strncat.c:40: if (!(*front++ = *back++))
+   004C F8 05               109 	ldhl	sp,#5
+   004E 2B                  110 	dec	hl
+   004F 5E                  111 	ld	e,(hl)
+   0050 23                  112 	inc	hl
+   0051 56                  113 	ld	d,(hl)
+   0052 1A                  114 	ld	a,(de)
+   0053 F8 02               115 	ldhl	sp,#2
+   0055 22                  116 	ld	(hl+),a
+   0056 23                  117 	inc	hl
+   0057 34                  118 	inc	(hl)
+   0058 20 02               119 	jr	NZ,00132$
+   005A 23                  120 	inc	hl
+   005B 34                  121 	inc	(hl)
+   005C                     122 00132$:
+   005C F8 02               123 	ldhl	sp,#2
+   005E 7E                  124 	ld	a,(hl)
+   005F 02                  125 	ld	(bc),a
+   0060 03                  126 	inc	bc
+   0061 F8 0A               127 	ldhl	sp,#10
+   0063 71                  128 	ld	(hl),c
+   0064 23                  129 	inc	hl
+   0065 70                  130 	ld	(hl),b
+   0066 F8 02               131 	ldhl	sp,#2
+   0068 7E                  132 	ld	a,(hl)
+   0069 B7                  133 	or	a, a
+   006A C2r33r00            134 	jp	NZ,00106$
+                            135 ;../_strncat.c:41: return(start);
+   006D D1                  136 	pop	de
+   006E D5                  137 	push	de
+   006F 18 0A               138 	jr	00109$
+   0071                     139 00108$:
+                            140 ;../_strncat.c:43: *front = '\0';
+   0071 F8 0B               141 	ldhl	sp,#11
+   0073 2B                  142 	dec	hl
+   0074 5E                  143 	ld	e,(hl)
+   0075 23                  144 	inc	hl
+   0076 56                  145 	ld	d,(hl)
+   0077 AF                  146 	xor	a, a
+   0078 12                  147 	ld	(de),a
+                            148 ;../_strncat.c:44: return(start);
+   0079 D1                  149 	pop	de
+   007A D5                  150 	push	de
+   007B                     151 00109$:
+   007B E8 08               152 	add	sp, #8
+   007D C9                  153 	ret
+                            154 	.area _CODE
+                            155 	.area _CABS (ABS)

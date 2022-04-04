@@ -1,0 +1,206 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                                      4 ; This file was generated Mon Apr  4 14:17:18 2022
+                                      5 ;--------------------------------------------------------
+                                      6 	.module _malloc
+                                      7 	.optsdcc -mstm8
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl __sdcc_heap_init
+                                     13 	.globl _malloc
+                                     14 ;--------------------------------------------------------
+                                     15 ; ram data
+                                     16 ;--------------------------------------------------------
+                                     17 	.area DATA
+                                     18 ;--------------------------------------------------------
+                                     19 ; ram data
+                                     20 ;--------------------------------------------------------
+                                     21 	.area INITIALIZED
+                                     22 ;--------------------------------------------------------
+                                     23 ; absolute external ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area DABS (ABS)
+                                     26 ;--------------------------------------------------------
+                                     27 ; global & static initialisations
+                                     28 ;--------------------------------------------------------
+                                     29 	.area HOME
+                                     30 	.area GSINIT
+                                     31 	.area GSFINAL
+                                     32 	.area GSINIT
+                                     33 ;--------------------------------------------------------
+                                     34 ; Home
+                                     35 ;--------------------------------------------------------
+                                     36 	.area HOME
+                                     37 	.area HOME
+                                     38 ;--------------------------------------------------------
+                                     39 ; code
+                                     40 ;--------------------------------------------------------
+                                     41 	.area CODE
+                                     42 ;	../_malloc.c: 59: _sdcc_heap_init(void)
+                                     43 ;	-----------------------------------------
+                                     44 ;	 function _sdcc_heap_init
+                                     45 ;	-----------------------------------------
+      000000                         46 __sdcc_heap_init:
+      000000 52 04            [ 2]   47 	sub	sp, #4
+                                     48 ;	../_malloc.c: 61: MEMHEADER *pbase = &_sdcc_heap_start;
+      000002 AEr00r00         [ 2]   49 	ldw	x, #__sdcc_heap_start+0
+      000005 1F 01            [ 2]   50 	ldw	(0x01, sp), x
+                                     51 ;	../_malloc.c: 62: unsigned int size = &_sdcc_heap_end - (char *)pbase;
+      000007 AEr00r00         [ 2]   52 	ldw	x, #__sdcc_heap_end+0
+      00000A 16 01            [ 2]   53 	ldw	y, (0x01, sp)
+      00000C 17 03            [ 2]   54 	ldw	(0x03, sp), y
+      00000E 72 F0 03         [ 2]   55 	subw	x, (0x03, sp)
+                                     56 ;	../_malloc.c: 64: pbase->next = (MEMHEADER *)((char *)pbase + size - HEADER_SIZE);
+      000011 72 FB 03         [ 2]   57 	addw	x, (0x03, sp)
+      000014 1D 00 06         [ 2]   58 	subw	x, #0x0006
+      000017 16 01            [ 2]   59 	ldw	y, (0x01, sp)
+      000019 90 FF            [ 2]   60 	ldw	(y), x
+                                     61 ;	../_malloc.c: 65: pbase->next->next = NULL; //And mark it as last
+      00001B 6F 01            [ 1]   62 	clr	(0x1, x)
+      00001D 7F               [ 1]   63 	clr	(x)
+                                     64 ;	../_malloc.c: 66: pbase->prev       = NULL; //and mark first as first
+      00001E 1E 01            [ 2]   65 	ldw	x, (0x01, sp)
+      000020 5C               [ 2]   66 	incw	x
+      000021 5C               [ 2]   67 	incw	x
+      000022 6F 01            [ 1]   68 	clr	(0x1, x)
+      000024 7F               [ 1]   69 	clr	(x)
+                                     70 ;	../_malloc.c: 67: pbase->len        = 0;    //Empty and ready.
+      000025 1E 01            [ 2]   71 	ldw	x, (0x01, sp)
+      000027 1C 00 04         [ 2]   72 	addw	x, #0x0004
+      00002A 6F 01            [ 1]   73 	clr	(0x1, x)
+      00002C 7F               [ 1]   74 	clr	(x)
+      00002D 5B 04            [ 2]   75 	addw	sp, #4
+      00002F 81               [ 4]   76 	ret
+                                     77 ;	../_malloc.c: 71: malloc (unsigned int size)
+                                     78 ;	-----------------------------------------
+                                     79 ;	 function malloc
+                                     80 ;	-----------------------------------------
+      000030                         81 _malloc:
+      000030 52 10            [ 2]   82 	sub	sp, #16
+                                     83 ;	../_malloc.c: 77: if (size>(0xFFFF-HEADER_SIZE))
+      000032 1E 13            [ 2]   84 	ldw	x, (0x13, sp)
+      000034 A3 FF F9         [ 2]   85 	cpw	x, #0xfff9
+      000037 23 04            [ 2]   86 	jrule	00102$
+                                     87 ;	../_malloc.c: 79: return NULL; //To prevent overflow in next line
+      000039 5F               [ 1]   88 	clrw	x
+      00003A CCr00rD0         [ 2]   89 	jp	00117$
+      00003D                         90 00102$:
+                                     91 ;	../_malloc.c: 82: size += HEADER_SIZE; //We need a memory for header too
+      00003D 1E 13            [ 2]   92 	ldw	x, (0x13, sp)
+      00003F 1C 00 06         [ 2]   93 	addw	x, #0x0006
+      000042 1F 13            [ 2]   94 	ldw	(0x13, sp), x
+                                     95 ;	../_malloc.c: 83: current_header = &_sdcc_heap_start;
+      000044 AEr00r00         [ 2]   96 	ldw	x, #__sdcc_heap_start+0
+      000047 1F 05            [ 2]   97 	ldw	(0x05, sp), x
+                                     98 ;	../_malloc.c: 132: }
+      000049 9B               [ 1]   99 	sim
+                                    100 ;	../_malloc.c: 87: while (1)
+      00004A                        101 00108$:
+                                    102 ;	../_malloc.c: 96: if ((((unsigned int)current_header->next) -
+      00004A 1E 05            [ 2]  103 	ldw	x, (0x05, sp)
+      00004C FE               [ 2]  104 	ldw	x, (x)
+      00004D 1F 0F            [ 2]  105 	ldw	(0x0f, sp), x
+      00004F 16 0F            [ 2]  106 	ldw	y, (0x0f, sp)
+                                    107 ;	../_malloc.c: 97: ((unsigned int)current_header) -
+      000051 1E 05            [ 2]  108 	ldw	x, (0x05, sp)
+      000053 1F 0D            [ 2]  109 	ldw	(0x0d, sp), x
+      000055 72 F2 0D         [ 2]  110 	subw	y, (0x0d, sp)
+                                    111 ;	../_malloc.c: 98: current_header->len) >= size)
+      000058 1E 05            [ 2]  112 	ldw	x, (0x05, sp)
+      00005A EE 04            [ 2]  113 	ldw	x, (0x4, x)
+      00005C 1F 0B            [ 2]  114 	ldw	(0x0b, sp), x
+      00005E 72 F2 0B         [ 2]  115 	subw	y, (0x0b, sp)
+      000061 93               [ 1]  116 	ldw	x, y
+      000062 13 13            [ 2]  117 	cpw	x, (0x13, sp)
+      000064 25 09            [ 1]  118 	jrc	00104$
+                                    119 ;	../_malloc.c: 100: ret = &current_header->mem;
+      000066 1E 05            [ 2]  120 	ldw	x, (0x05, sp)
+      000068 1C 00 06         [ 2]  121 	addw	x, #0x0006
+      00006B 1F 01            [ 2]  122 	ldw	(0x01, sp), x
+                                    123 ;	../_malloc.c: 101: break;
+      00006D 20 10            [ 2]  124 	jra	00109$
+      00006F                        125 00104$:
+                                    126 ;	../_malloc.c: 103: current_header = current_header->next;    //else try next
+      00006F 16 0F            [ 2]  127 	ldw	y, (0x0f, sp)
+      000071 17 05            [ 2]  128 	ldw	(0x05, sp), y
+                                    129 ;	../_malloc.c: 96: if ((((unsigned int)current_header->next) -
+      000073 1E 05            [ 2]  130 	ldw	x, (0x05, sp)
+      000075 FE               [ 2]  131 	ldw	x, (x)
+      000076 1F 0F            [ 2]  132 	ldw	(0x0f, sp), x
+                                    133 ;	../_malloc.c: 104: if (!current_header->next)
+      000078 1E 0F            [ 2]  134 	ldw	x, (0x0f, sp)
+      00007A 26 CE            [ 1]  135 	jrne	00108$
+                                    136 ;	../_malloc.c: 106: ret = NULL;
+      00007C 5F               [ 1]  137 	clrw	x
+      00007D 1F 01            [ 2]  138 	ldw	(0x01, sp), x
+                                    139 ;	../_malloc.c: 107: break;
+      00007F                        140 00109$:
+                                    141 ;	../_malloc.c: 111: if (ret)
+      00007F 1E 01            [ 2]  142 	ldw	x, (0x01, sp)
+      000081 27 4A            [ 1]  143 	jreq	00116$
+                                    144 ;	../_malloc.c: 113: if (!current_header->len)
+      000083 1E 05            [ 2]  145 	ldw	x, (0x05, sp)
+      000085 1C 00 04         [ 2]  146 	addw	x, #0x0004
+      000088 E6 01            [ 1]  147 	ld	a, (0x1, x)
+      00008A 6B 0A            [ 1]  148 	ld	(0x0a, sp), a
+      00008C F6               [ 1]  149 	ld	a, (x)
+      00008D 6B 09            [ 1]  150 	ld	(0x09, sp), a
+      00008F 16 09            [ 2]  151 	ldw	y, (0x09, sp)
+      000091 26 05            [ 1]  152 	jrne	00113$
+                                    153 ;	../_malloc.c: 115: current_header->len = size; //for first allocation
+      000093 16 13            [ 2]  154 	ldw	y, (0x13, sp)
+      000095 FF               [ 2]  155 	ldw	(x), y
+      000096 20 35            [ 2]  156 	jra	00116$
+      000098                        157 00113$:
+                                    158 ;	../_malloc.c: 120: new_header = (MEMHEADER * )((char *)current_header + current_header->len);
+      000098 16 05            [ 2]  159 	ldw	y, (0x05, sp)
+      00009A 72 F9 09         [ 2]  160 	addw	y, (0x09, sp)
+      00009D 17 03            [ 2]  161 	ldw	(0x03, sp), y
+                                    162 ;	../_malloc.c: 121: new_header->next = current_header->next; //and plug it into the chain
+      00009F 1E 03            [ 2]  163 	ldw	x, (0x03, sp)
+      0000A1 16 0F            [ 2]  164 	ldw	y, (0x0f, sp)
+      0000A3 FF               [ 2]  165 	ldw	(x), y
+                                    166 ;	../_malloc.c: 122: new_header->prev = current_header;
+      0000A4 1E 03            [ 2]  167 	ldw	x, (0x03, sp)
+      0000A6 5C               [ 2]  168 	incw	x
+      0000A7 5C               [ 2]  169 	incw	x
+      0000A8 16 05            [ 2]  170 	ldw	y, (0x05, sp)
+      0000AA FF               [ 2]  171 	ldw	(x), y
+                                    172 ;	../_malloc.c: 123: current_header->next  = new_header;
+      0000AB 1E 05            [ 2]  173 	ldw	x, (0x05, sp)
+      0000AD 16 03            [ 2]  174 	ldw	y, (0x03, sp)
+      0000AF FF               [ 2]  175 	ldw	(x), y
+                                    176 ;	../_malloc.c: 124: if (new_header->next)
+      0000B0 1E 03            [ 2]  177 	ldw	x, (0x03, sp)
+      0000B2 FE               [ 2]  178 	ldw	x, (x)
+      0000B3 1F 07            [ 2]  179 	ldw	(0x07, sp), x
+      0000B5 1E 0F            [ 2]  180 	ldw	x, (0x0f, sp)
+      0000B7 27 07            [ 1]  181 	jreq	00111$
+                                    182 ;	../_malloc.c: 126: new_header->next->prev = new_header;
+      0000B9 1E 07            [ 2]  183 	ldw	x, (0x07, sp)
+      0000BB 5C               [ 2]  184 	incw	x
+      0000BC 5C               [ 2]  185 	incw	x
+      0000BD 16 03            [ 2]  186 	ldw	y, (0x03, sp)
+      0000BF FF               [ 2]  187 	ldw	(x), y
+      0000C0                        188 00111$:
+                                    189 ;	../_malloc.c: 128: new_header->len  = size; //mark as used
+      0000C0 1E 03            [ 2]  190 	ldw	x, (0x03, sp)
+      0000C2 16 13            [ 2]  191 	ldw	y, (0x13, sp)
+      0000C4 EF 04            [ 2]  192 	ldw	(0x0004, x), y
+                                    193 ;	../_malloc.c: 129: ret = &new_header->mem;
+      0000C6 1E 03            [ 2]  194 	ldw	x, (0x03, sp)
+      0000C8 1C 00 06         [ 2]  195 	addw	x, #0x0006
+      0000CB 1F 01            [ 2]  196 	ldw	(0x01, sp), x
+      0000CD                        197 00116$:
+      0000CD 9A               [ 1]  198 	rim
+                                    199 ;	../_malloc.c: 133: return ret;
+      0000CE 1E 01            [ 2]  200 	ldw	x, (0x01, sp)
+      0000D0                        201 00117$:
+      0000D0 5B 10            [ 2]  202 	addw	sp, #16
+      0000D2 81               [ 4]  203 	ret
+                                    204 	.area CODE
+                                    205 	.area INITIALIZER
+                                    206 	.area CABS (ABS)

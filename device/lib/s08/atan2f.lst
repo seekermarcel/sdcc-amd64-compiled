@@ -1,0 +1,351 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Apr  4 2022) (Linux)
+                              4 ; This file was generated Mon Apr  4 14:10:36 2022
+                              5 ;--------------------------------------------------------
+                              6 	.cs08
+                              7 	.module atan2f
+                              8 	.optsdcc -ms08
+                              9 	
+                             10 	.area HOME    (CODE)
+                             11 	.area GSINIT0 (CODE)
+                             12 	.area GSINIT  (CODE)
+                             13 	.area GSFINAL (CODE)
+                             14 	.area CSEG    (CODE)
+                             15 	.area XINIT   (CODE)
+                             16 	.area CONST   (CODE)
+                             17 	.area DSEG    (PAG)
+                             18 	.area OSEG    (PAG, OVR)
+                             19 	.area XSEG
+                             20 	.area XISEG
+                             21 ;--------------------------------------------------------
+                             22 ; Public variables in this module
+                             23 ;--------------------------------------------------------
+                             24 	.globl _fabsf
+                             25 	.globl _atanf
+                             26 	.globl _atan2f_PARM_2
+                             27 	.globl _atan2f_PARM_1
+                             28 	.globl _atan2f
+                             29 ;--------------------------------------------------------
+                             30 ; ram data
+                             31 ;--------------------------------------------------------
+                             32 	.area DSEG    (PAG)
+   0000                      33 _atan2f_sloc0_1_0:
+   0000                      34 	.ds 4
+   0004                      35 _atan2f_sloc1_1_0:
+   0004                      36 	.ds 4
+   0008                      37 _atan2f_sloc2_1_0:
+   0008                      38 	.ds 1
+                             39 ;--------------------------------------------------------
+                             40 ; overlayable items in ram 
+                             41 ;--------------------------------------------------------
+                             42 ;--------------------------------------------------------
+                             43 ; absolute ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area IABS    (ABS)
+                             46 	.area IABS    (ABS)
+                             47 ;--------------------------------------------------------
+                             48 ; absolute external ram data
+                             49 ;--------------------------------------------------------
+                             50 	.area XABS    (ABS)
+                             51 ;--------------------------------------------------------
+                             52 ; external initialized ram data
+                             53 ;--------------------------------------------------------
+                             54 	.area XISEG
+                             55 ;--------------------------------------------------------
+                             56 ; extended address mode data
+                             57 ;--------------------------------------------------------
+                             58 	.area XSEG
+   0000                      59 _atan2f_PARM_1:
+   0000                      60 	.ds 4
+   0004                      61 _atan2f_PARM_2:
+   0004                      62 	.ds 4
+   0008                      63 _atan2f_r_1_24:
+   0008                      64 	.ds 4
+                             65 ;--------------------------------------------------------
+                             66 ; global & static initialisations
+                             67 ;--------------------------------------------------------
+                             68 	.area HOME    (CODE)
+                             69 	.area GSINIT  (CODE)
+                             70 	.area GSFINAL (CODE)
+                             71 	.area GSINIT  (CODE)
+                             72 ;--------------------------------------------------------
+                             73 ; Home
+                             74 ;--------------------------------------------------------
+                             75 	.area HOME    (CODE)
+                             76 	.area HOME    (CODE)
+                             77 ;--------------------------------------------------------
+                             78 ; code
+                             79 ;--------------------------------------------------------
+                             80 	.area CSEG    (CODE)
+                             81 ;------------------------------------------------------------
+                             82 ;Allocation info for local variables in function 'atan2f'
+                             83 ;------------------------------------------------------------
+                             84 ;sloc0                     Allocated with name '_atan2f_sloc0_1_0'
+                             85 ;sloc1                     Allocated with name '_atan2f_sloc1_1_0'
+                             86 ;sloc2                     Allocated with name '_atan2f_sloc2_1_0'
+                             87 ;x                         Allocated with name '_atan2f_PARM_1'
+                             88 ;y                         Allocated with name '_atan2f_PARM_2'
+                             89 ;r                         Allocated with name '_atan2f_r_1_24'
+                             90 ;------------------------------------------------------------
+                             91 ;../atan2f.c:34: float atan2f(float x, float y)
+                             92 ;	-----------------------------------------
+                             93 ;	 function atan2f
+                             94 ;	-----------------------------------------
+                             95 ;	Register assignment is optimal.
+                             96 ;	Stack space usage: 0 bytes.
+   0000                      97 _atan2f:
+                             98 ;../atan2f.c:38: if ((x==0.0) && (y==0.0))
+   0000 C6r00r00      [ 4]   99 	lda	_atan2f_PARM_1
+   0003 A4 7F         [ 2]  100 	and	#0x7F
+   0005 CAr00r01      [ 4]  101 	ora	(_atan2f_PARM_1 + 1)
+   0008 CAr00r02      [ 4]  102 	ora	(_atan2f_PARM_1 + 2)
+   000B CAr00r03      [ 4]  103 	ora	(_atan2f_PARM_1 + 3)
+   000E 26 1D         [ 3]  104 	bne	00102$
+   0010 C6r00r04      [ 4]  105 	lda	_atan2f_PARM_2
+   0013 A4 7F         [ 2]  106 	and	#0x7F
+   0015 CAr00r05      [ 4]  107 	ora	(_atan2f_PARM_2 + 1)
+   0018 CAr00r06      [ 4]  108 	ora	(_atan2f_PARM_2 + 2)
+   001B CAr00r07      [ 4]  109 	ora	(_atan2f_PARM_2 + 3)
+   001E 26 0D         [ 3]  110 	bne	00102$
+                            111 ;../atan2f.c:40: errno=EDOM;
+   0020 45 00 21      [ 3]  112 	ldhx	#0x0021
+   0023 96r00r00      [ 5]  113 	sthx	_errno
+                            114 ;../atan2f.c:41: return 0.0;
+   0026 4F            [ 1]  115 	clra
+   0027 97            [ 1]  116 	tax
+   0028 B7*00         [ 3]  117 	sta	*___SDCC_hc08_ret2
+   002A B7*00         [ 3]  118 	sta	*___SDCC_hc08_ret3
+   002C 81            [ 6]  119 	rts
+   002D                     120 00102$:
+                            121 ;../atan2f.c:44: if(fabsf(y)>=fabsf(x))
+   002D C6r00r07      [ 4]  122 	lda	(_atan2f_PARM_2 + 3)
+   0030 87            [ 2]  123 	psha
+   0031 C6r00r06      [ 4]  124 	lda	(_atan2f_PARM_2 + 2)
+   0034 87            [ 2]  125 	psha
+   0035 C6r00r05      [ 4]  126 	lda	(_atan2f_PARM_2 + 1)
+   0038 87            [ 2]  127 	psha
+   0039 C6r00r04      [ 4]  128 	lda	_atan2f_PARM_2
+   003C 87            [ 2]  129 	psha
+   003D CDr00r00      [ 6]  130 	jsr	_fabsf
+   0040 B7*03         [ 3]  131 	sta	*(_atan2f_sloc0_1_0 + 3)
+   0042 BF*02         [ 3]  132 	stx	*(_atan2f_sloc0_1_0 + 2)
+   0044 4E*00*01      [ 6]  133 	mov	*___SDCC_hc08_ret2,*(_atan2f_sloc0_1_0 + 1)
+   0047 4E*00*00      [ 6]  134 	mov	*___SDCC_hc08_ret3,*_atan2f_sloc0_1_0
+   004A A7 04         [ 2]  135 	ais	#4
+   004C C6r00r03      [ 4]  136 	lda	(_atan2f_PARM_1 + 3)
+   004F 87            [ 2]  137 	psha
+   0050 C6r00r02      [ 4]  138 	lda	(_atan2f_PARM_1 + 2)
+   0053 87            [ 2]  139 	psha
+   0054 C6r00r01      [ 4]  140 	lda	(_atan2f_PARM_1 + 1)
+   0057 87            [ 2]  141 	psha
+   0058 C6r00r00      [ 4]  142 	lda	_atan2f_PARM_1
+   005B 87            [ 2]  143 	psha
+   005C CDr00r00      [ 6]  144 	jsr	_fabsf
+   005F B7*07         [ 3]  145 	sta	*(_atan2f_sloc1_1_0 + 3)
+   0061 BF*06         [ 3]  146 	stx	*(_atan2f_sloc1_1_0 + 2)
+   0063 4E*00*05      [ 6]  147 	mov	*___SDCC_hc08_ret2,*(_atan2f_sloc1_1_0 + 1)
+   0066 4E*00*04      [ 6]  148 	mov	*___SDCC_hc08_ret3,*_atan2f_sloc1_1_0
+   0069 A7 04         [ 2]  149 	ais	#4
+                            150 ;../atan2f.c:47: if(y<0.0) r+=(x>=0?PI:-PI);
+   006B 32r00r00      [ 5]  151 	ldhx	_atan2f_PARM_1
+   006E 96r00r00      [ 5]  152 	sthx	___fslt_PARM_1
+   0071 32r00r02      [ 5]  153 	ldhx	(_atan2f_PARM_1 + 2)
+   0074 96r00r02      [ 5]  154 	sthx	(___fslt_PARM_1 + 2)
+   0077 8C            [ 1]  155 	clrh
+   0078 5F            [ 1]  156 	clrx
+   0079 96r00r00      [ 5]  157 	sthx	___fslt_PARM_2
+   007C 96r00r02      [ 5]  158 	sthx	(___fslt_PARM_2 + 2)
+                            159 ;../atan2f.c:44: if(fabsf(y)>=fabsf(x))
+   007F CDr00r00      [ 6]  160 	jsr	___fslt
+   0082 B7*08         [ 3]  161 	sta	*_atan2f_sloc2_1_0
+   0084 B6*00         [ 3]  162 	lda	*_atan2f_sloc0_1_0
+   0086 C7r00r00      [ 4]  163 	sta	___fslt_PARM_1
+   0089 B6*01         [ 3]  164 	lda	*(_atan2f_sloc0_1_0 + 1)
+   008B C7r00r01      [ 4]  165 	sta	(___fslt_PARM_1 + 1)
+   008E B6*02         [ 3]  166 	lda	*(_atan2f_sloc0_1_0 + 2)
+   0090 C7r00r02      [ 4]  167 	sta	(___fslt_PARM_1 + 2)
+   0093 B6*03         [ 3]  168 	lda	*(_atan2f_sloc0_1_0 + 3)
+   0095 C7r00r03      [ 4]  169 	sta	(___fslt_PARM_1 + 3)
+   0098 B6*04         [ 3]  170 	lda	*_atan2f_sloc1_1_0
+   009A C7r00r00      [ 4]  171 	sta	___fslt_PARM_2
+   009D B6*05         [ 3]  172 	lda	*(_atan2f_sloc1_1_0 + 1)
+   009F C7r00r01      [ 4]  173 	sta	(___fslt_PARM_2 + 1)
+   00A2 B6*06         [ 3]  174 	lda	*(_atan2f_sloc1_1_0 + 2)
+   00A4 C7r00r02      [ 4]  175 	sta	(___fslt_PARM_2 + 2)
+   00A7 B6*07         [ 3]  176 	lda	*(_atan2f_sloc1_1_0 + 3)
+   00A9 C7r00r03      [ 4]  177 	sta	(___fslt_PARM_2 + 3)
+   00AC CDr00r00      [ 6]  178 	jsr	___fslt
+   00AF 4D            [ 1]  179 	tsta
+   00B0 27 03         [ 3]  180 	beq	00141$
+   00B2 CCr01r7E      [ 4]  181 	jmp	00107$
+   00B5                     182 00141$:
+                            183 ;../atan2f.c:46: r=atanf(x/y);
+   00B5 32r00r00      [ 5]  184 	ldhx	_atan2f_PARM_1
+   00B8 96r00r00      [ 5]  185 	sthx	___fsdiv_PARM_1
+   00BB 32r00r02      [ 5]  186 	ldhx	(_atan2f_PARM_1 + 2)
+   00BE 96r00r02      [ 5]  187 	sthx	(___fsdiv_PARM_1 + 2)
+   00C1 32r00r04      [ 5]  188 	ldhx	_atan2f_PARM_2
+   00C4 96r00r00      [ 5]  189 	sthx	___fsdiv_PARM_2
+   00C7 32r00r06      [ 5]  190 	ldhx	(_atan2f_PARM_2 + 2)
+   00CA 96r00r02      [ 5]  191 	sthx	(___fsdiv_PARM_2 + 2)
+   00CD CDr00r00      [ 6]  192 	jsr	___fsdiv
+   00D0 B7*07         [ 3]  193 	sta	*(_atan2f_sloc1_1_0 + 3)
+   00D2 BF*06         [ 3]  194 	stx	*(_atan2f_sloc1_1_0 + 2)
+   00D4 4E*00*05      [ 6]  195 	mov	*___SDCC_hc08_ret2,*(_atan2f_sloc1_1_0 + 1)
+   00D7 4E*00*04      [ 6]  196 	mov	*___SDCC_hc08_ret3,*_atan2f_sloc1_1_0
+   00DA B6*07         [ 3]  197 	lda	*(_atan2f_sloc1_1_0 + 3)
+   00DC 87            [ 2]  198 	psha
+   00DD B6*06         [ 3]  199 	lda	*(_atan2f_sloc1_1_0 + 2)
+   00DF 87            [ 2]  200 	psha
+   00E0 B6*05         [ 3]  201 	lda	*(_atan2f_sloc1_1_0 + 1)
+   00E2 87            [ 2]  202 	psha
+   00E3 B6*04         [ 3]  203 	lda	*_atan2f_sloc1_1_0
+   00E5 87            [ 2]  204 	psha
+   00E6 CDr00r00      [ 6]  205 	jsr	_atanf
+   00E9 B7*07         [ 3]  206 	sta	*(_atan2f_sloc1_1_0 + 3)
+   00EB BF*06         [ 3]  207 	stx	*(_atan2f_sloc1_1_0 + 2)
+   00ED 4E*00*05      [ 6]  208 	mov	*___SDCC_hc08_ret2,*(_atan2f_sloc1_1_0 + 1)
+   00F0 4E*00*04      [ 6]  209 	mov	*___SDCC_hc08_ret3,*_atan2f_sloc1_1_0
+   00F3 A7 04         [ 2]  210 	ais	#4
+   00F5 B6*04         [ 3]  211 	lda	*_atan2f_sloc1_1_0
+   00F7 C7r00r08      [ 4]  212 	sta	_atan2f_r_1_24
+   00FA B6*05         [ 3]  213 	lda	*(_atan2f_sloc1_1_0 + 1)
+   00FC C7r00r09      [ 4]  214 	sta	(_atan2f_r_1_24 + 1)
+   00FF B6*06         [ 3]  215 	lda	*(_atan2f_sloc1_1_0 + 2)
+   0101 C7r00r0A      [ 4]  216 	sta	(_atan2f_r_1_24 + 2)
+   0104 B6*07         [ 3]  217 	lda	*(_atan2f_sloc1_1_0 + 3)
+   0106 C7r00r0B      [ 4]  218 	sta	(_atan2f_r_1_24 + 3)
+                            219 ;../atan2f.c:47: if(y<0.0) r+=(x>=0?PI:-PI);
+   0109 32r00r04      [ 5]  220 	ldhx	_atan2f_PARM_2
+   010C 96r00r00      [ 5]  221 	sthx	___fslt_PARM_1
+   010F 32r00r06      [ 5]  222 	ldhx	(_atan2f_PARM_2 + 2)
+   0112 96r00r02      [ 5]  223 	sthx	(___fslt_PARM_1 + 2)
+   0115 8C            [ 1]  224 	clrh
+   0116 5F            [ 1]  225 	clrx
+   0117 96r00r00      [ 5]  226 	sthx	___fslt_PARM_2
+   011A 96r00r02      [ 5]  227 	sthx	(___fslt_PARM_2 + 2)
+   011D CDr00r00      [ 6]  228 	jsr	___fslt
+   0120 4D            [ 1]  229 	tsta
+   0121 26 03         [ 3]  230 	bne	00142$
+   0123 CCr02r19      [ 4]  231 	jmp	00108$
+   0126                     232 00142$:
+   0126 3D*08         [ 4]  233 	tst	*_atan2f_sloc2_1_0
+   0128 26 0C         [ 3]  234 	bne	00111$
+   012A 45 40 49      [ 3]  235 	ldhx	#0x4049
+   012D 35*00         [ 4]  236 	sthx	*_atan2f_sloc0_1_0
+   012F 45 0F DB      [ 3]  237 	ldhx	#0x0FDB
+   0132 35*02         [ 4]  238 	sthx	*(_atan2f_sloc0_1_0 + 2)
+   0134 20 0A         [ 3]  239 	bra	00112$
+   0136                     240 00111$:
+   0136 45 C0 49      [ 3]  241 	ldhx	#0xC049
+   0139 35*00         [ 4]  242 	sthx	*_atan2f_sloc0_1_0
+   013B 45 0F DB      [ 3]  243 	ldhx	#0x0FDB
+   013E 35*02         [ 4]  244 	sthx	*(_atan2f_sloc0_1_0 + 2)
+   0140                     245 00112$:
+   0140 B6*04         [ 3]  246 	lda	*_atan2f_sloc1_1_0
+   0142 C7r00r00      [ 4]  247 	sta	___fsadd_PARM_1
+   0145 B6*05         [ 3]  248 	lda	*(_atan2f_sloc1_1_0 + 1)
+   0147 C7r00r01      [ 4]  249 	sta	(___fsadd_PARM_1 + 1)
+   014A B6*06         [ 3]  250 	lda	*(_atan2f_sloc1_1_0 + 2)
+   014C C7r00r02      [ 4]  251 	sta	(___fsadd_PARM_1 + 2)
+   014F B6*07         [ 3]  252 	lda	*(_atan2f_sloc1_1_0 + 3)
+   0151 C7r00r03      [ 4]  253 	sta	(___fsadd_PARM_1 + 3)
+   0154 B6*00         [ 3]  254 	lda	*_atan2f_sloc0_1_0
+   0156 C7r00r00      [ 4]  255 	sta	___fsadd_PARM_2
+   0159 B6*01         [ 3]  256 	lda	*(_atan2f_sloc0_1_0 + 1)
+   015B C7r00r01      [ 4]  257 	sta	(___fsadd_PARM_2 + 1)
+   015E B6*02         [ 3]  258 	lda	*(_atan2f_sloc0_1_0 + 2)
+   0160 C7r00r02      [ 4]  259 	sta	(___fsadd_PARM_2 + 2)
+   0163 B6*03         [ 3]  260 	lda	*(_atan2f_sloc0_1_0 + 3)
+   0165 C7r00r03      [ 4]  261 	sta	(___fsadd_PARM_2 + 3)
+   0168 CDr00r00      [ 6]  262 	jsr	___fsadd
+   016B C7r00r0B      [ 4]  263 	sta	(_atan2f_r_1_24 + 3)
+   016E CFr00r0A      [ 4]  264 	stx	(_atan2f_r_1_24 + 2)
+   0171 B6*00         [ 3]  265 	lda	*___SDCC_hc08_ret2
+   0173 C7r00r09      [ 4]  266 	sta	(_atan2f_r_1_24 + 1)
+   0176 B6*00         [ 3]  267 	lda	*___SDCC_hc08_ret3
+   0178 C7r00r08      [ 4]  268 	sta	_atan2f_r_1_24
+   017B CCr02r19      [ 4]  269 	jmp	00108$
+   017E                     270 00107$:
+                            271 ;../atan2f.c:51: r=-atanf(y/x);
+   017E 32r00r04      [ 5]  272 	ldhx	_atan2f_PARM_2
+   0181 96r00r00      [ 5]  273 	sthx	___fsdiv_PARM_1
+   0184 32r00r06      [ 5]  274 	ldhx	(_atan2f_PARM_2 + 2)
+   0187 96r00r02      [ 5]  275 	sthx	(___fsdiv_PARM_1 + 2)
+   018A 32r00r00      [ 5]  276 	ldhx	_atan2f_PARM_1
+   018D 96r00r00      [ 5]  277 	sthx	___fsdiv_PARM_2
+   0190 32r00r02      [ 5]  278 	ldhx	(_atan2f_PARM_1 + 2)
+   0193 96r00r02      [ 5]  279 	sthx	(___fsdiv_PARM_2 + 2)
+   0196 CDr00r00      [ 6]  280 	jsr	___fsdiv
+   0199 B7*07         [ 3]  281 	sta	*(_atan2f_sloc1_1_0 + 3)
+   019B BF*06         [ 3]  282 	stx	*(_atan2f_sloc1_1_0 + 2)
+   019D 4E*00*05      [ 6]  283 	mov	*___SDCC_hc08_ret2,*(_atan2f_sloc1_1_0 + 1)
+   01A0 4E*00*04      [ 6]  284 	mov	*___SDCC_hc08_ret3,*_atan2f_sloc1_1_0
+   01A3 B6*07         [ 3]  285 	lda	*(_atan2f_sloc1_1_0 + 3)
+   01A5 87            [ 2]  286 	psha
+   01A6 B6*06         [ 3]  287 	lda	*(_atan2f_sloc1_1_0 + 2)
+   01A8 87            [ 2]  288 	psha
+   01A9 B6*05         [ 3]  289 	lda	*(_atan2f_sloc1_1_0 + 1)
+   01AB 87            [ 2]  290 	psha
+   01AC B6*04         [ 3]  291 	lda	*_atan2f_sloc1_1_0
+   01AE 87            [ 2]  292 	psha
+   01AF CDr00r00      [ 6]  293 	jsr	_atanf
+   01B2 B7*07         [ 3]  294 	sta	*(_atan2f_sloc1_1_0 + 3)
+   01B4 BF*06         [ 3]  295 	stx	*(_atan2f_sloc1_1_0 + 2)
+   01B6 4E*00*05      [ 6]  296 	mov	*___SDCC_hc08_ret2,*(_atan2f_sloc1_1_0 + 1)
+   01B9 4E*00*04      [ 6]  297 	mov	*___SDCC_hc08_ret3,*_atan2f_sloc1_1_0
+   01BC A7 04         [ 2]  298 	ais	#4
+   01BE B6*04         [ 3]  299 	lda	*_atan2f_sloc1_1_0
+   01C0 A8 80         [ 2]  300 	eor	#0x80
+   01C2 B7*04         [ 3]  301 	sta	*_atan2f_sloc1_1_0
+                            302 ;../atan2f.c:52: r+=(x<0.0?-HALF_PI:HALF_PI);
+   01C4 3D*08         [ 4]  303 	tst	*_atan2f_sloc2_1_0
+   01C6 27 0C         [ 3]  304 	beq	00113$
+   01C8 45 BF C9      [ 3]  305 	ldhx	#0xBFC9
+   01CB 35*00         [ 4]  306 	sthx	*_atan2f_sloc0_1_0
+   01CD 45 0F DB      [ 3]  307 	ldhx	#0x0FDB
+   01D0 35*02         [ 4]  308 	sthx	*(_atan2f_sloc0_1_0 + 2)
+   01D2 20 0A         [ 3]  309 	bra	00114$
+   01D4                     310 00113$:
+   01D4 45 3F C9      [ 3]  311 	ldhx	#0x3FC9
+   01D7 35*00         [ 4]  312 	sthx	*_atan2f_sloc0_1_0
+   01D9 45 0F DB      [ 3]  313 	ldhx	#0x0FDB
+   01DC 35*02         [ 4]  314 	sthx	*(_atan2f_sloc0_1_0 + 2)
+   01DE                     315 00114$:
+   01DE B6*04         [ 3]  316 	lda	*_atan2f_sloc1_1_0
+   01E0 C7r00r00      [ 4]  317 	sta	___fsadd_PARM_1
+   01E3 B6*05         [ 3]  318 	lda	*(_atan2f_sloc1_1_0 + 1)
+   01E5 C7r00r01      [ 4]  319 	sta	(___fsadd_PARM_1 + 1)
+   01E8 B6*06         [ 3]  320 	lda	*(_atan2f_sloc1_1_0 + 2)
+   01EA C7r00r02      [ 4]  321 	sta	(___fsadd_PARM_1 + 2)
+   01ED B6*07         [ 3]  322 	lda	*(_atan2f_sloc1_1_0 + 3)
+   01EF C7r00r03      [ 4]  323 	sta	(___fsadd_PARM_1 + 3)
+   01F2 B6*00         [ 3]  324 	lda	*_atan2f_sloc0_1_0
+   01F4 C7r00r00      [ 4]  325 	sta	___fsadd_PARM_2
+   01F7 B6*01         [ 3]  326 	lda	*(_atan2f_sloc0_1_0 + 1)
+   01F9 C7r00r01      [ 4]  327 	sta	(___fsadd_PARM_2 + 1)
+   01FC B6*02         [ 3]  328 	lda	*(_atan2f_sloc0_1_0 + 2)
+   01FE C7r00r02      [ 4]  329 	sta	(___fsadd_PARM_2 + 2)
+   0201 B6*03         [ 3]  330 	lda	*(_atan2f_sloc0_1_0 + 3)
+   0203 C7r00r03      [ 4]  331 	sta	(___fsadd_PARM_2 + 3)
+   0206 CDr00r00      [ 6]  332 	jsr	___fsadd
+   0209 C7r00r0B      [ 4]  333 	sta	(_atan2f_r_1_24 + 3)
+   020C CFr00r0A      [ 4]  334 	stx	(_atan2f_r_1_24 + 2)
+   020F B6*00         [ 3]  335 	lda	*___SDCC_hc08_ret2
+   0211 C7r00r09      [ 4]  336 	sta	(_atan2f_r_1_24 + 1)
+   0214 B6*00         [ 3]  337 	lda	*___SDCC_hc08_ret3
+   0216 C7r00r08      [ 4]  338 	sta	_atan2f_r_1_24
+   0219                     339 00108$:
+                            340 ;../atan2f.c:54: return r;
+   0219 C6r00r08      [ 4]  341 	lda	_atan2f_r_1_24
+   021C B7*00         [ 3]  342 	sta	*___SDCC_hc08_ret3
+   021E C6r00r09      [ 4]  343 	lda	(_atan2f_r_1_24 + 1)
+   0221 B7*00         [ 3]  344 	sta	*___SDCC_hc08_ret2
+   0223 CEr00r0A      [ 4]  345 	ldx	(_atan2f_r_1_24 + 2)
+   0226 C6r00r0B      [ 4]  346 	lda	(_atan2f_r_1_24 + 3)
+   0229 81            [ 6]  347 	rts
+                            348 	.area CSEG    (CODE)
+                            349 	.area CONST   (CODE)
+                            350 	.area XINIT   (CODE)
+                            351 	.area CABS    (ABS,CODE)
